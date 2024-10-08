@@ -1,0 +1,48 @@
+{
+    "name": "broccoli-html-editor/kaleflower",
+    "description": "GUI HTML Editor Library.",
+    "keywords": ["broccoli-html-editor"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomoya Koyanagi",
+            "email": "tomk79@gmail.com"
+        }
+    ],
+    "scripts":{
+        "start": [
+            "php -S 127.0.0.1:8088 -t ./"
+        ],
+        "preview": [
+            "open http://127.0.0.1:8088/tests/testdata/htdocs/index.php"
+        ],
+        "test": [
+            "php ./vendor/phpunit/phpunit/phpunit"
+        ]
+    } ,
+    "config": {
+        "process-timeout": 0
+    },
+    "minimum-stability": "stable",
+    "repositories": [
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "tomk79/filesystem": "^1.0",
+        "tomk79/langbank": "^0.3.0||^0.2.0||^0.1.0||^0.0.4",
+        "twig/twig": "^1.35||^2.12|~3.8.0"
+    },
+    "require-dev": {
+        "pickles2/px2style": "~3.0",
+        "phpunit/phpunit": "~9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "kaleflower\\": [
+                "php"
+            ]
+        }
+    }
+}
