@@ -1,29 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import iterate79 from 'iterate79';
-import LangBank from 'langbank';
+import {Layout} from "./includes/Layout.jsx";
 
-const languageCsv = require('../../data/language.csv');
-
-class Layout extends React.Component {
+window.Kaleflower = class {
+	#container;
+	#options;
 
 	/**
 	 * Constructor
 	 */
-	constructor() {
-		super();
+	constructor(container, options) {
+		this.#container = container;
+		this.#options = options;
 	}
 
 	/**
-	 * Renderer
+	 * Initialize
 	 */
-	render() {
-
-		return (
-			<div>kaleflower</div>
-		);
+	init() {
+		ReactDOM.render(<Layout />, this.#container);
+		return;
 	}
 }
-
-const app = document.getElementById('cont-app');
-ReactDOM.render(<Layout/>, app);
