@@ -1,5 +1,37 @@
-export class KflowXmlParser {
-	async toState (srcXml) {
+export class Utils {
+
+	createUUID(){
+		return "uuid-"+((new Date).getTime().toString(16)+Math.floor(1E7*Math.random()).toString(16));
+	}
+
+	StateToKflowXml(globalState){
+		let finalXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+
+		finalXml += '<kflow>\n';
+		finalXml += '	<contents>\n';
+		Object.keys(globalState.contents).forEach((key) => {
+			// XMLSerializerを使ってDOMツリーをXML文字列に変換
+			const content = globalState.contents[key];
+			const serializer = new XMLSerializer();
+			const serializedXML = serializer.serializeToString(content);
+			finalXml += '		' + serializedXML + "\n";
+		});
+		finalXml += '	</contents>\n';
+
+		finalXml += '	<assets>\n';
+		finalXml += '	</assets>\n';
+
+		finalXml += '	<components>\n';
+		Object.keys(globalState.components).forEach((key) => {
+			finalXml += '		<component name="' + key + '"></component>\n';
+		});
+		finalXml += '	</components>\n';
+
+		finalXml += '</kflow>\n';
+		return finalXml;
+	}
+
+	async XmlToState(srcXml){
 		let newGlobalState = {
 		};
 		return new Promise((rlv, rjt) => {

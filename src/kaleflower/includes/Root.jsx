@@ -43,19 +43,17 @@ const Root = React.memo((props) => {
 				<div className="kaleflower__body">
 					<div className="kaleflower__body-left">
 						<InstanceTreeView
-							contents={globalState.contents} />
+							contents={globalState.contents}
+							onselectnode={function(selectedNode){
+								const newGlobalState = {
+									...globalState,
+									selectedNode: selectedNode,
+								};
+								console.log('selectedNode', selectedNode);
+								setGlobalState(newGlobalState);
+							}} />
 					</div>
 					<div className="kaleflower__body-center">
-
-						<button onClick={()=>{
-							const newGlobalState = {
-								...globalState,
-								xml: globalState.xml + 'aaa',
-							};
-							props.onChangeState(newGlobalState);
-							setGlobalState(newGlobalState);
-							}}>change</button>
-						{globalState.xml}
 
 					</div>
 					<div className="kaleflower__body-right">
