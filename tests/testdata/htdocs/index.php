@@ -21,15 +21,21 @@
 		<div class="container">
 			<div id="cont-app"></div>
 		</div>
+		<div>
+			<ul>
+				<li><button type="button" onclick="console.info(kaleflower.get());">get</button></li>
+			</ul>
+		</div>
 
 		<!-- kaleflower.js -->
 		<script src="/dist/kaleflower.js" type="text/javascript" async></script>
 		<script>
 			// Kaleflower
+			let kaleflower;
 			window.addEventListener('load', function() {
 				const container = document.getElementById('cont-app');
-				var kaleflower = new Kaleflower(container, {});
-				kaleflower.init();
+				kaleflower = new Kaleflower(container, {});
+				kaleflower.load('../kflows/general.kflow');
 			});
 		</script>
 	</body>
