@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Root from "./includes/Root.jsx";
 import "./includes/styles/kaleflower.scss";
+import {KflowXmlParser} from "./includes/utils/KflowXmlParser.js";
 import $ from "jquery";
 
 window.Kaleflower = class {
@@ -39,8 +40,13 @@ window.Kaleflower = class {
 		return new Promise((rlv, rjt) => {
 			$.ajax({
 				url: realpath,
-				success: (res) => {
-					this.#globalState.xml = res;
+				success: async (res) => {
+					const kflowXmlParser = new KflowXmlParser();
+					const newGlobalState = await kflowXmlParser.toState(res);
+					this.#globalState = {
+						...this.#globalState,
+						...newGlobalState,
+					};
 					this.#render();
 					rlv();
 				},
