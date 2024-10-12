@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Root from "./includes/Root.jsx";
 import "./includes/styles/kaleflower.scss";
 import {KflowXmlParser} from "./includes/utils/KflowXmlParser.js";
+import {KflowXmlBuilder} from "./includes/utils/KflowXmlBuilder.js";
 import $ from "jquery";
 
 window.Kaleflower = class {
@@ -62,6 +63,8 @@ window.Kaleflower = class {
 	 * Get Kaleflower Data
 	 */
 	get(){
-		return this.#globalState;
+		const kflowXmlBuilder = new KflowXmlBuilder();
+		const xml = kflowXmlBuilder.toKflowXml(this.#globalState);
+		return xml;
 	}
 }

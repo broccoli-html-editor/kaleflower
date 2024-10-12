@@ -11,13 +11,45 @@ export class KflowXmlParser {
 
 			// --------------------------------------
 			// コンポーネントを抽出
-			const components = xml.querySelectorAll('kflow>components>component');
 			newGlobalState.components = {};
+			const components = xml.querySelectorAll('kflow>components>component');
 			components.forEach((component, index) => {
 				const componentTagName = component.getAttribute('name');
 				newGlobalState.components[componentTagName] = {
-					'tagName': componentTagName,
+					"tagName": componentTagName,
 				};
+			});
+
+			// --------------------------------------
+			// アセットを抽出
+			newGlobalState.assets = {};
+			const assets = xml.querySelectorAll('kflow>assets>asset');
+			assets.forEach((asset, index) => {
+				const assetName = (()=>{
+					let assetName = asset.getAttribute('name');
+					if( typeof(assetName) != typeof("string") || !assetName.length ){
+						assetName = '';
+					}
+					return assetName;
+				})();
+				newGlobalState.assets[assetName] = {
+					"name": assetName,
+				};
+			});
+
+			// --------------------------------------
+			// コンテンツを抽出
+			newGlobalState.contents = {};
+			const contents = xml.querySelectorAll('kflow>contents>content');
+			contents.forEach((content, index) => {
+				const contentAreaName = (()=>{
+					let contentAreaName = content.getAttribute('name');
+					if( typeof(contentAreaName) != typeof("string") || !contentAreaName.length ){
+						contentAreaName = 'main';
+					}
+					return contentAreaName;
+				})();
+				newGlobalState.contents[contentAreaName] = content;
 			});
 
 			rlv(newGlobalState);
