@@ -44,8 +44,8 @@ mix
 							]
 						}
 					}]
-				}
-			]
+				},
+			],
 		},
 		resolve: {
 			fallback: {
@@ -61,5 +61,4 @@ mix
 	// --------------------------------------
 	// kaleflower Script
 	.js('src/kaleflower/kaleflower.jsx', 'dist/')
-	.sass('src/kaleflower/kaleflower.scss', 'dist/')
 ;

@@ -21,7 +21,7 @@ export class Layout extends React.Component {
 	 */
 	render() {
 		return (
-			<div>kaleflower</div>
+			<div className="kaleflower__frame">kaleflower</div>
 		);
 	}
 }
