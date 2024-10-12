@@ -23,12 +23,13 @@
     "config": {
         "process-timeout": 0
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "repositories": [
     ],
     "require": {
         "php": ">=7.3.0",
         "ext-json": "*",
+        "ext-libxml": "*",
         "ext-mbstring": "*",
         "tomk79/filesystem": "^1.0",
         "tomk79/langbank": "^0.3.0||^0.2.0||^0.1.0||^0.0.4",

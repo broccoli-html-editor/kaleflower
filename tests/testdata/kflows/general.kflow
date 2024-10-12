@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<kflow>
+    <body>
+        <document><div>
+    <p>kflow main contents sample</p>
+</div></document>
+        <document name="sidebar"><div>
+    <p>kflow sidebar contents sample</p>
+</div></document>
+    </body>
+    <components>
+        <component name="div"></component>
+        <component name="span"></component>
+    </components>
+</kflow>
