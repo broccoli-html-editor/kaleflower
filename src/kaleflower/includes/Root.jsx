@@ -28,7 +28,7 @@ const Root = React.memo((props) => {
 	if(!globalState.components){
 		return (
 			<MainContext.Provider value={globalState}>
-				<>NO XML LOADED.</>
+				<p>NO XML LOADED.</p>
 			</MainContext.Provider>
 		);
 	}
@@ -36,26 +36,42 @@ const Root = React.memo((props) => {
 	return (
 		<MainContext.Provider value={globalState}>
 			<div className="kaleflower__frame">
-				{globalState.xml}
-				<ul>
-					{Object.keys(globalState.components).map((key) => {
-						const component = globalState.components[key];
-						return (
-							<li key={key}>
-								{component.tagName}
-							</li>
-						);
-					})}
-				</ul>
+				<div className="kaleflower__header">
+				</div>
 
-				<button onClick={()=>{
-					const newGlobalState = {
-						...globalState,
-						xml: globalState.xml + 'aaa',
-					};
-					props.onChangeState(newGlobalState);
-					setGlobalState(newGlobalState);
-					}}>change</button>
+				<div className="kaleflower__body">
+					<div className="kaleflower__body-left">
+					</div>
+					<div className="kaleflower__body-center">
+
+						<button onClick={()=>{
+							const newGlobalState = {
+								...globalState,
+								xml: globalState.xml + 'aaa',
+							};
+							props.onChangeState(newGlobalState);
+							setGlobalState(newGlobalState);
+							}}>change</button>
+						{globalState.xml}
+
+					</div>
+					<div className="kaleflower__body-right">
+						<ul>
+							{Object.keys(globalState.components).map((key) => {
+								const component = globalState.components[key];
+								return (
+									<li key={key}>
+										{component.tagName}
+									</li>
+								);
+							})}
+						</ul>
+
+					</div>
+				</div>
+
+				<div className="kaleflower__footer">
+				</div>
 			</div>
 		</MainContext.Provider>
 	);

@@ -14,10 +14,33 @@
     line-height: 1.5;
     margin: 0;
     padding: 0;
-    text-align: center;
+    text-align: left;
 
     &__frame {
         flex-grow: 100;
         display: flex;
+        flex-direction: column;
+    }
+    &__header {
+    }
+    &__body {
+        flex-grow: 100;
+        display: flex;
+        flex-direction: row;
+
+        &-left {
+            flex-grow: 1;
+            width: 20%;
+        }
+        &-center {
+            flex-grow: 1;
+            width: 60%;
+        }
+        &-right {
+            flex-grow: 1;
+            width: 20%;
+        }
+    }
+    &__footer {
     }
 }
