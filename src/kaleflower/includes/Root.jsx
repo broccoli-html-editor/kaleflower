@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from './context/MainContext';
+import InstanceTreeView from './components/InstanceTreeView/InstanceTreeView.jsx';
 import iterate79 from 'iterate79';
 import LangBank from 'langbank';
 
@@ -41,6 +42,8 @@ const Root = React.memo((props) => {
 
 				<div className="kaleflower__body">
 					<div className="kaleflower__body-left">
+						<InstanceTreeView
+							contents={globalState.contents} />
 					</div>
 					<div className="kaleflower__body-center">
 
