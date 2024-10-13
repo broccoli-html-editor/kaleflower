@@ -35,6 +35,9 @@ const InstanceTreeView = React.memo((props) => {
 								event.preventDefault();
 								event.stopPropagation();
 								const newChildElementTagName = prompt('element name', 'div');
+								if(!newChildElementTagName){
+									return;
+								}
 								const newChild = utils.appendChild(content, newChildElementTagName);
 								props.onselectnode(newChild);
 							}}>append</button>

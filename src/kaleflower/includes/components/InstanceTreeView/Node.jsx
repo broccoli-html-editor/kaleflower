@@ -18,7 +18,7 @@ const Node = React.memo((props) => {
 		return <></>;
 	}
 
-	function onclick(event){
+	function selectInstance(event){
 		event.preventDefault();
 		event.stopPropagation();
 		const onselect = props.onselect || function(){};
@@ -30,6 +30,9 @@ const Node = React.memo((props) => {
 		event.stopPropagation();
 
 		const newChildElementTagName = prompt('element name', 'div');
+		if(!newChildElementTagName){
+			return;
+		}
 		const newChild = utils.appendChild(content, newChildElementTagName);
 		props.onselect(newChild);
 	}
@@ -37,7 +40,43 @@ const Node = React.memo((props) => {
 	return (<>
 		<div
 			key={props.key}
-			onClick={onclick}
+			onClick={selectInstance}
+
+			onDragStart={(event)=>{
+				event.stopPropagation();
+				const sendData = {
+					kaleflowerNodeId: content.kaleflowerNodeId,
+					instancePath: props.instancePath,
+				};
+				event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
+				const onselect = props.onselect || function(){};
+				onselect(content);
+			}}
+			onDragEnter={(event)=>{}}
+			onDragOver={(event)=>{
+				event.preventDefault();
+			}}
+			onDragLeave={(event)=>{}}
+			onDrop={(event)=>{
+				event.preventDefault();
+				event.stopPropagation();
+				let transferData = event.dataTransfer.getData("text/json");
+				try {
+					transferData = JSON.parse(transferData);
+				} catch (e) {}
+				console.log('transferData:', transferData);
+
+				const moveFromInstance = globalState.selectedInstance;
+				const moveToInstance = content;
+				console.log(content);
+				const parentNode = content.parentNode;
+
+				parentNode.insertBefore(moveFromInstance, moveToInstance);
+				props.onselect(moveFromInstance);
+
+			}}
+			onDragEnd={(event)=>{}}
+
 			data-kaleflower-node-id={content.kaleflowerNodeId}
 			data-kaleflower-instance-path={`${props.instancePath}`}
 			className={"kaleflower-insance-tree-view__node"+(globalState.selectedInstance && globalState.selectedInstance.kaleflowerNodeId == content.kaleflowerNodeId ? ' kaleflower-insance-tree-view__node--selected' : '')}
