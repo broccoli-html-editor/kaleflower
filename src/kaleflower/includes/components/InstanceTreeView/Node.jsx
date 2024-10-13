@@ -21,9 +21,8 @@ const Node = React.memo((props) => {
 	function onclick(event){
 		event.preventDefault();
 		event.stopPropagation();
-		globalState.selectedInstanceId = event.currentTarget.attributes['data-kaleflower-node-id'].value;
 		const onselect = props.onselect || function(){};
-		onselect(globalState.selectedInstanceId);
+		onselect(content);
 	}
 
 	function appendChild(event){
@@ -32,7 +31,7 @@ const Node = React.memo((props) => {
 
 		const newChildElementTagName = prompt('element name', 'div');
 		const newChild = utils.appendChild(content, newChildElementTagName);
-		props.onselect(newChild.kaleflowerNodeId);
+		props.onselect(newChild);
 	}
 
 	return (<>
@@ -41,7 +40,7 @@ const Node = React.memo((props) => {
 			onClick={onclick}
 			data-kaleflower-node-id={content.kaleflowerNodeId}
 			data-kaleflower-instance-path={`${props.instancePath}`}
-			className={"kaleflower-insance-tree-view__node"+(globalState.selectedInstanceId == content.kaleflowerNodeId ? ' kaleflower-insance-tree-view__node--selected' : '')}
+			className={"kaleflower-insance-tree-view__node"+(globalState.selectedInstance && globalState.selectedInstance.kaleflowerNodeId == content.kaleflowerNodeId ? ' kaleflower-insance-tree-view__node--selected' : '')}
 			draggable="true">
 			<p className="kaleflower-insance-tree-view__node-name">{content.nodeName == '#text' ? content.nodeName : content.tagName}</p>
 			<ul className="kaleflower-insance-tree-view__node-list">

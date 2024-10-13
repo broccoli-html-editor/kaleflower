@@ -36,7 +36,7 @@ const InstanceTreeView = React.memo((props) => {
 								event.stopPropagation();
 								const newChildElementTagName = prompt('element name', 'div');
 								const newChild = utils.appendChild(content, newChildElementTagName);
-								props.onselectnode(newChild.kaleflowerNodeId);
+								props.onselectnode(newChild);
 							}}>append</button>
 						</li>
 					</ul>

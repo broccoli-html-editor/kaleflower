@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from './context/MainContext';
 import InstanceTreeView from './components/InstanceTreeView/InstanceTreeView.jsx';
+import ElementEditor from './components/ElementEditor/ElementEditor.jsx';
 import iterate79 from 'iterate79';
 import LangBank from 'langbank';
 
@@ -29,15 +30,15 @@ const Root = React.memo((props) => {
 	function unselectInstance(){
 		const newGlobalState = {
 			...globalState,
-			selectedInstanceId: null,
+			selectedInstance: null,
 		};
 		setGlobalState(newGlobalState);
 	}
 
-	function selectInstance(instanceId){
+	function selectInstance(instance){
 		const newGlobalState = {
 			...globalState,
-			selectedInstanceId: instanceId,
+			selectedInstance: instance,
 		};
 		setGlobalState(newGlobalState);
 	}
@@ -60,8 +61,8 @@ const Root = React.memo((props) => {
 					<div className="kaleflower__body-left">
 						<InstanceTreeView
 							contents={globalState.contents}
-							onselectnode={function(selectedInstanceId){
-								selectInstance(selectedInstanceId);
+							onselectnode={function(selectedInstance){
+								selectInstance(selectedInstance);
 							}} />
 					</div>
 					<div className="kaleflower__body-center">
@@ -79,6 +80,9 @@ const Root = React.memo((props) => {
 							})}
 						</ul>
 
+						<ElementEditor
+							selectedInstance={globalState.selectedInstance}
+							/>
 					</div>
 				</div>
 
