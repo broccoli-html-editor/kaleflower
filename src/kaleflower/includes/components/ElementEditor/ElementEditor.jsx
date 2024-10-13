@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
-import Property from './Property.jsx';
+import Attribute from './Attribute.jsx';
 import {Utils} from "../../utils/Utils.js";
 
 const ElementEditor = (props) => {
@@ -12,6 +12,8 @@ const ElementEditor = (props) => {
 		const onchange = props.onchange() || function(){};
 		onchange(props.selectedInstance);
 	}
+
+console.log('props.selectedInstance', props.selectedInstance);
 
 	return (
 		<div className="kaleflower-element-editor" onClick={(event)=>{
@@ -31,23 +33,37 @@ const ElementEditor = (props) => {
 
 					{!props.selectedInstance.nodeName.match(/^\#/)
 						? <>
-							<Property
+							<Attribute
 								instance={props.selectedInstance}
 								attrName="class"
 								onchange={onchange} />
 
-							<Property
+							<Attribute
 								instance={props.selectedInstance}
 								attrName="width"
 								onchange={onchange} />
 
-							<Property
+							<Attribute
 								instance={props.selectedInstance}
 								attrName="height"
 								onchange={onchange} />
 						</>
 						: <>
 						</>}
+
+					<div className="kaleflower-element-editor__property">
+						<div className="kaleflower-element-editor__property-key">
+							innerHTML:
+						</div>
+						<div className="kaleflower-element-editor__property-val">
+							<textarea value={typeof(props.selectedInstance.innerHTML) == typeof('string') ? props.selectedInstance.innerHTML : ''} onInput={(event)=>{
+								const newInnerHTML = event.target.value;
+								props.selectedInstance.innerHTML = newInnerHTML;
+
+								onchange(props.selectedInstance);
+							}}></textarea>
+						</div>
+					</div>
 
 					<div className="kaleflower-element-editor__property">
 						<div className="kaleflower-element-editor__property-key">
