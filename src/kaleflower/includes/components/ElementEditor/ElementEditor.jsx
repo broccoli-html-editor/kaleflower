@@ -13,8 +13,6 @@ const ElementEditor = (props) => {
 		onchange(props.selectedInstance);
 	}
 
-console.log('props.selectedInstance', props.selectedInstance);
-
 	return (
 		<div className="kaleflower-element-editor" onClick={(event)=>{
 			event.preventDefault();
@@ -47,23 +45,37 @@ console.log('props.selectedInstance', props.selectedInstance);
 								instance={props.selectedInstance}
 								attrName="height"
 								onchange={onchange} />
+
+							<div className="kaleflower-element-editor__property">
+								<div className="kaleflower-element-editor__property-key">
+									innerHTML:
+								</div>
+								<div className="kaleflower-element-editor__property-val">
+									<textarea value={typeof(props.selectedInstance.innerHTML) == typeof('string') ? props.selectedInstance.innerHTML : ''} onInput={(event)=>{
+										const newInnerHTML = event.target.value;
+										props.selectedInstance.innerHTML = newInnerHTML;
+
+										onchange(props.selectedInstance);
+									}}></textarea>
+								</div>
+							</div>
 						</>
 						: <>
+							<div className="kaleflower-element-editor__property">
+								<div className="kaleflower-element-editor__property-key">
+									nodeValue:
+								</div>
+								<div className="kaleflower-element-editor__property-val">
+									<textarea value={typeof(props.selectedInstance.nodeValue) == typeof('string') ? props.selectedInstance.nodeValue : ''} onInput={(event)=>{
+										const newNodeValue = event.target.value;
+										props.selectedInstance.nodeValue = newNodeValue;
+
+										onchange(props.selectedInstance);
+									}}></textarea>
+								</div>
+							</div>
 						</>}
 
-					<div className="kaleflower-element-editor__property">
-						<div className="kaleflower-element-editor__property-key">
-							innerHTML:
-						</div>
-						<div className="kaleflower-element-editor__property-val">
-							<textarea value={typeof(props.selectedInstance.innerHTML) == typeof('string') ? props.selectedInstance.innerHTML : ''} onInput={(event)=>{
-								const newInnerHTML = event.target.value;
-								props.selectedInstance.innerHTML = newInnerHTML;
-
-								onchange(props.selectedInstance);
-							}}></textarea>
-						</div>
-					</div>
 
 					<div className="kaleflower-element-editor__property">
 						<div className="kaleflower-element-editor__property-key">
