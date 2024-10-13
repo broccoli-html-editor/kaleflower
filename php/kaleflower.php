@@ -79,7 +79,7 @@ class kaleflower{
 
 		$kflows = $dom->getElementsByTagName('kflow');
 		foreach ($kflows as $kflow) {
-			$documents = $kflow->getElementsByTagName('document');
+			$documents = $kflow->getElementsByTagName('content');
 			foreach ($documents as $document) {
 				$innerText = '';
 				$bowlName = $document->getAttribute('name');

@@ -41,20 +41,35 @@ window.Kaleflower = class {
 			$.ajax({
 				url: realpath,
 				success: async (res) => {
-					const utils = new Utils();
-					const newGlobalState = await utils.XmlToState(res);
-					this.#globalState = {
-						...this.#globalState,
-						...newGlobalState,
-					};
-					this.#render();
+					await this.loadXml(res);
 					rlv();
 				},
 				error: (res) => {
-					console.error('Kaleflower: Failed to load a file.', res);
+					console.error('Kaleflower: Failed to load a file.', realpath, res);
 					rjt(res);
 				},
 			});
+		});
+	}
+
+	/**
+	 * Load Kaleflower file from XML
+	 */
+	async loadXml(xml){
+		return new Promise(async (rlv, rjt) => {
+			try {
+				const utils = new Utils();
+				const newGlobalState = await utils.XmlToState(xml);
+				this.#globalState = {
+					...this.#globalState,
+					...newGlobalState,
+				};
+				this.#render();
+				rlv();
+			}catch(e){
+				console.error('Kaleflower: Failed to parse XML.', e);
+				rjt(e);
+			}
 		});
 	}
 
