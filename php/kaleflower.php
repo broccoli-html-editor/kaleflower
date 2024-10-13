@@ -77,19 +77,28 @@ class kaleflower{
 		$dom = new \DOMDocument();
 		$dom->load($realpath_kflow);
 
-		$kflows = $dom->getElementsByTagName('kflow');
-		foreach ($kflows as $kflow) {
-			$documents = $kflow->getElementsByTagName('content');
-			foreach ($documents as $document) {
-				$innerText = '';
-				$bowlName = $document->getAttribute('name');
-				if(!strlen($bowlName ?? '')){
-					$bowlName = 'main';
-				}
-				foreach($document->childNodes as $childNode){
-					$rtn->html->{$bowlName} = $rtn->html->{$bowlName} ?? '';
-					$rtn->html->{$bowlName} .= $document->ownerDocument->saveHTML($childNode);
-				}
+		$xpath = new \DOMXPath($dom);
+		$components = $xpath->query("/kflow/components/component");
+		$assets = $xpath->query("/kflow/assets/asset");
+		$contents = $xpath->query("/kflow/contents/content");
+
+		foreach ($components as $component) {
+			// TODO:
+		}
+
+		foreach ($assets as $asset) {
+			// TODO:
+		}
+
+		foreach ($contents as $content) {
+			$innerText = '';
+			$bowlName = $content->getAttribute('name');
+			if(!strlen($bowlName ?? '')){
+				$bowlName = 'main';
+			}
+			foreach($content->childNodes as $childNode){
+				$rtn->html->{$bowlName} = $rtn->html->{$bowlName} ?? '';
+				$rtn->html->{$bowlName} .= $content->ownerDocument->saveHTML($childNode);
 			}
 		}
 
