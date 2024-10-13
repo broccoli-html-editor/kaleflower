@@ -5,7 +5,7 @@
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
-</div><div><p><img/></p></div></content>
+</div><div><p class="paragraph"><img class="test-image-sample" width="100%" height="auto"/></p></div></content>
 		<content name="sidebar"><div>
     <p>kflow sidebar contents sample</p>
 </div></content>

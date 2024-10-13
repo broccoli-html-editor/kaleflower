@@ -82,6 +82,8 @@ const Root = React.memo((props) => {
 
 						<ElementEditor
 							selectedInstance={globalState.selectedInstance}
+							onchange={()=>{selectInstance(globalState.selectedInstance);}}
+							onremove={unselectInstance}
 							/>
 					</div>
 				</div>
