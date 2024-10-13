@@ -1,19 +1,19 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <kflow>
-    <contents>
-        <content><div>
+	<contents>
+		<content><div>
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
-</div></content>
-        <content name="sidebar"><div>
+</div><div><p><img/></p></div></content>
+		<content name="sidebar"><div>
     <p>kflow sidebar contents sample</p>
 </div></content>
-    </contents>
-    <assets>
-    </assets>
-    <components>
-        <component name="div"></component>
-        <component name="span"></component>
-    </components>
+	</contents>
+	<assets>
+	</assets>
+	<components>
+		<component name="div"></component>
+		<component name="span"></component>
+	</components>
 </kflow>

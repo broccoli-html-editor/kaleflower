@@ -4,6 +4,13 @@ export class Utils {
 		return "uuid-"+((new Date).getTime().toString(16)+Math.floor(1E7*Math.random()).toString(16));
 	}
 
+	appendChild(targetElement, newChildElementTagName){
+		const newChild = document.createElementNS('', newChildElementTagName);
+		newChild.kaleflowerNodeId = this.createUUID();
+		targetElement.appendChild(newChild);
+		return newChild;
+	}
+
 	StateToKflowXml(globalState){
 		let finalXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
 

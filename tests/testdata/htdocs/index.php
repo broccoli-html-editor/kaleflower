@@ -23,7 +23,7 @@
 		</div>
 		<div>
 			<ul>
-				<li><button type="button" onclick="console.info(kaleflower.get());">get</button></li>
+				<li><button type="button" onclick="save();">SAVE</button></li>
 			</ul>
 		</div>
 
@@ -37,6 +37,31 @@
 				kaleflower = new Kaleflower(container, {});
 				kaleflower.load('../kflows/general.kflow');
 			});
+		</script>
+		<script>
+			function save(){
+				let data = kaleflower.get();
+				console.info(data);
+				fetch('./save.php', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ data: data }),
+				})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then(data => {
+					console.log('Success:', data);
+				})
+				.catch(error => {
+					console.error('There has been a problem with your fetch operation:', error);
+				});
+			}
 		</script>
 	</body>
 </html>

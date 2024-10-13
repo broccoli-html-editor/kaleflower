@@ -26,6 +26,22 @@ const Root = React.memo((props) => {
 		};
 	}, []);
 
+	function unselectInstance(){
+		const newGlobalState = {
+			...globalState,
+			selectedInstanceId: null,
+		};
+		setGlobalState(newGlobalState);
+	}
+
+	function selectInstance(instanceId){
+		const newGlobalState = {
+			...globalState,
+			selectedInstanceId: instanceId,
+		};
+		setGlobalState(newGlobalState);
+	}
+
 	if(!globalState.components){
 		return (
 			<MainContext.Provider value={globalState}>
@@ -36,7 +52,7 @@ const Root = React.memo((props) => {
 
 	return (
 		<MainContext.Provider value={globalState}>
-			<div className="kaleflower__frame">
+			<div className="kaleflower__frame" onClick={unselectInstance}>
 				<div className="kaleflower__header">
 				</div>
 
@@ -44,13 +60,8 @@ const Root = React.memo((props) => {
 					<div className="kaleflower__body-left">
 						<InstanceTreeView
 							contents={globalState.contents}
-							onselectnode={function(selectedNode){
-								const newGlobalState = {
-									...globalState,
-									selectedNode: selectedNode,
-								};
-								console.log('selectedNode', selectedNode);
-								setGlobalState(newGlobalState);
+							onselectnode={function(selectedInstanceId){
+								selectInstance(selectedInstanceId);
 							}} />
 					</div>
 					<div className="kaleflower__body-center">

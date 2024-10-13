@@ -21,32 +21,52 @@ const Node = React.memo((props) => {
 	function onclick(event){
 		event.preventDefault();
 		event.stopPropagation();
-		console.log(event.currentTarget);
-		globalState.selectedNode = event.currentTarget.attributes['data-kaleflower-node-id'].value;
+		globalState.selectedInstanceId = event.currentTarget.attributes['data-kaleflower-node-id'].value;
 		const onselect = props.onselect || function(){};
-		onselect(globalState.selectedNode);
+		onselect(globalState.selectedInstanceId);
+	}
+
+	function appendChild(event){
+		event.preventDefault();
+		event.stopPropagation();
+
+		const newChildElementTagName = prompt('element name', 'div');
+		const newChild = utils.appendChild(content, newChildElementTagName);
+		props.onselect(newChild.kaleflowerNodeId);
 	}
 
 	return (<>
-		<div key={props.key} onClick={onclick} data-kaleflower-node-id={content.kaleflowerNodeId} className={"kaleflower-insance-tree-view__node"+(globalState.selectedNode == content.kaleflowerNodeId ? ' kaleflower-insance-tree-view__node--selected' : '')} draggable="true">
+		<div
+			key={props.key}
+			onClick={onclick}
+			data-kaleflower-node-id={content.kaleflowerNodeId}
+			data-kaleflower-instance-path={`${props.instancePath}`}
+			className={"kaleflower-insance-tree-view__node"+(globalState.selectedInstanceId == content.kaleflowerNodeId ? ' kaleflower-insance-tree-view__node--selected' : '')}
+			draggable="true">
 			<p className="kaleflower-insance-tree-view__node-name">{content.nodeName == '#text' ? content.nodeName : content.tagName}</p>
-			{(Array.from(content.childNodes).length > 0) &&
-				<ul className="kaleflower-insance-tree-view__node-list">
-					{Array.from(content.childNodes).map((child, index) => {
-						if( child.nodeName == '#text' && child.textContent.trim() == '' ){
-							return <li key={index}></li>;
-						}
-						if( child.nodeName == '#comment' ){
-							return <li key={index}></li>;
-						}
-						return (
-							<li key={index}>
-								<Node node={child} onselect={props.onselect} />
-							</li>
-						);
-					})}
-				</ul>
-			}
+			<ul className="kaleflower-insance-tree-view__node-list">
+				{Array.from(content.childNodes).map((child, index) => {
+					if( child.nodeName == '#text' && child.textContent.trim() == '' ){
+						return <li key={index}></li>;
+					}
+					if( child.nodeName == '#comment' ){
+						return <li key={index}></li>;
+					}
+					return (
+						<li key={index}>
+							<Node
+								node={child}
+								instancePath={`${props.instancePath}.childNodes[${index}]`}
+								onselect={props.onselect} />
+						</li>
+					);
+				})}
+				{(content.nodeName != '#text' && content.nodeName != '#comment') ? (
+					<li>
+						<button onClick={appendChild}>append</button>
+					</li>
+				) : <></>}
+			</ul>
 		</div>
 	</>);
 });
