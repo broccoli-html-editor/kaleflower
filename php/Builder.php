@@ -71,6 +71,49 @@ class Builder {
 	 * @param array $options Build options
 	 */
 	public function build( $content ){
-		$this->html .= $content->ownerDocument->saveHTML($content);
+		$this->html .= $this->build_components_recursive($content);
+		return;
+	}
+
+	/**
+	 * Build Components Recursively
+	 * @param object $node Node Object
+	 * @return string HTML
+	 */
+	private function build_components_recursive($node) {
+		$rtn = '';
+
+		// 現在のノードが要素ノードの場合
+		if ($node->nodeType == XML_ELEMENT_NODE) {
+			// インデントをつけて要素名を表示
+			$rtn .= "<".htmlspecialchars($node->nodeName);
+
+			// 属性があれば表示
+			if ($node->hasAttributes()) {
+				foreach ($node->attributes as $attr) {
+					$rtn .= " ".htmlspecialchars($attr->nodeName).'="'.htmlspecialchars($attr->nodeValue).'"';
+				}
+			}
+
+			$rtn .= ">";
+		}
+
+		// テキストノードがある場合、その内容を表示
+		if ($node->nodeType == XML_TEXT_NODE) {
+			$rtn .= $node->nodeValue;
+		}
+
+		// 子ノードがあれば、それらを再帰的に走査
+		if ($node->hasChildNodes()) {
+			foreach ($node->childNodes as $childNode) {
+				$rtn .= $this->build_components_recursive($childNode);
+			}
+		}
+
+		if ($node->nodeType == XML_ELEMENT_NODE) {
+			$rtn .= "</".htmlspecialchars($node->nodeName).">";
+		}
+
+		return $rtn;
 	}
 }

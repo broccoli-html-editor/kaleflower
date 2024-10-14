@@ -26,6 +26,11 @@ class mainTest extends PHPUnit\Framework\TestCase{
 		// var_dump($result);
 		$this->assertTrue( is_object($result) );
 		$this->assertTrue( $result->result );
+
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/main.html', $result->html->main);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/sidebar.html', $result->html->sidebar);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/styles.css', $result->css);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/scripts.js', $result->js);
 	}
 
 }

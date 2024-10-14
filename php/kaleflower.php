@@ -41,6 +41,7 @@ class kaleflower {
 			),
 			'css' => null,
 			'js' => null,
+			'assets' => array(),
 		);
 		if( !is_file($realpath_kflow) || !is_readable($realpath_kflow) ){
 			return (object) array(
@@ -49,6 +50,7 @@ class kaleflower {
 				'html' => (object) array(),
 				'css' => null,
 				'js' => null,
+				'assets' => array(),
 			);
 		}
 
