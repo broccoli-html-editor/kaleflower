@@ -121,7 +121,7 @@ class Builder {
 			$this->css .= $attributes->style;
 		}
 		if(strlen($attributes->script ?? '')) {
-			$this->css .= $attributes->script;
+			$this->js .= $attributes->script;
 		}
 
 		// 現在のノードが要素ノードの場合
