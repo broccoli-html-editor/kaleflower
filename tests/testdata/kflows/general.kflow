@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kflow>
+	<configs>
+		<config name="id" value="kf1928bb222858994f" />
+	</configs>
+	<styles>
+		<style class="test-image-sample">border: 1px solid #000;
+border-radius: 5px;
+overflow: hidden;
+		</style>
+	</styles>
 	<contents>
 		<content><div>
     <p>kflow main contents sample</p>

@@ -32,7 +32,7 @@ export class Utils {
 	}
 
 	createUUID(){
-		return "uuid-"+((new Date).getTime().toString(16)+Math.floor(1E7*Math.random()).toString(16));
+		return "kf"+((new Date).getTime().toString(16)+Math.floor(1E7*Math.random()).toString(16));
 	}
 
 	appendChild(targetElement, newChildElementTagName){
@@ -46,6 +46,18 @@ export class Utils {
 		let finalXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
 
 		finalXml += '<kflow>\n';
+		finalXml += '	<configs>\n';
+		finalXml += '		<config name="id" value="'+globalState.configs.id+'" />\n';
+		finalXml += '	</configs>\n';
+		finalXml += '	<styles>\n';
+		Object.keys(globalState.styles).forEach((key) => {
+			// XMLSerializerを使ってDOMツリーをXML文字列に変換
+			const style = globalState.styles[key];
+			const serializer = new XMLSerializer();
+			const serializedXML = serializer.serializeToString(style);
+			finalXml += '		' + serializedXML + "\n";
+		});
+		finalXml += '	</styles>\n';
 		finalXml += '	<contents>\n';
 		Object.keys(globalState.contents).forEach((key) => {
 			// XMLSerializerを使ってDOMツリーをXML文字列に変換
@@ -83,6 +95,23 @@ export class Utils {
 
 			// XML文字列をパースして、DOMオブジェクトに変換
 			const xml = domParser.parseFromString(srcXml, "application/xml");
+
+			// --------------------------------------
+			// コンフィグを抽出
+			newGlobalState.configs = {};
+			const configs = xml.querySelectorAll('kflow>configs>config');
+			configs.forEach((config, index) => {
+				newGlobalState.configs[config.getAttribute('name')] = config.getAttribute('value');
+			});
+			newGlobalState.configs.id = newGlobalState.configs.id || this.createUUID();
+
+			// --------------------------------------
+			// スタイルシートを抽出
+			newGlobalState.styles = {};
+			const styles = xml.querySelectorAll('kflow>styles>style');
+			styles.forEach((style, index) => {
+				newGlobalState.styles[style.getAttribute('class')] = style;
+			});
 
 			// --------------------------------------
 			// コンポーネントを抽出
