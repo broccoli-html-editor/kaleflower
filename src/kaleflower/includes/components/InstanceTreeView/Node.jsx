@@ -11,6 +11,8 @@ const Node = React.memo((props) => {
 		content.kaleflowerNodeId = utils.createUUID();
 	}
 
+	const currentComponent = (content ? globalState.components.get_component(content.tagName) : null);
+
 	if( content.nodeName == '#text' && content.textContent.trim() == '' ){
 		return <></>;
 	}
@@ -99,7 +101,7 @@ const Node = React.memo((props) => {
 						</li>
 					);
 				})}
-				{(content.nodeName != '#text' && content.nodeName != '#comment') ? (
+				{(content.nodeName != '#text' && content.nodeName != '#comment' && !currentComponent.isVoidElement) ? (
 					<li>
 						<button onClick={appendChild}>append</button>
 					</li>

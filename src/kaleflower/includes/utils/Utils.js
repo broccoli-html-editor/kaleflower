@@ -1,4 +1,35 @@
+import {Components} from "./Components.js";
+
 export class Utils {
+
+	/**
+	 * 文字列を真偽値に変換する
+	 * @param string $val 変換する文字列
+	 * @return boolean 変換された真偽値
+	 */
+	to_boolean($val){
+		if(typeof($val) == typeof('string')){
+			$val = $val.toLowerCase();
+		}
+
+		switch($val){
+			case 'false':
+			case '0':
+			case 'no':
+			case 'off':
+				return false;
+				break;
+			case 'true':
+			case '1':
+			case 'yes':
+			case 'on':
+				return true;
+				break;
+			default:
+				break;
+		}
+		return !!$val;
+	}
 
 	createUUID(){
 		return "uuid-"+((new Date).getTime().toString(16)+Math.floor(1E7*Math.random()).toString(16));
@@ -29,8 +60,13 @@ export class Utils {
 		finalXml += '	</assets>\n';
 
 		finalXml += '	<components>\n';
-		Object.keys(globalState.components).forEach((key) => {
-			finalXml += '		<component name="' + key + '"></component>\n';
+		const components = globalState.components.get_custom_components();
+		Object.keys(components).forEach((key) => {
+			const component = components[key];
+			finalXml += '		<component name="' + key + '"';
+			finalXml += ' is-void-element="' + (component.isVoidElement ? 'true' : 'false') + '"';
+			finalXml += '>';
+			finalXml += '</component>\n';
 		});
 		finalXml += '	</components>\n';
 
@@ -50,13 +86,10 @@ export class Utils {
 
 			// --------------------------------------
 			// コンポーネントを抽出
-			newGlobalState.components = {};
+			newGlobalState.components = new Components(this);
 			const components = xml.querySelectorAll('kflow>components>component');
 			components.forEach((component, index) => {
-				const componentTagName = component.getAttribute('name');
-				newGlobalState.components[componentTagName] = {
-					"tagName": componentTagName,
-				};
+				newGlobalState.components.add_component(component);
 			});
 
 			// --------------------------------------

@@ -5,8 +5,7 @@ import {Utils} from "../../utils/Utils.js";
 
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
-	const utils = new Utils();
-	const [selectedInstance, setSelectedInstance] = useState(props.selectedInstance);
+	const currentComponent = (props.selectedInstance ? globalState.components.get_component(props.selectedInstance.tagName) : null);
 
 	function onchange(){
 		const onchange = props.onchange() || function(){};
@@ -46,19 +45,23 @@ const ElementEditor = (props) => {
 								attrName="height"
 								onchange={onchange} />
 
-							<div className="kaleflower-element-editor__property">
-								<div className="kaleflower-element-editor__property-key">
-									innerHTML:
-								</div>
-								<div className="kaleflower-element-editor__property-val">
-									<textarea value={typeof(props.selectedInstance.innerHTML) == typeof('string') ? props.selectedInstance.innerHTML : ''} onInput={(event)=>{
-										const newInnerHTML = event.target.value;
-										props.selectedInstance.innerHTML = newInnerHTML;
+							{!currentComponent.isVoidElement
+								? <>
+									<div className="kaleflower-element-editor__property">
+										<div className="kaleflower-element-editor__property-key">
+											innerHTML:
+										</div>
+										<div className="kaleflower-element-editor__property-val">
+											<textarea value={typeof(props.selectedInstance.innerHTML) == typeof('string') ? props.selectedInstance.innerHTML : ''} onInput={(event)=>{
+												const newInnerHTML = event.target.value;
+												props.selectedInstance.innerHTML = newInnerHTML;
 
-										onchange(props.selectedInstance);
-									}}></textarea>
-								</div>
-							</div>
+												onchange(props.selectedInstance);
+											}}></textarea>
+										</div>
+									</div>
+								</>
+								: <></>}
 						</>
 						: <>
 							<div className="kaleflower-element-editor__property">

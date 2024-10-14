@@ -33,6 +33,10 @@ mix
 					use:['twig-loader']
 				},
 				{
+					test:/\.xml$/,
+					use:['raw-loader']
+				},
+				{
 					test: /\.jsx$/,
 					exclude: /(node_modules|bower_components)/,
 					use: [{
