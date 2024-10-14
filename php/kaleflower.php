@@ -1,21 +1,18 @@
 <?php
 /**
- * kaleflower
+ * Kaleflower
  */
 namespace kaleflower;
 
 /**
- * kaleflower core class
+ * Kaleflower core class
  *
  * @author Tomoya Koyanagi <tomk79@gmail.com>
  */
-class kaleflower{
+class kaleflower {
 
-	/** FileSystem Utility */
-	private $fs;
-
-	/** LangBank object */
-	private $lb;
+	/** Utility */
+	private $utils;
 
 	/** Options */
 	private $options;
@@ -25,25 +22,7 @@ class kaleflower{
 	 */
 	public function __construct($options = array()){
 		$this->options = (is_array($options) || is_object($options) ? (object) $options : (object) array());
-
-		$this->fs = new \tomk79\filesystem();
-		$this->lb = new \tomk79\LangBank(__DIR__.'/../data/language.csv');
-	}
-
-	/**
-	 * $fs
-	 * @return object FileSystem Utility Object.
-	 */
-	public function fs(){
-		return $this->fs;
-	}
-
-	/**
-	 * $lb
-	 * @return object LangBank Object.
-	 */
-	public function lb(){
-		return $this->lb;
+		$this->utils = new Utils();
 	}
 
 	/**
@@ -97,8 +76,13 @@ class kaleflower{
 				$bowlName = 'main';
 			}
 			foreach($content->childNodes as $childNode){
+				$builder = new Builder($this->utils);
+				$builder->build($childNode);
+
 				$rtn->html->{$bowlName} = $rtn->html->{$bowlName} ?? '';
-				$rtn->html->{$bowlName} .= $content->ownerDocument->saveHTML($childNode);
+				$rtn->html->{$bowlName} .= $builder->getHtml();
+				$rtn->css .= $builder->getCss();
+				$rtn->js .= $builder->getJs();
 			}
 		}
 
