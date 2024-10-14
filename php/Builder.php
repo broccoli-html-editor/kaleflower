@@ -85,27 +85,59 @@ class Builder {
 	 * @return string HTML
 	 */
 	private function build_components_recursive($node) {
+		static $instance_number = 0;
 		$rtn = '';
 		$currentComponent = null;
+
+		$attributes = (object) array(
+			'class' => '',
+			'id' => '',
+			'style' => '',
+			'script' => '',
+		);
+		// 属性があれば表示
+		if ($node->hasAttributes()) {
+			foreach ($node->attributes as $attr) {
+				switch($attr->nodeName){
+					case 'width':
+						$attributes->style .= ' width: '.$attr->nodeValue.';';
+						break;
+					case 'height':
+						$attributes->style .= ' height: '.$attr->nodeValue.';';
+						break;
+					default:
+						$attributes->{$attr->nodeName} = $attr->nodeValue;
+						break;
+				}
+			}
+		}
+		if(strlen($attributes->style ?? '') && !strlen($attributes->class ?? '')) {
+			$attributes->class = 'kf'.($instance_number++);
+		}
+		if(strlen($attributes->style ?? '') && strlen($attributes->class ?? '')) {
+			$attributes->style = '.'.$attributes->class.' {'.$attributes->style.'}';
+		}
+		if(strlen($attributes->style ?? '')) {
+			$this->css .= $attributes->style;
+		}
+		if(strlen($attributes->script ?? '')) {
+			$this->css .= $attributes->script;
+		}
 
 		// 現在のノードが要素ノードの場合
 		if ($node->nodeType == XML_ELEMENT_NODE) {
 			// インデントをつけて要素名を表示
 			$rtn .= "<".htmlspecialchars($node->nodeName);
 
-			$currentComponent = $this->components->get_component($node->nodeName);
-
-			// 属性があれば表示
-			if ($node->hasAttributes()) {
-				foreach ($node->attributes as $attr) {
-					$rtn .= " ".htmlspecialchars($attr->nodeName).'="'.htmlspecialchars($attr->nodeValue).'"';
-				}
+			if(strlen($attributes->class ?? '')){
+				$rtn .= ' class="'.htmlspecialchars($attributes->class).'"';
 			}
+
+			$currentComponent = $this->components->get_component($node->nodeName);
 
 			if($currentComponent->isVoidElement){
 				$rtn .= " />";
 				return $rtn;
-
 			}
 
 			$rtn .= ">";
