@@ -53,6 +53,9 @@ export class Utils {
 		Object.keys(globalState.styles).forEach((key) => {
 			// XMLSerializerを使ってDOMツリーをXML文字列に変換
 			const style = globalState.styles[key];
+			if(!style.innerHTML){
+				return;
+			}
 			const serializer = new XMLSerializer();
 			const serializedXML = serializer.serializeToString(style);
 			finalXml += '		' + serializedXML + "\n";

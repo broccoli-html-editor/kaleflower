@@ -6,6 +6,14 @@ import {Utils} from "../../utils/Utils.js";
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
 	const currentComponent = (props.selectedInstance ? globalState.components.get_component(props.selectedInstance.tagName) : null);
+	const currentClassName = (props.selectedInstance ? props.selectedInstance.getAttribute('class') : null);
+
+	if( currentClassName && !globalState.styles[currentClassName] ){
+		const newStyle = document.createElementNS('', 'style');
+		newStyle.innerHTML = '';
+		newStyle.setAttribute('class', currentClassName);
+		globalState.styles[currentClassName] = newStyle;
+	}
 
 	function onchange(){
 		const onchange = props.onchange() || function(){};
@@ -44,6 +52,24 @@ const ElementEditor = (props) => {
 								instance={props.selectedInstance}
 								attrName="height"
 								onchange={onchange} />
+
+							{currentClassName
+								? <>
+									<div className="kaleflower-element-editor__property">
+										<div className="kaleflower-element-editor__property-key">
+											Style .{currentClassName}:
+										</div>
+										<div className="kaleflower-element-editor__property-val">
+											<textarea value={typeof(currentClassName) == typeof('string') ? globalState.styles[currentClassName].innerHTML : ''} onInput={(event)=>{
+												const newStyleSheet = event.target.value;
+												globalState.styles[currentClassName].innerHTML = newStyleSheet;
+
+												onchange(props.selectedInstance);
+											}} />
+										</div>
+									</div>
+								</>
+								: <></>}
 
 							{!currentComponent.isVoidElement
 								? <>

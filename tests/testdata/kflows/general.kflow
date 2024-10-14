@@ -8,6 +8,8 @@
 border-radius: 5px;
 overflow: hidden;
 		</style>
+		<style class="paragraph">margin: 1em 0;</style>
+		<style class="test-div-class-001">/* div class test */</style>
 	</styles>
 	<contents>
 		<content><div>
@@ -18,7 +20,7 @@ overflow: hidden;
 <div>
 	<p class="paragraph">
 		<img class="test-image-sample" width="100%" height="auto"/>
-		<div/>
+		<div class="test-div-class-001"/>
 		<img/>
 		<hr/>
 		<div>

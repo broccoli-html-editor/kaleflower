@@ -1,1 +1,4 @@
-.test-image-sample { width: 100%; height: auto;}
+.test-image-sample{border: 1px solid #000;
+border-radius: 5px;
+overflow: hidden;
+		} .paragraph{margin: 1em 0;} .test-div-class-001{/* div class test */} .test-image-sample { width: 100%; height: auto;}

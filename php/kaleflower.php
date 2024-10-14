@@ -59,6 +59,8 @@ class kaleflower {
 		$dom->load($realpath_kflow);
 
 		$xpath = new \DOMXPath($dom);
+		$configNodes = $xpath->query("/kflow/configs/config");
+		$styleNodes = $xpath->query("/kflow/styles/style");
 		$componentNodes = $xpath->query("/kflow/components/component");
 		$assetNodes = $xpath->query("/kflow/assets/asset");
 		$contentNodes = $xpath->query("/kflow/contents/content");
@@ -66,6 +68,16 @@ class kaleflower {
 		$components = new Components($this->utils);
 		foreach ($componentNodes as $component) {
 			$components->add_component($component);
+		}
+
+		foreach ($styleNodes as $styleNode) {
+			$className = $styleNode->getAttribute('class');
+			$rtn->css .= '.'.$className.'{';
+			foreach ($styleNode->childNodes as $child) {
+				// 子ノードを文字列として追加
+				$rtn->css .= $styleNode->ownerDocument->saveHTML($child);
+			}
+			$rtn->css .= '} ';
 		}
 
 		foreach ($assetNodes as $assetNode) {
