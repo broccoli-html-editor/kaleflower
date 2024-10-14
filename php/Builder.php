@@ -86,17 +86,26 @@ class Builder {
 	 */
 	private function build_components_recursive($node) {
 		$rtn = '';
+		$currentComponent = null;
 
 		// 現在のノードが要素ノードの場合
 		if ($node->nodeType == XML_ELEMENT_NODE) {
 			// インデントをつけて要素名を表示
 			$rtn .= "<".htmlspecialchars($node->nodeName);
 
+			$currentComponent = $this->components->get_component($node->nodeName);
+
 			// 属性があれば表示
 			if ($node->hasAttributes()) {
 				foreach ($node->attributes as $attr) {
 					$rtn .= " ".htmlspecialchars($attr->nodeName).'="'.htmlspecialchars($attr->nodeValue).'"';
 				}
+			}
+
+			if($currentComponent->isVoidElement){
+				$rtn .= " />";
+				return $rtn;
+
 			}
 
 			$rtn .= ">";

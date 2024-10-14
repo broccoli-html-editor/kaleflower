@@ -50,6 +50,7 @@ class Components {
 		$component_name = $component->getAttribute('name');
 		$rtn = (object) array(
 			"tagName" => $component_name,
+			"isVoidElement" => $this->utils->to_boolean($component->getAttribute('is-void-element')),
 		);
 		return $rtn;
 	}

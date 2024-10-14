@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components>
 	<component name="div"></component>
+	<component name="p"></component>
+	<component name="blockquote"></component>
 	<component name="span"></component>
+	<component name="code"></component>
+	<component name="ul"></component>
+	<component name="ol"></component>
+	<component name="li"></component>
+	<component name="img" is-void-element="true"></component>
+	<component name="hr" is-void-element="true"></component>
+	<component name="br" is-void-element="true"></component>
+	<component name="input" is-void-element="true"></component>
 </components>
