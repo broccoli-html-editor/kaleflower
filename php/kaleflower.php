@@ -59,26 +59,27 @@ class kaleflower {
 		$dom->load($realpath_kflow);
 
 		$xpath = new \DOMXPath($dom);
-		$components = $xpath->query("/kflow/components/component");
-		$assets = $xpath->query("/kflow/assets/asset");
-		$contents = $xpath->query("/kflow/contents/content");
+		$componentNodes = $xpath->query("/kflow/components/component");
+		$assetNodes = $xpath->query("/kflow/assets/asset");
+		$contentNodes = $xpath->query("/kflow/contents/content");
 
-		foreach ($components as $component) {
+		$components = new Components($this->utils);
+		foreach ($componentNodes as $component) {
+			$components->add_component($component);
+		}
+
+		foreach ($assetNodes as $assetNode) {
 			// TODO:
 		}
 
-		foreach ($assets as $asset) {
-			// TODO:
-		}
-
-		foreach ($contents as $content) {
+		foreach ($contentNodes as $contentNode) {
 			$innerText = '';
-			$bowlName = $content->getAttribute('name');
+			$bowlName = $contentNode->getAttribute('name');
 			if(!strlen($bowlName ?? '')){
 				$bowlName = 'main';
 			}
-			foreach($content->childNodes as $childNode){
-				$builder = new Builder($this->utils);
+			foreach($contentNode->childNodes as $childNode){
+				$builder = new Builder($this->utils, $components);
 				$builder->build($childNode);
 
 				$rtn->html->{$bowlName} = $rtn->html->{$bowlName} ?? '';

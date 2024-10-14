@@ -14,6 +14,9 @@ class Builder {
 	/** Utility */
 	private $utils;
 
+	/** $components */
+	private $components;
+
 	/** HTML */
 	private $html;
 
@@ -29,8 +32,9 @@ class Builder {
 	/**
 	 * Constructor
 	 */
-	public function __construct($utils){
+	public function __construct($utils, $components){
 		$this->utils = $utils;
+		$this->components = $components;
 		$this->html = '';
 		$this->css = '';
 		$this->js = '';

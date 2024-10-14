@@ -13,7 +13,7 @@
 	<assets>
 	</assets>
 	<components>
-		<component name="div"></component>
-		<component name="span"></component>
+		<component name="custom-component-001"></component>
+		<component name="custom-component-002"></component>
 	</components>
 </kflow>
