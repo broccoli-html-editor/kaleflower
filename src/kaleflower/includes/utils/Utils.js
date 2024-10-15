@@ -50,12 +50,21 @@ export class Utils {
 		finalXml += '		<config name="id" value="'+globalState.configs.id+'" />\n';
 		finalXml += '	</configs>\n';
 		finalXml += '	<styles>\n';
+
+		let tmpHtmlAll = '';
+		Object.keys(globalState.contents).forEach((key) => {
+			const content = globalState.contents[key];
+			const serializer = new XMLSerializer();
+			const serializedXML = serializer.serializeToString(content);
+			tmpHtmlAll += serializedXML + "\n";
+		});
+
 		Object.keys(globalState.styles).forEach((key) => {
 			// XMLSerializerを使ってDOMツリーをXML文字列に変換
-			const style = globalState.styles[key];
-			if(!style.innerHTML){
+			if(!tmpHtmlAll.match(`class="${key}`)){
 				return;
 			}
+			const style = globalState.styles[key];
 			const serializer = new XMLSerializer();
 			const serializedXML = serializer.serializeToString(style);
 			finalXml += '		' + serializedXML + "\n";

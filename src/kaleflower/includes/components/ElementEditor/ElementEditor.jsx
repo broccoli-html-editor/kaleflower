@@ -6,14 +6,46 @@ import {Utils} from "../../utils/Utils.js";
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
 	const currentComponent = (props.selectedInstance ? globalState.components.get_component(props.selectedInstance.tagName) : null);
-	const currentClassName = (props.selectedInstance ? props.selectedInstance.getAttribute('class') : null);
+	const isElementNode = (props.selectedInstance ? !props.selectedInstance.nodeName.match(/^\#/) : null);
+	const currentClassName = (isElementNode && props.selectedInstance ? props.selectedInstance.getAttribute('class') : null);
+
+	if( !props.selectedInstance ){
+		return (<div className="kaleflower-element-editor" onClick={(event)=>{
+			event.preventDefault();
+			event.stopPropagation();
+		}}></div>);
+	}
 
 	if( currentClassName && !globalState.styles[currentClassName] ){
+		// create new style if not exists
 		const newStyle = document.createElementNS('', 'style');
 		newStyle.innerHTML = '';
 		newStyle.setAttribute('class', currentClassName);
+		newStyle.setAttribute('width', props.selectedInstance.kaleflowerComputedWidth);
+		newStyle.setAttribute('height', props.selectedInstance.kaleflowerComputedHeight);
+		props.selectedInstance.removeAttribute('width');
+		props.selectedInstance.removeAttribute('height');
 		globalState.styles[currentClassName] = newStyle;
 	}
+
+	const currentStyle = (currentClassName && globalState.styles[currentClassName] ? globalState.styles[currentClassName] : null);
+
+	function setKaleflowerComputedValues(propKey, attrKey){
+		if(!isElementNode){
+			return;
+		}
+		if( !props.selectedInstance[propKey] ){
+			if( currentStyle ){
+				props.selectedInstance[propKey] = currentStyle.getAttribute(attrKey);
+				props.selectedInstance.removeAttribute(attrKey)
+			}else{
+				props.selectedInstance[propKey] = props.selectedInstance.getAttribute(attrKey);
+			}
+		}
+	}
+
+	setKaleflowerComputedValues('kaleflowerComputedWidth', 'width');
+	setKaleflowerComputedValues('kaleflowerComputedHeight', 'height');
 
 	function onchange(){
 		const onchange = props.onchange() || function(){};
@@ -36,7 +68,7 @@ const ElementEditor = (props) => {
 						</div>
 					</div>
 
-					{!props.selectedInstance.nodeName.match(/^\#/)
+					{isElementNode
 						? <>
 							<Attribute
 								instance={props.selectedInstance}
@@ -46,30 +78,14 @@ const ElementEditor = (props) => {
 							<Attribute
 								instance={props.selectedInstance}
 								attrName="width"
+								computedKey="kaleflowerComputedWidth"
 								onchange={onchange} />
 
 							<Attribute
 								instance={props.selectedInstance}
 								attrName="height"
+								computedKey="kaleflowerComputedHeight"
 								onchange={onchange} />
-
-							{currentClassName
-								? <>
-									<div className="kaleflower-element-editor__property">
-										<div className="kaleflower-element-editor__property-key">
-											Style .{currentClassName}:
-										</div>
-										<div className="kaleflower-element-editor__property-val">
-											<textarea value={typeof(currentClassName) == typeof('string') ? globalState.styles[currentClassName].innerHTML : ''} onInput={(event)=>{
-												const newStyleSheet = event.target.value;
-												globalState.styles[currentClassName].innerHTML = newStyleSheet;
-
-												onchange(props.selectedInstance);
-											}} />
-										</div>
-									</div>
-								</>
-								: <></>}
 
 							{!currentComponent.isVoidElement
 								? <>
@@ -84,6 +100,37 @@ const ElementEditor = (props) => {
 
 												onchange(props.selectedInstance);
 											}}></textarea>
+										</div>
+									</div>
+								</>
+								: <></>}
+
+							{currentClassName && currentStyle
+								? <>
+									<p>Style <code>.{currentClassName}</code></p>
+									<Attribute
+										instance={currentStyle}
+										attrName="width"
+										computedKey="kaleflowerComputedWidth"
+										onchange={onchange} />
+
+									<Attribute
+										instance={currentStyle}
+										attrName="height"
+										computedKey="kaleflowerComputedHeight"
+										onchange={onchange} />
+
+									<div className="kaleflower-element-editor__property">
+										<div className="kaleflower-element-editor__property-key">
+											style:
+										</div>
+										<div className="kaleflower-element-editor__property-val">
+											<textarea value={typeof(currentClassName) == typeof('string') ? currentStyle.innerHTML : ''} onInput={(event)=>{
+												const newStyleSheet = event.target.value;
+												currentStyle.innerHTML = newStyleSheet;
+
+												onchange(props.selectedInstance);
+											}} />
 										</div>
 									</div>
 								</>
