@@ -72,12 +72,18 @@ class kaleflower {
 
 		foreach ($styleNodes as $styleNode) {
 			$className = $styleNode->getAttribute('class');
-			$rtn->css .= '.'.$className.'{';
+			$rtn->css .= '.'.$className.' {'."\n";
+			if( $styleNode->getAttribute('width') ){
+				$rtn->css .= '  width:'.$styleNode->getAttribute('width').';'."\n";
+			}
+			if( $styleNode->getAttribute('height') ){
+				$rtn->css .= '  height:'.$styleNode->getAttribute('height').';'."\n";
+			}
 			foreach ($styleNode->childNodes as $child) {
 				// 子ノードを文字列として追加
-				$rtn->css .= $styleNode->ownerDocument->saveHTML($child);
+				$rtn->css .= $styleNode->ownerDocument->saveHTML($child)."\n";
 			}
-			$rtn->css .= '} ';
+			$rtn->css .= '}'."\n";
 		}
 
 		foreach ($assetNodes as $assetNode) {

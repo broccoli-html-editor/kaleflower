@@ -95,15 +95,16 @@ class Builder {
 			'style' => '',
 			'script' => '',
 		);
-		// 属性があれば表示
+
+		// 属性があれば処理する
 		if ($node->hasAttributes()) {
 			foreach ($node->attributes as $attr) {
 				switch($attr->nodeName){
 					case 'width':
-						$attributes->style .= ' width: '.$attr->nodeValue.';';
+						$attributes->style .= ' width: '.$attr->nodeValue.';'."\n";
 						break;
 					case 'height':
-						$attributes->style .= ' height: '.$attr->nodeValue.';';
+						$attributes->style .= ' height: '.$attr->nodeValue.';'."\n";
 						break;
 					default:
 						$attributes->{$attr->nodeName} = $attr->nodeValue;
@@ -115,7 +116,7 @@ class Builder {
 			$attributes->class = 'kf'.($instance_number++);
 		}
 		if(strlen($attributes->style ?? '') && strlen($attributes->class ?? '')) {
-			$attributes->style = '.'.$attributes->class.' {'.$attributes->style.'}';
+			$attributes->style = '.'.$attributes->class.' {'."\n".'  '.$attributes->style."\n".'}'."\n";
 		}
 		if(strlen($attributes->style ?? '')) {
 			$this->css .= $attributes->style;
