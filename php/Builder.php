@@ -87,7 +87,15 @@ class Builder {
 	private function build_components_recursive($node) {
 		static $instance_number = 0;
 		$rtn = '';
-		$currentComponent = null;
+		$currentComponent = $this->components->get_component($node->nodeName ?? null);
+
+		// 子ノードがあれば、先にそれらを再帰的に走査
+		$innerHTML = '';
+		if ($node->hasChildNodes()) {
+			foreach ($node->childNodes as $childNode) {
+				$innerHTML .= $this->build_components_recursive($childNode);
+			}
+		}
 
 		$attributes = (object) array(
 			'class' => '',
@@ -125,39 +133,40 @@ class Builder {
 			$this->js .= $attributes->script;
 		}
 
-		// 現在のノードが要素ノードの場合
-		if ($node->nodeType == XML_ELEMENT_NODE) {
-			// インデントをつけて要素名を表示
-			$rtn .= "<".htmlspecialchars($node->nodeName);
+		if( strlen($currentComponent->template ?? '') ){
+			// 子ノードがあれば出力する
+			$rtn .= $currentComponent->template;
 
-			if(strlen($attributes->class ?? '')){
-				$rtn .= ' class="'.htmlspecialchars($attributes->class).'"';
+		}else{
+
+			// 現在のノードが要素ノードの場合
+			if ($node->nodeType == XML_ELEMENT_NODE) {
+				// インデントをつけて要素名を表示
+				$rtn .= "<".htmlspecialchars($node->nodeName);
+
+				if(strlen($attributes->class ?? '')){
+					$rtn .= ' class="'.htmlspecialchars($attributes->class).'"';
+				}
+
+				if($currentComponent->isVoidElement){
+					$rtn .= " />";
+					return $rtn;
+				}
+
+				$rtn .= ">";
 			}
 
-			$currentComponent = $this->components->get_component($node->nodeName);
-
-			if($currentComponent->isVoidElement){
-				$rtn .= " />";
-				return $rtn;
+			// テキストノードがある場合、その内容を表示
+			if ($node->nodeType == XML_TEXT_NODE) {
+				$rtn .= $node->nodeValue;
 			}
 
-			$rtn .= ">";
-		}
+			// 子ノードがあれば出力する
+			$rtn .= $innerHTML;
 
-		// テキストノードがある場合、その内容を表示
-		if ($node->nodeType == XML_TEXT_NODE) {
-			$rtn .= $node->nodeValue;
-		}
-
-		// 子ノードがあれば、それらを再帰的に走査
-		if ($node->hasChildNodes()) {
-			foreach ($node->childNodes as $childNode) {
-				$rtn .= $this->build_components_recursive($childNode);
+			if ($node->nodeType == XML_ELEMENT_NODE) {
+				$rtn .= "</".htmlspecialchars($node->nodeName).">";
 			}
-		}
-
-		if ($node->nodeType == XML_ELEMENT_NODE) {
-			$rtn .= "</".htmlspecialchars($node->nodeName).">";
 		}
 
 		return $rtn;

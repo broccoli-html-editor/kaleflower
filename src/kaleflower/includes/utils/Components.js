@@ -42,7 +42,14 @@ export class Components {
 		const $rtn = {
 			"tagName": componentTagName,
 			"isVoidElement": this.#utils.to_boolean(component.getAttribute('is-void-element')),
+			"template": null,
 		};
+
+		const templateNodes = component.getElementsByTagName('template');
+		if(templateNodes.length){
+			$rtn.template = templateNodes[0].textContent || null;
+		}
+
 		return $rtn;
 	}
 

@@ -90,6 +90,10 @@ export class Utils {
 			finalXml += '		<component name="' + key + '"';
 			finalXml += ' is-void-element="' + (component.isVoidElement ? 'true' : 'false') + '"';
 			finalXml += '>';
+			if(component.template){
+				finalXml += "\n";
+				finalXml += '			<template><![CDATA['+component.template+']]></template>'+"\n";
+			}
 			finalXml += '</component>\n';
 		});
 		finalXml += '	</components>\n';

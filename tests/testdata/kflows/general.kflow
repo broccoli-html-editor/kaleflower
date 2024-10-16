@@ -16,7 +16,7 @@ overflow: hidden;
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
-</div>
+<custom-component-001/></div>
 <div>
 	<p class="paragraph">
 		<img class="test-image-sample" width="100%" height="auto"/>
@@ -46,7 +46,7 @@ overflow: hidden;
 		</div>
 	</div>
 </div>]]></template>
-		</component>
+</component>
 		<component name="custom-component-002" is-void-element="false"></component>
 	</components>
 </kflow>
