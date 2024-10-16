@@ -51,6 +51,9 @@ class Components {
 		$rtn = (object) array(
 			"tagName" => $component_name,
 			"isVoidElement" => $this->utils->to_boolean($component->getAttribute('is-void-element')),
+			"canSetClass" => $this->utils->to_boolean($component->getAttribute('can-set-class')),
+			"canSetWidth" => $this->utils->to_boolean($component->getAttribute('can-set-width')),
+			"canSetHeight" => $this->utils->to_boolean($component->getAttribute('can-set-height')),
 			'template' => null,
 		);
 

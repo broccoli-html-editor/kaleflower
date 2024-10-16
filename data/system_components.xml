@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components>
-	<component name="div"></component>
-	<component name="p"></component>
-	<component name="blockquote"></component>
-	<component name="span"></component>
-	<component name="code"></component>
-	<component name="ul"></component>
-	<component name="ol"></component>
-	<component name="li"></component>
-	<component name="img" is-void-element="true"></component>
-	<component name="hr" is-void-element="true"></component>
-	<component name="br" is-void-element="true"></component>
-	<component name="input" is-void-element="true"></component>
+	<component name="div" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="p" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="blockquote" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="span" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="code" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="ul" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="ol" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="li" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="img" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="hr" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="br" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="input" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 </components>

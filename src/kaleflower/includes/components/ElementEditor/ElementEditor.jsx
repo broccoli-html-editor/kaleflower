@@ -6,6 +6,10 @@ import {Utils} from "../../utils/Utils.js";
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
 	const currentComponent = (props.selectedInstance ? globalState.components.get_component(props.selectedInstance.tagName) : null);
+	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
+	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
+	const canSetWidth = (currentComponent ? currentComponent.canSetWidth : null);
+	const canSetHeight = (currentComponent ? currentComponent.canSetHeight : null);
 	const isElementNode = (props.selectedInstance ? !props.selectedInstance.nodeName.match(/^\#/) : null);
 	const currentClassName = (isElementNode && props.selectedInstance ? props.selectedInstance.getAttribute('class') : null);
 
@@ -70,24 +74,24 @@ const ElementEditor = (props) => {
 
 					{isElementNode
 						? <>
-							<Attribute
+							{(canSetClass ? <Attribute
 								instance={props.selectedInstance}
 								attrName="class"
-								onchange={onchange} />
+								onchange={onchange} /> : <></>)}
 
-							<Attribute
+							{(canSetWidth ? <Attribute
 								instance={props.selectedInstance}
 								attrName="width"
 								computedKey="kaleflowerComputedWidth"
-								onchange={onchange} />
+								onchange={onchange} /> : <></>)}
 
-							<Attribute
+							{(canSetHeight ? <Attribute
 								instance={props.selectedInstance}
 								attrName="height"
 								computedKey="kaleflowerComputedHeight"
-								onchange={onchange} />
+								onchange={onchange} /> : <></>)}
 
-							{!currentComponent.isVoidElement
+							{!isVoidElement
 								? <>
 									<div className="kaleflower-element-editor__property">
 										<div className="kaleflower-element-editor__property-key">
@@ -105,20 +109,20 @@ const ElementEditor = (props) => {
 								</>
 								: <></>}
 
-							{currentClassName && currentStyle
+							{canSetClass && currentClassName && currentStyle
 								? <>
-									<p>Style <code>.{currentClassName}</code></p>
-									<Attribute
+									<p>class <code>.{currentClassName}</code></p>
+									{(canSetWidth ? <Attribute
 										instance={currentStyle}
 										attrName="width"
 										computedKey="kaleflowerComputedWidth"
-										onchange={onchange} />
+										onchange={onchange} /> : <></>)}
 
-									<Attribute
+									{(canSetHeight ? <Attribute
 										instance={currentStyle}
 										attrName="height"
 										computedKey="kaleflowerComputedHeight"
-										onchange={onchange} />
+										onchange={onchange} /> : <></>)}
 
 									<div className="kaleflower-element-editor__property">
 										<div className="kaleflower-element-editor__property-key">

@@ -16,10 +16,10 @@ overflow: hidden;
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
-<custom-component-001/></div>
+<custom-component-001 width="100%"/><custom-component-002/></div>
 <div>
 	<p class="paragraph">
-		<img class="test-image-sample" width="100%" height="auto"/>
+		<img class="test-image-sample"/>
 		<div class="test-div-class-001"/>
 		<img/>
 		<hr/>
@@ -35,7 +35,7 @@ overflow: hidden;
 	<assets>
 	</assets>
 	<components>
-		<component name="custom-component-001" is-void-element="false">
+		<component name="custom-component-001" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true">
 			<template><![CDATA[<div class="custom-component-001 {{ element.className }}">
 	<div class="custom-component-001__content">
 		<p>custom component 001</p>
@@ -47,6 +47,14 @@ overflow: hidden;
 	</div>
 </div>]]></template>
 </component>
-		<component name="custom-component-002" is-void-element="false"></component>
+		<component name="custom-component-002" is-void-element="true" can-set-class="false" can-set-width="false" can-set-height="false">
+			<template><![CDATA[<div class="custom-component-002">
+	<div class="custom-component-002__content">
+		<div class="custom-component-002__content-inner">
+			<p>custom-component-002</p>
+		</div>
+	</div>
+</div>]]></template>
+</component>
 	</components>
 </kflow>

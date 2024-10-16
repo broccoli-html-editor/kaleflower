@@ -89,6 +89,9 @@ export class Utils {
 			const component = components[key];
 			finalXml += '		<component name="' + key + '"';
 			finalXml += ' is-void-element="' + (component.isVoidElement ? 'true' : 'false') + '"';
+			finalXml += ' can-set-class="' + (component.canSetClass ? 'true' : 'false') + '"';
+			finalXml += ' can-set-width="' + (component.canSetWidth ? 'true' : 'false') + '"';
+			finalXml += ' can-set-height="' + (component.canSetHeight ? 'true' : 'false') + '"';
 			finalXml += '>';
 			if(component.template){
 				finalXml += "\n";

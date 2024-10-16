@@ -42,6 +42,9 @@ export class Components {
 		const $rtn = {
 			"tagName": componentTagName,
 			"isVoidElement": this.#utils.to_boolean(component.getAttribute('is-void-element')),
+			"canSetClass": this.#utils.to_boolean(component.getAttribute('can-set-class')),
+			"canSetWidth": this.#utils.to_boolean(component.getAttribute('can-set-width')),
+			"canSetHeight": this.#utils.to_boolean(component.getAttribute('can-set-height')),
 			"template": null,
 		};
 
