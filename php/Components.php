@@ -51,7 +51,12 @@ class Components {
 		$rtn = (object) array(
 			"tagName" => $component_name,
 			"isVoidElement" => $this->utils->to_boolean($component->getAttribute('is-void-element')),
+			'template' => null,
 		);
+
+		$templateNode = $component->getElementsByTagName('template')->item(0);
+		$rtn->template = $templateNode->textContent ?? null;
+
 		return $rtn;
 	}
 
