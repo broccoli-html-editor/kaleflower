@@ -65,6 +65,15 @@ class kaleflower {
 		$assetNodes = $xpath->query("/kflow/assets/asset");
 		$contentNodes = $xpath->query("/kflow/contents/content");
 
+		$config = (object) array(
+			'id' => null,
+		);
+		foreach ($configNodes as $configNode) {
+			$innerText = '';
+			$configName = $configNode->getAttribute('name');
+			$config->{$configName} = $configNode->getAttribute('value');
+		}
+
 		$components = new Components($this->utils);
 		foreach ($componentNodes as $component) {
 			$components->add_component($component);
@@ -97,7 +106,7 @@ class kaleflower {
 				$bowlName = 'main';
 			}
 			foreach($contentNode->childNodes as $childNode){
-				$builder = new Builder($this->utils, $components);
+				$builder = new Builder($this->utils, $config, $components);
 				$builder->build($childNode);
 
 				$rtn->html->{$bowlName} = $rtn->html->{$bowlName} ?? '';

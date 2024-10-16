@@ -14,6 +14,9 @@ class Builder {
 	/** Utility */
 	private $utils;
 
+	/** $config */
+	private $config;
+
 	/** $components */
 	private $components;
 
@@ -32,8 +35,9 @@ class Builder {
 	/**
 	 * Constructor
 	 */
-	public function __construct($utils, $components){
+	public function __construct($utils, $config, $components){
 		$this->utils = $utils;
+		$this->config = $config;
 		$this->components = $components;
 		$this->html = '';
 		$this->css = '';
@@ -120,24 +124,25 @@ class Builder {
 				}
 			}
 		}
-		if(strlen($attributes->style ?? '') && !strlen($attributes->class ?? '')) {
-			$attributes->class = 'kf'.($instance_number++);
+		if (strlen($attributes->style ?? '') && !strlen($attributes->class ?? '')) {
+			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($instance_number++);
 		}
-		if(strlen($attributes->style ?? '') && strlen($attributes->class ?? '')) {
+		if (strlen($attributes->style ?? '') && strlen($attributes->class ?? '')) {
 			$attributes->style = '.'.$attributes->class.' {'."\n".'  '.$attributes->style."\n".'}'."\n";
 		}
-		if(strlen($attributes->style ?? '')) {
+		if (strlen($attributes->style ?? '')) {
 			$this->css .= $attributes->style;
 		}
-		if(strlen($attributes->script ?? '')) {
+		if (strlen($attributes->script ?? '')) {
 			$this->js .= $attributes->script;
 		}
 
-		if( strlen($currentComponent->template ?? '') ){
-			// 子ノードがあれば出力する
+		if (strlen($currentComponent->template ?? '')) {
+			// コンポーネントにテンプレートが定義されている場合の処理
+			// TODO: テンプレートにパラメータをバインドする
 			$rtn .= $currentComponent->template;
 
-		}else{
+		} else {
 
 			// 現在のノードが要素ノードの場合
 			if ($node->nodeType == XML_ELEMENT_NODE) {
