@@ -8,7 +8,12 @@
 	<component name="ul" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="ol" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="li" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
-	<component name="img" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="img" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true">
+		<fields>
+			<field type="image" name="image" label="Image" />
+			<field type="text" name="alt" label="Alt text" />
+		</fields>
+	</component>
 	<component name="hr" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="br" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="input" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>

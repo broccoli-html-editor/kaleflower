@@ -16,10 +16,10 @@ const InstanceTreeView = React.memo((props) => {
 					<ul className="kaleflower-insance-tree-view__node-list">
 						{Array.from(content.childNodes).map((child, index) => {
 							if( child.nodeName == '#text' && child.textContent.trim() == '' ){
-								return <></>;
+								return;
 							}
 							if( child.nodeName == '#comment' ){
-								return <></>;
+								return;
 							}
 							return (
 								<li key={index}>

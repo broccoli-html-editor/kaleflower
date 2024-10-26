@@ -139,6 +139,21 @@ const ElementEditor = (props) => {
 									</div>
 								</>
 								: <></>}
+
+							{currentComponent.fields.length
+								? <>
+									{currentComponent.fields.map((field, index) => {
+										return <div className="kaleflower-element-editor__property">
+											<div className="kaleflower-element-editor__property-key">
+												{field.label}:
+											</div>
+											<div className="kaleflower-element-editor__property-val">
+												TODO: Field UI
+											</div>
+										</div>
+									})}
+								</>
+								: <></>}
 						</>
 						: <>
 							<div className="kaleflower-element-editor__property">

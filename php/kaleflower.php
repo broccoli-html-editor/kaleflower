@@ -61,6 +61,7 @@ class kaleflower {
 		$xpath = new \DOMXPath($dom);
 		$configNodes = $xpath->query("/kflow/configs/config");
 		$styleNodes = $xpath->query("/kflow/styles/style");
+		$fieldNodes = $xpath->query("/kflow/fields/field");
 		$componentNodes = $xpath->query("/kflow/components/component");
 		$assetNodes = $xpath->query("/kflow/assets/asset");
 		$contentNodes = $xpath->query("/kflow/contents/content");
@@ -72,6 +73,11 @@ class kaleflower {
 			$innerText = '';
 			$configName = $configNode->getAttribute('name');
 			$config->{$configName} = $configNode->getAttribute('value');
+		}
+
+		$fields = new Fields($this->utils);
+		foreach ($fieldNodes as $field) {
+			$fields->add_field($field);
 		}
 
 		$components = new Components($this->utils);

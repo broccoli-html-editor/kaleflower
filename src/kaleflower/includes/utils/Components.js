@@ -45,8 +45,21 @@ export class Components {
 			"canSetClass": this.#utils.to_boolean(component.getAttribute('can-set-class')),
 			"canSetWidth": this.#utils.to_boolean(component.getAttribute('can-set-width')),
 			"canSetHeight": this.#utils.to_boolean(component.getAttribute('can-set-height')),
+			"fields": [],
 			"template": null,
 		};
+
+		const fieldNodes = component.querySelectorAll('fields>field');
+		if(fieldNodes.length){
+			fieldNodes.forEach((field, index) => {
+				$rtn.fields.push({
+					"name": field.getAttribute('name'),
+					"type": field.getAttribute('type'),
+					"label": field.getAttribute('label'),
+					"default": field.getAttribute('default'),
+				});
+			});
+		}
 
 		const templateNodes = component.getElementsByTagName('template');
 		if(templateNodes.length){

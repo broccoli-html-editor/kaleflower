@@ -36,6 +36,9 @@ overflow: hidden;
 	</assets>
 	<components>
 		<component name="custom-component-001" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true">
+			<fields>
+				<field type="image" name="image" label="Image" />
+			</fields>
 			<template><![CDATA[<div class="custom-component-001 {{ element.className }}">
 	<div class="custom-component-001__content">
 		<p>custom component 001</p>

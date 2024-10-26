@@ -1,4 +1,5 @@
 import {Components} from "./Components.js";
+import {Fields} from "./Fields.js";
 
 export class Utils {
 
@@ -83,6 +84,20 @@ export class Utils {
 		finalXml += '	<assets>\n';
 		finalXml += '	</assets>\n';
 
+		finalXml += '	<fields>\n';
+		const fields = globalState.fields.get_custom_fields();
+		Object.keys(fields).forEach((key) => {
+			const field = fields[key];
+			finalXml += '		<field type="' + key + '"';
+			finalXml += '>';
+			if(field.template){
+				finalXml += "\n";
+				finalXml += '			<template><![CDATA['+field.template+']]></template>'+"\n";
+			}
+			finalXml += '</field>\n';
+		});
+		finalXml += '	</fields>\n';
+
 		finalXml += '	<components>\n';
 		const components = globalState.components.get_custom_components();
 		Object.keys(components).forEach((key) => {
@@ -131,6 +146,10 @@ export class Utils {
 			styles.forEach((style, index) => {
 				newGlobalState.styles[style.getAttribute('class')] = style;
 			});
+
+			// --------------------------------------
+			// カスタムフィールドを抽出
+			newGlobalState.fields = new Fields(this);
 
 			// --------------------------------------
 			// コンポーネントを抽出

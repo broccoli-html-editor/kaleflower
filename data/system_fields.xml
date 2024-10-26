@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fields>
+	<field type="text">
+		<ui><![CDATA[<div class="kaleflower-field-text-ui"></div>]]></ui>
+	</field>
+	<field type="image">
+		<ui><![CDATA[<div class="kaleflower-field-image-ui"></div>]]></ui>
+	</field>
+</fields>
