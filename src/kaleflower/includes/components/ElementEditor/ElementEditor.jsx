@@ -143,13 +143,13 @@ const ElementEditor = (props) => {
 							{currentComponent.fields.length
 								? <>
 									{currentComponent.fields.map((field, index) => {
-										return <div className="kaleflower-element-editor__property">
+										const currentField = globalState.fields.get_field(field.type);
+console.log('currentField:', currentField);
+										return <div key={index} className="kaleflower-element-editor__property">
 											<div className="kaleflower-element-editor__property-key">
 												{field.label}:
 											</div>
-											<div className="kaleflower-element-editor__property-val">
-												TODO: Field UI
-											</div>
+											<div className="kaleflower-element-editor__property-val" dangerouslySetInnerHTML={{__html: currentField.ui}} />
 										</div>
 									})}
 								</>
