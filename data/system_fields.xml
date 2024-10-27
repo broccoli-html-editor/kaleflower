@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fields>
 	<field type="text">
-		<ui><![CDATA[<div class="kaleflower-field-text-ui">
-				TODO: TEXT UI
+		<ui><![CDATA[<div class="kaleflower-field-text-editor">
+				TODO: TEXT EDITOR
 			</div>]]></ui>
 	</field>
 	<field type="image">
-		<ui><![CDATA[<div class="kaleflower-field-image-ui">
-				TODO: IMAGE UI
+		<ui><![CDATA[<div class="kaleflower-field-image-editor">
+				TODO: IMAGE EDITOR
 			</div>]]></ui>
+		<script function="onuiload">
+			function(dom){
+				console.log(dom);
+				return;
+			}
+		</script>
+		<script function="onsave">
+		</script>
 	</field>
 </fields>

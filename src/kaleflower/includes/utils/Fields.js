@@ -42,11 +42,17 @@ export class Fields {
 		const $rtn = {
 			"type": fieldType,
 			"ui": null,
+			"onuiload": function(){},
 		};
 
 		const templateNodes = field.getElementsByTagName('ui');
 		if(templateNodes.length){
 			$rtn.ui = templateNodes[0].textContent || null;
+		}
+
+		const strFunctionUi = field.querySelector('script[function="onuiload"]');
+		if( strFunctionUi ){
+			$rtn.onuiload = eval(`(${strFunctionUi.textContent})`) || function(){};
 		}
 
 		return $rtn;

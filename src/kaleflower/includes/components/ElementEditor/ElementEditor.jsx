@@ -13,6 +13,22 @@ const ElementEditor = (props) => {
 	const isElementNode = (props.selectedInstance ? !props.selectedInstance.nodeName.match(/^\#/) : null);
 	const currentClassName = (isElementNode && props.selectedInstance ? props.selectedInstance.getAttribute('class') : null);
 
+	useEffect(() => {
+		if( !currentComponent ){
+			return;
+		}
+		currentComponent.fields.map((field, index) => {
+			const currentField = globalState.fields.get_field(field.type);
+			const $targetDom = document.querySelector(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
+			currentField.onuiload($targetDom);
+			return;
+		});
+
+		// クリーンアップ処理
+		return () => {
+		};
+	}, [currentComponent]);
+
 	if( !props.selectedInstance ){
 		return (<div className="kaleflower-element-editor" onClick={(event)=>{
 			event.preventDefault();
@@ -144,12 +160,11 @@ const ElementEditor = (props) => {
 								? <>
 									{currentComponent.fields.map((field, index) => {
 										const currentField = globalState.fields.get_field(field.type);
-console.log('currentField:', currentField);
 										return <div key={index} className="kaleflower-element-editor__property">
 											<div className="kaleflower-element-editor__property-key">
 												{field.label}:
 											</div>
-											<div className="kaleflower-element-editor__property-val" dangerouslySetInnerHTML={{__html: currentField.ui}} />
+											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: currentField.ui}} />
 										</div>
 									})}
 								</>
