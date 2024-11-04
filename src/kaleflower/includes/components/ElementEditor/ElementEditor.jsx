@@ -20,7 +20,7 @@ const ElementEditor = (props) => {
 		currentComponent.fields.map((field, index) => {
 			const currentField = globalState.fields.get_field(field.type);
 			const $targetDom = document.querySelector(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
-			currentField.onuiload($targetDom);
+			currentField.onload($targetDom);
 			return;
 		});
 
@@ -164,7 +164,7 @@ const ElementEditor = (props) => {
 											<div className="kaleflower-element-editor__property-key">
 												{field.label}:
 											</div>
-											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: currentField.ui}} />
+											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: currentField.editor}} />
 										</div>
 									})}
 								</>

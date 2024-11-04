@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fields>
 	<field type="text">
-		<ui><![CDATA[<div class="kaleflower-field-text-editor">
+		<editor><![CDATA[<div class="kaleflower-field-text-editor">
 				TODO: TEXT EDITOR
-			</div>]]></ui>
+			</div>]]></editor>
+		<script function="onload">
+			function(dom){
+				console.log('text field: onload:', dom);
+				return;
+			}
+		</script>
 	</field>
 	<field type="image">
-		<ui><![CDATA[<div class="kaleflower-field-image-editor">
+		<editor><![CDATA[<div class="kaleflower-field-image-editor">
 				TODO: IMAGE EDITOR
-			</div>]]></ui>
-		<script function="onuiload">
+			</div>]]></editor>
+		<script function="onload">
 			function(dom){
-				console.log(dom);
+				console.log('image field: onload:', dom);
 				return;
 			}
 		</script>

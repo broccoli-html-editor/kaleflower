@@ -41,18 +41,18 @@ export class Fields {
 		const fieldType = field.getAttribute('type');
 		const $rtn = {
 			"type": fieldType,
-			"ui": null,
-			"onuiload": function(){},
+			"editor": null,
+			"onload": function(){},
 		};
 
-		const templateNodes = field.getElementsByTagName('ui');
+		const templateNodes = field.getElementsByTagName('editor');
 		if(templateNodes.length){
-			$rtn.ui = templateNodes[0].textContent || null;
+			$rtn.editor = templateNodes[0].textContent || null;
 		}
 
-		const strFunctionUi = field.querySelector('script[function="onuiload"]');
-		if( strFunctionUi ){
-			$rtn.onuiload = eval(`(${strFunctionUi.textContent})`) || function(){};
+		const strFunctionOnEditorLoad = field.querySelector('script[function="onload"]');
+		if( strFunctionOnEditorLoad ){
+			$rtn.onload = eval(`(${strFunctionOnEditorLoad.textContent})`) || function(){};
 		}
 
 		return $rtn;
