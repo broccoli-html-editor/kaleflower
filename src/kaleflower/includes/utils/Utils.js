@@ -1,5 +1,6 @@
 import {Components} from "./Components.js";
 import {Fields} from "./Fields.js";
+import Twig from 'twig';
 
 export class Utils {
 
@@ -41,6 +42,27 @@ export class Utils {
 		newChild.kaleflowerNodeId = this.createUUID();
 		targetElement.appendChild(newChild);
 		return newChild;
+	}
+
+	/**
+	 * Twig テンプレートにデータをバインドする
+	 */
+	bindTwig(tpl, data){
+		let rtn = '';
+		let twig;
+		try {
+			twig = Twig.twig;
+
+			rtn = new twig({
+				'data': tpl,
+				'autoescape': true,
+			}).render(data);
+		} catch(e) {
+			const errorMessage = 'TemplateEngine "Twig" Rendering ERROR.';
+			console.error( errorMessage );
+			rtn = errorMessage;
+		}
+		return rtn;
 	}
 
 	StateToKflowXml(globalState){

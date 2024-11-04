@@ -19,9 +19,9 @@ overflow: hidden;
 <custom-component-001 width="100%"/><custom-component-002/></div>
 <div>
 	<p class="paragraph">
-		<img class="test-image-sample"/>
+		<img class="test-image-sample" alt="{&quot;text&quot;:&quot;1つめのaltテキスト&quot;}"/>
 		<div class="test-div-class-001"/>
-		<img/>
+		<img alt="{&quot;text&quot;:&quot;2つめのaltテキスト&quot;}"/>
 		<hr/>
 		<div>
 			<p>テスト文字列</p>
@@ -34,6 +34,8 @@ overflow: hidden;
 	</contents>
 	<assets>
 	</assets>
+	<fields>
+	</fields>
 	<components>
 		<component name="custom-component-001" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true">
 			<fields>

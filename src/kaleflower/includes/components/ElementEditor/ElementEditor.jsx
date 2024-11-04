@@ -2,6 +2,9 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
 import Attribute from './Attribute.jsx';
 import {Utils} from "../../utils/Utils.js";
+const utils = new Utils();
+import jQuery from "jquery";
+const $ = jQuery;
 
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
@@ -19,15 +22,32 @@ const ElementEditor = (props) => {
 		}
 		currentComponent.fields.map((field, index) => {
 			const currentField = globalState.fields.get_field(field.type);
-			const $targetDom = document.querySelector(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
-			currentField.onload($targetDom);
+			const $targetDom = $(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
+
+			$targetDom.html(utils.bindTwig(currentField.editor, (() => {
+				return JSON.parse(props.selectedInstance.getAttribute(field.name)) || {};
+			})()));
+			currentField.onload($targetDom.get(0));
+
+			$targetDom.find('input, select, textarea')
+				.on('input', function(){
+					const $targetDom = $(this);
+					const fieldValues = JSON.parse(props.selectedInstance.getAttribute(field.name)) || {};
+					fieldValues[$targetDom.attr('name')] = $targetDom.val();
+
+					props.selectedInstance.setAttribute(field.name, JSON.stringify(fieldValues));
+
+					const onchange = props.onchange() || function(){};
+					onchange(props.selectedInstance);
+				} );
+
 			return;
 		});
 
 		// クリーンアップ処理
 		return () => {
 		};
-	}, [currentComponent]);
+	}, [currentComponent, props.selectedInstance]);
 
 	if( !props.selectedInstance ){
 		return (<div className="kaleflower-element-editor" onClick={(event)=>{
@@ -159,12 +179,13 @@ const ElementEditor = (props) => {
 							{currentComponent.fields.length
 								? <>
 									{currentComponent.fields.map((field, index) => {
+										// カスタムフィールドの編集欄を表示する
 										const currentField = globalState.fields.get_field(field.type);
 										return <div key={index} className="kaleflower-element-editor__property">
 											<div className="kaleflower-element-editor__property-key">
 												{field.label}:
 											</div>
-											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: currentField.editor}} />
+											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: ''}} />
 										</div>
 									})}
 								</>

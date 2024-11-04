@@ -2,7 +2,9 @@
 <fields>
 	<field type="text">
 		<editor><![CDATA[<div class="kaleflower-field-text-editor">
-				TODO: TEXT EDITOR
+				<div class="kaleflower-field-text-editor__inner">
+					<textarea name="text">{{ text }}</textarea>
+				</div>
 			</div>]]></editor>
 		<script function="onload">
 			function(dom){
