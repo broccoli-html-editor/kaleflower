@@ -16,19 +16,43 @@ export class Assets {
 		this.#assets = {};
 	}
 
-	addNewAsset(bin, originalFileName, options){
+	addNewAsset(){
 		const assetId = crypto.randomUUID();
-		const extension = originalFileName.replace( new RegExp('^.*\\.'), '' );
+		const extension = 'txt';
+		const bin = '';
 		const assetInfo = {
 			"id": assetId,
 			'ext': extension,
 			'size': bin.length,
 			'base64': utils79.base64_encode(bin),
-			'md5': utils79.md5(bin),
+			// 'md5': utils79.md5(bin),
+			'isPrivateMaterial': false,
+			'publicFilename': `${assetId}.${extension}`,
+			'field': '', // <= フィールド名 (ex: image, multitext)
+			'fieldNote': '', // <= フィールドが記録する欄
+		};
+
+		this.#assets[assetId] = assetInfo;
+		return this.#assets[assetId].id;
+	}
+
+	updateAsset(assetId, dataUri, originalFileName, options){
+		if(!this.#assets[assetId]){
+			return false;
+		}
+		const extension = originalFileName.replace( new RegExp('^.*\\.'), '' );
+		const base64 = dataUri.replace( new RegExp('^data:image/[^;]+;base64,'), '' );
+		const bin = utils79.base64_decode(base64);
+		const assetInfo = {
+			"id": assetId,
+			'ext': extension,
+			'size': bin.length,
+			'base64': base64,
+			// 'md5': utils79.md5(bin),
 			'isPrivateMaterial': (options.isPrivateMaterial !== undefined ? options.isPrivateMaterial : false),
-			'publicFilename': (options.publicFilename !== undefined ? options.publicFilename : originalFileName),
+			'publicFilename': (options.publicFilename !== undefined ? options.publicFilename : `${assetId}.${extension}`),
 			'field': (options.field !== undefined ? options.field : ''), // <= フィールド名 (ex: image, multitext)
-			'fieldNote': (options.fieldNote !== undefined ? options.fieldNote : {}), // <= フィールドが記録する欄
+			'fieldNote': (options.fieldNote !== undefined ? options.fieldNote : ''), // <= フィールドが記録する欄\
 		};
 
 		this.#assets[assetId] = assetInfo;

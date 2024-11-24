@@ -27,13 +27,6 @@ const ElementEditor = (props) => {
 			$targetDom.html(utils.bindTwig(currentField.editor, (() => {
 				return JSON.parse(props.selectedInstance.getAttribute(field.name)) || {};
 			})()));
-			currentField.onload(
-				$targetDom.get(0),
-				{
-					"$": jQuery,
-					"assets": globalState.assets,
-				}
-			);
 
 			$targetDom.find('input, select, textarea')
 				.on('input', function(){
@@ -47,6 +40,14 @@ const ElementEditor = (props) => {
 					onchange(props.selectedInstance);
 				} );
 
+			currentField.onload(
+				$targetDom.get(0),
+				{
+					"$": jQuery,
+					"assets": globalState.assets,
+				}
+			);
+
 			return;
 		});
 
@@ -57,7 +58,6 @@ const ElementEditor = (props) => {
 
 	if( !props.selectedInstance ){
 		return (<div className="kaleflower-element-editor" onClick={(event)=>{
-			event.preventDefault();
 			event.stopPropagation();
 		}}></div>);
 	}
@@ -100,7 +100,6 @@ const ElementEditor = (props) => {
 
 	return (
 		<div className="kaleflower-element-editor" onClick={(event)=>{
-			event.preventDefault();
 			event.stopPropagation();
 		}}>
 			{props.selectedInstance

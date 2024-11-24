@@ -133,8 +133,7 @@ export class Utils {
 			finalXml += ' public-filename="' + asset.publicFilename + '"';
 			finalXml += ' field="' + asset.field + '"';
 			finalXml += ' field-note="' + asset.fieldNote + '"';
-			finalXml += ' />';
-			finalXml += '</asset>\n';
+			finalXml += ' />\n';
 		});
 		finalXml += '	</assets>\n';
 
