@@ -1,4 +1,6 @@
+import utils79 from 'utils79';
 import {Components} from "./Components.js";
+import {Assets} from "./Assets.js";
 import {Fields} from "./Fields.js";
 import Twig from 'twig';
 
@@ -33,6 +35,18 @@ export class Utils {
 		return !!$val;
 	}
 
+	md5(bin){
+		return utils79.md5(bin);
+	}
+
+	base64Encode(bin){
+		return utils79.base64_encode(bin);
+	}
+
+	base64Decode(base64){
+		return utils79.base64_decode(base64);
+	}
+
 	createUUID(){
 		return "kf"+((new Date).getTime().toString(16)+Math.floor(1E7*Math.random()).toString(16));
 	}
@@ -65,6 +79,9 @@ export class Utils {
 		return rtn;
 	}
 
+	/**
+	 * Kflow形式のXMLを出力する
+	 */
 	StateToKflowXml(globalState){
 		let finalXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
 
@@ -104,6 +121,21 @@ export class Utils {
 		finalXml += '	</contents>\n';
 
 		finalXml += '	<assets>\n';
+		const assets = globalState.assets.getAssets();
+		Object.keys(assets).forEach((key) => {
+			const asset = assets[key];
+			finalXml += '		<asset id="' + asset.id + '"';
+			finalXml += ' ext="' + asset.ext + '"';
+			finalXml += ' size="' + asset.size + '"';
+			finalXml += ' base64="' + asset.base64 + '"';
+			finalXml += ' md5="' + asset.md5 + '"';
+			finalXml += ' is-private-material="' + asset.isPrivateMaterial + '"';
+			finalXml += ' public-filename="' + asset.publicFilename + '"';
+			finalXml += ' field="' + asset.field + '"';
+			finalXml += ' field-note="' + asset.fieldNote + '"';
+			finalXml += ' />';
+			finalXml += '</asset>\n';
+		});
 		finalXml += '	</assets>\n';
 
 		finalXml += '	<fields>\n';
@@ -142,6 +174,9 @@ export class Utils {
 		return finalXml;
 	}
 
+	/**
+	 * Kflow形式のXMLを読み込んでstateを再現する
+	 */
 	async XmlToState(srcXml){
 		let newGlobalState = {
 		};
@@ -183,19 +218,10 @@ export class Utils {
 
 			// --------------------------------------
 			// アセットを抽出
-			newGlobalState.assets = {};
+			newGlobalState.assets = new Assets(this);
 			const assets = xml.querySelectorAll('kflow>assets>asset');
 			assets.forEach((asset, index) => {
-				const assetName = (()=>{
-					let assetName = asset.getAttribute('name');
-					if( typeof(assetName) != typeof("string") || !assetName.length ){
-						assetName = '';
-					}
-					return assetName;
-				})();
-				newGlobalState.assets[assetName] = {
-					"name": assetName,
-				};
+				newGlobalState.assets.restoreAsset(asset);
 			});
 
 			// --------------------------------------

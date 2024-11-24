@@ -27,7 +27,13 @@ const ElementEditor = (props) => {
 			$targetDom.html(utils.bindTwig(currentField.editor, (() => {
 				return JSON.parse(props.selectedInstance.getAttribute(field.name)) || {};
 			})()));
-			currentField.onload($targetDom.get(0));
+			currentField.onload(
+				$targetDom.get(0),
+				{
+					"$": jQuery,
+					"assets": globalState.assets,
+				}
+			);
 
 			$targetDom.find('input, select, textarea')
 				.on('input', function(){

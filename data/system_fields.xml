@@ -7,7 +7,7 @@
 				</div>
 			</div>]]></editor>
 		<script function="onload">
-			function(dom){
+			function(dom, fieldHelper){
 				console.log('text field: onload:', dom);
 				return;
 			}
@@ -15,11 +15,13 @@
 	</field>
 	<field type="image">
 		<editor><![CDATA[<div class="kaleflower-field-image-editor">
-				TODO: IMAGE EDITOR
+				<input type="hidden" name="resourceId" value="{{ resourceId }}" />
 			</div>]]></editor>
 		<script function="onload">
-			function(dom){
-				console.log('image field: onload:', dom);
+			function(dom, fieldHelper){
+				const $ = fieldHelper.$;
+				const $dom = $(dom);
+				console.log('image field: onload:', $dom, fieldHelper);
 				return;
 			}
 		</script>
