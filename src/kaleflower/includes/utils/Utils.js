@@ -127,12 +127,12 @@ export class Utils {
 			finalXml += '		<asset id="' + asset.id + '"';
 			finalXml += ' ext="' + asset.ext + '"';
 			finalXml += ' size="' + asset.size + '"';
-			finalXml += ' base64="' + asset.base64 + '"';
-			finalXml += ' md5="' + asset.md5 + '"';
+			// finalXml += ' md5="' + asset.md5 + '"';
 			finalXml += ' is-private-material="' + asset.isPrivateMaterial + '"';
 			finalXml += ' public-filename="' + asset.publicFilename + '"';
 			finalXml += ' field="' + asset.field + '"';
 			finalXml += ' field-note="' + asset.fieldNote + '"';
+			finalXml += ' base64="' + asset.base64 + '"';
 			finalXml += ' />\n';
 		});
 		finalXml += '	</assets>\n';
