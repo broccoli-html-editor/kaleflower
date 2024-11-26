@@ -102,7 +102,14 @@ class kaleflower {
 		}
 
 		foreach ($assetNodes as $assetNode) {
-			// TODO:
+			$isPrivateMaterial = $assetNode->getAttribute('is-private-material');
+			if($this->utils->to_boolean($isPrivateMaterial)){
+				continue;
+			}
+			array_push($rtn->assets, (object) array(
+				'path' => './'.$assetNode->getAttribute('public-filename'),
+				'base64' => $assetNode->getAttribute('base64'),
+			));
 		}
 
 		foreach ($contentNodes as $contentNode) {

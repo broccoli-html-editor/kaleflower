@@ -31,6 +31,11 @@ class mainTest extends PHPUnit\Framework\TestCase{
 		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/sidebar.html', $result->html->sidebar);
 		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/styles.css', $result->css);
 		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/scripts.js', $result->js);
+
+		$this->fs->mkdir(__DIR__.'/testdata/kflows/dist/general/assets/');
+		foreach($result->assets as $asset){
+			$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/assets/'.$asset->path, base64_decode($asset->base64));
+		}
 	}
 
 }
