@@ -2,10 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Root from "./includes/Root.jsx";
 import "./includes/styles/kaleflower.scss";
+import {KflowXml} from "./includes/utils/KflowXml.js";
 import {Utils} from "./includes/utils/Utils.js";
 import $ from "jquery";
 
 window.Kaleflower = class {
+	#utils;
 	#container;
 	#options;
 	#globalState = {};
@@ -14,6 +16,7 @@ window.Kaleflower = class {
 	 * Constructor
 	 */
 	constructor(container, options) {
+		this.#utils = new Utils();
 		this.#container = container;
 		this.#options = options;
 
@@ -58,8 +61,8 @@ window.Kaleflower = class {
 	async loadXml(xml){
 		return new Promise(async (rlv, rjt) => {
 			try {
-				const utils = new Utils();
-				const newGlobalState = await utils.XmlToState(xml);
+				const kflowXml = new KflowXml(this.#utils);
+				const newGlobalState = await kflowXml.XmlToState(xml);
 				this.#globalState = {
 					...this.#globalState,
 					...newGlobalState,
@@ -77,8 +80,8 @@ window.Kaleflower = class {
 	 * Get Kaleflower Data
 	 */
 	get(){
-		const utils = new Utils();
-		const xml = utils.StateToKflowXml(this.#globalState);
+		const kflowXml = new KflowXml(this.#utils);
+		const xml = kflowXml.StateToKflowXml(this.#globalState);
 		return xml;
 	}
 }
