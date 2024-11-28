@@ -55,6 +55,10 @@ export class Utils {
 		return newChild;
 	}
 
+	htmlSpecialChars(str){
+		return utils79.h(str);
+	}
+
 	/**
 	 * Twig テンプレートにデータをバインドする
 	 */
