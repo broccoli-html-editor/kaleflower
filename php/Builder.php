@@ -20,6 +20,9 @@ class Builder {
 	/** $components */
 	private $components;
 
+	/** $assets */
+	private $assets;
+
 	/** HTML */
 	private $html;
 
@@ -35,10 +38,11 @@ class Builder {
 	/**
 	 * Constructor
 	 */
-	public function __construct($utils, $config, $components){
+	public function __construct($utils, $config, $components, $assets){
 		$this->utils = $utils;
 		$this->config = $config;
 		$this->components = $components;
+		$this->assets = $assets;
 		$this->html = '';
 		$this->css = '';
 		$this->js = '';
@@ -132,17 +136,34 @@ class Builder {
 		}
 		if (strlen($attributes->style ?? '')) {
 			$this->css .= $attributes->style;
+			unset($attributes->style);
 		}
 		if (strlen($attributes->script ?? '')) {
 			$this->js .= $attributes->script;
+			unset($attributes->script);
 		}
 
 		if (strlen($currentComponent->template ?? '')) {
 			// コンポーネントにテンプレートが定義されている場合の処理
-			$rtn .= $this->utils->bindTwig($currentComponent->template, array(
-				'innerHTML' => $innerHTML,
-				'attributes' => $attributes,
-			));
+			$rtn .= $this->utils->bindTwig(
+				$currentComponent->template,
+				array(
+					'innerHTML' => $innerHTML,
+					'attributes' => $attributes,
+					'assets' => $this->assets,
+				),
+				array(
+					'json_decode' => function($json){
+						return json_decode($json);
+					},
+					'json_encode' => function($obj){
+						return json_encode($obj);
+					},
+					'urlencode' => function($str){
+						return urlencode($str);
+					},
+				)
+			);
 
 		} else {
 

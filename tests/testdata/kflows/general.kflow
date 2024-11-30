@@ -16,12 +16,12 @@ overflow: hidden;
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
-<custom-component-001 width="100%" image="{&quot;resourceId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}"><div/></custom-component-001><custom-component-002/></div>
+<custom-component-001 width="100%" image="{&quot;assetId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}"><div/></custom-component-001><custom-component-002/></div>
 <div>
 	<p class="paragraph">
-		<img class="test-image-sample" alt="{&quot;text&quot;:&quot;1つめのaltテキスト&quot;}" image="{&quot;resourceId&quot;:&quot;95a0cd90-0468-4f12-806f-4a13a9327a8b&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo009_thumb.jpg&quot;}"/>
+		<img class="test-image-sample" alt="{&quot;text&quot;:&quot;1つめのaltテキスト&quot;}" image="{&quot;assetId&quot;:&quot;95a0cd90-0468-4f12-806f-4a13a9327a8b&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo009_thumb.jpg&quot;}"/>
 		<div class="test-div-class-001"/>
-		<img alt="{&quot;text&quot;:&quot;2つめのaltテキスト&quot;}" image="{&quot;resourceId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}"/>
+		<img alt="{&quot;text&quot;:&quot;2つめのaltテキスト&quot;}" image="{&quot;assetId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}"/>
 		<hr/>
 		<div>
 			<p>テスト文字列</p>
@@ -44,11 +44,14 @@ overflow: hidden;
 			<fields>
 				<field type="image" name="image" label="Image" />
 			</fields>
-			<template><![CDATA[<div class="custom-component-001 {{ element.className }}">
+			<template><![CDATA[
+{% set image = json_decode(attributes.image) %}
+<div class="custom-component-001 {{ attributes.class }}">
 	<div class="custom-component-001__content">
 		<p>custom component 001</p>
 		<p>custom component 001</p>
 		<p>custom component 001</p>
+		<img src="{{ assets[image.assetId].path }}" alt="" />
 		<div class="custom-component-001__content-inner">
 			{{ innerHTML | raw }}
 		</div>

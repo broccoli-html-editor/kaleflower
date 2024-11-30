@@ -101,6 +101,7 @@ class kaleflower {
 			$rtn->css .= '}'."\n";
 		}
 
+		// アセット (返される用)
 		foreach ($assetNodes as $assetNode) {
 			$isPrivateMaterial = $assetNode->getAttribute('is-private-material');
 			if($this->utils->to_boolean($isPrivateMaterial)){
@@ -112,6 +113,22 @@ class kaleflower {
 			));
 		}
 
+		// アセット (フィールドテンプレートに渡される用)
+		$allAssets = array();
+		foreach ($assetNodes as $assetNode) {
+			$assetId = $assetNode->getAttribute('id');
+			$allAssets[$assetId] = array(
+				'id' => $assetId,
+				'ext' => $assetNode->getAttribute('ext'),
+				'size' => intval($assetNode->getAttribute('size')),
+				'isPrivateMaterial' => $this->utils->to_boolean($assetNode->getAttribute('is-private-material')),
+				'path' => './'.$assetNode->getAttribute('public-filename'),
+				'base64' => $assetNode->getAttribute('base64'),
+				'field' => $assetNode->getAttribute('field'),
+				'fieldNote' => $assetNode->getAttribute('field-note'),
+			);
+		}
+
 		foreach ($contentNodes as $contentNode) {
 			$innerText = '';
 			$bowlName = $contentNode->getAttribute('name');
@@ -119,7 +136,7 @@ class kaleflower {
 				$bowlName = 'main';
 			}
 			foreach($contentNode->childNodes as $childNode){
-				$builder = new Builder($this->utils, $config, $components);
+				$builder = new Builder($this->utils, $config, $components, $allAssets);
 				$builder->build($childNode);
 
 				$rtn->html->{$bowlName} = $rtn->html->{$bowlName} ?? '';
