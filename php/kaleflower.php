@@ -28,10 +28,11 @@ class kaleflower {
 	/**
 	 * Build
 	 * @param string $realpath_kflow Realpath of the kflow file.
-	 * @param array $options Build options
+	 * @param array $buildOptions Build options
 	 */
-	public function build( $realpath_kflow, $options = array() ){
-		$options = (is_array($options) || is_object($options) ? (object) $options : (object) array());
+	public function build( $realpath_kflow, $buildOptions = array() ){
+		$buildOptions = (is_array($buildOptions) || is_object($buildOptions) ? (object) $buildOptions : (object) array());
+		$buildOptions->assetsPrefix = $buildOptions->assetsPrefix ?? './';
 
 		$rtn = (object) array(
 			'result' => true,
@@ -108,7 +109,7 @@ class kaleflower {
 				continue;
 			}
 			array_push($rtn->assets, (object) array(
-				'path' => './'.$assetNode->getAttribute('public-filename'),
+				'path' => $buildOptions->assetsPrefix.$assetNode->getAttribute('public-filename'),
 				'base64' => $assetNode->getAttribute('base64'),
 			));
 		}
@@ -122,7 +123,7 @@ class kaleflower {
 				'ext' => $assetNode->getAttribute('ext'),
 				'size' => intval($assetNode->getAttribute('size')),
 				'isPrivateMaterial' => $this->utils->to_boolean($assetNode->getAttribute('is-private-material')),
-				'path' => './'.$assetNode->getAttribute('public-filename'),
+				'path' => $buildOptions->assetsPrefix.$assetNode->getAttribute('public-filename'),
 				'base64' => $assetNode->getAttribute('base64'),
 				'field' => $assetNode->getAttribute('field'),
 				'fieldNote' => $assetNode->getAttribute('field-note'),

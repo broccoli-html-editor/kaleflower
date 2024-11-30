@@ -22,6 +22,9 @@ class mainTest extends PHPUnit\Framework\TestCase{
 
 		$result = $kaleflower->build(
 			__DIR__.'/testdata/kflows/general.kflow',
+			array(
+				'assetsPrefix' => './main_files/',
+			)
 		);
 		// var_dump($result);
 		$this->assertTrue( is_object($result) );
@@ -32,9 +35,9 @@ class mainTest extends PHPUnit\Framework\TestCase{
 		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/styles.css', $result->css);
 		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/scripts.js', $result->js);
 
-		$this->fs->mkdir(__DIR__.'/testdata/kflows/dist/general/assets/');
+		$this->fs->mkdir(__DIR__.'/testdata/kflows/dist/general/main_files/');
 		foreach($result->assets as $asset){
-			$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/assets/'.$asset->path, base64_decode($asset->base64));
+			$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/'.$asset->path, base64_decode($asset->base64));
 		}
 	}
 
