@@ -79,7 +79,7 @@ class Builder {
 	 * @param array $options Build options
 	 */
 	public function build( $content ){
-		$this->html .= $this->build_components_recursive($content);
+		$this->html .= $this->buildComponentsRecursive($content);
 		return;
 	}
 
@@ -88,7 +88,7 @@ class Builder {
 	 * @param object $node Node Object
 	 * @return string HTML
 	 */
-	private function build_components_recursive($node) {
+	private function buildComponentsRecursive($node) {
 		static $instance_number = 0;
 		$rtn = '';
 		$currentComponent = $this->components->get_component($node->nodeName ?? null);
@@ -97,7 +97,7 @@ class Builder {
 		$innerHTML = '';
 		if ($node->hasChildNodes()) {
 			foreach ($node->childNodes as $childNode) {
-				$innerHTML .= $this->build_components_recursive($childNode);
+				$innerHTML .= $this->buildComponentsRecursive($childNode);
 			}
 		}
 
@@ -139,8 +139,10 @@ class Builder {
 
 		if (strlen($currentComponent->template ?? '')) {
 			// コンポーネントにテンプレートが定義されている場合の処理
-			// TODO: テンプレートにパラメータをバインドする
-			$rtn .= $currentComponent->template;
+			$rtn .= $this->utils->bindTwig($currentComponent->template, array(
+				'innerHTML' => $innerHTML,
+				'attributes' => $attributes,
+			));
 
 		} else {
 

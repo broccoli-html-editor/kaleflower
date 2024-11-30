@@ -16,7 +16,7 @@ overflow: hidden;
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
     <p>kflow main contents sample</p>
-<custom-component-001 width="100%" image="{&quot;resourceId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}"/><custom-component-002/></div>
+<custom-component-001 width="100%" image="{&quot;resourceId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}"><div/></custom-component-001><custom-component-002/></div>
 <div>
 	<p class="paragraph">
 		<img class="test-image-sample" alt="{&quot;text&quot;:&quot;1つめのaltテキスト&quot;}" image="{&quot;resourceId&quot;:&quot;95a0cd90-0468-4f12-806f-4a13a9327a8b&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo009_thumb.jpg&quot;}"/>
@@ -50,7 +50,7 @@ overflow: hidden;
 		<p>custom component 001</p>
 		<p>custom component 001</p>
 		<div class="custom-component-001__content-inner">
-			{{ element.innerHTML }}
+			{{ innerHTML | raw }}
 		</div>
 	</div>
 </div>]]></template>
