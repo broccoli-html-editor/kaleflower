@@ -72,9 +72,18 @@ const Root = React.memo((props) => {
 
 					</div>
 					<div className="kaleflower__body-right">
+						{/*
 						<ul>
-							{Object.keys(globalState.components).map((key) => {
-								const component = globalState.components[key];
+							{Object.keys(globalState.components.get_system_components()).map((key) => {
+								const component = globalState.components.get_component(key);
+								return (
+									<li key={key}>
+										{component.tagName}
+									</li>
+								);
+							})}
+							{Object.keys(globalState.components.get_custom_components()).map((key) => {
+								const component = globalState.components.get_component(key);
 								return (
 									<li key={key}>
 										{component.tagName}
@@ -82,6 +91,7 @@ const Root = React.memo((props) => {
 								);
 							})}
 						</ul>
+						*/}
 
 						<ElementEditor
 							selectedInstance={globalState.selectedInstance}
