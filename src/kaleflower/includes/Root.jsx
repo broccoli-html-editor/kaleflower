@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from './context/MainContext';
 import InstanceTreeView from './components/InstanceTreeView/InstanceTreeView.jsx';
 import ElementEditor from './components/ElementEditor/ElementEditor.jsx';
+import LayoutView from './components/LayoutView/LayoutView.jsx';
 import {Utils} from './utils/Utils.js';
 import iterate79 from 'iterate79';
 import LangBank from 'langbank';
@@ -69,7 +70,9 @@ const Root = React.memo((props) => {
 							}} />
 					</div>
 					<div className="kaleflower__body-center">
-
+						<LayoutView
+							contents={globalState.contents}
+							/>
 					</div>
 					<div className="kaleflower__body-right">
 						{/*
