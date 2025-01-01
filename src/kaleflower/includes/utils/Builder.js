@@ -128,7 +128,7 @@ export class Builder {
 
 		if ($currentComponent && typeof($currentComponent.template) == typeof('string') && $currentComponent.template.length) {
 			// コンポーネントにテンプレートが定義されている場合の処理
-			this.#utils.bindTwig(
+			$rtn += this.#utils.bindTwig(
 				$currentComponent.template,
 				{
 					'innerHTML': $innerHTML,
