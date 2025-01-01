@@ -8,7 +8,7 @@ export class Utils {
 	 * @param string $val 変換する文字列
 	 * @return boolean 変換された真偽値
 	 */
-	to_boolean($val){
+	toBoolean($val){
 		if(typeof($val) == typeof('string')){
 			$val = $val.toLowerCase();
 		}
@@ -62,11 +62,16 @@ export class Utils {
 	/**
 	 * Twig テンプレートにデータをバインドする
 	 */
-	bindTwig(tpl, data){
+	bindTwig(tpl, data, funcs){
 		let rtn = '';
 		let twig;
 		try {
 			twig = Twig.twig;
+
+			Object.keys(funcs).forEach( ($fncName, index) => {
+				const $callback = funcs[$fncName];
+				Twig.extendFunction($fncName, $callback);
+			});
 
 			rtn = new twig({
 				'data': tpl,

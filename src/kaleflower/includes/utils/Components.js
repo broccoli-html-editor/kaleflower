@@ -41,10 +41,10 @@ export class Components {
 		const componentTagName = component.getAttribute('name');
 		const $rtn = {
 			"tagName": componentTagName,
-			"isVoidElement": this.#utils.to_boolean(component.getAttribute('is-void-element')),
-			"canSetClass": this.#utils.to_boolean(component.getAttribute('can-set-class')),
-			"canSetWidth": this.#utils.to_boolean(component.getAttribute('can-set-width')),
-			"canSetHeight": this.#utils.to_boolean(component.getAttribute('can-set-height')),
+			"isVoidElement": this.#utils.toBoolean(component.getAttribute('is-void-element')),
+			"canSetClass": this.#utils.toBoolean(component.getAttribute('can-set-class')),
+			"canSetWidth": this.#utils.toBoolean(component.getAttribute('can-set-width')),
+			"canSetHeight": this.#utils.toBoolean(component.getAttribute('can-set-height')),
 			"fields": [],
 			"template": null,
 		};
