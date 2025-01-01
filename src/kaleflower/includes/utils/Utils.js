@@ -68,10 +68,12 @@ export class Utils {
 		try {
 			twig = Twig.twig;
 
-			Object.keys(funcs).forEach( ($fncName, index) => {
-				const $callback = funcs[$fncName];
-				Twig.extendFunction($fncName, $callback);
-			});
+			if(funcs && typeof(funcs) == typeof({})){
+				Object.keys(funcs).forEach( ($fncName, index) => {
+					const $callback = funcs[$fncName];
+					Twig.extendFunction($fncName, $callback);
+				});
+			}
 
 			rtn = new twig({
 				'data': tpl,
