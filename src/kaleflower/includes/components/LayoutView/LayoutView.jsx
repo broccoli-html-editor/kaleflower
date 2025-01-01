@@ -5,7 +5,10 @@ import {Builder} from '../../utils/Builder.js';
 const LayoutView = React.memo((props) => {
 	const globalState = useContext(MainContext);
 
-	const builder = new Builder(globalState.utils, globalState.config, globalState.components, globalState.assets);
+	const builder = new Builder(globalState.utils, globalState.configs, globalState.components, globalState.assets);
+	Object.keys(globalState.contents).forEach((contentId) => {
+		builder.build(globalState.contents[contentId]);
+	});
 
 	return (
 		<div className="kaleflower-layout-view">

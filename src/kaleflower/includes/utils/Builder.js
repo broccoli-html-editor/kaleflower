@@ -61,7 +61,12 @@ export class Builder {
 	 * @param array $options Build options
 	 */
 	build( $content ){
-		this.#html += this.#buildComponentsRecursive($content);
+		try {
+			this.#html += this.#buildComponentsRecursive($content);
+		} catch(e) {
+			console.error(e);
+			this.#errors.push(e);
+		}
 		return;
 	}
 
@@ -72,7 +77,7 @@ export class Builder {
 	 */
 	#buildComponentsRecursive($node) {
 		let $rtn = '';
-		this.#components.get_component($node.nodeName ?? null);
+		const $currentComponent = this.#components.get_component($node.nodeName || null);
 
 		// 子ノードがあれば、先にそれらを再帰的に走査
 		let $innerHTML = '';
@@ -90,8 +95,9 @@ export class Builder {
 		};
 
 		// 属性があれば処理する
-		if ($node.hasAttributes()) {
-			$node.attributes.forEach(($attr) => {
+		if ($node && $node.hasAttributes && $node.hasAttributes()) {
+			Object.keys($node.attributes).forEach((index) => {
+				const $attr = $node.attributes[index];
 				switch($attr.nodeName){
 					case 'width':
 						$attributes.style += ' width: '+$attr.nodeValue+';'+"\n";
@@ -105,22 +111,22 @@ export class Builder {
 				}
 			});
 		}
-		if (strlen($attributes.style ?? '') && !strlen($attributes.class ?? '')) {
+		if ($attributes.style.length && !$attributes.class.length) {
 			this.#config.id+'-'+(this.#instance_number++);
 		}
-		if (strlen($attributes.style ?? '') && strlen($attributes.class ?? '')) {
+		if ($attributes.style.length && $attributes.class.length) {
 			$attributes.style = '.'+$attributes.class+' {'+"\n"+'  '+$attributes.style+"\n"+'}'+"\n";
 		}
-		if (strlen($attributes.style ?? '')) {
+		if ($attributes.style.length) {
 			this.#css += $attributes.style;
-			unset($attributes.style);
+			delete($attributes.style);
 		}
-		if (strlen($attributes.script ?? '')) {
+		if ($attributes.script.length) {
 			this.#js += $attributes.script;
-			unset($attributes.script);
+			delete($attributes.script);
 		}
 
-		if (strlen($currentComponent.template ?? '')) {
+		if ($currentComponent && typeof($currentComponent.template) == typeof('string') && $currentComponent.template.length) {
 			// コンポーネントにテンプレートが定義されている場合の処理
 			this.#utils.bindTwig(
 				$currentComponent.template,
@@ -131,13 +137,13 @@ export class Builder {
 				},
 				{
 					'json_decode': function($json){
-						return json_decode($json);
+						return JSON.parse($json);
 					},
 					'json_encode': function($obj){
-						return json_encode($obj);
+						return JSON.stringify($obj);
 					},
 					'urlencode': function($str){
-						return urlencode($str);
+						return encodeURIComponent($str);
 					},
 				}
 			);
@@ -145,15 +151,15 @@ export class Builder {
 		} else {
 
 			// 現在のノードが要素ノードの場合
-			if ($node.nodeType == XML_ELEMENT_NODE) {
+			if ($node.nodeType == Node.ELEMENT_NODE) {
 				// インデントをつけて要素名を表示
-				$rtn += "<"+htmlspecialchars($node.nodeName);
+				$rtn += "<"+this.#utils.htmlSpecialChars($node.nodeName);
 
-				if(strlen($attributes.class ?? '')){
-					$rtn += ' class="'+htmlspecialchars($attributes.class)+'"';
+				if($attributes.class.length){
+					$rtn += ' class="'+this.#utils.htmlSpecialChars($attributes.class)+'"';
 				}
 
-				if($currentComponent.isVoidElement){
+				if($currentComponent && $currentComponent.isVoidElement){
 					$rtn += " />";
 					return $rtn;
 				}
@@ -162,15 +168,15 @@ export class Builder {
 			}
 
 			// テキストノードがある場合、その内容を表示
-			if ($node.nodeType == XML_TEXT_NODE) {
+			if ($node.nodeType == Node.TEXT_NODE) {
 				$rtn += $node.nodeValue;
 			}
 
 			// 子ノードがあれば出力する
 			$rtn += $innerHTML;
 
-			if ($node.nodeType == XML_ELEMENT_NODE) {
-				$rtn += "</".htmlspecialchars($node.nodeName)+">";
+			if ($node.nodeType == Node.ELEMENT_NODE) {
+				$rtn += "</"+this.#utils.htmlSpecialChars($node.nodeName)+">";
 			}
 		}
 

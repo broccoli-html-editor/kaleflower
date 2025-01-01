@@ -66,11 +66,9 @@ const Node = React.memo((props) => {
 				try {
 					transferData = JSON.parse(transferData);
 				} catch (e) {}
-				console.log('transferData:', transferData);
 
 				const moveFromInstance = globalState.selectedInstance;
 				const moveToInstance = content;
-				console.log(content);
 				const parentNode = content.parentNode;
 
 				parentNode.insertBefore(moveFromInstance, moveToInstance);
