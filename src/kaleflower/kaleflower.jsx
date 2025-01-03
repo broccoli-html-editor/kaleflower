@@ -10,7 +10,10 @@ window.Kaleflower = class {
 	#utils;
 	#container;
 	#options;
-	#globalState = {};
+	#globalState = {
+		$: $,
+		jQuery: $,
+	};
 
 	/**
 	 * Constructor

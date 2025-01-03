@@ -4,11 +4,23 @@ import {Builder} from '../../utils/Builder.js';
 
 const LayoutView = React.memo((props) => {
 	const globalState = useContext(MainContext);
+	const $ = globalState.jQuery;
 
-	const builder = new Builder(globalState.utils);
-	const dist = builder.build(globalState);
+	useEffect(() => {
+		const builder = new Builder(globalState.utils);
+		const dist = builder.build(globalState);
+		console.log('dist:', dist);
 
-	console.log('dist:', dist);
+		const $iframe = $('iframe.kaleflower-layout-view__iframe');
+		console.log('$iframe:', $iframe.get(0));
+		$iframe.get(0).contentWindow.document.open();
+		$iframe.get(0).contentWindow.document.write(dist.html.main);
+		$iframe.get(0).contentWindow.document.close();
+
+
+		return () => {
+		};
+	}, [globalState]);
 
 	return (
 		<div className="kaleflower-layout-view">

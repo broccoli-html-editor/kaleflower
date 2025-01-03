@@ -70,9 +70,7 @@ const Root = React.memo((props) => {
 							}} />
 					</div>
 					<div className="kaleflower__body-center">
-						<LayoutView
-							contents={globalState.contents}
-							/>
+						<LayoutView />
 					</div>
 					<div className="kaleflower__body-right">
 						{/*
