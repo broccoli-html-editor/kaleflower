@@ -102,7 +102,6 @@ class Builder {
 			'id' => null,
 		);
 		foreach ($configNodes as $configNode) {
-			$innerText = '';
 			$configName = $configNode->getAttribute('name');
 			$this->config->{$configName} = $configNode->getAttribute('value');
 		}
@@ -162,7 +161,6 @@ class Builder {
 		}
 
 		foreach ($contentNodes as $contentNode) {
-			$innerText = '';
 			$bowlName = $contentNode->getAttribute('name');
 			if(!strlen($bowlName ?? '')){
 				$bowlName = 'main';

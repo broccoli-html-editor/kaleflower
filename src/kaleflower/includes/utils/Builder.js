@@ -5,6 +5,7 @@ export class Builder {
 	#utils;
 	#config;
 	#components;
+	#fields;
 	#assets;
 	#html;
 	#css;
@@ -15,37 +16,13 @@ export class Builder {
 	/**
 	 * Constructor
 	 */
-	constructor($utils, $config, $components, $assets){
+	constructor($utils){
 		this.#utils = $utils;
-		this.#config = $config;
-		this.#components = $components;
-		this.#assets = $assets;
 		this.#html = '';
 		this.#css = '';
 		this.#js = '';
 		this.#errors = [];
 		this.#instance_number = 0;
-	}
-
-	/**
-	 * Get HTML
-	 */
-	getHtml(){
-		return this.#html;
-	}
-
-	/**
-	 * Get CSS
-	 */
-	getCss(){
-		return this.#css;
-	}
-
-	/**
-	 * Get JS
-	 */
-	getJs(){
-		return this.#js;
 	}
 
 	/**
@@ -57,12 +34,115 @@ export class Builder {
 
 	/**
 	 * Build
-	 * @param string $realpath_kflow Realpath of the kflow file.
-	 * @param array $options Build options
+	 * @param {Object} globalState globalState object.
+	 * @param {Object} $buildOptions Build options
 	 */
-	build( $content ){
+	build( globalState, $buildOptions ){
+		$buildOptions = $buildOptions || {};
+		$buildOptions.assetsPrefix = $buildOptions.assetsPrefix || './';
+
+		const $rtn = {
+			'result': true,
+			'error': null,
+			'html': {
+				'main': '',
+			},
+			'css': '',
+			'js': '',
+			'assets': [],
+		};
+		if( !globalState ){
+			return {
+				'result': false,
+				'error': 'kflow file is not exists or not readable.',
+				'html': {},
+				'css': null,
+				'js': null,
+				'assets': [],
+			};
+		}
+
+		this.#config = globalState.configs;
+		this.#fields = globalState.fields;
+		this.#components = globalState.components;
+
+		Object.keys(globalState.styles).forEach((className) => {
+			const $styleNode = globalState.styles[className];
+			const $className = $styleNode.getAttribute('class');
+			$rtn.css += '.'+$className+' {'+"\n";
+			if( $styleNode.getAttribute('width') ){
+				$rtn.css += '  width:'+$styleNode.getAttribute('width')+';'+"\n";
+			}
+			if( $styleNode.getAttribute('height') ){
+				$rtn.css += '  height:'+$styleNode.getAttribute('height')+';'+"\n";
+			}
+			Object.keys($styleNode.childNodes).forEach((idx) => {
+				const $child = $styleNode.childNodes[idx];
+				// 子ノードを文字列として追加
+				$rtn.css += ($styleNode.innerHTML || $child.nodeValue)+"\n";
+			});
+			$rtn.css += '}'+"\n";
+		});
+
+		// アセット (返される用)
+		const assets = globalState.assets.getAssets();
+		Object.keys(assets).forEach(($assetId) => {
+			const $assetNode = assets[$assetId];
+			const $isPrivateMaterial = $assetNode.isPrivateMaterial;
+			if($isPrivateMaterial){
+				return;
+			}
+			$rtn.assets.push({
+				'path': ($buildOptions.assetsPrefix)+$assetNode.publicFilename,
+				'base64': $assetNode.base64,
+			});
+		});
+
+		// アセット (フィールドテンプレートに渡される用)
+		this.#assets = globalState.assets.getAssets();
+		Object.keys(assets).forEach(($assetId) => {
+			const $asset = assets[$assetId];
+			this.#assets[$assetId] = {
+				'id': $assetId,
+				'ext': $asset.ext,
+				'size': Number($asset.size),
+				'isPrivateMaterial': $asset.isPrivateMaterial,
+				'path': 'data:image/' + $asset.ext+';base64,' + $asset.base64,
+				'base64': $asset.base64,
+				'field': $asset.field,
+				'fieldNote': $asset.fieldNote,
+			};
+		});
+
+		Object.keys(globalState.contents).forEach(($bowlName) => {
+			const $contentNode = globalState.contents[$bowlName];
+			if(!$bowlName.length){
+				$bowlName = 'main';
+			}
+			$contentNode.childNodes.forEach(($childNode) => {
+				this.#buildContent($childNode);
+
+				$rtn.html[$bowlName] = $rtn.html[$bowlName] || '';
+				$rtn.html[$bowlName] += this.#html;
+				$rtn.css += this.#css;
+				$rtn.js += this.#js;
+			});
+		});
+
+		return $rtn;
+	}
+
+	/**
+	 * Build Content
+	 * @param {Object} $content Content object.
+	 */
+	#buildContent( $content ){
+		this.#html = '';
+		this.#css = '';
+		this.#js = '';
+
 		try {
-			this.#html += this.#buildComponentsRecursive($content);
+			this.#html = this.#buildComponentsRecursive($content);
 		} catch(e) {
 			console.error(e);
 			this.#errors.push(e);
