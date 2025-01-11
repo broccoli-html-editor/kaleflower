@@ -21,7 +21,7 @@ overflow: hidden;
 	<p class="paragraph">
 		<img class="test-image-sample" alt="{&quot;text&quot;:&quot;1つめのaltテキスト&quot;}" image="{&quot;assetId&quot;:&quot;95a0cd90-0468-4f12-806f-4a13a9327a8b&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo009_thumb.jpg&quot;}"/>
 		<div class="test-div-class-001"/>
-		<img alt="{&quot;text&quot;:&quot;2つめのaltテキスト&quot;}" image="{&quot;assetId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}"/>
+		<img alt="{&quot;text&quot;:&quot;2つめのaltテキスト \&quot;escape HTML\&quot;&quot;}" image="{&quot;assetId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}"/>
 		<hr/>
 		<div>
 			<p>テスト文字列</p>

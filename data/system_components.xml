@@ -13,6 +13,9 @@
 			<field type="image" name="image" label="Image" />
 			<field type="text" name="alt" label="Alt text" />
 		</fields>
+		<template><![CDATA[{% set image = json_decode(attributes.image) %}
+{% set alt = json_decode(attributes.alt) %}
+<img src="{{ assets[image.assetId].path }}" alt="{{ alt.text }}" />]]></template>
 	</component>
 	<component name="hr" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="br" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
