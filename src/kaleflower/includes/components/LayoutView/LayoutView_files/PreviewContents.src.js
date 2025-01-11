@@ -120,23 +120,39 @@
 			});
 			return;
 		}else if(data.api == 'updateHtml'){
-			var htmls = data.options.htmls;
+			var html = data.options.html;
 			$iframeWindowDocument
-				.find(data.options.contents_area_selector)
+				.find(data.options.contentsAreaSelector)
 				.html('...')
 				.each(function(){
 					var $this = $(this);
-					var bowlName = $this.attr(data.options.contents_bowl_name_by);
+					var bowlName = $this.attr(data.options.contentsContainerNameBy);
 					if(!bowlName){ bowlName = 'main'; }
-					if(htmls[bowlName]){
-						$this.html(htmls[bowlName]);
-						htmls[bowlName] = undefined;
-						delete htmls[bowlName];
+					if(html[bowlName]){
+						$this.html(html[bowlName]);
+						html[bowlName] = undefined;
+						delete html[bowlName];
 					}
 				})
 			;
+
+			$('data-kaleflower-assets-placeholser').remove();
+
+			const styleElement = document.createElement('style');
+			styleElement.setAttribute('data-kaleflower-assets-placeholser', true);
+			styleElement.innerHTML = data.options.css;
+			$('head').append(styleElement);
+
+			const scriptElement = document.createElement('script');
+			scriptElement.setAttribute('data-kaleflower-assets-placeholser', true);
+			scriptElement.innerHTML = data.options.js;
+			$('body').append(scriptElement);
+
 			resetPreviewDomElements();
-			callbackMessage(data.callback, true);
+			callbackMessage(data.callback, {
+				"result": true,
+				"message": "OK"
+			});
 			return;
 
 		}else if(data.api == 'getInstance'){
@@ -168,10 +184,10 @@
 		}else if(data.api == 'getBowlList'){
 			var bowls = [];
 			$iframeWindowDocument
-				.find(data.options.contents_area_selector)
+				.find(data.options.contentsAreaSelector)
 				.each(function(){
 					var $this = $(this);
-					var bowlName = $this.attr(data.options.contents_bowl_name_by);
+					var bowlName = $this.attr(data.options.contentsContainerNameBy);
 					if( typeof(bowlName) !== typeof('') || !bowlName.length ){
 						bowlName = 'main';// <- default bowl name
 					}
@@ -182,7 +198,10 @@
 			return;
 
 		}else{
-			callbackMessage(data.callback, false);
+			callbackMessage(data.callback, {
+				"result": false,
+				"message": "Unknown API."
+			});
 			return;
 		}
 		return;

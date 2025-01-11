@@ -80,6 +80,11 @@ export class PreviewController {
 			resolve();
 		});})
 		.then(() => { return new Promise((resolve, reject) => {
+			if(isPreviewStandby){
+				resolve();
+				return;
+			}
+
 			var timeout = setTimeout(() => {
 				console.error('postMessenger: ping error: Timeout');
 				reject();
@@ -98,6 +103,11 @@ export class PreviewController {
 			});
 		});})
 		.then(() => { return new Promise((resolve, reject) => {
+			if(isPreviewStandby){
+				resolve();
+				return;
+			}
+
 			this.#send('removePlaceholder', {
 				placeholderAttrName: 'data-kaleflower-receive-message',
 			}, (res) => {
@@ -108,6 +118,25 @@ export class PreviewController {
 
 				} catch(e) {
 					console.error('postMessenger: removePlaceholder problem:', e);
+				}
+				resolve();
+			});
+		});})
+		.then(() => { return new Promise((resolve, reject) => {
+			this.#send('updateHtml', {
+				html: dist.html,
+				css: dist.css,
+				js: dist.js,
+				contentsAreaSelector: '[data-kaleflower-contents-bowl-name]',
+				contentsContainerNameBy: 'data-kaleflower-contents-bowl-name',
+			}, (res) => {
+				try {
+					if( !res.result ){
+						console.error('postMessenger: updateHtml got a error', res);
+					}
+
+				} catch(e) {
+					console.error('postMessenger: updateHtml problem:', e);
 				}
 				resolve();
 			});
@@ -161,14 +190,13 @@ export class PreviewController {
 		rtn += `<!DOCTYPE html>
 <html>
 <head>
-<style>${dist.css}</style>
 </head>
 <body>
 `;
 		Object.keys(dist.html).forEach((key) => {
-			rtn += `<div class="contents">${dist.html[key]}</div>`;
+			rtn += `<div class="contents" data-kaleflower-contents-bowl-name="${key}"></div>`;
 		});
-		rtn += `<script>${dist.js}</script>
+		rtn += `
 <script>
 window.addEventListener('load', function(e){
 	console.log('preview window: loaded');
@@ -236,19 +264,23 @@ window.removeEventListener('message', f, false);
 			var data=event.data;
 
 			if(data.api == 'unselectInstance'){
+				// TODO: KaleFlowerの処理に書き換える。
 				broccoli.unselectInstance();
 				return;
 
 			}else if(data.api == 'unfocusInstance'){
+				// TODO: KaleFlowerの処理に書き換える。
 				broccoli.unfocusInstance();
 				return;
 
 			}else if(data.api == 'onClickContentsLink'){
 				var data = event.data.options;
+				// TODO: KaleFlowerの処理に書き換える。
 				broccoli.options.onClickContentsLink(data.url, data);
 				return;
 
 			}else if(data.api == 'adjustPanelsPosition'){
+				// TODO: KaleFlowerの処理に書き換える。
 				broccoli.adjust();
 				return;
 
