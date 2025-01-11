@@ -54,8 +54,20 @@ class Components {
 			"canSetClass" => $this->utils->to_boolean($component->getAttribute('can-set-class')),
 			"canSetWidth" => $this->utils->to_boolean($component->getAttribute('can-set-width')),
 			"canSetHeight" => $this->utils->to_boolean($component->getAttribute('can-set-height')),
+			'fields' => array(),
 			'template' => null,
 		);
+
+		$fieldNodes = (new \DOMXPath($component->ownerDocument))->query("fields/field", $component);
+		foreach ($fieldNodes as $field) {
+			$field_name = $field->getAttribute('name');
+			array_push($rtn->fields, (object) array(
+				"name" => $field->getAttribute('name'),
+				"type" => $field->getAttribute('type'),
+				"label" => $field->getAttribute('label'),
+				"default" => $field->getAttribute('default'),
+			));
+		}
 
 		$templateNode = $component->getElementsByTagName('template')->item(0);
 		$rtn->template = $templateNode->textContent ?? null;
