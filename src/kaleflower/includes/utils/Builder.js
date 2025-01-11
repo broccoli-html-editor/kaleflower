@@ -235,6 +235,8 @@ export class Builder {
 				// インデントをつけて要素名を表示
 				$rtn += "<"+this.#utils.htmlSpecialChars($node.nodeName);
 
+				$rtn += " data-kaleflower-node-id=\""+($node.kaleflowerNodeId)+"\"";
+
 				if($attributes.class.length){
 					$rtn += ' class="'+this.#utils.htmlSpecialChars($attributes.class)+'"';
 				}
