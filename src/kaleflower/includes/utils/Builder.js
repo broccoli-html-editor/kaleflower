@@ -107,6 +107,7 @@ export class Builder {
 				'ext': $asset.ext,
 				'size': Number($asset.size),
 				'isPrivateMaterial': $asset.isPrivateMaterial,
+				'publicFilename': $asset.publicFilename,
 				'path': 'data:image/' + $asset.ext+';base64,' + $asset.base64,
 				'base64': $asset.base64,
 				'field': $asset.field,

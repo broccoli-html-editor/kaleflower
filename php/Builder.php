@@ -153,6 +153,7 @@ class Builder {
 				'ext' => $assetNode->getAttribute('ext'),
 				'size' => intval($assetNode->getAttribute('size')),
 				'isPrivateMaterial' => $this->utils->to_boolean($assetNode->getAttribute('is-private-material')),
+				'publicFilename' => $this->utils->to_boolean($assetNode->getAttribute('public-filename')),
 				'path' => $buildOptions->assetsPrefix.$assetNode->getAttribute('public-filename'),
 				'base64' => $assetNode->getAttribute('base64'),
 				'field' => $assetNode->getAttribute('field'),
