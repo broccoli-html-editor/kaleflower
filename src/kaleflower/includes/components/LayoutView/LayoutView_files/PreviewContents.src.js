@@ -2,9 +2,6 @@
 	var $ = require('jquery');
 	var $iframeWindowDocument = $(window.document);
 
-	var scriptElement = document.querySelector('[data-kaleflower-receive-message]');
-	if(scriptElement){scriptElement.parentNode.removeChild(scriptElement);}
-
 	var _origin;
 
 
@@ -108,6 +105,15 @@
 		_origin = event.origin;
 
 		if(data.api == 'ping'){
+			callbackMessage(data.callback, {
+				"result": true,
+				"message": "OK"
+			});
+			return;
+		}else if(data.api == 'removePlaceholder'){
+			const scriptElement = document.querySelector(`[${data.options.placeholderAttrName||'data-kaleflower-receive-message'}]`);
+			if(scriptElement){scriptElement.parentNode.removeChild(scriptElement);}
+
 			callbackMessage(data.callback, {
 				"result": true,
 				"message": "OK"

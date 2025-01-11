@@ -3,6 +3,8 @@ import { MainContext } from '../../context/MainContext.js';
 import {Builder} from '../../utils/Builder.js';
 import {PreviewController} from './LayoutView_files/PreviewController.js';
 
+const previewController = new PreviewController();
+
 const LayoutView = React.memo((props) => {
 	const globalState = useContext(MainContext);
 	const $ = globalState.jQuery;
@@ -10,7 +12,6 @@ const LayoutView = React.memo((props) => {
 	useEffect(async () => {
 		const builder = new Builder(globalState.utils);
 		const dist = builder.build(globalState);
-		const previewController = new PreviewController();
 
 		const iframeElement = $('iframe.kaleflower-layout-view__iframe').get(0); // TODO: 閉じる
 

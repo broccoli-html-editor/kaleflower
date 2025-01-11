@@ -23,7 +23,13 @@ export class PreviewController {
 		this.#iframeElement = iframeElement;
 		const $ = this.#globalState.jQuery;
 		const $iframe = $(iframeElement);
+		const isProgress = iframeElement.getAttribute("data-kaleflower-update-progress");
+		if(isProgress){
+			return;
+		}
 		const isPreviewStandby = iframeElement.getAttribute("data-kaleflower-preview-status");
+
+		$iframe.attr({"data-kaleflower-update-progress": true});
 
 		return new Promise((resolve) => {
 			if(isPreviewStandby){
@@ -91,10 +97,26 @@ export class PreviewController {
 				resolve();
 			});
 		});})
+		.then(() => { return new Promise((resolve, reject) => {
+			this.#send('removePlaceholder', {
+				placeholderAttrName: 'data-kaleflower-receive-message',
+			}, (res) => {
+				try {
+					if( !res.result ){
+						console.error('postMessenger: removePlaceholder got a error', res);
+					}
+
+				} catch(e) {
+					console.error('postMessenger: removePlaceholder problem:', e);
+				}
+				resolve();
+			});
+		});})
 		.then(() => { return new Promise((resolve) => {
 
 			// スタンバイ完了を宣言する
 			$iframe.attr({"data-kaleflower-preview-status": true});
+			$iframe.removeAttr("data-kaleflower-update-progress");
 
 			console.log('preview: refreshed');
 			resolve();
