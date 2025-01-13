@@ -25,9 +25,7 @@ window.Kaleflower = class {
 
 		this.#container.className = ["kaleflower", this.#container.className].join(' ');
 		ReactDOM.render(
-			<Root onChangeState={(newData)=>{
-				this.#globalState = newData;
-			}} />,
+			<Root />,
 			this.#container
 		);
 	}
