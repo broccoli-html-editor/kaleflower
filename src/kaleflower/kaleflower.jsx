@@ -7,6 +7,7 @@ import {Utils} from "./includes/utils/Utils.js";
 import $ from "jquery";
 
 window.Kaleflower = class {
+	#kflowProcId;
 	#utils;
 	#container;
 	#options;
@@ -23,9 +24,14 @@ window.Kaleflower = class {
 		this.#container = container;
 		this.#options = options;
 
+		this.#kflowProcId = this.#utils.createUUID();
+
 		this.#container.className = ["kaleflower", this.#container.className].join(' ');
 		ReactDOM.render(
-			<Root />,
+			<Root
+				kflow-proc-id={this.#kflowProcId}
+				options={this.#options}
+			/>,
 			this.#container
 		);
 	}
@@ -34,7 +40,7 @@ window.Kaleflower = class {
 	 * Render the Root component
 	 */
 	#render() {
-		window.dispatchEvent(new CustomEvent('kaleflower-state-updated', {detail: this.#globalState}));
+		window.dispatchEvent(new CustomEvent(`kaleflower-${this.#kflowProcId}-state-updated`, {detail: this.#globalState}));
 	}
 
 	/**

@@ -23,11 +23,11 @@ const Root = React.memo((props) => {
 			setGlobalState(event.detail); // イベントからデータを取得してstateにセット
 		};
 
-		window.addEventListener('kaleflower-state-updated', handleDataLoaded);
+		window.addEventListener(`kaleflower-${props['kflow-proc-id']}-state-updated`, handleDataLoaded);
 
 		// クリーンアップ処理
 		return () => {
-			window.removeEventListener('kaleflower-state-updated', handleDataLoaded);
+			window.removeEventListener(`kaleflower-${props['kflow-proc-id']}-state-updated`, handleDataLoaded);
 		};
 	}, []);
 
