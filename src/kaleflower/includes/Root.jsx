@@ -20,7 +20,11 @@ const Root = React.memo((props) => {
 	useEffect(() => {
 		// カスタムイベントをリッスンしてデータを取得
 		const handleDataLoaded = (event) => {
-			setGlobalState(event.detail); // イベントからデータを取得してstateにセット
+			let newState = {
+				...globalState,
+				...event.detail,
+			};
+			setGlobalState(newState); // イベントからデータを取得してstateにセット
 		};
 
 		window.addEventListener(`kaleflower-${props['kflow-proc-id']}-state-updated`, handleDataLoaded);
