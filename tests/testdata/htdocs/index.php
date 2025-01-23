@@ -34,7 +34,12 @@
 			let kaleflower;
 			window.addEventListener('load', function() {
 				const container = document.getElementById('cont-app');
-				kaleflower = new Kaleflower(container, {});
+				kaleflower = new Kaleflower(container, {
+					"urlLayoutViewPage": "about:blank",
+					"scriptReceiverSelector": "[data-kaleflower-receive-message=yes]",
+					"contentsAreaSelector": "[data-kaleflower-contents-bowl-name]",
+					"contentsContainerNameBy": "data-kaleflower-contents-bowl-name",
+				});
 				kaleflower.load('../kflows/general.kflow');
 			});
 		</script>

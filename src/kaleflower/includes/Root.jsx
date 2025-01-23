@@ -16,6 +16,7 @@ const Root = React.memo((props) => {
 	const [globalState, setGlobalState] = useState({});
 
 	globalState.utils = new Utils();
+	globalState.options = props.options;
 
 	useEffect(() => {
 		// カスタムイベントをリッスンしてデータを取得

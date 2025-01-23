@@ -39,10 +39,12 @@ export class PreviewController {
 
 			// --------------------------------------
 			// プレビュー画面を初期化
-			const iFrameDocument = iframeElement.contentWindow.document;
-			iFrameDocument.open();
-			iFrameDocument.write(this.#generateDefaultPreviewContents(dist));
-			iFrameDocument.close();
+			if(!this.#globalState.options.urlLayoutViewPage || this.#globalState.options.urlLayoutViewPage == 'about:blank'){
+				const iFrameDocument = iframeElement.contentWindow.document;
+				iFrameDocument.open();
+				iFrameDocument.write(this.#generateDefaultPreviewContents(dist));
+				iFrameDocument.close();
+			}
 
 			setTimeout(() => {
 				resolve();
@@ -108,16 +110,16 @@ export class PreviewController {
 				return;
 			}
 
-			this.#send('removePlaceholder', {
-				placeholderAttrName: 'data-kaleflower-receive-message',
+			this.#send('removeScriptReceiver', {
+				scriptReceiverSelector: this.#globalState.options.scriptReceiverSelector || '[data-kaleflower-receive-message="yes"]',
 			}, (res) => {
 				try {
 					if( !res.result ){
-						console.error('postMessenger: removePlaceholder got a error', res);
+						console.error('postMessenger: removeScriptReceiver got a error', res);
 					}
 
 				} catch(e) {
-					console.error('postMessenger: removePlaceholder problem:', e);
+					console.error('postMessenger: removeScriptReceiver problem:', e);
 				}
 				resolve();
 			});
@@ -127,8 +129,8 @@ export class PreviewController {
 				html: dist.html,
 				css: dist.css,
 				js: dist.js,
-				contentsAreaSelector: '[data-kaleflower-contents-bowl-name]',
-				contentsContainerNameBy: 'data-kaleflower-contents-bowl-name',
+				contentsAreaSelector: this.#globalState.options.contentsAreaSelector || '[data-kaleflower-contents-bowl-name]',
+				contentsContainerNameBy: this.#globalState.options.contentsContainerNameBy || 'data-kaleflower-contents-bowl-name',
 			}, (res) => {
 				try {
 					if( !res.result ){
@@ -197,11 +199,6 @@ export class PreviewController {
 			rtn += `<div class="contents" data-kaleflower-contents-bowl-name="${key}"></div>`;
 		});
 		rtn += `
-<script>
-window.addEventListener('load', function(e){
-	console.log('preview window: loaded');
-});
-</script>
 <script data-kaleflower-receive-message="yes">
 window.addEventListener('message',(function() {
 return function f(event) {

@@ -110,8 +110,8 @@
 				"message": "OK"
 			});
 			return;
-		}else if(data.api == 'removePlaceholder'){
-			const scriptElement = document.querySelector(`[${data.options.placeholderAttrName||'data-kaleflower-receive-message'}]`);
+		}else if(data.api == 'removeScriptReceiver'){
+			const scriptElement = document.querySelector(`${data.options.scriptReceiverSelector||'[data-kaleflower-receive-message="yes"]'}`);
 			if(scriptElement){scriptElement.parentNode.removeChild(scriptElement);}
 
 			callbackMessage(data.callback, {

@@ -23,7 +23,7 @@ const LayoutView = React.memo((props) => {
 
 	return (
 		<div className="kaleflower-layout-view">
-			<iframe className="kaleflower-layout-view__iframe" src="about:blank" />
+			<iframe className="kaleflower-layout-view__iframe" src={globalState.options.urlLayoutViewPage || "about:blank"} />
 		</div>
 	);
 });
