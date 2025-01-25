@@ -9,6 +9,10 @@ const LayoutView = React.memo((props) => {
 	const globalState = useContext(MainContext);
 	const $ = globalState.jQuery;
 
+	previewController.on('selectInstance', (event) => {
+		props.onselectinstance(event.instanceId);
+	});
+
 	useEffect(async () => {
 		const builder = new Builder(globalState.utils);
 		const dist = builder.build(globalState);

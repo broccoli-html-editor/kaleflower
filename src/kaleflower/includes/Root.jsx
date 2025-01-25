@@ -45,6 +45,36 @@ const Root = React.memo((props) => {
 	}
 
 	function selectInstance(instance){
+		if(typeof(instance) == typeof('string')){
+			// instance が文字列の場合(= インスタンスIDで指定された場合)、
+			// globalState.contents からインスタンスを検索する
+			instance = (() => {
+				let rtn;
+				function getInstanceById(node){
+					if(node.kaleflowerNodeId == instance){
+						return node;
+					}
+					let rtn = false;
+					Array.from(node.childNodes).forEach((child) => {
+						const result = getInstanceById(child);
+						if(result){
+							rtn = result;
+							return false;
+						}
+					});
+					return rtn;
+				}
+				Object.keys(globalState.contents).forEach((key) => {
+					const content = globalState.contents[key];
+					const findedInstance = getInstanceById(content);
+					if(findedInstance){
+						rtn = findedInstance;
+						return false;
+					}
+				});
+				return rtn;
+			})();
+		}
 		const newGlobalState = {
 			...globalState,
 			selectedInstance: instance,
@@ -70,12 +100,15 @@ const Root = React.memo((props) => {
 					<div className="kaleflower__body-left">
 						<InstanceTreeView
 							contents={globalState.contents}
-							onselectnode={function(selectedInstance){
+							onselectinstance={function(selectedInstance){
 								selectInstance(selectedInstance);
 							}} />
 					</div>
 					<div className="kaleflower__body-center">
-						<LayoutView />
+						<LayoutView
+							onselectinstance={function(selectedInstance){
+								selectInstance(selectedInstance);
+							}} />
 					</div>
 					<div className="kaleflower__body-right">
 						{/*

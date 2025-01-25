@@ -4,12 +4,38 @@ import previewContents from 'raw-loader!./previewContents.js';
 export class PreviewController {
 	#globalState;
 	#iframeElement;
+	#events = {};
 	#callbackMemory = {};
 
 	/**
 	 * Constructor
 	 */
 	constructor(){
+	}
+
+	/**
+	 * イベントハンドラを登録する
+	 * @param {*} eventName 
+	 * @param {*} callback 
+	 * @returns 
+	 */
+	on (eventName, callback) {
+		this.#events[eventName] = callback;
+		return;
+	}
+
+	/**
+	 * イベントを発火する
+	 * @param {*} eventName 
+	 * @param {*} data 
+	 * @returns 
+	 */
+	trigger (eventName, data) {
+		this.#events[eventName]({
+			...data,
+			type: eventName,
+		});
+		return;
 	}
 
 	/**
@@ -257,10 +283,16 @@ window.removeEventListener('message', f, false);
 	 */
 	#setupOnMessageEvent(){
 		const callbackMemory = this.#callbackMemory;
-		window.addEventListener('message',function(event){
+		window.addEventListener('message', (event) => {
 			var data=event.data;
 
-			if(data.api == 'unselectInstance'){
+			if(data.api == 'selectInstance'){
+				this.trigger('selectInstance', {
+					instanceId: data.options.instanceId,
+				});
+				return;
+
+			}else if(data.api == 'unselectInstance'){
 				// TODO: KaleFlowerの処理に書き換える。
 				broccoli.unselectInstance();
 				return;

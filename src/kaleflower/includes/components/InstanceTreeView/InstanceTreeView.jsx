@@ -26,7 +26,7 @@ const InstanceTreeView = React.memo((props) => {
 									<Node
 										node={child}
 										instancePath={`document[name="${key}"].childNodes[${index}]`}
-										onselect={props.onselectnode} />
+										onselect={props.onselectinstance} />
 								</li>
 							);
 						})}
@@ -39,7 +39,7 @@ const InstanceTreeView = React.memo((props) => {
 									return;
 								}
 								const newChild = utils.appendChild(content, newChildElementTagName);
-								props.onselectnode(newChild);
+								props.onselectinstance(newChild);
 							}}>append</button>
 						</li>
 					</ul>

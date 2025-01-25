@@ -207,6 +207,14 @@
 		return;
 	});
 
+	$iframeWindowDocument.on("click", "[data-kaleflower-node-id]", function(event){
+		var $this = $(this);
+		var instanceId = $this.attr('data-kaleflower-node-id');
+		callbackMessage( 'selectInstance', {
+			'instanceId': instanceId,
+		});
+		return false;
+	});
 	$iframeWindowDocument.on("click", "a", function() {
 		var data = {};
 		var $this = $(this);
