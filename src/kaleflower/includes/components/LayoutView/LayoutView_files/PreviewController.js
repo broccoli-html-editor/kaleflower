@@ -292,6 +292,10 @@ window.removeEventListener('message', f, false);
 				});
 				return;
 
+			}else if(data.api == 'hoverInstance'){
+				console.log('hoverInstance', data.options); // TODO: hover効果を演出する
+				return;
+
 			}else if(data.api == 'unselectInstance'){
 				// TODO: KaleFlowerの処理に書き換える。
 				broccoli.unselectInstance();

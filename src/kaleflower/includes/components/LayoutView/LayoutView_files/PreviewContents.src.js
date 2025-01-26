@@ -212,6 +212,22 @@
 		var instanceId = $this.attr('data-kaleflower-node-id');
 		callbackMessage( 'selectInstance', {
 			'instanceId': instanceId,
+			'offsetTop': $this.offset().top,
+			'offsetLeft': $this.offset().left,
+			'width': $this.outerWidth(),
+			'height': $this.outerHeight(),
+		});
+		return false;
+	});
+	$iframeWindowDocument.on("mouseover", "[data-kaleflower-node-id]", function(event){
+		var $this = $(this);
+		var instanceId = $this.attr('data-kaleflower-node-id');
+		callbackMessage( 'hoverInstance', {
+			'instanceId': instanceId,
+			'offsetTop': $this.offset().top,
+			'offsetLeft': $this.offset().left,
+			'width': $this.outerWidth(),
+			'height': $this.outerHeight(),
 		});
 		return false;
 	});
