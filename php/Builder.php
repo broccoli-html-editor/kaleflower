@@ -250,7 +250,7 @@ class Builder {
 
 		if (strlen($currentComponent->template ?? '')) {
 			// コンポーネントにテンプレートが定義されている場合の処理
-			$rtn .= $this->utils->bindTwig(
+			$instanceHtml = $this->utils->bindTwig(
 				$currentComponent->template,
 				array(
 					'innerHTML' => $innerHTML,
@@ -269,6 +269,7 @@ class Builder {
 					},
 				)
 			);
+			$rtn .= $instanceHtml;
 
 		} else {
 

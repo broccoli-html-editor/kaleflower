@@ -1,4 +1,5 @@
 import utils79 from 'utils79';
+import $ from 'jquery';
 
 export class Builder {
 
@@ -209,7 +210,7 @@ export class Builder {
 
 		if ($currentComponent && typeof($currentComponent.template) == typeof('string') && $currentComponent.template.length) {
 			// コンポーネントにテンプレートが定義されている場合の処理
-			$rtn += this.#utils.bindTwig(
+			const instanceHtml = this.#utils.bindTwig(
 				$currentComponent.template,
 				{
 					'innerHTML': $innerHTML,
@@ -228,6 +229,12 @@ export class Builder {
 					},
 				}
 			);
+
+			const $instanceHtml = $(instanceHtml);
+			$instanceHtml.attr({
+				'data-kaleflower-node-id': $node.kaleflowerNodeId,
+			});
+			$rtn += $instanceHtml.prop("outerHTML");
 
 		} else {
 
