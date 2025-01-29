@@ -27,6 +27,13 @@ const Node = React.memo((props) => {
 		onselect(content);
 	}
 
+	function hoverInstance(event){
+		event.preventDefault();
+		event.stopPropagation();
+		const onhover = props.onhover || function(){};
+		onhover(content);
+	}
+
 	function appendChild(event){
 		event.preventDefault();
 		event.stopPropagation();
@@ -43,6 +50,7 @@ const Node = React.memo((props) => {
 		<div
 			key={props.key}
 			onClick={selectInstance}
+			onMouseOver={hoverInstance}
 
 			onDragStart={(event)=>{
 				event.stopPropagation();

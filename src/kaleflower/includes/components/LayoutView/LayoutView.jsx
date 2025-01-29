@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext.js';
 import {Builder} from '../../utils/Builder.js';
 import {PreviewController} from './LayoutView_files/PreviewController.js';
+let lastSelectedInstance = null;
+let lastHoveredInstance = null;
 
 const previewController = new PreviewController();
 
@@ -9,17 +11,59 @@ const LayoutView = React.memo((props) => {
 	const globalState = useContext(MainContext);
 	const $ = globalState.jQuery;
 
+	const [localState, setLocalState] = useState({
+		lastPreviewHtml: '{}',
+		instancePositions: {},
+	});
+
 	previewController.on('selectInstance', (event) => {
 		props.onselectinstance(event.instanceId);
+	});
+	previewController.on('hoverInstance', (event) => {
+		props.onhoverinstance(event.instanceId);
 	});
 
 	useEffect(async () => {
 		const builder = new Builder(globalState.utils);
 		const dist = builder.build(globalState);
+		const jsonDist = JSON.stringify(dist);
 
 		const iframeElement = $('iframe.kaleflower-layout-view__iframe').get(0); // TODO: 閉じる
 
-		await previewController.refresh(globalState, iframeElement, dist);
+		if( localState.lastPreviewHtml != jsonDist ){
+			await previewController.refresh(globalState, iframeElement, dist);
+			const newLocalState = {
+				...localState,
+				lastPreviewHtml: jsonDist,
+			};
+			setLocalState(newLocalState);
+		}
+
+		if( globalState.selectedInstance || globalState.hoveredInstance ){
+			let instances = [];
+			if( globalState.selectedInstance && lastSelectedInstance != globalState.selectedInstance.kaleflowerNodeId ){
+				instances.push(globalState.selectedInstance.kaleflowerNodeId);
+				lastSelectedInstance = globalState.selectedInstance.kaleflowerNodeId;
+			}
+			if( globalState.hoveredInstance && lastHoveredInstance != globalState.hoveredInstance.kaleflowerNodeId ){
+				instances.push(globalState.hoveredInstance.kaleflowerNodeId);
+				lastHoveredInstance = globalState.hoveredInstance.kaleflowerNodeId;
+			}
+			if( instances.length ){
+				previewController.sendMessageToIframe('getInstancePositions', {
+					instances: instances,
+				}, (res) => {
+					const newLocalState = {
+						...localState,
+					};
+					newLocalState.instancePositions = {
+						...localState.instancePositions,
+						...res,
+					};
+					setLocalState(newLocalState);
+				});
+			}
+		}
 
 		return () => {
 		};
@@ -28,7 +72,34 @@ const LayoutView = React.memo((props) => {
 	return (
 		<div className="kaleflower-layout-view">
 			<iframe className="kaleflower-layout-view__iframe" src={globalState.options.urlLayoutViewPage || "about:blank"} />
-			<div class="kaleflower-layout-view__panels"></div>
+			<div className="kaleflower-layout-view__panels">
+				<div className="kaleflower-layout-view__panels">
+					{ globalState.selectedInstance &&
+						<div className="kaleflower-layout-view__panels-selected"
+							style={(()=>{
+								const positions = localState.instancePositions[globalState.selectedInstance.kaleflowerNodeId] || {};
+								return {
+									top: positions.offsetTop,
+									left: positions.offsetLeft,
+									width: positions.width,
+									height: positions.height,
+								};
+							})()}></div>
+					}
+					{ globalState.hoveredInstance &&
+						<div className="kaleflower-layout-view__panels-hovered"
+							style={(()=>{
+								const positions = localState.instancePositions[globalState.hoveredInstance.kaleflowerNodeId] || {};
+								return {
+									top: positions.offsetTop,
+									left: positions.offsetLeft,
+									width: positions.width,
+									height: positions.height,
+								};
+							})()}></div>
+					}
+				</div>
+			</div>
 		</div>
 	);
 });

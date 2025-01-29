@@ -104,7 +104,7 @@ export class PreviewController {
 				return;
 			}
 
-			this.#setupOnMessageEvent();
+			this.#bindOnMessageEvent();
 			resolve();
 		});})
 		.then(() => { return new Promise((resolve, reject) => {
@@ -117,7 +117,7 @@ export class PreviewController {
 				console.error('postMessenger: ping error: Timeout');
 				reject();
 			}, 5000);
-			this.#send('ping', {}, (res) => {
+			this.sendMessageToIframe('ping', {}, (res) => {
 				try {
 					if( !res.result ){
 						console.error('postMessenger: ping got a error', res);
@@ -136,7 +136,7 @@ export class PreviewController {
 				return;
 			}
 
-			this.#send('removeScriptReceiver', {
+			this.sendMessageToIframe('removeScriptReceiver', {
 				scriptReceiverSelector: this.#globalState.options.scriptReceiverSelector || '[data-kaleflower-receive-message="yes"]',
 			}, (res) => {
 				try {
@@ -151,7 +151,7 @@ export class PreviewController {
 			});
 		});})
 		.then(() => { return new Promise((resolve, reject) => {
-			this.#send('updateHtml', {
+			this.sendMessageToIframe('updateHtml', {
 				html: dist.html,
 				css: dist.css,
 				js: dist.js,
@@ -244,9 +244,9 @@ window.removeEventListener('message', f, false);
 
 
 	/**
-	 * メッセージを送る
+	 * メッセージをiframe内に送る
 	 */
-	#send(api, options, callback){
+	sendMessageToIframe(api, options, callback){
 		const iframe = this.#iframeElement;
 		const $ = this.#globalState.jQuery;
 		callback = callback||function(){};
@@ -279,9 +279,9 @@ window.removeEventListener('message', f, false);
 	}
 
 	/**
-	 * メッセージを受信する
+	 * メッセージの受信ハンドラを割り当てる
 	 */
-	#setupOnMessageEvent(){
+	#bindOnMessageEvent(){
 		const callbackMemory = this.#callbackMemory;
 		window.addEventListener('message', (event) => {
 			var data=event.data;
@@ -293,28 +293,30 @@ window.removeEventListener('message', f, false);
 				return;
 
 			}else if(data.api == 'hoverInstance'){
-				console.log('hoverInstance', data.options); // TODO: hover効果を演出する
+				this.trigger('hoverInstance', {
+					instanceId: data.options.instanceId,
+				});
 				return;
 
 			}else if(data.api == 'unselectInstance'){
 				// TODO: KaleFlowerの処理に書き換える。
-				broccoli.unselectInstance();
+				// broccoli.unselectInstance();
 				return;
 
 			}else if(data.api == 'unfocusInstance'){
 				// TODO: KaleFlowerの処理に書き換える。
-				broccoli.unfocusInstance();
+				// broccoli.unfocusInstance();
 				return;
 
 			}else if(data.api == 'onClickContentsLink'){
 				var data = event.data.options;
 				// TODO: KaleFlowerの処理に書き換える。
-				broccoli.options.onClickContentsLink(data.url, data);
+				// broccoli.options.onClickContentsLink(data.url, data);
 				return;
 
 			}else if(data.api == 'adjustPanelsPosition'){
 				// TODO: KaleFlowerの処理に書き換える。
-				broccoli.adjust();
+				// broccoli.adjust();
 				return;
 
 			}else{

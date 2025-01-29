@@ -26,7 +26,8 @@ const InstanceTreeView = React.memo((props) => {
 									<Node
 										node={child}
 										instancePath={`document[name="${key}"].childNodes[${index}]`}
-										onselect={props.onselectinstance} />
+										onselect={props.onselectinstance}
+										onhover={props.onhoverinstance} />
 								</li>
 							);
 						})}

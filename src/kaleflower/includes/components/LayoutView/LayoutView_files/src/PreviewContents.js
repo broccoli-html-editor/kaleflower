@@ -155,6 +155,21 @@
 			});
 			return;
 
+		}else if(data.api == 'getInstancePositions'){
+			let rtn = {};
+			data.options.instances.forEach((instanceId) => {
+				var $instance = $iframeWindowDocument.find(`[data-kaleflower-node-id="${instanceId}"]`);
+				rtn[instanceId] = {
+					'instanceId': instanceId,
+					'offsetTop': $instance.offset().top,
+					'offsetLeft': $instance.offset().left,
+					'width': $instance.outerWidth(),
+					'height': $instance.outerHeight(),
+				};
+			});
+			callbackMessage(data.callback, rtn);
+			return;
+
 		}else if(data.api == 'getInstance'){
 			var rtn = {};
 			var $instance = $iframeWindowDocument.find('[data-broccoli-instance-path="'+data.options.instancePath+'"]');

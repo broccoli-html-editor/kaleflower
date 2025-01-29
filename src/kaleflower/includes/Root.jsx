@@ -40,44 +40,60 @@ const Root = React.memo((props) => {
 		const newGlobalState = {
 			...globalState,
 			selectedInstance: null,
+			hoveredInstance: null,
 		};
 		setGlobalState(newGlobalState);
+	}
+
+	function getInstanceById(instance){
+		let rtn;
+		function getInstanceById(node){
+			if(node.kaleflowerNodeId == instance){
+				return node;
+			}
+			let rtn = false;
+			Array.from(node.childNodes).forEach((child) => {
+				const result = getInstanceById(child);
+				if(result){
+					rtn = result;
+					return false;
+				}
+			});
+			return rtn;
+		}
+		Object.keys(globalState.contents).forEach((key) => {
+			const content = globalState.contents[key];
+			const findedInstance = getInstanceById(content);
+			if(findedInstance){
+				rtn = findedInstance;
+				return false;
+			}
+		});
+		return rtn;
 	}
 
 	function selectInstance(instance){
 		if(typeof(instance) == typeof('string')){
 			// instance が文字列の場合(= インスタンスIDで指定された場合)、
 			// globalState.contents からインスタンスを検索する
-			instance = (() => {
-				let rtn;
-				function getInstanceById(node){
-					if(node.kaleflowerNodeId == instance){
-						return node;
-					}
-					let rtn = false;
-					Array.from(node.childNodes).forEach((child) => {
-						const result = getInstanceById(child);
-						if(result){
-							rtn = result;
-							return false;
-						}
-					});
-					return rtn;
-				}
-				Object.keys(globalState.contents).forEach((key) => {
-					const content = globalState.contents[key];
-					const findedInstance = getInstanceById(content);
-					if(findedInstance){
-						rtn = findedInstance;
-						return false;
-					}
-				});
-				return rtn;
-			})();
+			instance = getInstanceById(instance);
 		}
 		const newGlobalState = {
 			...globalState,
 			selectedInstance: instance,
+		};
+		setGlobalState(newGlobalState);
+	}
+
+	function hoverInstance(instance){
+		if(typeof(instance) == typeof('string')){
+			// instance が文字列の場合(= インスタンスIDで指定された場合)、
+			// globalState.contents からインスタンスを検索する
+			instance = getInstanceById(instance);
+		}
+		const newGlobalState = {
+			...globalState,
+			hoveredInstance: instance,
 		};
 		setGlobalState(newGlobalState);
 	}
@@ -102,12 +118,18 @@ const Root = React.memo((props) => {
 							contents={globalState.contents}
 							onselectinstance={function(selectedInstance){
 								selectInstance(selectedInstance);
+							}}
+							onhoverinstance={function(hoveredInstance){
+								hoverInstance(hoveredInstance);
 							}} />
 					</div>
 					<div className="kaleflower__body-center">
 						<LayoutView
 							onselectinstance={function(selectedInstance){
 								selectInstance(selectedInstance);
+							}}
+							onhoverinstance={function(hoveredInstance){
+								hoverInstance(hoveredInstance);
 							}} />
 					</div>
 					<div className="kaleflower__body-right">
