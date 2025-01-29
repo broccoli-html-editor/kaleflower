@@ -64,7 +64,7 @@ mix
 
 	// --------------------------------------
 	// kaleflower Script
-	.js('src/kaleflower/includes/components/LayoutView/LayoutView_files/PreviewContents.src.js',
-		'src/kaleflower/includes/components/LayoutView/LayoutView_files/PreviewContents.js')
+	.js('src/kaleflower/includes/components/LayoutView/LayoutView_files/src/PreviewContents.js',
+		'src/kaleflower/includes/components/LayoutView/LayoutView_files/dist/PreviewContents.js')
 	.js('src/kaleflower/kaleflower.jsx', 'dist/')
 ;

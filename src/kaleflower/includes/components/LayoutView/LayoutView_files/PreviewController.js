@@ -1,5 +1,5 @@
 import utils79 from 'utils79';
-import previewContents from 'raw-loader!./previewContents.js';
+import previewContents from 'raw-loader!./dist/previewContents.js';
 
 export class PreviewController {
 	#globalState;
