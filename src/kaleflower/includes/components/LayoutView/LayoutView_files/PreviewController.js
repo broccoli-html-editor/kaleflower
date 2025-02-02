@@ -315,8 +315,9 @@ window.removeEventListener('message', f, false);
 				return;
 
 			}else if(data.api == 'adjustPanelsPosition'){
-				// TODO: KaleFlowerの処理に書き換える。
-				// broccoli.adjust();
+				this.trigger('adjustPanelsPosition', {
+					scrollTop: data.options.scrollTop,
+				});
 				return;
 
 			}else{

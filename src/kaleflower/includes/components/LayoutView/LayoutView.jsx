@@ -12,6 +12,7 @@ const LayoutView = React.memo((props) => {
 	const $ = globalState.jQuery;
 
 	const [localState, setLocalState] = useState({
+		scrollTop: 0,
 		lastPreviewHtml: '{}',
 		instancePositions: {},
 	});
@@ -21,6 +22,13 @@ const LayoutView = React.memo((props) => {
 	});
 	previewController.on('hoverInstance', (event) => {
 		props.onhoverinstance(event.instanceId);
+	});
+	previewController.on('adjustPanelsPosition', (event) => {
+		const newLocalState = {
+			...localState,
+			scrollTop: event.scrollTop,
+		};
+		setLocalState(newLocalState);
 	});
 
 	useEffect(async () => {
@@ -79,10 +87,10 @@ const LayoutView = React.memo((props) => {
 							style={(()=>{
 								const positions = localState.instancePositions[globalState.selectedInstance.kaleflowerNodeId] || {};
 								return {
-									top: positions.offsetTop,
-									left: positions.offsetLeft,
-									width: positions.width,
-									height: positions.height,
+									top: (positions.offsetTop || 0) - (localState.scrollTop || 0),
+									left: (positions.offsetLeft || 0),
+									width: (positions.width || 0),
+									height: (positions.height || 0),
 								};
 							})()}></div>
 					}
@@ -91,10 +99,10 @@ const LayoutView = React.memo((props) => {
 							style={(()=>{
 								const positions = localState.instancePositions[globalState.hoveredInstance.kaleflowerNodeId] || {};
 								return {
-									top: positions.offsetTop,
-									left: positions.offsetLeft,
-									width: positions.width,
-									height: positions.height,
+									top: (positions.offsetTop || 0) - (localState.scrollTop || 0),
+									left: (positions.offsetLeft || 0),
+									width: (positions.width || 0),
+									height: (positions.height || 0),
 								};
 							})()}></div>
 					}

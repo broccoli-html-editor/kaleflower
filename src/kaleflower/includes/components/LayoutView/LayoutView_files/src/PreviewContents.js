@@ -225,7 +225,7 @@
 	$iframeWindowDocument.on("click", "[data-kaleflower-node-id]", function(event){
 		var $this = $(this);
 		var instanceId = $this.attr('data-kaleflower-node-id');
-		callbackMessage( 'selectInstance', {
+		callbackMessage('selectInstance', {
 			'instanceId': instanceId,
 			'offsetTop': $this.offset().top,
 			'offsetLeft': $this.offset().left,
@@ -237,7 +237,7 @@
 	$iframeWindowDocument.on("mouseover", "[data-kaleflower-node-id]", function(event){
 		var $this = $(this);
 		var instanceId = $this.attr('data-kaleflower-node-id');
-		callbackMessage( 'hoverInstance', {
+		callbackMessage('hoverInstance', {
 			'instanceId': instanceId,
 			'offsetTop': $this.offset().top,
 			'offsetLeft': $this.offset().left,
@@ -253,7 +253,7 @@
 		data.tagName = this.tagName.toLowerCase();
 		data.href = $this.attr('href');
 		data.target = $this.attr('target');
-		callbackMessage( 'onClickContentsLink', data );
+		callbackMessage('onClickContentsLink', data );
 		return false;
 	});
 	$iframeWindowDocument.find('form').on("submit", function() {
@@ -263,12 +263,13 @@
 		data.tagName = this.tagName.toLowerCase();
 		data.action = $this.attr('action');
 		data.target = $this.attr('target');
-		callbackMessage( 'onClickContentsLink', data );
+		callbackMessage('onClickContentsLink', data );
 		return false;
 	});
-	$(window).on("resize", function() {
-		var data = {};
-		callbackMessage( 'adjustPanelsPosition', data );
+	$(window).on("resize scroll", function() {
+		callbackMessage('adjustPanelsPosition', {
+			'scrollTop': $(window).scrollTop(),
+		} );
 		return;
 	});
 
