@@ -2,8 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext.js';
 import {Builder} from '../../utils/Builder.js';
 import {PreviewController} from './LayoutView_files/PreviewController.js';
-let lastSelectedInstance = null;
-let lastHoveredInstance = null;
 
 const previewController = new PreviewController();
 
@@ -13,20 +11,16 @@ const LayoutView = React.memo((props) => {
 
 	const [localState, setLocalState] = useState({
 		scrollTop: 0,
+		panels: [],
 		lastPreviewHtml: '{}',
 		instancePositions: {},
 	});
 
-	previewController.on('selectInstance', (event) => {
-		props.onselectinstance(event.instanceId);
-	});
-	previewController.on('hoverInstance', (event) => {
-		props.onhoverinstance(event.instanceId);
-	});
 	previewController.on('adjustPanelsPosition', (event) => {
 		const newLocalState = {
 			...localState,
 			scrollTop: event.scrollTop,
+			panels: event.panels,
 		};
 		setLocalState(newLocalState);
 	});
@@ -47,31 +41,6 @@ const LayoutView = React.memo((props) => {
 			setLocalState(newLocalState);
 		}
 
-		if( globalState.selectedInstance || globalState.hoveredInstance ){
-			let instances = [];
-			if( globalState.selectedInstance && lastSelectedInstance != globalState.selectedInstance.kaleflowerInstanceId ){
-				instances.push(globalState.selectedInstance.kaleflowerInstanceId);
-				lastSelectedInstance = globalState.selectedInstance.kaleflowerInstanceId;
-			}
-			if( globalState.hoveredInstance && lastHoveredInstance != globalState.hoveredInstance.kaleflowerInstanceId ){
-				instances.push(globalState.hoveredInstance.kaleflowerInstanceId);
-				lastHoveredInstance = globalState.hoveredInstance.kaleflowerInstanceId;
-			}
-			if( instances.length ){
-				previewController.sendMessageToIframe('getInstancePositions', {
-					instances: instances,
-				}, (res) => {
-					const newLocalState = {
-						...localState,
-					};
-					newLocalState.instancePositions = {
-						...localState.instancePositions,
-						...res,
-					};
-					setLocalState(newLocalState);
-				});
-			}
-		}
 
 		return () => {
 		};
@@ -81,31 +50,30 @@ const LayoutView = React.memo((props) => {
 		<div className="kaleflower-layout-view">
 			<iframe className="kaleflower-layout-view__iframe" src={globalState.options.urlLayoutViewPage || "about:blank"} />
 			<div className="kaleflower-layout-view__panels">
-				<div className="kaleflower-layout-view__panels">
-					{ globalState.selectedInstance &&
-						<div className="kaleflower-layout-view__panels-selected"
-							style={(()=>{
-								const positions = localState.instancePositions[globalState.selectedInstance.kaleflowerInstanceId] || {};
-								return {
-									top: (positions.offsetTop || 0) - (localState.scrollTop || 0),
-									left: (positions.offsetLeft || 0),
-									width: (positions.width || 0),
-									height: (positions.height || 0),
-								};
-							})()}></div>
-					}
-					{ globalState.hoveredInstance &&
-						<div className="kaleflower-layout-view__panels-hovered"
-							style={(()=>{
-								const positions = localState.instancePositions[globalState.hoveredInstance.kaleflowerInstanceId] || {};
-								return {
-									top: (positions.offsetTop || 0) - (localState.scrollTop || 0),
-									left: (positions.offsetLeft || 0),
-									width: (positions.width || 0),
-									height: (positions.height || 0),
-								};
-							})()}></div>
-					}
+				<div className="kaleflower-layout-view__panels-inner" style={{top: -localState.scrollTop}}>
+					{localState.panels.map((panel, index) => {
+						return (
+							<div key={index} className={`kaleflower-layout-view__panel ${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == panel.instanceId ? 'kaleflower-layout-view__panel--selected' : ''}`}
+								data-kaleflower-instance-id={panel.instanceId}
+								style={{
+									top: panel.offsetTop,
+									left: panel.offsetLeft,
+									width: panel.width,
+									height: panel.height,
+								}}
+								onClick={(event) => {
+									event.stopPropagation();
+									event.preventDefault();
+									props.onselectinstance(panel.instanceId);
+								}}
+								onMouseOver={(event) => {
+									event.stopPropagation();
+									event.preventDefault();
+									props.onhoverinstance(panel.instanceId);
+								}}
+							></div>
+						);
+					})}
 				</div>
 			</div>
 		</div>

@@ -286,19 +286,7 @@ window.removeEventListener('message', f, false);
 		window.addEventListener('message', (event) => {
 			var data=event.data;
 
-			if(data.api == 'selectInstance'){
-				this.trigger('selectInstance', {
-					instanceId: data.options.instanceId,
-				});
-				return;
-
-			}else if(data.api == 'hoverInstance'){
-				this.trigger('hoverInstance', {
-					instanceId: data.options.instanceId,
-				});
-				return;
-
-			}else if(data.api == 'unselectInstance'){
+			if(data.api == 'unselectInstance'){
 				// TODO: KaleFlowerの処理に書き換える。
 				// broccoli.unselectInstance();
 				return;
@@ -317,6 +305,7 @@ window.removeEventListener('message', f, false);
 			}else if(data.api == 'adjustPanelsPosition'){
 				this.trigger('adjustPanelsPosition', {
 					scrollTop: data.options.scrollTop,
+					panels: data.options.panels,
 				});
 				return;
 

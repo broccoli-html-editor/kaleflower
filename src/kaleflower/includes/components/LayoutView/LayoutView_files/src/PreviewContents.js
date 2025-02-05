@@ -51,8 +51,11 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 	function resetPreviewDomElements(){
 		$('body *').attr({'tabindex':'-1'}).css({'outline':'none'});
 		$('img').off("load").on("load", function() {
-			var data = {};
-			callbackMessage( 'adjustPanelsPosition', data );
+			const instances = panelsInfo.collectInstance();
+			callbackMessage('adjustPanelsPosition', {
+				'scrollTop': $(window).scrollTop(),
+				'panels': instances,
+			} );
 			return;
 		});
 	}
@@ -172,23 +175,9 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 			callbackMessage(data.callback, rtn);
 			return;
 
-		}else if(data.api == 'getInstance'){
-			var rtn = {};
-			var $instance = $iframeWindowDocument.find('[data-broccoli-instance-path="'+data.options.instancePath+'"]');
-			var elm = getInstance($instance);
-			rtn = elm;
-			callbackMessage(data.callback, rtn);
-			return;
-
 		}else if(data.api == 'getAllInstance'){
-			var rtn = {};
-			var $instances = $iframeWindowDocument.find('[data-broccoli-instance-path]');
-			$instances.each(function(){
-				var $this = $(this);
-				var elm = getInstance($this);
-				rtn[elm.instancePath] = elm;
-			});
-			callbackMessage(data.callback, rtn);
+			const instances = panelsInfo.collectInstance();
+			callbackMessage(data.callback, instances);
 			return;
 
 		}else if(data.api == 'getHtmlContentHeightWidth'){
@@ -224,30 +213,6 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		return;
 	});
 
-	$iframeWindowDocument.on("click", "[data-kaleflower-instance-id]", function(event){
-		var $this = $(this);
-		var instanceId = $this.attr('data-kaleflower-instance-id');
-		callbackMessage('selectInstance', {
-			'instanceId': instanceId,
-			'offsetTop': $this.offset().top,
-			'offsetLeft': $this.offset().left,
-			'width': $this.outerWidth(),
-			'height': $this.outerHeight(),
-		});
-		return false;
-	});
-	$iframeWindowDocument.on("mouseover", "[data-kaleflower-instance-id]", function(event){
-		var $this = $(this);
-		var instanceId = $this.attr('data-kaleflower-instance-id');
-		callbackMessage('hoverInstance', {
-			'instanceId': instanceId,
-			'offsetTop': $this.offset().top,
-			'offsetLeft': $this.offset().left,
-			'width': $this.outerWidth(),
-			'height': $this.outerHeight(),
-		});
-		return false;
-	});
 	$iframeWindowDocument.on("click", "a", async function() {
 		var data = {};
 		var $this = $(this);
@@ -269,8 +234,10 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		return false;
 	});
 	$(window).on("resize scroll", async function() {
+		const instances = panelsInfo.collectInstance();
 		callbackMessage('adjustPanelsPosition', {
 			'scrollTop': $(window).scrollTop(),
+			'panels': instances,
 		} );
 		return;
 	});
