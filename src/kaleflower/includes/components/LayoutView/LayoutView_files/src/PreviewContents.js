@@ -53,7 +53,6 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		$('img').off("load").on("load", function() {
 			const instances = panelsInfo.collectInstance();
 			callbackMessage('adjustPanelsPosition', {
-				'scrollTop': $(window).scrollTop(),
 				'panels': instances,
 			} );
 			return;
@@ -203,6 +202,10 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 			callbackMessage(data.callback, bowls);
 			return;
 
+		}else if(data.api == 'scrollTo'){
+			$(window).scrollTop(data.options.scrollTop);
+			return;
+
 		}else{
 			callbackMessage(data.callback, {
 				"result": false,
@@ -213,7 +216,7 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		return;
 	});
 
-	$iframeWindowDocument.on("click", "a", async function() {
+	$iframeWindowDocument.on("click", "a", function() {
 		var data = {};
 		var $this = $(this);
 		data.url = $this.prop('href');
@@ -223,7 +226,7 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		callbackMessage('onClickContentsLink', data );
 		return false;
 	});
-	$iframeWindowDocument.find('form').on("submit", async function() {
+	$iframeWindowDocument.find('form').on("submit", function() {
 		var data = {};
 		var $this = $(this);
 		data.url = $this.prop('action');
@@ -233,10 +236,9 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		callbackMessage('onClickContentsLink', data );
 		return false;
 	});
-	$(window).on("resize scroll", async function() {
+	$(window).on("resize", function() {
 		const instances = panelsInfo.collectInstance();
 		callbackMessage('adjustPanelsPosition', {
-			'scrollTop': $(window).scrollTop(),
 			'panels': instances,
 		} );
 		return;

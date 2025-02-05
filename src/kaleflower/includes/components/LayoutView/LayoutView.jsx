@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext.js';
 import {Builder} from '../../utils/Builder.js';
 import {PreviewController} from './LayoutView_files/PreviewController.js';
@@ -7,19 +7,20 @@ const previewController = new PreviewController();
 
 const LayoutView = React.memo((props) => {
 	const globalState = useContext(MainContext);
+	const panelsContainerRef = useRef(null);
 	const $ = globalState.jQuery;
 
 	const [localState, setLocalState] = useState({
-		scrollTop: 0,
 		panels: [],
 		lastPreviewHtml: '{}',
 		instancePositions: {},
 	});
 
 	previewController.on('adjustPanelsPosition', (event) => {
+		const $panelsContainer = $(panelsContainerRef.current);
+		$panelsContainer.scrollTop(event.scrollTop);
 		const newLocalState = {
 			...localState,
-			scrollTop: event.scrollTop,
 			panels: event.panels,
 		};
 		setLocalState(newLocalState);
@@ -41,16 +42,24 @@ const LayoutView = React.memo((props) => {
 			setLocalState(newLocalState);
 		}
 
+		const $panelsContainer = $(panelsContainerRef.current);
+		$panelsContainer.on('scroll', (event) => {
+			previewController.sendMessageToIframe('scrollTo', {
+				scrollTop: $panelsContainer.scrollTop(),
+			});
+		});
 
 		return () => {
+			$panelsContainer.off('scroll');
 		};
 	}, [globalState]);
 
 	return (
 		<div className="kaleflower-layout-view">
 			<iframe className="kaleflower-layout-view__iframe" src={globalState.options.urlLayoutViewPage || "about:blank"} />
-			<div className="kaleflower-layout-view__panels">
-				<div className="kaleflower-layout-view__panels-inner" style={{top: -localState.scrollTop}}>
+			<div className="kaleflower-layout-view__panels"
+				ref={panelsContainerRef}>
+				<div className="kaleflower-layout-view__panels-inner">
 					{localState.panels.map((panel, index) => {
 						return (
 							<div key={index} className={`kaleflower-layout-view__panel ${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == panel.instanceId ? 'kaleflower-layout-view__panel--selected' : ''}`}

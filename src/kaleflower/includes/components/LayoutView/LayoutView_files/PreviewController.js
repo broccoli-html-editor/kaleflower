@@ -304,7 +304,6 @@ window.removeEventListener('message', f, false);
 
 			}else if(data.api == 'adjustPanelsPosition'){
 				this.trigger('adjustPanelsPosition', {
-					scrollTop: data.options.scrollTop,
 					panels: data.options.panels,
 				});
 				return;
