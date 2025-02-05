@@ -48,7 +48,7 @@ const Root = React.memo((props) => {
 	function getInstanceById(instance){
 		let rtn;
 		function getInstanceById(node){
-			if(node.kaleflowerNodeId == instance){
+			if(node.kaleflowerInstanceId == instance){
 				return node;
 			}
 			let rtn = false;

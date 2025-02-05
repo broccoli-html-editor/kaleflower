@@ -218,7 +218,7 @@ const ElementEditor = (props) => {
 							ID:
 						</div>
 						<div className="kaleflower-element-editor__property-val">
-							{props.selectedInstance.kaleflowerNodeId}
+							{props.selectedInstance.kaleflowerInstanceId}
 						</div>
 					</div>
 					<button onClick={()=>{

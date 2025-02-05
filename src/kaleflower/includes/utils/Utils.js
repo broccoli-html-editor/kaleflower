@@ -50,7 +50,7 @@ export class Utils {
 
 	appendChild(targetElement, newChildElementTagName){
 		const newChild = document.createElementNS('', newChildElementTagName);
-		newChild.kaleflowerNodeId = this.createUUID();
+		newChild.kaleflowerInstanceId = this.createUUID();
 		targetElement.appendChild(newChild);
 		return newChild;
 	}

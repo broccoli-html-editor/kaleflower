@@ -49,13 +49,13 @@ const LayoutView = React.memo((props) => {
 
 		if( globalState.selectedInstance || globalState.hoveredInstance ){
 			let instances = [];
-			if( globalState.selectedInstance && lastSelectedInstance != globalState.selectedInstance.kaleflowerNodeId ){
-				instances.push(globalState.selectedInstance.kaleflowerNodeId);
-				lastSelectedInstance = globalState.selectedInstance.kaleflowerNodeId;
+			if( globalState.selectedInstance && lastSelectedInstance != globalState.selectedInstance.kaleflowerInstanceId ){
+				instances.push(globalState.selectedInstance.kaleflowerInstanceId);
+				lastSelectedInstance = globalState.selectedInstance.kaleflowerInstanceId;
 			}
-			if( globalState.hoveredInstance && lastHoveredInstance != globalState.hoveredInstance.kaleflowerNodeId ){
-				instances.push(globalState.hoveredInstance.kaleflowerNodeId);
-				lastHoveredInstance = globalState.hoveredInstance.kaleflowerNodeId;
+			if( globalState.hoveredInstance && lastHoveredInstance != globalState.hoveredInstance.kaleflowerInstanceId ){
+				instances.push(globalState.hoveredInstance.kaleflowerInstanceId);
+				lastHoveredInstance = globalState.hoveredInstance.kaleflowerInstanceId;
 			}
 			if( instances.length ){
 				previewController.sendMessageToIframe('getInstancePositions', {
@@ -85,7 +85,7 @@ const LayoutView = React.memo((props) => {
 					{ globalState.selectedInstance &&
 						<div className="kaleflower-layout-view__panels-selected"
 							style={(()=>{
-								const positions = localState.instancePositions[globalState.selectedInstance.kaleflowerNodeId] || {};
+								const positions = localState.instancePositions[globalState.selectedInstance.kaleflowerInstanceId] || {};
 								return {
 									top: (positions.offsetTop || 0) - (localState.scrollTop || 0),
 									left: (positions.offsetLeft || 0),
@@ -97,7 +97,7 @@ const LayoutView = React.memo((props) => {
 					{ globalState.hoveredInstance &&
 						<div className="kaleflower-layout-view__panels-hovered"
 							style={(()=>{
-								const positions = localState.instancePositions[globalState.hoveredInstance.kaleflowerNodeId] || {};
+								const positions = localState.instancePositions[globalState.hoveredInstance.kaleflowerInstanceId] || {};
 								return {
 									top: (positions.offsetTop || 0) - (localState.scrollTop || 0),
 									left: (positions.offsetLeft || 0),

@@ -232,7 +232,7 @@ export class Builder {
 
 			const $instanceHtml = $(instanceHtml);
 			$instanceHtml.attr({
-				'data-kaleflower-node-id': $node.kaleflowerNodeId,
+				'data-kaleflower-instance-id': $node.kaleflowerInstanceId,
 			});
 			$rtn += $instanceHtml.prop("outerHTML");
 
@@ -243,7 +243,7 @@ export class Builder {
 				// インデントをつけて要素名を表示
 				$rtn += "<"+this.#utils.htmlSpecialChars($node.nodeName);
 
-				$rtn += " data-kaleflower-node-id=\""+($node.kaleflowerNodeId)+"\"";
+				$rtn += " data-kaleflower-instance-id=\""+($node.kaleflowerInstanceId)+"\"";
 
 				if($attributes.class.length){
 					$rtn += ' class="'+this.#utils.htmlSpecialChars($attributes.class)+'"';

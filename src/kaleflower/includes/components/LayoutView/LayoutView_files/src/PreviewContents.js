@@ -1,15 +1,17 @@
+import $ from 'jquery';
+import {PanelsInfo} from './includes/PanelsInfo.js';
+
 (function(){
-	var $ = require('jquery');
+	const panelsInfo = new PanelsInfo($);
 	var $iframeWindowDocument = $(window.document);
-
 	var _origin;
-
 
 	// クリックイベントを登録
 	$iframeWindowDocument.on('click', function(){
 		callbackMessage('unselectInstance');
 		callbackMessage('unfocusInstance');
 	});
+
 	// dropイベントをキャンセル
 	$iframeWindowDocument.on('dragover', function(e){
 		e.stopPropagation();
@@ -158,7 +160,7 @@
 		}else if(data.api == 'getInstancePositions'){
 			let rtn = {};
 			data.options.instances.forEach((instanceId) => {
-				var $instance = $iframeWindowDocument.find(`[data-kaleflower-node-id="${instanceId}"]`);
+				var $instance = $iframeWindowDocument.find(`[data-kaleflower-instance-id="${instanceId}"]`);
 				rtn[instanceId] = {
 					'instanceId': instanceId,
 					'offsetTop': $instance.offset().top,
@@ -222,9 +224,9 @@
 		return;
 	});
 
-	$iframeWindowDocument.on("click", "[data-kaleflower-node-id]", function(event){
+	$iframeWindowDocument.on("click", "[data-kaleflower-instance-id]", function(event){
 		var $this = $(this);
-		var instanceId = $this.attr('data-kaleflower-node-id');
+		var instanceId = $this.attr('data-kaleflower-instance-id');
 		callbackMessage('selectInstance', {
 			'instanceId': instanceId,
 			'offsetTop': $this.offset().top,
@@ -234,9 +236,9 @@
 		});
 		return false;
 	});
-	$iframeWindowDocument.on("mouseover", "[data-kaleflower-node-id]", function(event){
+	$iframeWindowDocument.on("mouseover", "[data-kaleflower-instance-id]", function(event){
 		var $this = $(this);
-		var instanceId = $this.attr('data-kaleflower-node-id');
+		var instanceId = $this.attr('data-kaleflower-instance-id');
 		callbackMessage('hoverInstance', {
 			'instanceId': instanceId,
 			'offsetTop': $this.offset().top,
@@ -246,7 +248,7 @@
 		});
 		return false;
 	});
-	$iframeWindowDocument.on("click", "a", function() {
+	$iframeWindowDocument.on("click", "a", async function() {
 		var data = {};
 		var $this = $(this);
 		data.url = $this.prop('href');
@@ -256,7 +258,7 @@
 		callbackMessage('onClickContentsLink', data );
 		return false;
 	});
-	$iframeWindowDocument.find('form').on("submit", function() {
+	$iframeWindowDocument.find('form').on("submit", async function() {
 		var data = {};
 		var $this = $(this);
 		data.url = $this.prop('action');
@@ -266,7 +268,7 @@
 		callbackMessage('onClickContentsLink', data );
 		return false;
 	});
-	$(window).on("resize scroll", function() {
+	$(window).on("resize scroll", async function() {
 		callbackMessage('adjustPanelsPosition', {
 			'scrollTop': $(window).scrollTop(),
 		} );

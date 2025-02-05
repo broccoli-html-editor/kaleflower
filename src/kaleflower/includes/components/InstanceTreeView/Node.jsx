@@ -7,8 +7,8 @@ const Node = React.memo((props) => {
 	const utils = new Utils();
 
 	const content = props.node;
-	if( !content.kaleflowerNodeId ){
-		content.kaleflowerNodeId = utils.createUUID();
+	if( !content.kaleflowerInstanceId ){
+		content.kaleflowerInstanceId = utils.createUUID();
 	}
 
 	const currentComponent = (content ? globalState.components.get_component(content.tagName) : null);
@@ -55,7 +55,7 @@ const Node = React.memo((props) => {
 			onDragStart={(event)=>{
 				event.stopPropagation();
 				const sendData = {
-					kaleflowerNodeId: content.kaleflowerNodeId,
+					kaleflowerInstanceId: content.kaleflowerInstanceId,
 					instancePath: props.instancePath,
 				};
 				event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
@@ -85,9 +85,9 @@ const Node = React.memo((props) => {
 			}}
 			onDragEnd={(event)=>{}}
 
-			data-kaleflower-node-id={content.kaleflowerNodeId}
+			data-kaleflower-instance-id={content.kaleflowerInstanceId}
 			data-kaleflower-instance-path={`${props.instancePath}`}
-			className={"kaleflower-insance-tree-view__node"+(globalState.selectedInstance && globalState.selectedInstance.kaleflowerNodeId == content.kaleflowerNodeId ? ' kaleflower-insance-tree-view__node--selected' : '')}
+			className={"kaleflower-insance-tree-view__node"+(globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--selected' : '')}
 			draggable="true">
 			<p className="kaleflower-insance-tree-view__node-name">{content.nodeName == '#text' ? content.nodeName : content.tagName}</p>
 			<ul className="kaleflower-insance-tree-view__node-list">
