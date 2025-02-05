@@ -30,17 +30,17 @@
         height: 1px;
 
         &-left {
-            flex-grow: 1;
-            width: 20%;
+            flex-grow: 0;
+            width: 200px;
             overflow: auto;
         }
         &-center {
             flex-grow: 1;
-            width: 60%;
+            width: auto;
         }
         &-right {
-            flex-grow: 1;
-            width: 20%;
+            flex-grow: 0;
+            width: 200px;
             overflow: auto;
         }
     }
