@@ -23,15 +23,15 @@ const Node = React.memo((props) => {
 	function selectInstance(event){
 		event.preventDefault();
 		event.stopPropagation();
-		const onselect = props.onselect || function(){};
-		onselect(content);
+		const onselectinstance = props.onselectinstance || function(){};
+		onselectinstance(content);
 	}
 
 	function hoverInstance(event){
 		event.preventDefault();
 		event.stopPropagation();
-		const onhover = props.onhover || function(){};
-		onhover(content);
+		const onhoverinstance = props.onhoverinstance || function(){};
+		onhoverinstance(content);
 	}
 
 	function appendChild(event){
@@ -43,7 +43,7 @@ const Node = React.memo((props) => {
 			return;
 		}
 		const newChild = utils.appendChild(content, newChildElementTagName);
-		props.onselect(newChild);
+		props.onselectinstance(newChild);
 	}
 
 	return (<>
@@ -59,8 +59,8 @@ const Node = React.memo((props) => {
 					instancePath: props.instancePath,
 				};
 				event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
-				const onselect = props.onselect || function(){};
-				onselect(content);
+				const onselectinstance = props.onselectinstance || function(){};
+				onselectinstance(content);
 			}}
 			onDragEnter={(event)=>{}}
 			onDragOver={(event)=>{
@@ -80,7 +80,7 @@ const Node = React.memo((props) => {
 				const parentNode = content.parentNode;
 
 				parentNode.insertBefore(moveFromInstance, moveToInstance);
-				props.onselect(moveFromInstance);
+				props.onselectinstance(moveFromInstance);
 
 			}}
 			onDragEnd={(event)=>{}}
@@ -103,7 +103,7 @@ const Node = React.memo((props) => {
 							<Node
 								node={child}
 								instancePath={`${props.instancePath}.childNodes[${index}]`}
-								onselect={props.onselect} />
+								onselectinstance={props.onselectinstance} />
 						</li>
 					);
 				})}

@@ -80,6 +80,40 @@ const LayoutView = React.memo((props) => {
 									event.preventDefault();
 									props.onhoverinstance(panel.instanceId);
 								}}
+
+								onDragStart={(event)=>{
+									event.stopPropagation();
+									const sendData = {
+										kaleflowerInstanceId: panel.instanceId,
+									};
+									event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
+									const onselectinstance = props.onselectinstance || function(){};
+									onselectinstance(panel.instanceId);
+								}}
+								onDragEnter={(event)=>{}}
+								onDragOver={(event)=>{
+									event.preventDefault();
+								}}
+								onDragLeave={(event)=>{}}
+								onDrop={(event)=>{
+									event.preventDefault();
+									event.stopPropagation();
+									let transferData = event.dataTransfer.getData("text/json");
+									try {
+										transferData = JSON.parse(transferData);
+									} catch (e) {}
+
+									const moveFromInstance = globalState.selectedInstance;
+									// TODO: 移動先の情報にリーチできるようにする。
+									// const moveToInstance = content;
+									// const parentNode = content.parentNode;
+
+									// parentNode.insertBefore(moveFromInstance, moveToInstance);
+									props.onselectinstance(moveFromInstance);
+								}}
+								onDragEnd={(event)=>{}}
+
+								draggable="true"
 							></div>
 						);
 					})}

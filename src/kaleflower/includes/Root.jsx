@@ -45,10 +45,10 @@ const Root = React.memo((props) => {
 		setGlobalState(newGlobalState);
 	}
 
-	function getInstanceById(instance){
+	function getInstanceById(instanceId){
 		let rtn;
 		function getInstanceById(node){
-			if(node.kaleflowerInstanceId == instance){
+			if(node.kaleflowerInstanceId == instanceId){
 				return node;
 			}
 			let rtn = false;
