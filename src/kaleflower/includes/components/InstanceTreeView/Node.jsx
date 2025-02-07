@@ -5,7 +5,6 @@ import {Utils} from "../../utils/Utils.js";
 const Node = React.memo((props) => {
 	const globalState = useContext(MainContext);
 	const utils = new Utils();
-
 	const content = props.node;
 	if( !content.kaleflowerInstanceId ){
 		content.kaleflowerInstanceId = utils.createUUID();
@@ -77,11 +76,7 @@ const Node = React.memo((props) => {
 
 				const moveFromInstance = globalState.selectedInstance;
 				const moveToInstance = content;
-				const parentNode = content.parentNode;
-
-				parentNode.insertBefore(moveFromInstance, moveToInstance);
-				props.onselectinstance(moveFromInstance);
-
+				props.onmoveinstance(moveFromInstance, moveToInstance);
 			}}
 			onDragEnd={(event)=>{}}
 
@@ -103,7 +98,10 @@ const Node = React.memo((props) => {
 							<Node
 								node={child}
 								instancePath={`${props.instancePath}.childNodes[${index}]`}
-								onselectinstance={props.onselectinstance} />
+								onselectinstance={props.onselectinstance}
+								onhoverinstance={props.onhoverinstance}
+								onmoveinstance={props.onmoveinstance}
+								/>
 						</li>
 					);
 				})}

@@ -104,12 +104,8 @@ const LayoutView = React.memo((props) => {
 									} catch (e) {}
 
 									const moveFromInstance = globalState.selectedInstance;
-									// TODO: 移動先の情報にリーチできるようにする。
-									// const moveToInstance = content;
-									// const parentNode = content.parentNode;
-
-									// parentNode.insertBefore(moveFromInstance, moveToInstance);
-									props.onselectinstance(moveFromInstance);
+									const moveToInstance = panel.instanceId;
+									props.onmoveinstance(moveFromInstance, moveToInstance);
 								}}
 								onDragEnd={(event)=>{}}
 

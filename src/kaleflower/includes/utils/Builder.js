@@ -117,12 +117,21 @@ export class Builder {
 		});
 
 		Object.keys(globalState.contents).forEach(($bowlName) => {
-			const $contentNode = globalState.contents[$bowlName];
+			const $bowlNode = globalState.contents[$bowlName];
 			if(!$bowlName.length){
 				$bowlName = 'main';
 			}
-			$contentNode.childNodes.forEach(($childNode) => {
-				this.#buildContent($childNode);
+			$bowlNode.childNodes.forEach(($childNode) => {
+				this.#html = '';
+				this.#css = '';
+				this.#js = '';
+
+				try {
+					this.#html = this.#buildContentsRecursive($childNode);
+				} catch(e) {
+					console.error(e);
+					this.#errors.push(e);
+				}
 
 				$rtn.html[$bowlName] = $rtn.html[$bowlName] || '';
 				$rtn.html[$bowlName] += this.#html;
@@ -135,29 +144,11 @@ export class Builder {
 	}
 
 	/**
-	 * Build Content
-	 * @param {Object} $content Content object.
-	 */
-	#buildContent( $content ){
-		this.#html = '';
-		this.#css = '';
-		this.#js = '';
-
-		try {
-			this.#html = this.#buildComponentsRecursive($content);
-		} catch(e) {
-			console.error(e);
-			this.#errors.push(e);
-		}
-		return;
-	}
-
-	/**
-	 * Build Components Recursively
+	 * Build Contents Recursively
 	 * @param object $node Node Object
 	 * @return string HTML
 	 */
-	#buildComponentsRecursive($node) {
+	#buildContentsRecursive($node) {
 		let $rtn = '';
 		const $currentComponent = this.#components.get_component($node.nodeName || null);
 
@@ -165,7 +156,7 @@ export class Builder {
 		let $innerHTML = '';
 		if ($node.hasChildNodes()) {
 			$node.childNodes.forEach(($childNode) => {
-				$innerHTML += this.#buildComponentsRecursive($childNode);
+				$innerHTML += this.#buildContentsRecursive($childNode);
 			});
 		}
 

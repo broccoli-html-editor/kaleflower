@@ -36,16 +36,10 @@ const Root = React.memo((props) => {
 		};
 	}, []);
 
-	function unselectInstance(){
-		const newGlobalState = {
-			...globalState,
-			selectedInstance: null,
-			hoveredInstance: null,
-		};
-		setGlobalState(newGlobalState);
-	}
-
 	function getInstanceById(instanceId){
+		if(typeof(instanceId) == typeof({type:"object"})){
+			return instanceId;
+		}
 		let rtn;
 		function getInstanceById(node){
 			if(node.kaleflowerInstanceId == instanceId){
@@ -73,11 +67,7 @@ const Root = React.memo((props) => {
 	}
 
 	function selectInstance(instance){
-		if(typeof(instance) == typeof('string')){
-			// instance が文字列の場合(= インスタンスIDで指定された場合)、
-			// globalState.contents からインスタンスを検索する
-			instance = getInstanceById(instance);
-		}
+		instance = getInstanceById(instance);
 		const newGlobalState = {
 			...globalState,
 			selectedInstance: instance,
@@ -86,16 +76,29 @@ const Root = React.memo((props) => {
 	}
 
 	function hoverInstance(instance){
-		if(typeof(instance) == typeof('string')){
-			// instance が文字列の場合(= インスタンスIDで指定された場合)、
-			// globalState.contents からインスタンスを検索する
-			instance = getInstanceById(instance);
-		}
+		instance = getInstanceById(instance);
 		const newGlobalState = {
 			...globalState,
 			hoveredInstance: instance,
 		};
 		setGlobalState(newGlobalState);
+	}
+
+	function unselectInstance(){
+		const newGlobalState = {
+			...globalState,
+			selectedInstance: null,
+			hoveredInstance: null,
+		};
+		setGlobalState(newGlobalState);
+	}
+
+	function moveInstance(instance, moveToInstance){
+		instance = getInstanceById(instance);
+		moveToInstance = getInstanceById(moveToInstance);
+		const parentNode = moveToInstance.parentNode;
+		parentNode.insertBefore(instance, moveToInstance);
+		selectInstance(instance);
 	}
 
 	if(!globalState.components){
@@ -115,22 +118,15 @@ const Root = React.memo((props) => {
 				<div className="kaleflower__body">
 					<div className="kaleflower__body-left">
 						<InstanceTreeView
-							contents={globalState.contents}
-							onselectinstance={function(selectedInstance){
-								selectInstance(selectedInstance);
-							}}
-							onhoverinstance={function(hoveredInstance){
-								hoverInstance(hoveredInstance);
-							}} />
+							onselectinstance={selectInstance}
+							onhoverinstance={hoverInstance}
+							onmoveinstance={moveInstance} />
 					</div>
 					<div className="kaleflower__body-center">
 						<LayoutView
-							onselectinstance={function(selectedInstance){
-								selectInstance(selectedInstance);
-							}}
-							onhoverinstance={function(hoveredInstance){
-								hoverInstance(hoveredInstance);
-							}} />
+							onselectinstance={selectInstance}
+							onhoverinstance={hoverInstance}
+							onmoveinstance={moveInstance} />
 					</div>
 					<div className="kaleflower__body-right">
 						{/*
@@ -155,8 +151,7 @@ const Root = React.memo((props) => {
 						*/}
 
 						<ElementEditor
-							selectedInstance={globalState.selectedInstance}
-							onchange={()=>{selectInstance(globalState.selectedInstance);}}
+							onchange={(selectedInstance)=>{selectInstance(selectedInstance);}}
 							onremove={unselectInstance}
 							/>
 					</div>

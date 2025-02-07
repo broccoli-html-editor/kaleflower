@@ -8,13 +8,13 @@ const $ = jQuery;
 
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
-	const currentComponent = (props.selectedInstance ? globalState.components.get_component(props.selectedInstance.tagName) : null);
+	const currentComponent = (globalState.selectedInstance ? globalState.components.get_component(globalState.selectedInstance.tagName) : null);
 	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
 	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
 	const canSetWidth = (currentComponent ? currentComponent.canSetWidth : null);
 	const canSetHeight = (currentComponent ? currentComponent.canSetHeight : null);
-	const isElementNode = (props.selectedInstance ? !props.selectedInstance.nodeName.match(/^\#/) : null);
-	const currentClassName = (isElementNode && props.selectedInstance ? props.selectedInstance.getAttribute('class') : null);
+	const isElementNode = (globalState.selectedInstance ? !globalState.selectedInstance.nodeName.match(/^\#/) : null);
+	const currentClassName = (isElementNode && globalState.selectedInstance ? globalState.selectedInstance.getAttribute('class') : null);
 
 	useEffect(() => {
 		if( !currentComponent ){
@@ -25,19 +25,19 @@ const ElementEditor = (props) => {
 			const $targetDom = $(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
 
 			$targetDom.html(utils.bindTwig(currentField.editor, (() => {
-				return JSON.parse(props.selectedInstance.getAttribute(field.name)) || {};
+				return JSON.parse(globalState.selectedInstance.getAttribute(field.name)) || {};
 			})()));
 
 			$targetDom.find('input, select, textarea')
 				.on('input', function(){
 					const $targetDom = $(this);
-					const fieldValues = JSON.parse(props.selectedInstance.getAttribute(field.name)) || {};
+					const fieldValues = JSON.parse(globalState.selectedInstance.getAttribute(field.name)) || {};
 					fieldValues[$targetDom.attr('name')] = $targetDom.val();
 
-					props.selectedInstance.setAttribute(field.name, JSON.stringify(fieldValues));
+					globalState.selectedInstance.setAttribute(field.name, JSON.stringify(fieldValues));
 
-					const onchange = props.onchange() || function(){};
-					onchange(props.selectedInstance);
+					const onchange = props.onchange || function(){};
+					onchange(globalState.selectedInstance);
 				} );
 
 			currentField.onload(
@@ -54,9 +54,9 @@ const ElementEditor = (props) => {
 		// クリーンアップ処理
 		return () => {
 		};
-	}, [currentComponent, props.selectedInstance]);
+	}, [currentComponent, globalState.selectedInstance]);
 
-	if( !props.selectedInstance ){
+	if( !globalState.selectedInstance ){
 		return (<div className="kaleflower-element-editor" onClick={(event)=>{
 			event.stopPropagation();
 		}}></div>);
@@ -67,10 +67,10 @@ const ElementEditor = (props) => {
 		const newStyle = document.createElementNS('', 'style');
 		newStyle.innerHTML = '';
 		newStyle.setAttribute('class', currentClassName);
-		newStyle.setAttribute('width', props.selectedInstance.kaleflowerComputedWidth);
-		newStyle.setAttribute('height', props.selectedInstance.kaleflowerComputedHeight);
-		props.selectedInstance.removeAttribute('width');
-		props.selectedInstance.removeAttribute('height');
+		newStyle.setAttribute('width', globalState.selectedInstance.kaleflowerComputedWidth);
+		newStyle.setAttribute('height', globalState.selectedInstance.kaleflowerComputedHeight);
+		globalState.selectedInstance.removeAttribute('width');
+		globalState.selectedInstance.removeAttribute('height');
 		globalState.styles[currentClassName] = newStyle;
 	}
 
@@ -80,12 +80,12 @@ const ElementEditor = (props) => {
 		if(!isElementNode){
 			return;
 		}
-		if( !props.selectedInstance[propKey] ){
+		if( !globalState.selectedInstance[propKey] ){
 			if( currentStyle ){
-				props.selectedInstance[propKey] = currentStyle.getAttribute(attrKey);
-				props.selectedInstance.removeAttribute(attrKey)
+				globalState.selectedInstance[propKey] = currentStyle.getAttribute(attrKey);
+				globalState.selectedInstance.removeAttribute(attrKey)
 			}else{
-				props.selectedInstance[propKey] = props.selectedInstance.getAttribute(attrKey);
+				globalState.selectedInstance[propKey] = globalState.selectedInstance.getAttribute(attrKey);
 			}
 		}
 	}
@@ -94,40 +94,40 @@ const ElementEditor = (props) => {
 	setKaleflowerComputedValues('kaleflowerComputedHeight', 'height');
 
 	function onchange(){
-		const onchange = props.onchange() || function(){};
-		onchange(props.selectedInstance);
+		const onchange = props.onchange || function(){};
+		onchange(globalState.selectedInstance);
 	}
 
 	return (
 		<div className="kaleflower-element-editor" onClick={(event)=>{
 			event.stopPropagation();
 		}}>
-			{props.selectedInstance
+			{globalState.selectedInstance
 				? <>
 					<div className="kaleflower-element-editor__property">
 						<div className="kaleflower-element-editor__property-key">
 							nodeName:
 						</div>
 						<div className="kaleflower-element-editor__property-val">
-							{props.selectedInstance.nodeName}
+							{globalState.selectedInstance.nodeName}
 						</div>
 					</div>
 
 					{isElementNode
 						? <>
 							{(canSetClass ? <Attribute
-								instance={props.selectedInstance}
+								instance={globalState.selectedInstance}
 								attrName="class"
 								onchange={onchange} /> : <></>)}
 
 							{(canSetWidth ? <Attribute
-								instance={props.selectedInstance}
+								instance={globalState.selectedInstance}
 								attrName="width"
 								computedKey="kaleflowerComputedWidth"
 								onchange={onchange} /> : <></>)}
 
 							{(canSetHeight ? <Attribute
-								instance={props.selectedInstance}
+								instance={globalState.selectedInstance}
 								attrName="height"
 								computedKey="kaleflowerComputedHeight"
 								onchange={onchange} /> : <></>)}
@@ -139,11 +139,11 @@ const ElementEditor = (props) => {
 											innerHTML:
 										</div>
 										<div className="kaleflower-element-editor__property-val">
-											<textarea value={typeof(props.selectedInstance.innerHTML) == typeof('string') ? props.selectedInstance.innerHTML : ''} onInput={(event)=>{
+											<textarea value={typeof(globalState.selectedInstance.innerHTML) == typeof('string') ? globalState.selectedInstance.innerHTML : ''} onInput={(event)=>{
 												const newInnerHTML = event.target.value;
-												props.selectedInstance.innerHTML = newInnerHTML;
+												globalState.selectedInstance.innerHTML = newInnerHTML;
 
-												onchange(props.selectedInstance);
+												onchange(globalState.selectedInstance);
 											}}></textarea>
 										</div>
 									</div>
@@ -174,7 +174,7 @@ const ElementEditor = (props) => {
 												const newStyleSheet = event.target.value;
 												currentStyle.innerHTML = newStyleSheet;
 
-												onchange(props.selectedInstance);
+												onchange(globalState.selectedInstance);
 											}} />
 										</div>
 									</div>
@@ -202,11 +202,11 @@ const ElementEditor = (props) => {
 									nodeValue:
 								</div>
 								<div className="kaleflower-element-editor__property-val">
-									<textarea value={typeof(props.selectedInstance.nodeValue) == typeof('string') ? props.selectedInstance.nodeValue : ''} onInput={(event)=>{
+									<textarea value={typeof(globalState.selectedInstance.nodeValue) == typeof('string') ? globalState.selectedInstance.nodeValue : ''} onInput={(event)=>{
 										const newNodeValue = event.target.value;
-										props.selectedInstance.nodeValue = newNodeValue;
+										globalState.selectedInstance.nodeValue = newNodeValue;
 
-										onchange(props.selectedInstance);
+										onchange(globalState.selectedInstance);
 									}}></textarea>
 								</div>
 							</div>
@@ -218,11 +218,11 @@ const ElementEditor = (props) => {
 							ID:
 						</div>
 						<div className="kaleflower-element-editor__property-val">
-							{props.selectedInstance.kaleflowerInstanceId}
+							{globalState.selectedInstance.kaleflowerInstanceId}
 						</div>
 					</div>
 					<button onClick={()=>{
-						props.selectedInstance.remove();
+						globalState.selectedInstance.remove();
 						const onremove = props.onremove() || function(){};
 						onremove();
 					}}>remove</button>

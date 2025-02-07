@@ -9,8 +9,8 @@ const InstanceTreeView = React.memo((props) => {
 
 	return (
 		<div className="kaleflower-insance-tree-view">
-			{Object.keys(props.contents).map((key, index) => {
-				const content = props.contents[key];
+			{Object.keys(globalState.contents).map((key, index) => {
+				const content = globalState.contents[key];
 				return (<div key={index} className="kaleflower-insance-tree-view__bowl">
 					<p className="kaleflower-insance-tree-view__title">{key}</p>
 					<ul className="kaleflower-insance-tree-view__node-list">
@@ -27,7 +27,9 @@ const InstanceTreeView = React.memo((props) => {
 										node={child}
 										instancePath={`document[name="${key}"].childNodes[${index}]`}
 										onselectinstance={props.onselectinstance}
-										onhoverinstance={props.onhoverinstance} />
+										onhoverinstance={props.onhoverinstance}
+										onmoveinstance={props.onmoveinstance}
+										/>
 								</li>
 							);
 						})}
