@@ -39,6 +39,7 @@
 		pointer-events: auto;
 		box-sizing: border-box;
 
+		&--hovered,
 		&:hover {
 			border: 4px solid #5198c5;
 			box-sizing: border-box;

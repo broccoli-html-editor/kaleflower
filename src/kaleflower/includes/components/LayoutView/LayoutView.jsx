@@ -62,7 +62,10 @@ const LayoutView = React.memo((props) => {
 				<div className="kaleflower-layout-view__panels-inner">
 					{localState.panels.map((panel, index) => {
 						return (
-							<div key={index} className={`kaleflower-layout-view__panel ${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == panel.instanceId ? 'kaleflower-layout-view__panel--selected' : ''}`}
+							<div key={index} className={`kaleflower-layout-view__panel `
+								+ `${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == panel.instanceId ? 'kaleflower-layout-view__panel--selected' : ''}`
+								+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == panel.instanceId ? 'kaleflower-layout-view__panel--hovered' : ''}`
+								}
 								data-kaleflower-instance-id={panel.instanceId}
 								style={{
 									top: panel.offsetTop,
@@ -93,6 +96,8 @@ const LayoutView = React.memo((props) => {
 								onDragEnter={(event)=>{}}
 								onDragOver={(event)=>{
 									event.preventDefault();
+									event.stopPropagation();
+									props.ondragover(panel.instanceId);
 								}}
 								onDragLeave={(event)=>{}}
 								onDrop={(event)=>{
