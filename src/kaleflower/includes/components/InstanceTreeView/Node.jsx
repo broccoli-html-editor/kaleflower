@@ -54,6 +54,8 @@ const Node = React.memo((props) => {
 			onDragEnter={(event)=>{}}
 			onDragOver={(event)=>{
 				event.preventDefault();
+				event.stopPropagation();
+				props.ondragover(content);
 			}}
 			onDragLeave={(event)=>{}}
 			onDrop={(event)=>{
@@ -72,7 +74,10 @@ const Node = React.memo((props) => {
 
 			data-kaleflower-instance-id={content.kaleflowerInstanceId}
 			data-kaleflower-instance-path={`${props.instancePath}`}
-			className={"kaleflower-insance-tree-view__node"+(globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--selected' : '')}
+			className={`kaleflower-insance-tree-view__node`
+				+ `${(globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--selected' : '')}`
+				+ `${(globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--hovered' : '')}`
+				}
 			>
 			<div className="kaleflower-insance-tree-view__node-name"
 				onDragStart={(event)=>{
@@ -103,6 +108,7 @@ const Node = React.memo((props) => {
 								onselectinstance={props.onselectinstance}
 								onhoverinstance={props.onhoverinstance}
 								onmoveinstance={props.onmoveinstance}
+								ondragover={props.ondragover}
 								/>
 						</li>
 					);

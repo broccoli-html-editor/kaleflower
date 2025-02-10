@@ -120,13 +120,15 @@ const Root = React.memo((props) => {
 						<InstanceTreeView
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
-							onmoveinstance={moveInstance} />
+							onmoveinstance={moveInstance}
+							ondragover={hoverInstance} />
 					</div>
 					<div className="kaleflower__body-center">
 						<LayoutView
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
-							onmoveinstance={moveInstance} />
+							onmoveinstance={moveInstance}
+							ondragover={hoverInstance} />
 					</div>
 					<div className="kaleflower__body-right">
 						{/*

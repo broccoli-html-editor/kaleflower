@@ -29,6 +29,7 @@ const InstanceTreeView = React.memo((props) => {
 										onselectinstance={props.onselectinstance}
 										onhoverinstance={props.onhoverinstance}
 										onmoveinstance={props.onmoveinstance}
+										ondragover={props.ondragover}
 										/>
 								</li>
 							);
