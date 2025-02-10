@@ -51,16 +51,6 @@ const Node = React.memo((props) => {
 			onClick={selectInstance}
 			onMouseOver={hoverInstance}
 
-			onDragStart={(event)=>{
-				event.stopPropagation();
-				const sendData = {
-					kaleflowerInstanceId: content.kaleflowerInstanceId,
-					instancePath: props.instancePath,
-				};
-				event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
-				const onselectinstance = props.onselectinstance || function(){};
-				onselectinstance(content);
-			}}
 			onDragEnter={(event)=>{}}
 			onDragOver={(event)=>{
 				event.preventDefault();
@@ -83,8 +73,20 @@ const Node = React.memo((props) => {
 			data-kaleflower-instance-id={content.kaleflowerInstanceId}
 			data-kaleflower-instance-path={`${props.instancePath}`}
 			className={"kaleflower-insance-tree-view__node"+(globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--selected' : '')}
-			draggable="true">
-			<p className="kaleflower-insance-tree-view__node-name">{content.nodeName == '#text' ? content.nodeName : content.tagName}</p>
+			>
+			<div className="kaleflower-insance-tree-view__node-name"
+				onDragStart={(event)=>{
+					event.stopPropagation();
+					const sendData = {
+						kaleflowerInstanceId: content.kaleflowerInstanceId,
+						instancePath: props.instancePath,
+					};
+					event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
+					const onselectinstance = props.onselectinstance || function(){};
+					onselectinstance(content);
+				}}
+				draggable="true"
+				>{content.nodeName == '#text' ? content.nodeName : content.tagName}</div>
 			<ul className="kaleflower-insance-tree-view__node-list">
 				{Array.from(content.childNodes).map((child, index) => {
 					if( child.nodeName == '#text' && child.textContent.trim() == '' ){
