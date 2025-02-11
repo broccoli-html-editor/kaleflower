@@ -61,17 +61,37 @@ const LayoutView = React.memo((props) => {
 				ref={panelsContainerRef}>
 				<div className="kaleflower-layout-view__panels-inner">
 					{localState.panels.map((panel, index) => {
+						const nextPanel = localState.panels[index+1];
 						return (
-							<div key={index} className={`kaleflower-layout-view__panel `
-								+ `${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == panel.instanceId ? 'kaleflower-layout-view__panel--selected' : ''}`
-								+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == panel.instanceId ? 'kaleflower-layout-view__panel--hovered' : ''}`
-								}
+							<div key={index}
+								className={`kaleflower-layout-view__panel`
+									+ `${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == panel.instanceId ? ' kaleflower-layout-view__panel--selected' : ''}`
+									+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == panel.instanceId ? ' kaleflower-layout-view__panel--hovered' : ''}`
+									}
 								data-kaleflower-instance-id={panel.instanceId}
 								style={{
 									top: panel.offsetTop,
 									left: panel.offsetLeft,
-									width: panel.width,
-									height: panel.height,
+									width: ((panel)=>{
+										if( !nextPanel ){
+											return panel.width;
+										}
+										const distance = nextPanel.offsetLeft - (panel.offsetLeft + panel.width);
+										if( distance <= 0 ){
+											return panel.width;
+										}
+										return panel.width + distance;
+									})(panel),
+									height: ((panel)=>{
+										if( !nextPanel ){
+											return panel.height;
+										}
+										const distance = nextPanel.offsetTop - (panel.offsetTop + panel.height);
+										if( distance <= 0 ){
+											return panel.height;
+										}
+										return panel.height + distance;
+									})(panel),
 								}}
 								onClick={(event) => {
 									event.stopPropagation();
@@ -115,7 +135,8 @@ const LayoutView = React.memo((props) => {
 								onDragEnd={(event)=>{}}
 
 								draggable="true"
-							></div>
+							>
+							</div>
 						);
 					})}
 				</div>
