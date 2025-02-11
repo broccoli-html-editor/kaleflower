@@ -61,7 +61,6 @@ const LayoutView = React.memo((props) => {
 				ref={panelsContainerRef}>
 				<div className="kaleflower-layout-view__panels-inner">
 					{localState.panels.map((panel, index) => {
-						const nextPanel = localState.panels[index+1];
 						return (
 							<div key={index}
 								className={`kaleflower-layout-view__panel`
@@ -73,20 +72,20 @@ const LayoutView = React.memo((props) => {
 									top: panel.offsetTop,
 									left: panel.offsetLeft,
 									width: ((panel)=>{
-										if( !nextPanel ){
+										if( !panel.nextOffsetLeft ){
 											return panel.width;
 										}
-										const distance = nextPanel.offsetLeft - (panel.offsetLeft + panel.width);
+										const distance = panel.nextOffsetLeft - (panel.offsetLeft + panel.width);
 										if( distance <= 0 ){
 											return panel.width;
 										}
 										return panel.width + distance;
 									})(panel),
 									height: ((panel)=>{
-										if( !nextPanel ){
+										if( !panel.nextOffsetTop ){
 											return panel.height;
 										}
-										const distance = nextPanel.offsetTop - (panel.offsetTop + panel.height);
+										const distance = panel.nextOffsetTop - (panel.offsetTop + panel.height);
 										if( distance <= 0 ){
 											return panel.height;
 										}

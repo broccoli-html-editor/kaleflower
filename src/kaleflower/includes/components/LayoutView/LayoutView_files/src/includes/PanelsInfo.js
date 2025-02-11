@@ -16,6 +16,7 @@ export class PanelsInfo {
 		const rtn = [];
 		$("[data-kaleflower-instance-id]").each(function(index, elm){
 			var $this = $(elm);
+			var $next = $this.next();
 			var instanceId = $this.attr('data-kaleflower-instance-id');
 			const data = {
 				'instanceId': instanceId,
@@ -23,6 +24,8 @@ export class PanelsInfo {
 				'offsetLeft': $this.offset().left,
 				'width': $this.outerWidth(),
 				'height': $this.outerHeight(),
+				'nextOffsetTop': ($next.length ? $next.offset().top : null),
+				'nextOffsetLeft': ($next.length ? $next.offset().left : null),
 			};
 			rtn.push(data);
 			return;
