@@ -28,28 +28,7 @@
 			overflow: visible;
 			pointer-events: auto;
 		}
-
-	}
-	&__panel {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		pointer-events: auto;
-		box-sizing: border-box;
-
-		&--hovered,
-		&:hover {
-			border: 4px solid #5198c5;
-			box-sizing: border-box;
-			border-radius: 4px;
-		}
-
-		&--selected {
-			border: 4px solid #2d6226;
-			box-sizing: border-box;
-			border-radius: 4px;
-		}
 	}
 }
+
+@import "./Panel.scss";

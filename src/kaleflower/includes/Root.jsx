@@ -71,6 +71,7 @@ const Root = React.memo((props) => {
 		const newGlobalState = {
 			...globalState,
 			selectedInstance: instance,
+			hoveredInstanceDirection: null,
 		};
 		setGlobalState(newGlobalState);
 	}
@@ -80,6 +81,17 @@ const Root = React.memo((props) => {
 		const newGlobalState = {
 			...globalState,
 			hoveredInstance: instance,
+			hoveredInstanceDirection: null,
+		};
+		setGlobalState(newGlobalState);
+	}
+
+	function dragoverInstance(instance, direction){
+		instance = getInstanceById(instance);
+		const newGlobalState = {
+			...globalState,
+			hoveredInstance: instance,
+			hoveredInstanceDirection: direction,
 		};
 		setGlobalState(newGlobalState);
 	}
@@ -89,15 +101,20 @@ const Root = React.memo((props) => {
 			...globalState,
 			selectedInstance: null,
 			hoveredInstance: null,
+			hoveredInstanceDirection: null,
 		};
 		setGlobalState(newGlobalState);
 	}
 
-	function moveInstance(instance, moveToInstance){
+	function moveInstance(instance, moveToInstance, direction){
 		instance = getInstanceById(instance);
 		moveToInstance = getInstanceById(moveToInstance);
 		const parentNode = moveToInstance.parentNode;
-		parentNode.insertBefore(instance, moveToInstance);
+		if(direction == 'after'){
+			parentNode.insertBefore(instance, moveToInstance.nextSibling);
+		}else{
+			parentNode.insertBefore(instance, moveToInstance);
+		}
 		selectInstance(instance);
 	}
 
@@ -121,14 +138,14 @@ const Root = React.memo((props) => {
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
 							onmoveinstance={moveInstance}
-							ondragover={hoverInstance} />
+							ondragover={dragoverInstance} />
 					</div>
 					<div className="kaleflower__body-center">
 						<LayoutView
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
 							onmoveinstance={moveInstance}
-							ondragover={hoverInstance} />
+							ondragover={dragoverInstance} />
 					</div>
 					<div className="kaleflower__body-right">
 						{/*

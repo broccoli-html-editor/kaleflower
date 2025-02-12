@@ -9,13 +9,57 @@ const Panel = React.memo((props) => {
 	useEffect(async () => {
 		return () => {
 		};
-	}, [globalState]);
+	}, [globalState, props]);
+
+
+	/**
+	 * マウス座標の四象限の位置を得る
+	 */
+	function getUd(e, elm){
+		var posx = 0;
+		var posy = 0;
+		if (!e) e = window.event;
+		if (e.pageX || e.pageY) {
+			posx = e.pageX;
+			posy = e.pageY;
+		}else if (e.clientX || e.clientY) {
+			posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+			posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+		}
+		var mousepos = { x : posx, y : posy };
+
+		var docScrolls = {
+			left : document.body.scrollLeft + document.documentElement.scrollLeft,
+			top : document.body.scrollTop + document.documentElement.scrollTop
+		};
+		var bounds = elm.getBoundingClientRect(); // 対象要素の情報取得
+		var relmousepos = {
+			x : mousepos.x - bounds.left - docScrolls.left,
+			y : mousepos.y - bounds.top - docScrolls.top
+		};
+
+		var ud = {};
+		if( relmousepos.y < $(elm).height()/2 ){
+			ud.y = 'u';
+		}else{
+			ud.y = 'd';
+		}
+		if( relmousepos.x < $(elm).width()/2 ){
+			ud.x = 'l';
+		}else{
+			ud.x = 'r';
+		}
+		return ud;
+	}
 
 	return (
 		<div
+			ref={panelRef}
 			className={`kaleflower-layout-view__panel`
 				+ `${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--selected' : ''}`
 				+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--hovered' : ''}`
+				+ `${globalState.hoveredInstanceDirection == 'before' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-u' : ''}`
+				+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-d' : ''}`
 				}
 			data-kaleflower-instance-id={props.panelInfo.instanceId}
 			style={{
@@ -66,7 +110,18 @@ const Panel = React.memo((props) => {
 			onDragOver={(event)=>{
 				event.preventDefault();
 				event.stopPropagation();
-				props.ondragover(props.panelInfo.instanceId);
+
+				const ud = getUd(event, panelRef.current);
+				const direction = (ud.y == 'u' ? 'before' : 'after');
+				// if( ud.y == 'u' ){
+				// 	$this.addClass('broccoli__panel--drag-entered-u');
+				// 	$this.removeClass('broccoli__panel--drag-entered-d');
+				// }else{
+				// 	$this.addClass('broccoli__panel--drag-entered-d');
+				// 	$this.removeClass('broccoli__panel--drag-entered-u');
+				// }
+
+				props.ondragover(props.panelInfo.instanceId, direction);
 			}}
 			onDragLeave={(event)=>{}}
 			onDrop={(event)=>{
@@ -77,14 +132,20 @@ const Panel = React.memo((props) => {
 					transferData = JSON.parse(transferData);
 				} catch (e) {}
 
+				const ud = getUd(event, panelRef.current);
+				const direction = (ud.y == 'u' ? 'before' : 'after');
+
 				const moveFromInstance = globalState.selectedInstance;
 				const moveToInstance = props.panelInfo.instanceId;
-				props.onmoveinstance(moveFromInstance, moveToInstance);
+				props.onmoveinstance(moveFromInstance, moveToInstance, direction);
 			}}
 			onDragEnd={(event)=>{}}
 
 			draggable="true"
 		>
+			{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId &&
+				<div className={`kaleflower-layout-view__panel__drop-to-insert-here`}></div>
+			}
 		</div>
 	);
 });
