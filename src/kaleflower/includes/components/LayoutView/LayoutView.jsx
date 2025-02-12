@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext.js';
 import {Builder} from '../../utils/Builder.js';
+import Panel from './Panel.jsx';
 import {PreviewController} from './LayoutView_files/PreviewController.js';
 
 const previewController = new PreviewController();
@@ -62,80 +63,13 @@ const LayoutView = React.memo((props) => {
 				<div className="kaleflower-layout-view__panels-inner">
 					{localState.panels.map((panel, index) => {
 						return (
-							<div key={index}
-								className={`kaleflower-layout-view__panel`
-									+ `${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == panel.instanceId ? ' kaleflower-layout-view__panel--selected' : ''}`
-									+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == panel.instanceId ? ' kaleflower-layout-view__panel--hovered' : ''}`
-									}
-								data-kaleflower-instance-id={panel.instanceId}
-								style={{
-									top: panel.offsetTop,
-									left: panel.offsetLeft,
-									width: ((panel)=>{
-										if( !panel.nextOffsetLeft ){
-											return panel.width;
-										}
-										const distance = panel.nextOffsetLeft - (panel.offsetLeft + panel.width);
-										if( distance <= 0 ){
-											return panel.width;
-										}
-										return panel.width + distance;
-									})(panel),
-									height: ((panel)=>{
-										if( !panel.nextOffsetTop ){
-											return panel.height;
-										}
-										const distance = panel.nextOffsetTop - (panel.offsetTop + panel.height);
-										if( distance <= 0 ){
-											return panel.height;
-										}
-										return panel.height + distance;
-									})(panel),
-								}}
-								onClick={(event) => {
-									event.stopPropagation();
-									event.preventDefault();
-									props.onselectinstance(panel.instanceId);
-								}}
-								onMouseOver={(event) => {
-									event.stopPropagation();
-									event.preventDefault();
-									props.onhoverinstance(panel.instanceId);
-								}}
-
-								onDragStart={(event)=>{
-									event.stopPropagation();
-									const sendData = {
-										kaleflowerInstanceId: panel.instanceId,
-									};
-									event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
-									const onselectinstance = props.onselectinstance || function(){};
-									onselectinstance(panel.instanceId);
-								}}
-								onDragEnter={(event)=>{}}
-								onDragOver={(event)=>{
-									event.preventDefault();
-									event.stopPropagation();
-									props.ondragover(panel.instanceId);
-								}}
-								onDragLeave={(event)=>{}}
-								onDrop={(event)=>{
-									event.preventDefault();
-									event.stopPropagation();
-									let transferData = event.dataTransfer.getData("text/json");
-									try {
-										transferData = JSON.parse(transferData);
-									} catch (e) {}
-
-									const moveFromInstance = globalState.selectedInstance;
-									const moveToInstance = panel.instanceId;
-									props.onmoveinstance(moveFromInstance, moveToInstance);
-								}}
-								onDragEnd={(event)=>{}}
-
-								draggable="true"
-							>
-							</div>
+							<Panel key={index}
+								panelInfo={panel}
+								panelIndex={index}
+								onselectinstance={props.onselectinstance}
+								onhoverinstance={props.onhoverinstance}
+								onmoveinstance={props.onmoveinstance}
+								ondragover={props.ondragover} />
 						);
 					})}
 				</div>
