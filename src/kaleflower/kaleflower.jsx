@@ -5,9 +5,11 @@ import "./includes/styles/kaleflower.scss";
 import {KflowXml} from "./includes/utils/KflowXml.js";
 import {Utils} from "./includes/utils/Utils.js";
 import $ from "jquery";
+import {} from "../../vendor/pickles2/px2style/dist/px2style.js";
 
 window.Kaleflower = class {
 	#kflowProcId;
+	#px2style;
 	#utils;
 	#container;
 	#options;
@@ -20,6 +22,7 @@ window.Kaleflower = class {
 	 * Constructor
 	 */
 	constructor(container, options) {
+		this.#px2style = window.px2style;
 		this.#utils = new Utils();
 		this.#container = container;
 		this.#options = options;

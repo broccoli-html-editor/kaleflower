@@ -139,12 +139,15 @@ const ElementEditor = (props) => {
 											innerHTML:
 										</div>
 										<div className="kaleflower-element-editor__property-val">
-											<textarea value={typeof(globalState.selectedInstance.innerHTML) == typeof('string') ? globalState.selectedInstance.innerHTML : ''} onInput={(event)=>{
-												const newInnerHTML = event.target.value;
-												globalState.selectedInstance.innerHTML = newInnerHTML;
+											<textarea
+												className={`px2-input`}
+												value={typeof(globalState.selectedInstance.innerHTML) == typeof('string') ? globalState.selectedInstance.innerHTML : ''}
+												onInput={(event)=>{
+													const newInnerHTML = event.target.value;
+													globalState.selectedInstance.innerHTML = newInnerHTML;
 
-												onchange(globalState.selectedInstance);
-											}}></textarea>
+													onchange(globalState.selectedInstance);
+												}}></textarea>
 										</div>
 									</div>
 								</>
@@ -170,12 +173,15 @@ const ElementEditor = (props) => {
 											style:
 										</div>
 										<div className="kaleflower-element-editor__property-val">
-											<textarea value={typeof(currentClassName) == typeof('string') ? currentStyle.innerHTML : ''} onInput={(event)=>{
-												const newStyleSheet = event.target.value;
-												currentStyle.innerHTML = newStyleSheet;
+											<textarea
+												className={`px2-input`}
+												value={typeof(currentClassName) == typeof('string') ? currentStyle.innerHTML : ''}
+												onInput={(event)=>{
+													const newStyleSheet = event.target.value;
+													currentStyle.innerHTML = newStyleSheet;
 
-												onchange(globalState.selectedInstance);
-											}} />
+													onchange(globalState.selectedInstance);
+												}} />
 										</div>
 									</div>
 								</>
@@ -202,12 +208,15 @@ const ElementEditor = (props) => {
 									nodeValue:
 								</div>
 								<div className="kaleflower-element-editor__property-val">
-									<textarea value={typeof(globalState.selectedInstance.nodeValue) == typeof('string') ? globalState.selectedInstance.nodeValue : ''} onInput={(event)=>{
-										const newNodeValue = event.target.value;
-										globalState.selectedInstance.nodeValue = newNodeValue;
+									<textarea
+										className={`px2-input`}
+										value={typeof(globalState.selectedInstance.nodeValue) == typeof('string') ? globalState.selectedInstance.nodeValue : ''}
+										onInput={(event)=>{
+											const newNodeValue = event.target.value;
+											globalState.selectedInstance.nodeValue = newNodeValue;
 
-										onchange(globalState.selectedInstance);
-									}}></textarea>
+											onchange(globalState.selectedInstance);
+										}}></textarea>
 								</div>
 							</div>
 						</>}
@@ -221,11 +230,13 @@ const ElementEditor = (props) => {
 							{globalState.selectedInstance.kaleflowerInstanceId}
 						</div>
 					</div>
-					<button onClick={()=>{
-						globalState.selectedInstance.remove();
-						const onremove = props.onremove() || function(){};
-						onremove();
-					}}>remove</button>
+					<button
+						className={`px2-btn px2-btn--danger`}
+						onClick={()=>{
+							globalState.selectedInstance.remove();
+							const onremove = props.onremove() || function(){};
+							onremove();
+						}}>remove</button>
 				</>
 				: <></>}
 		</div>

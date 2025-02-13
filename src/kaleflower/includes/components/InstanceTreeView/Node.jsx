@@ -115,7 +115,7 @@ const Node = React.memo((props) => {
 				})}
 				{(content.nodeName != '#text' && content.nodeName != '#comment' && !currentComponent.isVoidElement) ? (
 					<li>
-						<button onClick={appendChild}>append</button>
+						<button className={`px2-btn px2-btn--secondary px2-btn--block`} onClick={appendChild}>append</button> 
 					</li>
 				) : <></>}
 			</ul>

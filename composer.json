@@ -31,6 +31,7 @@
         "ext-json": "*",
         "ext-libxml": "*",
         "ext-mbstring": "*",
+        "pickles2/px2style": "^3.4",
         "tomk79/filesystem": "^1.0",
         "tomk79/langbank": "^0.3.0||^0.2.0||^0.1.0||^0.0.4",
         "twig/twig": "^1.35||^2.12||^3.11"

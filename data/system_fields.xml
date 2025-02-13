@@ -3,7 +3,7 @@
 	<field type="text">
 		<editor><![CDATA[<div class="kaleflower-field-text-editor">
 				<div class="kaleflower-field-text-editor__inner">
-					<textarea name="text">{{ text }}</textarea>
+					<textarea name="text" class="px2-input">{{ text }}</textarea>
 				</div>
 			</div>]]></editor>
 		<script function="onload"><![CDATA[
@@ -19,7 +19,7 @@
 					<img src="about:blank" class="kaleflower-field-image-editor__image-preview" style="width:100%;" />
 				</div>
 				<span class="kaleflower-field-image-editor__extension"></span>
-				<input type="file" name="upload-file" />
+				<input type="file" name="upload-file" class="px2-input" />
 
 				<input type="hidden" name="assetId" value="{{ assetId }}" />
 			</div>]]></editor>

@@ -12,21 +12,25 @@ const Attribute = (props) => {
 				{props.attrName}:
 			</div>
 			<div className="kaleflower-element-editor__property-val">
-				<input value={typeof(props.instance.getAttribute(props.attrName)) == typeof('string') ? props.instance.getAttribute(props.attrName) : ''} onInput={(event)=>{
-					const newValue = event.target.value;
+				<input
+					type={`text`}
+					className={`px2-input`}
+					value={typeof(props.instance.getAttribute(props.attrName)) == typeof('string') ? props.instance.getAttribute(props.attrName) : ''}
+					onInput={(event)=>{
+						const newValue = event.target.value;
 
-					if(props.computedKey){
-						props.instance[props.computedKey] = newValue;
-					}
+						if(props.computedKey){
+							props.instance[props.computedKey] = newValue;
+						}
 
-					props.instance.setAttribute(props.attrName, newValue);
-					if( !newValue.length ){
-						props.instance.removeAttribute(props.attrName);
-					}
+						props.instance.setAttribute(props.attrName, newValue);
+						if( !newValue.length ){
+							props.instance.removeAttribute(props.attrName);
+						}
 
-					const onchange = props.onchange() || function(){};
-					onchange(props.instance);
-				}} />
+						const onchange = props.onchange() || function(){};
+						onchange(props.instance);
+					}} />
 			</div>
 		</div>
 	);
