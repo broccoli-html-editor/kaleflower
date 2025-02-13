@@ -5,6 +5,7 @@ const Panel = React.memo((props) => {
 	const globalState = useContext(MainContext);
 	const panelRef = useRef(null);
 	const $ = globalState.jQuery;
+	const utils = globalState.utils;
 
 	useEffect(async () => {
 		return () => {
@@ -146,6 +147,20 @@ const Panel = React.memo((props) => {
 			{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId &&
 				<div className={`kaleflower-layout-view__panel__drop-to-insert-here`}></div>
 			}
+			<div className={`kaleflower-layout-view__panel__create-new-element-before`}>
+				<button type={`button`} className={`px2-btn`} onClick={async (event) => {
+					event.preventDefault();
+					event.stopPropagation();
+					props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
+				}}>before</button>
+			</div>
+			<div className={`kaleflower-layout-view__panel__create-new-element-after`}>
+				<button type={`button`} className={`px2-btn`} onClick={async (event) => {
+					event.preventDefault();
+					event.stopPropagation();
+					props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
+				}}>after</button>
+			</div>
 		</div>
 	);
 });

@@ -30,20 +30,16 @@ const InstanceTreeView = React.memo((props) => {
 										onhoverinstance={props.onhoverinstance}
 										onmoveinstance={props.onmoveinstance}
 										ondragover={props.ondragover}
+										oncreatenewinstance={props.oncreatenewinstance}
 										/>
 								</li>
 							);
 						})}
 						<li>
-							<button onClick={function appendChild(event){
+							<button className={`px2-btn px2-btn--secondary px2-btn--block`} onClick={function appendChild(event){
 								event.preventDefault();
 								event.stopPropagation();
-								const newChildElementTagName = prompt('element name', 'div');
-								if(!newChildElementTagName){
-									return;
-								}
-								const newChild = utils.appendChild(content, newChildElementTagName);
-								props.onselectinstance(newChild);
+								props.oncreatenewinstance(content, 'append');
 							}}>append</button>
 						</li>
 					</ul>

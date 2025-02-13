@@ -26,6 +26,12 @@ export class Utils {
 			case 'on':
 				return true;
 				break;
+			case 'null':
+				return null;
+				break;
+			case 'undefined':
+				return undefined;
+				break;
 			default:
 				break;
 		}
@@ -46,13 +52,6 @@ export class Utils {
 
 	createUUID(){
 		return "kf"+((new Date).getTime().toString(16)+Math.floor(1E7*Math.random()).toString(16));
-	}
-
-	appendChild(targetElement, newChildElementTagName){
-		const newChild = document.createElementNS('', newChildElementTagName);
-		newChild.kaleflowerInstanceId = this.createUUID();
-		targetElement.appendChild(newChild);
-		return newChild;
 	}
 
 	htmlSpecialChars(str){

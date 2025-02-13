@@ -106,6 +106,41 @@ const Root = React.memo((props) => {
 		setGlobalState(newGlobalState);
 	}
 
+	async function createNewInstance(targetElement, direction){
+		targetElement = getInstanceById(targetElement);
+		direction = direction || 'before';
+
+		return new Promise((done, fail)=>{
+			const newChildElementTagName = prompt('element name', 'div');
+			if(!newChildElementTagName){
+				fail();
+				return;
+			}
+			done(newChildElementTagName);
+		}).then((newChildElementTagName)=>{
+			return new Promise((done, fail)=>{
+				const newChild = document.createElementNS('', newChildElementTagName);
+				newChild.kaleflowerInstanceId = globalState.utils.createUUID();
+				if( direction == 'before' ){
+					targetElement.parentNode.insertBefore(newChild, targetElement);
+				}else if( direction == 'after' ){
+					targetElement.parentNode.insertBefore(newChild, targetElement.nextSibling);
+				}else if( direction == 'prepend' ){
+					if(targetElement.childNodes.length){
+						targetElement.insertBefore(newChild, targetElement.childNodes[0]);
+					}else{
+						targetElement.appendChild(newChild);
+					}
+				}else{
+					targetElement.appendChild(newChild);
+				}
+				selectInstance(newChild);
+				done();
+				return;
+			});
+		});
+	}
+
 	function moveInstance(instance, moveToInstance, direction){
 		instance = getInstanceById(instance);
 		moveToInstance = getInstanceById(moveToInstance);
@@ -138,14 +173,16 @@ const Root = React.memo((props) => {
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
 							onmoveinstance={moveInstance}
-							ondragover={dragoverInstance} />
+							ondragover={dragoverInstance}
+							oncreatenewinstance={createNewInstance} />
 					</div>
 					<div className="kaleflower__body-center">
 						<LayoutView
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
 							onmoveinstance={moveInstance}
-							ondragover={dragoverInstance} />
+							ondragover={dragoverInstance}
+							oncreatenewinstance={createNewInstance} />
 					</div>
 					<div className="kaleflower__body-right">
 						{/*

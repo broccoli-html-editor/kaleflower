@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
-import {Utils} from "../../utils/Utils.js";
 
 const Node = React.memo((props) => {
 	const globalState = useContext(MainContext);
-	const utils = new Utils();
+	const utils = globalState.utils;
 	const content = props.node;
 	if( !content.kaleflowerInstanceId ){
 		content.kaleflowerInstanceId = utils.createUUID();
@@ -33,16 +32,10 @@ const Node = React.memo((props) => {
 		onhoverinstance(content);
 	}
 
-	function appendChild(event){
+	async function appendChild(event){
 		event.preventDefault();
 		event.stopPropagation();
-
-		const newChildElementTagName = prompt('element name', 'div');
-		if(!newChildElementTagName){
-			return;
-		}
-		const newChild = utils.appendChild(content, newChildElementTagName);
-		props.onselectinstance(newChild);
+		props.oncreatenewinstance(content, 'append');
 	}
 
 	return (<>
@@ -109,6 +102,7 @@ const Node = React.memo((props) => {
 								onhoverinstance={props.onhoverinstance}
 								onmoveinstance={props.onmoveinstance}
 								ondragover={props.ondragover}
+								oncreatenewinstance={props.oncreatenewinstance}
 								/>
 						</li>
 					);

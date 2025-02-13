@@ -69,7 +69,8 @@ const LayoutView = React.memo((props) => {
 								onselectinstance={props.onselectinstance}
 								onhoverinstance={props.onhoverinstance}
 								onmoveinstance={props.onmoveinstance}
-								ondragover={props.ondragover} />
+								ondragover={props.ondragover}
+								oncreatenewinstance={props.oncreatenewinstance} />
 						);
 					})}
 				</div>
