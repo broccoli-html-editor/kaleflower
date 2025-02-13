@@ -39,6 +39,23 @@
 			top: auto; bottom:-8px;
 		}
 	}
+	&__create-new-element-before,
+	&__create-new-element-after {
+		display: none;
+		font-size: 8px;
+		position: absolute;
+		left: calc(50%);
+	}
+	&__create-new-element-before {
+		top: -8px;
+	}
+	&__create-new-element-after {
+		bottom: -8px;
+	}
+	&:hover &__create-new-element-before,
+	&:hover &__create-new-element-after {
+		display: block;
+	}
 }
 
 .kaleflower-layout-view__panel__drop-to-insert-here {
