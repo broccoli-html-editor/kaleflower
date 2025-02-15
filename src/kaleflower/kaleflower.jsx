@@ -34,7 +34,7 @@ window.Kaleflower = class {
 
 		this.#kflowProcId = this.#utils.createUUID();
 
-		this.#container.className = ["kaleflower", this.#container.className].join(' ');
+		this.#container.className = ["kaleflower", `kaleflower--appearance-${this.#options.appearance}`, this.#container.className].join(' ');
 
 		new Promise((resolve) => {
 			this.#lb = new LangBank(languageCsv, () => {

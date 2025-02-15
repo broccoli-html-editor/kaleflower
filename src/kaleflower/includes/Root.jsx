@@ -3,6 +3,7 @@ import { MainContext } from './context/MainContext';
 import InstanceTreeView from './components/InstanceTreeView/InstanceTreeView.jsx';
 import ElementEditor from './components/ElementEditor/ElementEditor.jsx';
 import LayoutView from './components/LayoutView/LayoutView.jsx';
+import AppearanceStyles from './components/AppearanceStyles/AppearanceStyles.jsx';
 import {Utils} from './utils/Utils.js';
 import iterate79 from 'iterate79';
 
@@ -163,6 +164,7 @@ const Root = React.memo((props) => {
 
 	return (
 		<MainContext.Provider value={globalState}>
+			<AppearanceStyles appearance={globalState.options.appearance} />
 			<div className="kaleflower__frame" onClick={unselectInstance}>
 				<div className="kaleflower__header">
 				</div>

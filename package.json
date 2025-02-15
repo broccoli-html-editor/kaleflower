@@ -32,6 +32,7 @@
         "sass": "^1.79.5",
         "sass-loader": "^12.6.0",
         "style-loader": "^4.0.0",
+        "styled-components": "^6.1.15",
         "text-loader": "^0.0.1",
         "twig": "^1.16.0",
         "twig-loader": "^0.5.5",

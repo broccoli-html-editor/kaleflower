@@ -19,6 +19,22 @@
     padding: 0;
     text-align: left;
 
+	[draggable=true]{
+		cursor: grab;
+	}
+	[draggable=true]:active{
+		cursor: grabbing;
+	}
+	[draggable=false]{
+		cursor: auto;
+	}
+	a[draggable=false]{
+		cursor: pointer;
+	}
+	[tabindex]{
+		outline: none;
+	}
+
     &__frame {
         flex-grow: 100;
         display: flex;

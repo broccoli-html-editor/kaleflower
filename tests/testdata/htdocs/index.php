@@ -39,6 +39,8 @@
 					"scriptReceiverSelector": "[data-kaleflower-receive-message=yes]",
 					"contentsAreaSelector": "[data-kaleflower-contents-bowl-name]",
 					"contentsContainerNameBy": "data-kaleflower-contents-bowl-name",
+					"appearance": "light",
+					"lang": "en",
 				});
 				kaleflower.load('../kflows/general.kflow');
 			});
