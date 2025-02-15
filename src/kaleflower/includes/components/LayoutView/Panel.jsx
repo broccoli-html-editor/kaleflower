@@ -1,9 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext.js';
+import Icons from '../Icons/Icons.jsx';
 
 const Panel = React.memo((props) => {
 	const globalState = useContext(MainContext);
 	const panelRef = useRef(null);
+	const beforeRef = useRef(null);
+	const afterRef = useRef(null);
 	const $ = globalState.jQuery;
 	const utils = globalState.utils;
 
@@ -100,6 +103,8 @@ const Panel = React.memo((props) => {
 
 			onDragStart={(event)=>{
 				event.stopPropagation();
+				beforeRef.current.style.display = 'none';
+				afterRef.current.style.display = 'none';
 				const sendData = {
 					kaleflowerInstanceId: props.panelInfo.instanceId,
 				};
@@ -147,20 +152,24 @@ const Panel = React.memo((props) => {
 			{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId &&
 				<div className={`kaleflower-layout-view__panel__drop-to-insert-here`}></div>
 			}
-			<div className={`kaleflower-layout-view__panel__create-new-element-before`}>
-				<button type={`button`} className={`px2-btn`} onClick={async (event) => {
-					event.preventDefault();
-					event.stopPropagation();
-					props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
-				}}>before</button>
-			</div>
-			<div className={`kaleflower-layout-view__panel__create-new-element-after`}>
-				<button type={`button`} className={`px2-btn`} onClick={async (event) => {
-					event.preventDefault();
-					event.stopPropagation();
-					props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
-				}}>after</button>
-			</div>
+			{!globalState.hoveredInstanceDirection &&
+				<>
+					<div ref={beforeRef} className={`kaleflower-layout-view__panel__create-new-element-before`}>
+						<button type={`button`} onClick={async (event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
+						}}><Icons type="plus" /></button>
+					</div>
+					<div ref={afterRef} className={`kaleflower-layout-view__panel__create-new-element-after`}>
+						<button type={`button`} onClick={async (event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
+						}}><Icons type="plus" /></button>
+					</div>
+				</>
+			}
 		</div>
 	);
 });

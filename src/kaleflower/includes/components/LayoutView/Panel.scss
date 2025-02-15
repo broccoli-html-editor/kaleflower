@@ -44,13 +44,38 @@
 		display: none;
 		font-size: 8px;
 		position: absolute;
-		left: calc(50%);
+		left: calc(50% - 16px);
+		button {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			color: rgb(41, 128, 41);
+			border: 1px solid rgb(41, 128, 41);
+			border-radius: 50%;
+			padding: 0;
+			margin: 0;
+			background-color: #fff;
+			display: flex;
+			width: 32px;
+			height: 32px;
+			box-sizing: border-box;
+			cursor: pointer;
+
+			&:hover {
+				color: rgb(87, 186, 87);
+				border-color: rgb(87, 186, 87);
+			}
+		}
+		svg {
+			width: 100%;
+			height: 100%;
+		}
 	}
 	&__create-new-element-before {
-		top: -8px;
+		top: -19px;
 	}
 	&__create-new-element-after {
-		bottom: -8px;
+		bottom: -21px;
 	}
 	&:hover &__create-new-element-before,
 	&:hover &__create-new-element-after {

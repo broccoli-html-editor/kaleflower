@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
 import Node from './Node.jsx';
 import {Utils} from "../../utils/Utils.js";
+import Icons from '../Icons/Icons.jsx';
 
 const InstanceTreeView = React.memo((props) => {
 	const globalState = useContext(MainContext);
@@ -41,7 +42,7 @@ const InstanceTreeView = React.memo((props) => {
 									event.preventDefault();
 									event.stopPropagation();
 									props.oncreatenewinstance(content, 'append');
-								}}>append</button>
+								}}><Icons type="plus" /></button>
 							</li>
 						) : <></>}
 					</ul>

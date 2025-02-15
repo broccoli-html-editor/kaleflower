@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
+import Icons from '../Icons/Icons.jsx';
 
 const Node = React.memo((props) => {
 	const globalState = useContext(MainContext);
@@ -109,7 +110,7 @@ const Node = React.memo((props) => {
 				})}
 				{(content.nodeName != '#text' && content.nodeName != '#comment' && !currentComponent.isVoidElement && !content.childNodes.length) ? (
 					<li>
-						<button className={`px2-btn px2-btn--secondary px2-btn--block`} onClick={appendChild}>append</button> 
+						<button className={`px2-btn px2-btn--secondary px2-btn--block`} onClick={appendChild}><Icons type="plus" /></button> 
 					</li>
 				) : <></>}
 			</ul>
