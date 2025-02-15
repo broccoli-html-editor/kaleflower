@@ -39,6 +39,17 @@
 			top: auto; bottom:-8px;
 		}
 	}
+
+	&--drag-entered-c {
+		background: linear-gradient(rgba(56, 113, 224, 0.0), rgba(56, 113, 224, 0.2), rgba(56, 113, 224, 0.0)) !important;
+		&[data-broccoli-sub-mod-name] {
+			background: linear-gradient(rgba(24, 154, 163, 0.0), rgba(24, 154, 163, 0.2), rgba(24, 154, 163, 0.0)) !important;
+		}
+		>.kaleflower-layout-view__panel__drop-to-insert-here {
+			display: none;
+		}
+	}
+
 	&__create-new-element-before,
 	&__create-new-element-after {
 		display: none;

@@ -43,15 +43,19 @@ const Panel = React.memo((props) => {
 		};
 
 		var ud = {};
-		if( relmousepos.y < $(elm).height()/2 ){
+		if( relmousepos.y < $(elm).height()/3 ){
 			ud.y = 'u';
-		}else{
+		}else if( relmousepos.y > $(elm).height()/3*2 ){
 			ud.y = 'd';
-		}
-		if( relmousepos.x < $(elm).width()/2 ){
-			ud.x = 'l';
 		}else{
+			ud.y = 'c';
+		}
+		if( relmousepos.x < $(elm).width()/3 ){
+			ud.x = 'l';
+		}else if( relmousepos.x > $(elm).width()/3*2 ){
 			ud.x = 'r';
+		}else{
+			ud.x = 'c';
 		}
 		return ud;
 	}
@@ -64,6 +68,7 @@ const Panel = React.memo((props) => {
 				+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--hovered' : ''}`
 				+ `${globalState.hoveredInstanceDirection == 'before' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-u' : ''}`
 				+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-d' : ''}`
+				+ `${globalState.hoveredInstanceDirection == 'append' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-c' : ''}`
 				}
 			data-kaleflower-instance-id={props.panelInfo.instanceId}
 			style={{
@@ -118,15 +123,7 @@ const Panel = React.memo((props) => {
 				event.stopPropagation();
 
 				const ud = getUd(event, panelRef.current);
-				const direction = (ud.y == 'u' ? 'before' : 'after');
-				// if( ud.y == 'u' ){
-				// 	$this.addClass('broccoli__panel--drag-entered-u');
-				// 	$this.removeClass('broccoli__panel--drag-entered-d');
-				// }else{
-				// 	$this.addClass('broccoli__panel--drag-entered-d');
-				// 	$this.removeClass('broccoli__panel--drag-entered-u');
-				// }
-
+				const direction = (ud.y == 'u' ? 'before' : (ud.y == 'd' ? 'after' : 'append'));
 				props.ondragover(props.panelInfo.instanceId, direction);
 			}}
 			onDragLeave={(event)=>{}}
@@ -139,7 +136,7 @@ const Panel = React.memo((props) => {
 				} catch (e) {}
 
 				const ud = getUd(event, panelRef.current);
-				const direction = (ud.y == 'u' ? 'before' : 'after');
+				const direction = (ud.y == 'u' ? 'before' : (ud.y == 'd' ? 'after' : 'append'));
 
 				const moveFromInstance = globalState.selectedInstance;
 				const moveToInstance = props.panelInfo.instanceId;
