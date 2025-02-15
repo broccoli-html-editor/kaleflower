@@ -57,7 +57,7 @@ overflow: hidden;
 	</div>
 </div>]]></template>
 </component>
-		<component name="custom-component-002" is-void-element="true" can-set-class="false" can-set-width="false" can-set-height="false">
+		<component name="custom-component-002" label="custom-component-002" is-void-element="true" can-set-class="false" can-set-width="false" can-set-height="false">
 			<template><![CDATA[<div class="custom-component-002">
 	<div class="custom-component-002__content">
 		<div class="custom-component-002__content-inner">

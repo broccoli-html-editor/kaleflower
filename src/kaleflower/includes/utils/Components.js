@@ -41,6 +41,7 @@ export class Components {
 		const componentTagName = component.getAttribute('name');
 		const $rtn = {
 			"tagName": componentTagName,
+			"label": component.getAttribute('label') || `<${componentTagName}>`,
 			"isVoidElement": this.#utils.toBoolean(component.getAttribute('is-void-element')),
 			"canSetClass": this.#utils.toBoolean(component.getAttribute('can-set-class')),
 			"canSetWidth": this.#utils.toBoolean(component.getAttribute('can-set-width')),

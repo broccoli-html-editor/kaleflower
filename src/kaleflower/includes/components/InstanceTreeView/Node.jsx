@@ -85,7 +85,7 @@ const Node = React.memo((props) => {
 					onselectinstance(content);
 				}}
 				draggable="true"
-				>{content.nodeName == '#text' ? content.nodeName : content.tagName}</div>
+				>{content.nodeName == '#text' ? content.nodeName : (currentComponent.label ? currentComponent.label : `<${content.tagName}>`)}</div>
 			<ul className="kaleflower-insance-tree-view__node-list">
 				{Array.from(content.childNodes).map((child, index) => {
 					if( child.nodeName == '#text' && child.textContent.trim() == '' ){
