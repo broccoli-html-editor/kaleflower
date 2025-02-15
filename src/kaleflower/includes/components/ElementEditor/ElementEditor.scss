@@ -1,2 +1,11 @@
 .kaleflower-element-editor {
+    padding: 10px;
+    box-sizing: border-box;
+
+    font-size: 13px;
+
+    &__property-key {
+        font-weight: bold;
+        margin: 10px 0 2px 0;
+    }
 }

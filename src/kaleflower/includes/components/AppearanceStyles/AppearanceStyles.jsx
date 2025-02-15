@@ -1,22 +1,41 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext.js';
-import Dark from './Dark.jsx';
-import Light from './Light.jsx';
-import Auto from './Auto.jsx';
+import Dark from './Dark.js';
+import Light from './Light.js';
 
 const AppearanceStyles = (props) => {
-	if(props.appearance == 'light'){
-		return (
-			<Light />
-		);
-	}
-	if(props.appearance == 'dark'){
-		return (
-			<Dark />
-		);
-	}
+	const globalState = useContext(MainContext);
+
+	useEffect(() => {
+		const $appearance = globalState.$('<style>');
+		const stylesheet = (() => {
+			if (props.appearance === 'dark') {
+				return Dark();
+			} else if (props.appearance === 'light') {
+				return Light();
+			} else {
+				return `
+@media (prefers-color-scheme: dark) {
+${Dark()}
+}
+@media (prefers-color-scheme: light) {
+${Light()}
+}
+`;
+			}
+		})();
+
+		$appearance.html(stylesheet);
+
+		globalState.$(document.head).append($appearance);
+
+		return () => {
+			$appearance.remove();
+		};
+	}, []);
+
 	return (
-		<Auto />
+		<></>
 	);
 };
 

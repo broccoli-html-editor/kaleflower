@@ -39,8 +39,8 @@
 					"scriptReceiverSelector": "[data-kaleflower-receive-message=yes]",
 					"contentsAreaSelector": "[data-kaleflower-contents-bowl-name]",
 					"contentsContainerNameBy": "data-kaleflower-contents-bowl-name",
-					"appearance": "light",
-					"lang": "en",
+					"appearance": <?= json_encode($_GET['appearance'] ?? "light") ?>,
+					"lang": <?= json_encode($_GET['lang'] ?? "en") ?>,
 				});
 				kaleflower.load('../kflows/general.kflow');
 			});
