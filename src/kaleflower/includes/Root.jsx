@@ -5,9 +5,6 @@ import ElementEditor from './components/ElementEditor/ElementEditor.jsx';
 import LayoutView from './components/LayoutView/LayoutView.jsx';
 import {Utils} from './utils/Utils.js';
 import iterate79 from 'iterate79';
-import LangBank from 'langbank';
-
-const languageCsv = require('../../../data/language.csv');
 
 const Root = React.memo((props) => {
 	// const main = useContext(MainContext);
@@ -17,6 +14,7 @@ const Root = React.memo((props) => {
 
 	globalState.utils = new Utils();
 	globalState.options = props.options;
+	globalState.lb = props.lb;
 
 	useEffect(() => {
 		// カスタムイベントをリッスンしてデータを取得

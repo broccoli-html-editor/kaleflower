@@ -5,7 +5,9 @@ import "./includes/styles/kaleflower.scss";
 import {KflowXml} from "./includes/utils/KflowXml.js";
 import {Utils} from "./includes/utils/Utils.js";
 import $ from "jquery";
+import LangBank from 'langbank';
 import {} from "../../vendor/pickles2/px2style/dist/px2style.js";
+const languageCsv = require('../../data/language.csv');
 
 window.Kaleflower = class {
 	#kflowProcId;
@@ -13,6 +15,7 @@ window.Kaleflower = class {
 	#utils;
 	#container;
 	#options;
+	#lb;
 	#globalState = {
 		$: $,
 		jQuery: $,
@@ -26,17 +29,30 @@ window.Kaleflower = class {
 		this.#utils = new Utils();
 		this.#container = container;
 		this.#options = options;
+		this.#options.lang = options.lang || 'en';
+		this.#options.appearance = options.appearance || 'auto';
 
 		this.#kflowProcId = this.#utils.createUUID();
 
 		this.#container.className = ["kaleflower", this.#container.className].join(' ');
-		ReactDOM.render(
-			<Root
-				kflow-proc-id={this.#kflowProcId}
-				options={this.#options}
-			/>,
-			this.#container
-		);
+
+		new Promise((resolve) => {
+			this.#lb = new LangBank(languageCsv, () => {
+				this.#lb.setLang( this.#options.lang );
+				resolve();
+			});
+
+		}).then(() => {
+			ReactDOM.render(
+				<Root
+					kflow-proc-id={this.#kflowProcId}
+					options={this.#options}
+					lb={this.#lb}
+				/>,
+				this.#container
+			);
+		});
+
 	}
 
 	/**
