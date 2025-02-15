@@ -145,7 +145,9 @@ const Root = React.memo((props) => {
 		instance = getInstanceById(instance);
 		moveToInstance = getInstanceById(moveToInstance);
 		const parentNode = moveToInstance.parentNode;
-		if(direction == 'after'){
+		if(direction == 'append'){
+			moveToInstance.appendChild(instance);
+		}else if(direction == 'after'){
 			parentNode.insertBefore(instance, moveToInstance.nextSibling);
 		}else{
 			parentNode.insertBefore(instance, moveToInstance);

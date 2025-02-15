@@ -110,7 +110,22 @@ const Node = React.memo((props) => {
 				})}
 				{(content.nodeName != '#text' && content.nodeName != '#comment' && !currentComponent.isVoidElement && !content.childNodes.length) ? (
 					<li>
-						<button className={`px2-btn px2-btn--secondary px2-btn--block`} onClick={appendChild}><Icons type="plus" /></button> 
+						<button
+							className={`px2-btn px2-btn--secondary px2-btn--block`}
+							onClick={appendChild}
+							onDrop={(event)=>{
+								event.preventDefault();
+								event.stopPropagation();
+								let transferData = event.dataTransfer.getData("text/json");
+								try {
+									transferData = JSON.parse(transferData);
+								} catch (e) {}
+
+								const moveFromInstance = globalState.selectedInstance;
+								const moveToInstance = content;
+								props.onmoveinstance(moveFromInstance, moveToInstance, 'append');
+							}}
+							><Icons type="plus" /></button> 
 					</li>
 				) : <></>}
 			</ul>
