@@ -105,6 +105,11 @@ const Panel = React.memo((props) => {
 				event.preventDefault();
 				props.onhoverinstance(props.panelInfo.instanceId);
 			}}
+			onMouseOut={(event) => {
+				event.stopPropagation();
+				event.preventDefault();
+				props.onhoverinstance(null);
+			}}
 
 			onDragStart={(event)=>{
 				event.stopPropagation();
