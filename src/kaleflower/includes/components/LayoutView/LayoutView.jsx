@@ -8,6 +8,7 @@ const previewController = new PreviewController();
 
 const LayoutView = React.memo((props) => {
 	const globalState = useContext(MainContext);
+	const iframeRef = useRef(null);
 	const panelsContainerRef = useRef(null);
 	const $ = globalState.jQuery;
 
@@ -17,25 +18,24 @@ const LayoutView = React.memo((props) => {
 		instancePositions: {},
 	});
 
-	previewController.on('adjustPanelsPosition', (event) => {
-		const $panelsContainer = $(panelsContainerRef.current);
-		$panelsContainer.scrollTop(event.scrollTop);
-		const newLocalState = {
-			...localState,
-			panels: event.panels,
-		};
-		setLocalState(newLocalState);
-	});
+	previewController
+		.on('adjustPanelsPosition', (event) => {
+			const $panelsContainer = $(panelsContainerRef.current);
+			$panelsContainer.scrollTop(event.scrollTop);
+			const newLocalState = {
+				...localState,
+				panels: event.panels,
+			};
+			setLocalState(newLocalState);
+		});
 
 	useEffect(async () => {
 		const builder = new Builder(globalState.utils);
 		const dist = builder.build(globalState);
 		const jsonDist = JSON.stringify(dist);
 
-		const iframeElement = $('iframe.kaleflower-layout-view__iframe').get(0); // TODO: 閉じる
-
 		if( localState.lastPreviewHtml != jsonDist ){
-			await previewController.refresh(globalState, iframeElement, dist);
+			await previewController.refresh(globalState, iframeRef.current, dist);
 			const newLocalState = {
 				...localState,
 				lastPreviewHtml: jsonDist,
@@ -44,20 +44,24 @@ const LayoutView = React.memo((props) => {
 		}
 
 		const $panelsContainer = $(panelsContainerRef.current);
-		$panelsContainer.on('scroll', (event) => {
+		$panelsContainer.on('scroll.kaleflower', (event) => {
 			previewController.sendMessageToIframe('scrollTo', {
 				scrollTop: $panelsContainer.scrollTop(),
 			});
 		});
 
 		return () => {
-			$panelsContainer.off('scroll');
+			$panelsContainer.off('scroll.kaleflower');
 		};
 	}, [globalState]);
 
 	return (
 		<div className="kaleflower-layout-view">
-			<iframe className="kaleflower-layout-view__iframe" src={globalState.options.urlLayoutViewPage || "about:blank"} />
+			<iframe
+				ref={iframeRef}
+				className="kaleflower-layout-view__iframe"
+				src={globalState.options.urlLayoutViewPage || "about:blank"}
+				/>
 			<div className="kaleflower-layout-view__panels"
 				ref={panelsContainerRef}>
 				<div className="kaleflower-layout-view__panels-inner">

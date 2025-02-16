@@ -63,6 +63,15 @@ export class PreviewController {
 				return;
 			}
 
+			let timeout = setTimeout(() => {
+				resolve();
+			}, 2000);
+
+			$(iframeElement.contentWindow).on('load', (event) => {
+				clearTimeout(timeout);
+				resolve();
+			});
+
 			// --------------------------------------
 			// プレビュー画面を初期化
 			if(!this.#globalState.options.urlLayoutViewPage || this.#globalState.options.urlLayoutViewPage == 'about:blank'){
@@ -72,9 +81,6 @@ export class PreviewController {
 				iFrameDocument.close();
 			}
 
-			setTimeout(() => {
-				resolve();
-			}, 200);
 		})
 		.then(() => { return new Promise((resolve) => {
 			if(isPreviewStandby){
@@ -261,7 +267,7 @@ window.removeEventListener('message', f, false);
 			'options': options
 		};
 
-		var win = $(iframe).get(0).contentWindow;
+		var win = iframe.contentWindow;
 		var targetWindowOrigin = this.#getTargetOrigin(iframe);
 
 		try {
