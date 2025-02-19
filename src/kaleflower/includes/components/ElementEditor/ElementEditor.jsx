@@ -72,6 +72,20 @@ const ElementEditor = (props) => {
 		globalState.selectedInstance.removeAttribute('width');
 		globalState.selectedInstance.removeAttribute('height');
 		globalState.styles[currentClassName] = newStyle;
+
+		// 参照されていないclassを削除する
+		Object.keys(globalState.styles).map((className) => {
+			let counter = 0;
+			Object.keys(globalState.contents).map((bowlName) => {
+				const $bowl = $(globalState.contents[bowlName]);
+				const $found = $bowl.find(`.${className}`);
+				counter += $found.length;
+			});
+			if(!counter){
+				globalState.styles[className].remove();
+				delete globalState.styles[className];
+			}
+		});
 	}
 
 	const currentStyle = (currentClassName && globalState.styles[currentClassName] ? globalState.styles[currentClassName] : null);

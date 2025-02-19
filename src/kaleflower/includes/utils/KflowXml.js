@@ -89,6 +89,9 @@ export class KflowXml {
 		Object.keys(components).forEach((key) => {
 			const component = components[key];
 			finalXml += '		<component name="' + this.#utils.htmlSpecialChars(key) + '"';
+			if(component.label && component.label.length && component.label != `<${key}>`){
+				finalXml += ' label="' + this.#utils.htmlSpecialChars(component.label) + '"';
+			}
 			finalXml += ' is-void-element="' + (component.isVoidElement ? 'true' : 'false') + '"';
 			finalXml += ' can-set-class="' + (component.canSetClass ? 'true' : 'false') + '"';
 			finalXml += ' can-set-width="' + (component.canSetWidth ? 'true' : 'false') + '"';
