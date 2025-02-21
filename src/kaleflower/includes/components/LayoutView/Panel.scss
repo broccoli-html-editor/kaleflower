@@ -39,7 +39,7 @@
 	&--drag-entered-after {
 		background: linear-gradient(rgba(56, 113, 224, 0.0), rgba(56, 113, 224, 0.2)) !important;
 		>.kaleflower-layout-view__panel__drop-to-insert-here {
-			top: auto; bottom:-8px;
+			top: auto; bottom: -8px;
 		}
 	}
 
@@ -139,14 +139,16 @@
 	&.kaleflower-layout-view__panel--horizontal.kaleflower-layout-view__panel--drag-entered-before {
 		background: linear-gradient(90deg, rgba(56, 113, 224, 0.2), rgba(56, 113, 224, 0.0)) !important;
 		>.kaleflower-layout-view__panel__drop-to-insert-here {
-			top: -8px; bottom: auto;
+			top: 5%; bottom: auto;
+			left: -8px; right: auto;
 		}
 	}
 
 	&.kaleflower-layout-view__panel--horizontal.kaleflower-layout-view__panel--drag-entered-after {
 		background: linear-gradient(90deg, rgba(56, 113, 224, 0.0), rgba(56, 113, 224, 0.2)) !important;
 		>.kaleflower-layout-view__panel__drop-to-insert-here {
-			top: auto; bottom:-8px;
+			top: 5%; bottom: auto;
+			left: auto; right: -8px;
 		}
 	}
 
@@ -160,20 +162,22 @@
 	&--horizontal &__create-new-element-before,
 	&--horizontal &__create-new-element-after {
 		display: none;
-		left: calc(50% - 16px);
+		left: auto;
+		top: calc(50% - 16px);
 	}
 	&--horizontal &__create-new-element-before {
-		top: -19px;
+		left: -19px;
 	}
 	&--horizontal &__create-new-element-after {
-		bottom: -21px;
+		bottom: auto;
+		right: -21px;
 	}
 
 	&--horizontal &__drop-to-insert-here {
-		left:5%; top:-8px;
-		width:90%;
-		margin:0 auto;
-		height:1px;
+		top:5%; left:-8px;
+		height:90%;
+		margin:auto 0;
+		width:1px;
 
 		&:before,
 		&:after {
@@ -181,19 +185,19 @@
 			width: 0;
 			height: 0;
 			display: inline-block;
-			border-width: 7px 0 7px 13px;
+			border-width: 13px 7px 0 7px;
 			border-style: solid;
 			border-color: #f93;
-			border-top-color: transparent;
-			border-bottom-color: transparent;
+			border-left-color: transparent;
+			border-right-color: transparent;
 			position: absolute;
-			left: -5%; top:-7px;
+			top: -5%; left:-7px;
 		}
 		&:after {
-			border-left-width: 0;
-			border-right-width: 13px;
-			right: -5%;
-			left: auto;
+			border-top-width: 0;
+			border-bottom-width: 13px;
+			bottom: -5%;
+			top: auto;
 		}
 	}
 
