@@ -10,6 +10,13 @@ const Panel = React.memo((props) => {
 	const $ = globalState.jQuery;
 	const utils = globalState.utils;
 
+	const containerDirection = (() => {
+		if( props.panelInfo.parent.display == 'flex' && props.panelInfo.parent['flex-direction'] == 'row' ){
+			return 'x';
+		}
+		return 'y';
+	})();
+
 	useEffect(async () => {
 		return () => {
 		};
@@ -60,15 +67,34 @@ const Panel = React.memo((props) => {
 		return ud;
 	}
 
+	function getDirectionByUd(ud){
+		let direction = 'append';
+		if( containerDirection == 'y' ){
+			if( ud.y == 'u' ){
+				direction = 'before';
+			}else if( ud.y == 'd' ){
+				direction = 'after';
+			}
+		}else{
+			if( ud.x == 'l' ){
+				direction = 'before';
+			}else if( ud.x == 'r' ){
+				direction = 'after';
+			}
+		}
+		return direction;
+	}
+
 	return (
 		<div
 			ref={panelRef}
 			className={`kaleflower-layout-view__panel`
+				+ (containerDirection == 'x' ? ' kaleflower-layout-view__panel--horizontal' : '')
 				+ `${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--selected' : ''}`
 				+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--hovered' : ''}`
-				+ `${globalState.hoveredInstanceDirection == 'before' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-u' : ''}`
-				+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-d' : ''}`
-				+ `${globalState.hoveredInstanceDirection == 'append' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-c' : ''}`
+				+ `${globalState.hoveredInstanceDirection == 'before' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-before' : ''}`
+				+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-after' : ''}`
+				+ `${globalState.hoveredInstanceDirection == 'append' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-append' : ''}`
 				}
 			data-kaleflower-instance-id={props.panelInfo.instanceId}
 			style={{
@@ -128,7 +154,7 @@ const Panel = React.memo((props) => {
 				event.stopPropagation();
 
 				const ud = getUd(event, panelRef.current);
-				const direction = (ud.y == 'u' ? 'before' : (ud.y == 'd' ? 'after' : 'append'));
+				const direction = getDirectionByUd(ud);
 				props.ondragover(props.panelInfo.instanceId, direction);
 			}}
 			onDragLeave={(event)=>{}}
@@ -141,7 +167,7 @@ const Panel = React.memo((props) => {
 				} catch (e) {}
 
 				const ud = getUd(event, panelRef.current);
-				const direction = (ud.y == 'u' ? 'before' : (ud.y == 'd' ? 'after' : 'append'));
+				const direction = getDirectionByUd(ud);
 
 				const moveFromInstance = globalState.selectedInstance;
 				const moveToInstance = props.panelInfo.instanceId;

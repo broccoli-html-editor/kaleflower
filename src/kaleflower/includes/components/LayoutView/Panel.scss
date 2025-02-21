@@ -28,31 +28,23 @@
 		z-index: 1009;
 	}
 
-	&--drag-entered-u {
+	// Vertical
+	&--drag-entered-before {
 		background: linear-gradient(rgba(56, 113, 224, 0.2), rgba(56, 113, 224, 0.0)) !important;
-		&[data-broccoli-sub-mod-name] {
-			background: linear-gradient(rgba(24, 154, 163, 0.2), rgba(24, 154, 163, 0.0)) !important;
-		}
 		>.kaleflower-layout-view__panel__drop-to-insert-here {
 			top: -8px; bottom: auto;
 		}
 	}
 
-	&--drag-entered-d {
+	&--drag-entered-after {
 		background: linear-gradient(rgba(56, 113, 224, 0.0), rgba(56, 113, 224, 0.2)) !important;
-		&[data-broccoli-sub-mod-name] {
-			background: linear-gradient(rgba(24, 154, 163, 0.0), rgba(24, 154, 163, 0.2)) !important;
-		}
 		>.kaleflower-layout-view__panel__drop-to-insert-here {
 			top: auto; bottom:-8px;
 		}
 	}
 
-	&--drag-entered-c {
+	&--drag-entered-append {
 		background: linear-gradient(rgba(56, 113, 224, 0.0), rgba(56, 113, 224, 0.2), rgba(56, 113, 224, 0.0)) !important;
-		&[data-broccoli-sub-mod-name] {
-			background: linear-gradient(rgba(24, 154, 163, 0.0), rgba(24, 154, 163, 0.2), rgba(24, 154, 163, 0.0)) !important;
-		}
 		>.kaleflower-layout-view__panel__drop-to-insert-here {
 			display: none;
 		}
@@ -100,46 +92,109 @@
 	&:hover &__create-new-element-after {
 		display: block;
 	}
-}
 
-.kaleflower-layout-view__panel__drop-to-insert-here {
-	display: block;
-	border: none;
-	background-color: #f93;
-	position: absolute;
-	left:5%; top:-8px;
-	width:90%;
-	margin:0 auto;
-	height:1px;
-	z-index: 100000000;
-	animation: kaleflower-layout-view__panel__drop-to-insert-here 0.5s infinite;
-	@keyframes kaleflower-layout-view__panel__drop-to-insert-here {
-		0%{
-			opacity: 1;
-		}
-		50%{
-			opacity: 0.6;
-		}
-	}
-
-	&:before,
-	&:after {
-		content: "";
-		width: 0;
-		height: 0;
-		display: inline-block;
-		border-width: 7px 0 7px 13px;
-		border-style: solid;
-		border-color: #f93;
-		border-top-color: transparent;
-		border-bottom-color: transparent;
+	&__drop-to-insert-here {
+		display: block;
+		border: none;
+		background-color: #f93;
 		position: absolute;
-		left: -5%; top:-7px;
+		left:5%; top:-8px;
+		width:90%;
+		margin:0 auto;
+		height:1px;
+		z-index: 100000000;
+		animation: kaleflower-layout-view__panel__drop-to-insert-here 0.5s infinite;
+		@keyframes kaleflower-layout-view__panel__drop-to-insert-here {
+			0%{
+				opacity: 1;
+			}
+			50%{
+				opacity: 0.6;
+			}
+		}
+
+		&:before,
+		&:after {
+			content: "";
+			width: 0;
+			height: 0;
+			display: inline-block;
+			border-width: 7px 0 7px 13px;
+			border-style: solid;
+			border-color: #f93;
+			border-top-color: transparent;
+			border-bottom-color: transparent;
+			position: absolute;
+			left: -5%; top:-7px;
+		}
+		&:after {
+			border-left-width: 0;
+			border-right-width: 13px;
+			right: -5%;
+			left: auto;
+		}
 	}
-	&:after {
-		border-left-width: 0;
-		border-right-width: 13px;
-		right: -5%;
-		left: auto;
+
+	// Horizontal
+	&.kaleflower-layout-view__panel--horizontal.kaleflower-layout-view__panel--drag-entered-before {
+		background: linear-gradient(90deg, rgba(56, 113, 224, 0.2), rgba(56, 113, 224, 0.0)) !important;
+		>.kaleflower-layout-view__panel__drop-to-insert-here {
+			top: -8px; bottom: auto;
+		}
 	}
+
+	&.kaleflower-layout-view__panel--horizontal.kaleflower-layout-view__panel--drag-entered-after {
+		background: linear-gradient(90deg, rgba(56, 113, 224, 0.0), rgba(56, 113, 224, 0.2)) !important;
+		>.kaleflower-layout-view__panel__drop-to-insert-here {
+			top: auto; bottom:-8px;
+		}
+	}
+
+	&.kaleflower-layout-view__panel--horizontal.kaleflower-layout-view__panel--drag-entered-append {
+		background: linear-gradient(90deg, rgba(56, 113, 224, 0.0), rgba(56, 113, 224, 0.2), rgba(56, 113, 224, 0.0)) !important;
+		>.kaleflower-layout-view__panel__drop-to-insert-here {
+			display: none;
+		}
+	}
+
+	&--horizontal &__create-new-element-before,
+	&--horizontal &__create-new-element-after {
+		display: none;
+		left: calc(50% - 16px);
+	}
+	&--horizontal &__create-new-element-before {
+		top: -19px;
+	}
+	&--horizontal &__create-new-element-after {
+		bottom: -21px;
+	}
+
+	&--horizontal &__drop-to-insert-here {
+		left:5%; top:-8px;
+		width:90%;
+		margin:0 auto;
+		height:1px;
+
+		&:before,
+		&:after {
+			content: "";
+			width: 0;
+			height: 0;
+			display: inline-block;
+			border-width: 7px 0 7px 13px;
+			border-style: solid;
+			border-color: #f93;
+			border-top-color: transparent;
+			border-bottom-color: transparent;
+			position: absolute;
+			left: -5%; top:-7px;
+		}
+		&:after {
+			border-left-width: 0;
+			border-right-width: 13px;
+			right: -5%;
+			left: auto;
+		}
+	}
+
 }
