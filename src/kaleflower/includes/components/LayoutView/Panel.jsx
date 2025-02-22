@@ -14,6 +14,9 @@ const Panel = React.memo((props) => {
 		if( props.panelInfo.parent.display == 'flex' && props.panelInfo.parent['flex-direction'] == 'row' ){
 			return 'x';
 		}
+		if( props.panelInfo.display == 'inline' || props.panelInfo.display == 'inline-block' ){
+			return 'x';
+		}
 		return 'y';
 	})();
 
