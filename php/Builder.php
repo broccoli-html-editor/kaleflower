@@ -223,6 +223,10 @@ class Builder {
 					case 'contents-direction':
 					case 'scrollable':
 					case 'layer':
+					case 'layer-position-top':
+					case 'layer-position-right':
+					case 'layer-position-bottom':
+					case 'layer-position-left':
 					case 'width':
 					case 'height':
 						break;
