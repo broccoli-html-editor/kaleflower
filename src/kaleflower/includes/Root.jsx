@@ -108,6 +108,10 @@ const Root = React.memo((props) => {
 	async function createNewInstance(targetElement, direction){
 		targetElement = getInstanceById(targetElement);
 		direction = direction || 'before';
+		const currentComponent = (targetElement ? globalState.components.get_component(targetElement.tagName) : null);
+		if(direction == 'append' && currentComponent.isVoidElement){
+			return;
+		}
 
 		return new Promise((done, fail)=>{
 			const newChildElementTagName = prompt('element name', 'div');
@@ -144,7 +148,12 @@ const Root = React.memo((props) => {
 		instance = getInstanceById(instance);
 		moveToInstance = getInstanceById(moveToInstance);
 		const parentNode = moveToInstance.parentNode;
+		const currentComponent = (moveToInstance ? globalState.components.get_component(moveToInstance.tagName) : null);
+
 		if(direction == 'append'){
+			if(currentComponent.isVoidElement){
+				return;
+			}
 			moveToInstance.appendChild(instance);
 		}else if(direction == 'after'){
 			parentNode.insertBefore(instance, moveToInstance.nextSibling);
