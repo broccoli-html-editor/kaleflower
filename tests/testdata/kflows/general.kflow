@@ -10,8 +10,7 @@ overflow: hidden;
 		</style>
 		<style class="paragraph">margin: 1em 0;</style>
 		<style class="test-div-class-001" width="110px" height="280px">/* div class test */</style>
-		<style class="flex-sample" width="null" height="null">display: flex;
-gap: 10px;</style>
+		<style class="flex-sample" contents-direction="horizontal">gap: 20px;</style>
 	</styles>
 	<contents>
 		<content><div>
@@ -45,7 +44,7 @@ gap: 10px;</style>
 	<fields>
 	</fields>
 	<components>
-		<component name="custom-component-001" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true">
+		<component name="custom-component-001" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
 			<fields>
 				<field type="image" name="image" label="Image" />
 			</fields>
@@ -63,7 +62,7 @@ gap: 10px;</style>
 	</div>
 </div>]]></template>
 </component>
-		<component name="custom-component-002" label="custom-component-002" is-void-element="true" can-set-class="false" can-set-width="false" can-set-height="false">
+		<component name="custom-component-002" label="custom-component-002" is-void-element="true" can-set-class="false" can-set-width="false" can-set-height="false" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
 			<template><![CDATA[<div class="custom-component-002">
 	<div class="custom-component-002__content">
 		<div class="custom-component-002__content-inner">

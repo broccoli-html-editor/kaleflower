@@ -140,7 +140,7 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 				})
 			;
 
-			$('data-kaleflower-assets-placeholser').remove();
+			$('[data-kaleflower-assets-placeholser]').remove();
 
 			const styleElement = document.createElement('style');
 			styleElement.setAttribute('data-kaleflower-assets-placeholser', true);

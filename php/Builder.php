@@ -119,14 +119,37 @@ class Builder {
 		foreach ($styleNodes as $styleNode) {
 			$className = $styleNode->getAttribute('class');
 			$rtn->css .= '.'.$className.' {'."\n";
-			if( $styleNode->getAttribute('width') ){
-				$rtn->css .= '  width:'.$styleNode->getAttribute('width').';'."\n";
+
+			$attrContentsDirection = $styleNode->getAttribute('contents-direction');
+			if( $attrContentsDirection == "horizontal" ){
+				$rtn->css .= '  display: flex;'."\n";
+				$rtn->css .= '  flex-direction: row;'."\n";
 			}
-			if( $styleNode->getAttribute('height') ){
-				$rtn->css .= '  height:'.$styleNode->getAttribute('height').';'."\n";
+
+			$attrScrollable = $styleNode->getAttribute('scrollable');
+			if( $attrScrollable == "auto" ){
+				$rtn->css .= '  overflow: auto;'."\n";
 			}
+
+			$attrLayer = $styleNode->getAttribute('layer');
+			if( $attrLayer == "relative" ){
+				$rtn->css .= '  position: relative;'."\n";
+			}elseif( $attrLayer == "absolute" ){
+				$rtn->css .= '  position: absolute;'."\n";
+			}
+
+			$attrWidth = $styleNode->getAttribute('width');
+			if( $attrWidth ){
+				$rtn->css .= '  width: '.$attrWidth.';'."\n";
+			}
+
+			$attrHeight = $styleNode->getAttribute('height');
+			if( $attrHeight ){
+				$rtn->css .= '  height: '.$attrHeight.';'."\n";
+			}
+
 			foreach ($styleNode->childNodes as $child) {
-				// 子ノードを文字列として追加
+				// 子ノード(カスタムCSS)を文字列として追加
 				$rtn->css .= $styleNode->ownerDocument->saveHTML($child)."\n";
 			}
 			$rtn->css .= '}'."\n";

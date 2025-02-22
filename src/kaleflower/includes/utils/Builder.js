@@ -71,15 +71,36 @@ export class Builder {
 			const $styleNode = globalState.styles[className];
 			const $className = $styleNode.getAttribute('class');
 			$rtn.css += '.'+$className+' {'+"\n";
-			if( $styleNode.getAttribute('width') ){
-				$rtn.css += '  width:'+$styleNode.getAttribute('width')+';'+"\n";
+
+			const attrContentsDirection = $styleNode.getAttribute('contents-direction');
+			if( attrContentsDirection == "horizontal" ){
+				$rtn.css += '  display: flex;'+"\n";
+				$rtn.css += '  flex-direction: row;'+"\n";
 			}
-			if( $styleNode.getAttribute('height') ){
-				$rtn.css += '  height:'+$styleNode.getAttribute('height')+';'+"\n";
+
+			const attrScrollable = $styleNode.getAttribute('scrollable');
+			if( attrScrollable == "auto" ){
+				$rtn.css += '  overflow: auto;'+"\n";
+			}
+
+			const attrLayer = $styleNode.getAttribute('layer');
+			if( attrLayer == "relative" ){
+				$rtn.css += '  position: relative;'+"\n";
+			}else if( attrLayer == "absolute" ){
+				$rtn.css += '  position: absolute;'+"\n";
+			}
+
+			const attrWidth = $styleNode.getAttribute('width');
+			if( attrWidth ){
+				$rtn.css += '  width: '+attrWidth+';'+"\n";
+			}
+			const attrHeight = $styleNode.getAttribute('height');
+			if( attrHeight ){
+				$rtn.css += '  height: '+attrHeight+';'+"\n";
 			}
 			Object.keys($styleNode.childNodes).forEach((idx) => {
 				const $child = $styleNode.childNodes[idx];
-				// 子ノードを文字列として追加
+				// 子ノード(カスタムCSS)を文字列として追加
 				$rtn.css += ($styleNode.innerHTML || $child.nodeValue)+"\n";
 			});
 			$rtn.css += '}'+"\n";

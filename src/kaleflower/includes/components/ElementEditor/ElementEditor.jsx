@@ -138,6 +138,21 @@ const ElementEditor = (props) => {
 								attrName="class"
 								onchange={onchange} /> : <></>)}
 
+							{(canSetContentsDirection ? <Attribute
+								instance={globalState.selectedInstance}
+								attrName="contents-direction"
+								onchange={onchange} /> : <></>)}
+
+							{(canSetScrollable ? <Attribute
+								instance={globalState.selectedInstance}
+								attrName="scrollable"
+								onchange={onchange} /> : <></>)}
+
+							{(canBeLayer ? <Attribute
+								instance={globalState.selectedInstance}
+								attrName="layer"
+								onchange={onchange} /> : <></>)}
+
 							{(canSetWidth ? <Attribute
 								instance={globalState.selectedInstance}
 								attrName="width"
@@ -174,6 +189,21 @@ const ElementEditor = (props) => {
 							{canSetClass && currentClassName && currentStyle
 								? <>
 									<p>class <code>.{currentClassName}</code></p>
+									{(canSetContentsDirection ? <Attribute
+										instance={currentStyle}
+										attrName="contents-direction"
+										onchange={onchange} /> : <></>)}
+
+									{(canSetScrollable ? <Attribute
+										instance={currentStyle}
+										attrName="scrollable"
+										onchange={onchange} /> : <></>)}
+
+									{(canBeLayer ? <Attribute
+										instance={currentStyle}
+										attrName="layer"
+										onchange={onchange} /> : <></>)}
+
 									{(canSetWidth ? <Attribute
 										instance={currentStyle}
 										attrName="width"
