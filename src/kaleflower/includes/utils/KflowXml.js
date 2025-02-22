@@ -96,6 +96,9 @@ export class KflowXml {
 			finalXml += ' can-set-class="' + (component.canSetClass ? 'true' : 'false') + '"';
 			finalXml += ' can-set-width="' + (component.canSetWidth ? 'true' : 'false') + '"';
 			finalXml += ' can-set-height="' + (component.canSetHeight ? 'true' : 'false') + '"';
+			finalXml += ' can-set-contents-direction="' + (component.canSetContentsDirection ? 'true' : 'false') + '"';
+			finalXml += ' can-set-scrollable="' + (component.canSetScrollable ? 'true' : 'false') + '"';
+			finalXml += ' can-be-layer="' + (component.canBeLayer ? 'true' : 'false') + '"';
 			finalXml += '>';
 			if(component.fields && component.fields.length){
 				finalXml += "\n";

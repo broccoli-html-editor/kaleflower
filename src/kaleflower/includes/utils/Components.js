@@ -46,6 +46,9 @@ export class Components {
 			"canSetClass": this.#utils.toBoolean(component.getAttribute('can-set-class')),
 			"canSetWidth": this.#utils.toBoolean(component.getAttribute('can-set-width')),
 			"canSetHeight": this.#utils.toBoolean(component.getAttribute('can-set-height')),
+			"canSetContentsDirection": this.#utils.toBoolean(component.getAttribute('can-set-contents-direction')),
+			"canSetScrollable": this.#utils.toBoolean(component.getAttribute('can-set-scrollable')),
+			"canBeLayer": this.#utils.toBoolean(component.getAttribute('can-be-layer')),
 			"fields": [],
 			"template": null,
 		};

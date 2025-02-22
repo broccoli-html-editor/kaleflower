@@ -10,11 +10,15 @@ const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
 	const currentComponent = (globalState.selectedInstance ? globalState.components.get_component(globalState.selectedInstance.tagName) : null);
 	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
+	const isElementNode = (globalState.selectedInstance ? !globalState.selectedInstance.nodeName.match(/^\#/) : null);
+	const currentClassName = (isElementNode && globalState.selectedInstance ? globalState.selectedInstance.getAttribute('class') : null);
+
 	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
 	const canSetWidth = (currentComponent ? currentComponent.canSetWidth : null);
 	const canSetHeight = (currentComponent ? currentComponent.canSetHeight : null);
-	const isElementNode = (globalState.selectedInstance ? !globalState.selectedInstance.nodeName.match(/^\#/) : null);
-	const currentClassName = (isElementNode && globalState.selectedInstance ? globalState.selectedInstance.getAttribute('class') : null);
+	const canSetContentsDirection = (currentComponent ? currentComponent.canSetContentsDirection : null);
+	const canSetScrollable = (currentComponent ? currentComponent.canSetScrollable : null);
+	const canBeLayer = (currentComponent ? currentComponent.canBeLayer : null);
 
 	useEffect(() => {
 		if( !currentComponent ){
