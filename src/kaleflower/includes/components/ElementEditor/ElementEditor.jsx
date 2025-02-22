@@ -148,10 +148,28 @@ const ElementEditor = (props) => {
 								attrName="scrollable"
 								onchange={onchange} /> : <></>)}
 
-							{(canBeLayer ? <Attribute
-								instance={globalState.selectedInstance}
-								attrName="layer"
-								onchange={onchange} /> : <></>)}
+							{(canBeLayer ? <>
+								<Attribute
+									instance={globalState.selectedInstance}
+									attrName="layer"
+									onchange={onchange} />
+								<Attribute
+									instance={globalState.selectedInstance}
+									attrName="layer-position-top"
+									onchange={onchange} />
+								<Attribute
+									instance={globalState.selectedInstance}
+									attrName="layer-position-right"
+									onchange={onchange} />
+								<Attribute
+									instance={globalState.selectedInstance}
+									attrName="layer-position-bottom"
+									onchange={onchange} />
+								<Attribute
+									instance={globalState.selectedInstance}
+									attrName="layer-position-left"
+									onchange={onchange} />
+							</> : <></>)}
 
 							{(canSetWidth ? <Attribute
 								instance={globalState.selectedInstance}
@@ -199,10 +217,28 @@ const ElementEditor = (props) => {
 										attrName="scrollable"
 										onchange={onchange} /> : <></>)}
 
-									{(canBeLayer ? <Attribute
-										instance={currentStyle}
-										attrName="layer"
-										onchange={onchange} /> : <></>)}
+									{(canBeLayer ? <>
+										<Attribute
+											instance={currentStyle}
+											attrName="layer"
+											onchange={onchange} />
+										<Attribute
+											instance={currentStyle}
+											attrName="layer-position-top"
+											onchange={onchange} />
+										<Attribute
+											instance={currentStyle}
+											attrName="layer-position-right"
+											onchange={onchange} />
+										<Attribute
+											instance={currentStyle}
+											attrName="layer-position-bottom"
+											onchange={onchange} />
+										<Attribute
+											instance={currentStyle}
+											attrName="layer-position-left"
+											onchange={onchange} />
+									</> : <></>)}
 
 									{(canSetWidth ? <Attribute
 										instance={currentStyle}

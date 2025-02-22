@@ -236,7 +236,7 @@ class Builder {
 			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($instance_number++);
 		}
 		if (strlen($attributes->style ?? '') && strlen($attributes->class ?? '')) {
-			$attributes->style = '.'.$attributes->class.' {'."\n".'  '.$attributes->style."\n".'}'."\n";
+			$attributes->style = '.'.$attributes->class.' {'."\n".''.$attributes->style."\n".'}'."\n";
 		}
 		if (strlen($attributes->style ?? '')) {
 			$this->css .= $attributes->style;
@@ -309,30 +309,40 @@ class Builder {
 		$css = '';
 		$attrContentsDirection = $node->getAttribute('contents-direction');
 		if( $attrContentsDirection == "horizontal" ){
-			$css .= '  display: flex;'."\n";
-			$css .= '  flex-direction: row;'."\n";
+			$css .= 'display: flex;'."\n";
+			$css .= 'flex-direction: row;'."\n";
 		}
 
 		$attrScrollable = $node->getAttribute('scrollable');
 		if( $attrScrollable == "auto" ){
-			$css .= '  overflow: auto;'."\n";
+			$css .= 'overflow: auto;'."\n";
 		}
 
 		$attrLayer = $node->getAttribute('layer');
-		if( $attrLayer == "relative" ){
-			$css .= '  position: relative;'."\n";
-		}elseif( $attrLayer == "absolute" ){
-			$css .= '  position: absolute;'."\n";
+		$attrLayerPositionTop = $node->getAttribute('layer-position-top');
+		$attrLayerPositionRight = $node->getAttribute('layer-position-right');
+		$attrLayerPositionBottom = $node->getAttribute('layer-position-bottom');
+		$attrLayerPositionLeft = $node->getAttribute('layer-position-left');
+		if( $attrLayer ){
+			if( $attrLayer == "relative" ){
+				$css .= 'position: relative;'."\n";
+			}elseif( $attrLayer == "absolute" ){
+				$css .= 'position: absolute;'."\n";
+			}
+			$css .= (strlen($attrLayerPositionTop ?? '') ? 'top: '.$attrLayerPositionTop.';'."\n" : '');
+			$css .= (strlen($attrLayerPositionRight ?? '') ? 'right: '.$attrLayerPositionRight.';'."\n" : '');
+			$css .= (strlen($attrLayerPositionBottom ?? '') ? 'bottom: '.$attrLayerPositionBottom.';'."\n" : '');
+			$css .= (strlen($attrLayerPositionLeft ?? '') ? 'left: '.$attrLayerPositionLeft.';'."\n" : '');
 		}
 
 		$attrWidth = $node->getAttribute('width');
 		if( $attrWidth ){
-			$css .= '  width: '.$attrWidth.';'."\n";
+			$css .= 'width: '.$attrWidth.';'."\n";
 		}
 
 		$attrHeight = $node->getAttribute('height');
 		if( $attrHeight ){
-			$css .= '  height: '.$attrHeight.';'."\n";
+			$css .= 'height: '.$attrHeight.';'."\n";
 		}
 		return $css;
 	}

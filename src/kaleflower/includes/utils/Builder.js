@@ -186,7 +186,7 @@ export class Builder {
 			$attributes.class = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
 		}
 		if ($attributes.style.length && $attributes.class.length) {
-			$attributes.style = '.'+$attributes.class+' {'+"\n"+'  '+$attributes.style+"\n"+'}'+"\n";
+			$attributes.style = '.'+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
 		}
 		if ($attributes.style.length) {
 			this.#css += $attributes.style;
@@ -266,29 +266,39 @@ export class Builder {
 		let $css = '';
 		const attrContentsDirection = $node.getAttribute('contents-direction');
 		if( attrContentsDirection == "horizontal" ){
-			$css += '  display: flex;'+"\n";
-			$css += '  flex-direction: row;'+"\n";
+			$css += 'display: flex;'+"\n";
+			$css += 'flex-direction: row;'+"\n";
 		}
 
 		const attrScrollable = $node.getAttribute('scrollable');
 		if( attrScrollable == "auto" ){
-			$css += '  overflow: auto;'+"\n";
+			$css += 'overflow: auto;'+"\n";
 		}
 
 		const attrLayer = $node.getAttribute('layer');
-		if( attrLayer == "relative" ){
-			$css += '  position: relative;'+"\n";
-		}else if( attrLayer == "absolute" ){
-			$css += '  position: absolute;'+"\n";
+		const attrLayerPositionTop = $node.getAttribute('layer-position-top');
+		const attrLayerPositionRight = $node.getAttribute('layer-position-right');
+		const attrLayerPositionBottom = $node.getAttribute('layer-position-bottom');
+		const attrLayerPositionLeft = $node.getAttribute('layer-position-left');
+		if( attrLayer ){
+			if( attrLayer == "relative" ){
+				$css += 'position: relative;'+"\n";
+			}else if( attrLayer == "absolute" ){
+				$css += 'position: absolute;'+"\n";
+			}
+			$css += (attrLayerPositionTop ? 'top: '+attrLayerPositionTop+';'+"\n" : '');
+			$css += (attrLayerPositionRight ? 'right: '+attrLayerPositionRight+';'+"\n" : '');
+			$css += (attrLayerPositionBottom ? 'bottom: '+attrLayerPositionBottom+';'+"\n" : '');
+			$css += (attrLayerPositionLeft ? 'left: '+attrLayerPositionLeft+';'+"\n" : '');
 		}
 
 		const attrWidth = $node.getAttribute('width');
 		if( attrWidth ){
-			$css += '  width: '+attrWidth+';'+"\n";
+			$css += 'width: '+attrWidth+';'+"\n";
 		}
 		const attrHeight = $node.getAttribute('height');
 		if( attrHeight ){
-			$css += '  height: '+attrHeight+';'+"\n";
+			$css += 'height: '+attrHeight+';'+"\n";
 		}
 		return $css;
 	}

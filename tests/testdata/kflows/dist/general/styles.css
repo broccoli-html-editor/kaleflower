@@ -8,30 +8,32 @@ overflow: hidden;
 margin: 1em 0;
 }
 .test-div-class-001 {
-  width: 110px;
-  height: 280px;
+width: 110px;
+height: 280px;
 /* div class test */
 }
 .flex-sample {
-  display: flex;
-  flex-direction: row;
+display: flex;
+flex-direction: row;
 gap: 20px;
 }
 .kf-kf1928bb222858994f-0 {
-    width: 100%;
+width: 100%;
 
 }
 .kf-kf1928bb222858994f-1 {
-    position: absolute;
+position: absolute;
+top: 0;
+right: 10px;
 
 }
 .kf-kf1928bb222858994f-2 {
-    position: relative;
+position: relative;
 
 }
 .kf-kf1928bb222858994f-3 {
-    overflow: auto;
-  width: 50%;
-  height: auto;
+overflow: auto;
+width: 50%;
+height: auto;
 
 }
