@@ -71,33 +71,8 @@ export class Builder {
 			const $styleNode = globalState.styles[className];
 			const $className = $styleNode.getAttribute('class');
 			$rtn.css += '.'+$className+' {'+"\n";
+			$rtn.css += this.#buildCssByElementAttr($styleNode);
 
-			const attrContentsDirection = $styleNode.getAttribute('contents-direction');
-			if( attrContentsDirection == "horizontal" ){
-				$rtn.css += '  display: flex;'+"\n";
-				$rtn.css += '  flex-direction: row;'+"\n";
-			}
-
-			const attrScrollable = $styleNode.getAttribute('scrollable');
-			if( attrScrollable == "auto" ){
-				$rtn.css += '  overflow: auto;'+"\n";
-			}
-
-			const attrLayer = $styleNode.getAttribute('layer');
-			if( attrLayer == "relative" ){
-				$rtn.css += '  position: relative;'+"\n";
-			}else if( attrLayer == "absolute" ){
-				$rtn.css += '  position: absolute;'+"\n";
-			}
-
-			const attrWidth = $styleNode.getAttribute('width');
-			if( attrWidth ){
-				$rtn.css += '  width: '+attrWidth+';'+"\n";
-			}
-			const attrHeight = $styleNode.getAttribute('height');
-			if( attrHeight ){
-				$rtn.css += '  height: '+attrHeight+';'+"\n";
-			}
 			Object.keys($styleNode.childNodes).forEach((idx) => {
 				const $child = $styleNode.childNodes[idx];
 				// 子ノード(カスタムCSS)を文字列として追加
@@ -190,6 +165,8 @@ export class Builder {
 
 		// 属性があれば処理する
 		if ($node && $node.hasAttributes && $node.hasAttributes()) {
+			$attributes.style += this.#buildCssByElementAttr($node);
+
 			Object.keys($node.attributes).forEach((index) => {
 				const $attr = $node.attributes[index];
 				switch($attr.nodeName){
@@ -198,7 +175,6 @@ export class Builder {
 					case 'layer':
 					case 'width':
 					case 'height':
-						$attributes.style += this.#buildCssByElementAttr($attr.nodeName, $attr.nodeValue);
 						break;
 					default:
 						$attributes[$attr.nodeName] = $attr.nodeValue;
@@ -286,33 +262,33 @@ export class Builder {
 		return $rtn;
 	}
 
-	#buildCssByElementAttr($attrName, $attrValue) {
+	#buildCssByElementAttr($node) {
 		let $css = '';
-		switch($attrName){
-			case 'contents-direction':
-				if( $attrValue == "horizontal" ){
-					$css += '  display: flex;'+"\n";
-					$css += '  flex-direction: row;'+"\n";
-				}
-				break;
-			case 'scrollable':
-				if( $attrValue == "auto" ){
-					$css += '  overflow: auto;'+"\n";
-				}
-				break;
-			case 'layer':
-				if( $attrValue == "relative" ){
-					$css += '  position: relative;'+"\n";
-				}else if( $attrValue == "absolute" ){
-					$css += '  position: absolute;'+"\n";
-				}
-				break;
-			case 'width':
-				$css += ' width: '+$attrValue+';'+"\n";
-				break;
-			case 'height':
-				$css += ' height: '+$attrValue+';'+"\n";
-				break;
+		const attrContentsDirection = $node.getAttribute('contents-direction');
+		if( attrContentsDirection == "horizontal" ){
+			$css += '  display: flex;'+"\n";
+			$css += '  flex-direction: row;'+"\n";
+		}
+
+		const attrScrollable = $node.getAttribute('scrollable');
+		if( attrScrollable == "auto" ){
+			$css += '  overflow: auto;'+"\n";
+		}
+
+		const attrLayer = $node.getAttribute('layer');
+		if( attrLayer == "relative" ){
+			$css += '  position: relative;'+"\n";
+		}else if( attrLayer == "absolute" ){
+			$css += '  position: absolute;'+"\n";
+		}
+
+		const attrWidth = $node.getAttribute('width');
+		if( attrWidth ){
+			$css += '  width: '+attrWidth+';'+"\n";
+		}
+		const attrHeight = $node.getAttribute('height');
+		if( attrHeight ){
+			$css += '  height: '+attrHeight+';'+"\n";
 		}
 		return $css;
 	}
