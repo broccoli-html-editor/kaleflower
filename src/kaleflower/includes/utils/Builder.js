@@ -193,11 +193,12 @@ export class Builder {
 			Object.keys($node.attributes).forEach((index) => {
 				const $attr = $node.attributes[index];
 				switch($attr.nodeName){
+					case 'contents-direction':
+					case 'scrollable':
+					case 'layer':
 					case 'width':
-						$attributes.style += ' width: '+$attr.nodeValue+';'+"\n";
-						break;
 					case 'height':
-						$attributes.style += ' height: '+$attr.nodeValue+';'+"\n";
+						$attributes.style += this.#buildCssByElementAttr($attr.nodeName, $attr.nodeValue);
 						break;
 					default:
 						$attributes[$attr.nodeName] = $attr.nodeValue;
@@ -206,7 +207,7 @@ export class Builder {
 			});
 		}
 		if ($attributes.style.length && !$attributes.class.length) {
-			this.#config.id+'-'+(this.#instance_number++);
+			$attributes.class = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
 		}
 		if ($attributes.style.length && $attributes.class.length) {
 			$attributes.style = '.'+$attributes.class+' {'+"\n"+'  '+$attributes.style+"\n"+'}'+"\n";
@@ -283,5 +284,36 @@ export class Builder {
 		}
 
 		return $rtn;
+	}
+
+	#buildCssByElementAttr($attrName, $attrValue) {
+		let $css = '';
+		switch($attrName){
+			case 'contents-direction':
+				if( $attrValue == "horizontal" ){
+					$css += '  display: flex;'+"\n";
+					$css += '  flex-direction: row;'+"\n";
+				}
+				break;
+			case 'scrollable':
+				if( $attrValue == "auto" ){
+					$css += '  overflow: auto;'+"\n";
+				}
+				break;
+			case 'layer':
+				if( $attrValue == "relative" ){
+					$css += '  position: relative;'+"\n";
+				}else if( $attrValue == "absolute" ){
+					$css += '  position: absolute;'+"\n";
+				}
+				break;
+			case 'width':
+				$css += ' width: '+$attrValue+';'+"\n";
+				break;
+			case 'height':
+				$css += ' height: '+$attrValue+';'+"\n";
+				break;
+		}
+		return $css;
 	}
 };
