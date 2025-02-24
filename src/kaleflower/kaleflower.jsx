@@ -11,7 +11,6 @@ const languageCsv = require('../../data/language.csv');
 
 window.Kaleflower = class {
 	#kflowProcId;
-	#px2style;
 	#utils;
 	#container;
 	#options;
@@ -25,7 +24,6 @@ window.Kaleflower = class {
 	 * Constructor
 	 */
 	constructor(container, options) {
-		this.#px2style = window.px2style;
 		this.#utils = new Utils();
 		this.#container = container;
 		this.#options = options;

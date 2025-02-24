@@ -3,6 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Kaleflower TEST</title>
+		<link rel="stylesheet" href="../../../vendor/pickles2/px2style/dist/px2style.css" />
+		<link rel="stylesheet" href="../../../vendor/pickles2/px2style/dist/themes/default.css" />
 		<style>
 			html, body {
 				padding: 0;

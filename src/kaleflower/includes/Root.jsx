@@ -5,6 +5,7 @@ import ElementEditor from './components/ElementEditor/ElementEditor.jsx';
 import LayoutView from './components/LayoutView/LayoutView.jsx';
 import AppearanceStyles from './components/AppearanceStyles/AppearanceStyles.jsx';
 import {Utils} from './utils/Utils.js';
+import {CreateNewInstance} from './utils/CreateNewInstance.js';
 import iterate79 from 'iterate79';
 
 const Root = React.memo((props) => {
@@ -114,12 +115,14 @@ const Root = React.memo((props) => {
 		}
 
 		return new Promise((done, fail)=>{
-			const newChildElementTagName = prompt('element name', 'div');
-			if(!newChildElementTagName){
-				fail();
-				return;
-			}
-			done(newChildElementTagName);
+			const createNewInstance = new CreateNewInstance();
+			createNewInstance.openSelectDialog().then((newChildElementTagName)=>{
+				if(!newChildElementTagName){
+					fail();
+					return;
+				}
+				done(newChildElementTagName);
+			});
 		}).then((newChildElementTagName)=>{
 			return new Promise((done, fail)=>{
 				const newChild = document.createElementNS('', newChildElementTagName);
