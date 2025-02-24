@@ -2,6 +2,19 @@
 <kflow>
 	<configs>
 		<config name="id" value="kf1928bb222858994f" />
+		<config name="module-name-prefix" value="cont-" />
+		<config name="module-name" value="test" />
+		<config name="break-points">
+			<value name="lg" max-width="1400" />
+			<value name="md" max-width="800" />
+			<value name="sm" max-width="480" />
+		</config>
+		<config name="color-palettes">
+			<value name="key" value="#fff" />
+			<value name="sub" value="#ddd" />
+			<value name="text" value="#333" />
+			<value name="text-background" value="#eee" />
+		</config>
 	</configs>
 	<styles>
 		<style class="test-image-sample">border: 1px solid #000;
