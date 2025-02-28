@@ -10,10 +10,10 @@
 			<value name="sm" max-width="480" />
 		</config>
 		<config name="color-palettes">
-			<value name="key" value="#fff" />
-			<value name="sub" value="#ddd" />
-			<value name="text" value="#333" />
-			<value name="text-background" value="#eee" />
+			<value name="key" color="#fff" />
+			<value name="sub" color="#ddd" />
+			<value name="text" color="#333" />
+			<value name="text-background" color="#eee" />
 		</config>
 	</configs>
 	<styles>

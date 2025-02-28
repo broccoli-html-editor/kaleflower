@@ -21,7 +21,38 @@ export class KflowXml {
 
 		finalXml += '<kflow>\n';
 		finalXml += '	<configs>\n';
-		finalXml += '		<config name="id" value="'+this.#utils.htmlSpecialChars(globalState.configs.id)+'" />\n';
+
+		// 他のconfigを追加
+		Object.keys(globalState.configs).forEach((configName) => {
+			const configValue = globalState.configs[configName];
+			
+			if(typeof configValue === 'string') {
+				// 単純な値の場合
+				finalXml += '		<config name="'+this.#utils.htmlSpecialChars(configName)+'" value="'+this.#utils.htmlSpecialChars(configValue)+'" />\n';
+			} else if(typeof configValue === 'object') {
+				// オブジェクト型の場合は入れ子構造で出力
+				finalXml += '		<config name="'+this.#utils.htmlSpecialChars(configName)+'">\n';
+				
+				Object.keys(configValue).forEach((valueName) => {
+					const attrObj = configValue[valueName];
+					finalXml += '			<value name="'+this.#utils.htmlSpecialChars(valueName)+'"';
+					
+					// 属性を出力
+					if(typeof attrObj === 'object') {
+						Object.keys(attrObj).forEach((attrName) => {
+							if(attrName !== 'name') { // nameは既に処理済み
+								finalXml += ' '+attrName+'="'+this.#utils.htmlSpecialChars(attrObj[attrName])+'"';
+							}
+						});
+					}
+					
+					finalXml += ' />\n';
+				});
+				
+				finalXml += '		</config>\n';
+			}
+		});
+
 		finalXml += '	</configs>\n';
 		finalXml += '	<styles>\n';
 
@@ -149,7 +180,23 @@ export class KflowXml {
 			newGlobalState.configs = {};
 			const configs = xml.querySelectorAll('kflow>configs>config');
 			configs.forEach((config, index) => {
-				newGlobalState.configs[config.getAttribute('name')] = config.getAttribute('value');
+				const configName = config.getAttribute('name');
+				const configValueAttr = config.getAttribute('value');
+
+				if (configValueAttr !== null) {
+					newGlobalState.configs[configName] = configValueAttr;
+				} else {
+					const valueElements = config.querySelectorAll('value');
+					newGlobalState.configs[configName] = {};
+					valueElements.forEach((value) => {
+						const valueName = value.getAttribute('name');
+						const attrObj = {};
+						Array.from(value.attributes).forEach((attr) => {
+							attrObj[attr.name] = attr.value;
+						});
+						newGlobalState.configs[configName][valueName] = attrObj;
+					});
+				}
 			});
 			newGlobalState.configs.id = newGlobalState.configs.id || this.#utils.createUUID();
 
