@@ -101,6 +101,7 @@ const Panel = React.memo((props) => {
 				+ `${props.panelInfo.isLayer ? ' kaleflower-layout-view__panel--layer' : ''}`
 				}
 			data-kaleflower-instance-id={props.panelInfo.instanceId}
+			data-kaleflower-current-layer={props.panelInfo.currentLayer}
 			style={{
 				top: props.panelInfo.offsetTop,
 				left: props.panelInfo.offsetLeft,

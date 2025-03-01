@@ -32,13 +32,15 @@ export class PanelsInfo {
 	collectInstance(){
 		const $ = this.#$;
 		const rtn = [];
+		const layers = [];
 		$("[data-kaleflower-instance-id]").each((index, elm) => {
-			var $this = $(elm);
-			var $next = $this.next();
-			var instanceId = $this.attr('data-kaleflower-instance-id');
-			var $parent = $this.parent();
+			const $this = $(elm);
+			const $next = $this.next();
+			const instanceId = $this.attr('data-kaleflower-instance-id');
+			const $parent = $this.parent();
 			const data = {
 				'instanceId': instanceId,
+				'currentLayer': null,
 				'parent': {
 					'display': $parent.css('display'),
 					'flex-direction': $parent.css('flex-direction'),
@@ -59,6 +61,18 @@ export class PanelsInfo {
 				'nextOffsetLeft': ($next.length ? $next.offset().left : null),
 			};
 			rtn.push(data);
+			if(data.isLayer){
+				layers.push(instanceId);
+				data.currentLayer = instanceId;
+			}else if(layers.length){
+				for(let i = layers.length - 1; i >= 0; i--) {
+					const husCurrentLayer = $this.closest(`[data-kaleflower-instance-id="${layers[i]}"]`).length;
+					if (husCurrentLayer) {
+						data.currentLayer = layers[i];
+						break;
+					}
+				}
+			}
 			return;
 		});
 		return rtn;
