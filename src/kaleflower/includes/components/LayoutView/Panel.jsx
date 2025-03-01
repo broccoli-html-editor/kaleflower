@@ -72,6 +72,9 @@ const Panel = React.memo((props) => {
 
 	function getDirectionByUd(ud){
 		let direction = 'append';
+		if( props.panelInfo.isLayer ){
+			return direction;
+		}
 		if( containerDirection == 'y' ){
 			if( ud.y == 'u' ){
 				direction = 'before';
@@ -102,6 +105,8 @@ const Panel = React.memo((props) => {
 				}
 			data-kaleflower-instance-id={props.panelInfo.instanceId}
 			data-kaleflower-current-layer={props.panelInfo.currentLayer}
+			data-kaleflower-parent-layer={props.panelInfo.parentLayer}
+			data-kaleflower-is-layer={props.panelInfo.isLayer}
 			style={{
 				top: props.panelInfo.offsetTop,
 				left: props.panelInfo.offsetLeft,
@@ -185,7 +190,7 @@ const Panel = React.memo((props) => {
 			{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId &&
 				<div className={`kaleflower-layout-view__panel__drop-to-insert-here`}></div>
 			}
-			{!globalState.hoveredInstanceDirection &&
+			{!globalState.hoveredInstanceDirection && !props.panelInfo.isLayer &&
 				<>
 					<div ref={beforeRef} className={`kaleflower-layout-view__panel__create-new-element-before`}>
 						<button type={`button`} onClick={async (event) => {
