@@ -63,7 +63,7 @@ export class PanelsInfo {
 			rtn.push(data);
 			if(data.isLayer){
 				layers.push(instanceId);
-				data.currentLayer = instanceId;
+				// data.currentLayer = instanceId;
 			}else if(layers.length){
 				for(let i = layers.length - 1; i >= 0; i--) {
 					const husCurrentLayer = $this.closest(`[data-kaleflower-instance-id="${layers[i]}"]`).length;

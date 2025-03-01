@@ -15,7 +15,6 @@ const LayoutView = React.memo((props) => {
 	const [localState, setLocalState] = useState({
 		panels: [],
 		lastPreviewHtml: '{}',
-		instancePositions: {},
 	});
 
 	previewController
@@ -28,6 +27,21 @@ const LayoutView = React.memo((props) => {
 			};
 			setLocalState(newLocalState);
 		});
+
+	const currentLayer = (() => {
+		if (globalState.selectedInstance) {
+			for (let i = 0; i < localState.panels.length; i++) {
+				const panel = localState.panels[i];
+				if (panel.isLayer && panel.instanceId === globalState.selectedInstance.kaleflowerInstanceId) {
+					return panel.instanceId;
+				}
+				if (panel.currentLayer && panel.instanceId === globalState.selectedInstance.kaleflowerInstanceId) {
+					return panel.currentLayer;
+				}
+			}
+		}
+		return null;
+	})();
 
 	useEffect(async () => {
 		const builder = new Builder(globalState.utils);
@@ -66,6 +80,11 @@ const LayoutView = React.memo((props) => {
 				ref={panelsContainerRef}>
 				<div className="kaleflower-layout-view__panels-inner">
 					{localState.panels.map((panel, index) => {
+
+						if(currentLayer !== panel.currentLayer && currentLayer !== panel.instanceId){
+							return;
+						}
+
 						return (
 							<Panel key={index}
 								panelInfo={panel}
