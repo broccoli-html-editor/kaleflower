@@ -103,7 +103,23 @@ class Builder {
 		);
 		foreach ($configNodes as $configNode) {
 			$configName = $configNode->getAttribute('name');
-			$this->config->{$configName} = $configNode->getAttribute('value');
+			$configValueAttr = $configNode->getAttribute('value');
+			$configHasValueAttr = $configNode->hasAttribute('value');
+
+			if ($configHasValueAttr) {
+				$this->config->{$configName} = $configValueAttr;
+			} else {
+				$valueElements = $xpath->query("value", $configNode);
+				$this->config->{$configName} = (Object) array();
+				foreach ($valueElements as $value) {
+					$valueName = $value->getAttribute('name');
+					$attrObj = (Object) array();
+					foreach ($value->attributes as $attr) {
+						$attrObj->{$attr->name} = $attr->value;
+					}
+					$this->config->{$configName}->{$valueName} = $attrObj;
+				}
+			}
 		}
 
 		$this->fields = new Fields($this->utils);

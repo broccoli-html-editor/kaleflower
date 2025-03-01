@@ -182,8 +182,9 @@ export class KflowXml {
 			configs.forEach((config, index) => {
 				const configName = config.getAttribute('name');
 				const configValueAttr = config.getAttribute('value');
+				const configHasValueAttr = config.hasAttribute('value');
 
-				if (configValueAttr !== null) {
+				if (configHasValueAttr) {
 					newGlobalState.configs[configName] = configValueAttr;
 				} else {
 					const valueElements = config.querySelectorAll('value');
