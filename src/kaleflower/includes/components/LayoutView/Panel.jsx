@@ -98,6 +98,7 @@ const Panel = React.memo((props) => {
 				+ `${globalState.hoveredInstanceDirection == 'before' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-before' : ''}`
 				+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-after' : ''}`
 				+ `${globalState.hoveredInstanceDirection == 'append' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view__panel--drag-entered-append' : ''}`
+				+ `${props.panelInfo.isLayer ? ' kaleflower-layout-view__panel--layer' : ''}`
 				}
 			data-kaleflower-instance-id={props.panelInfo.instanceId}
 			style={{
