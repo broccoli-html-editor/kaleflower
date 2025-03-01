@@ -12,11 +12,19 @@ export class PanelsInfo {
 		const $ = this.#$;
 		const $elm = $(elm);
 		const position = $elm.css('position');
+		const top = $elm.css('top');
+		const right = $elm.css('right');
+		const bottom = $elm.css('bottom');
+		const left = $elm.css('left');
 
 		switch (position) {
 			case 'static':
 				break;
 			case 'relative':
+				if (top != '0px' || right != '0px' || bottom != '0px' || left != '0px') {
+					return true;
+				}
+				break;
 			case 'absolute':
 			case 'fixed':
 			case 'sticky':
@@ -41,6 +49,7 @@ export class PanelsInfo {
 			const data = {
 				'instanceId': instanceId,
 				'currentLayer': null,
+				'parentLayer': null,
 				'parent': {
 					'display': $parent.css('display'),
 					'flex-direction': $parent.css('flex-direction'),
@@ -62,8 +71,16 @@ export class PanelsInfo {
 			};
 			rtn.push(data);
 			if(data.isLayer){
+				for(let i = layers.length - 1; i >= 0; i--) {
+					const husCurrentLayer = $this.closest(`[data-kaleflower-instance-id="${layers[i]}"]`).length;
+					if (husCurrentLayer) {
+						data.parentLayer = layers[i];
+						break;
+					}
+				}
 				layers.push(instanceId);
-				// data.currentLayer = instanceId;
+				data.currentLayer = instanceId;
+
 			}else if(layers.length){
 				for(let i = layers.length - 1; i >= 0; i--) {
 					const husCurrentLayer = $this.closest(`[data-kaleflower-instance-id="${layers[i]}"]`).length;

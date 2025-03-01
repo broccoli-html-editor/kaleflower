@@ -41,7 +41,10 @@ overflow: hidden;
 	<div layer="relative">
 		<div>This is a div item 01.</div>
 		<div>This is a div item 02.</div>
-		<div layer="absolute" layer-position-right="10px" layer-position-top="0">This is a absolute layer sample.</div>
+		<div layer="absolute" layer-position-right="10px" layer-position-top="0">
+			This is a absolute layer sample.
+			<div>div inside layer.</div>
+		</div>
 	</div>
 	<custom-component-002/>
 </div>

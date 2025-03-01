@@ -81,10 +81,20 @@ const LayoutView = React.memo((props) => {
 				<div className="kaleflower-layout-view__panels-inner">
 					{localState.panels.map((panel, index) => {
 
-						if(currentLayer !== panel.currentLayer && currentLayer !== panel.instanceId){
-							return;
+						let isAllowedPanel = false;
+						if(currentLayer === panel.currentLayer){
+							isAllowedPanel = true;
+						}
+						if(currentLayer === panel.parentLayer && panel.currentLayer === panel.instanceId){
+							isAllowedPanel = true;
+						}
+						if(currentLayer === panel.instanceId){
+							isAllowedPanel = true;
 						}
 
+						if(!isAllowedPanel){
+							return;
+						}
 						return (
 							<Panel key={index}
 								panelInfo={panel}
