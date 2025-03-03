@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
+import StylingFields from './StylingFields.jsx';
 import Attribute from './Attribute.jsx';
 import {Utils} from "../../utils/Utils.js";
 const utils = new Utils();
@@ -163,71 +164,17 @@ const ElementEditor = (props) => {
 								? <><p>class <code>.{currentClassName}</code></p></>
 								: <></>}
 
-							{((canBeLayer || canSetClass) ? <>
-								<Attribute
-									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-									attrName="layer"
-									onchange={onchange} />
-								<Attribute
-									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-									attrName="layer-position-top"
-									onchange={onchange} />
-								<Attribute
-									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-									attrName="layer-position-right"
-									onchange={onchange} />
-								<Attribute
-									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-									attrName="layer-position-bottom"
-									onchange={onchange} />
-								<Attribute
-									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-									attrName="layer-position-left"
-									onchange={onchange} />
-							</> : <></>)}
-
-							{((canSetContentsDirection || canSetClass) ? <Attribute
-								instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-								attrName="contents-direction"
-								onchange={onchange} /> : <></>)}
-
-							{((canSetWidth || canSetClass) ? <Attribute
-								instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-								attrName="width"
-								computedKey="kaleflowerComputedWidth"
-								onchange={onchange} /> : <></>)}
-
-							{((canSetHeight || canSetClass) ? <Attribute
-								instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-								attrName="height"
-								computedKey="kaleflowerComputedHeight"
-								onchange={onchange} /> : <></>)}
-
-							{((canSetScrollable || canSetClass) ? <Attribute
-								instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
-								attrName="scrollable"
-								onchange={onchange} /> : <></>)}
-
-							{hasCssClassName
-								? <>
-									<div className="kaleflower-element-editor__property">
-										<div className="kaleflower-element-editor__property-key">
-											custom style:
-										</div>
-										<div className="kaleflower-element-editor__property-val">
-											<textarea
-												className={`px2-input`}
-												value={typeof(currentClassName) == typeof('string') ? currentStyle.innerHTML : ''}
-												onInput={(event)=>{
-													const newStyleSheet = event.target.value;
-													currentStyle.innerHTML = newStyleSheet;
-
-													onchange(globalState.selectedInstance);
-												}} />
-										</div>
-									</div>
-								</>
-								: <></>}
+							<StylingFields
+								hasCssClassName={hasCssClassName}
+								targetElementNode={hasCssClassName ? currentStyle : globalState.selectedInstance}
+								canSetClass={canSetClass}
+								currentClassName={currentClassName}
+								canBeLayer={canBeLayer}
+								canSetContentsDirection={canSetContentsDirection}
+								canSetWidth={canSetWidth}
+								canSetHeight={canSetHeight}
+								canSetScrollable={canSetScrollable}
+								onchange={onchange} />
 
 							{currentComponent.fields.length
 								? <>
