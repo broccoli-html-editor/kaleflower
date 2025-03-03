@@ -8,6 +8,13 @@ const $ = jQuery;
 
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
+
+	if( !globalState.selectedInstance ){
+		return (<div className="kaleflower-element-editor" onClick={(event)=>{
+			event.stopPropagation();
+		}}></div>);
+	}
+
 	const currentComponent = (globalState.selectedInstance ? globalState.components.get_component(globalState.selectedInstance.tagName) : null);
 	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
 	const isElementNode = (globalState.selectedInstance ? !globalState.selectedInstance.nodeName.match(/^\#/) : null);
@@ -60,12 +67,6 @@ const ElementEditor = (props) => {
 		};
 	}, [currentComponent, globalState.selectedInstance]);
 
-	if( !globalState.selectedInstance ){
-		return (<div className="kaleflower-element-editor" onClick={(event)=>{
-			event.stopPropagation();
-		}}></div>);
-	}
-
 	if( currentClassName && !globalState.styles[currentClassName] ){
 		// create new style if not exists
 		const newStyle = document.createElementNS('', 'style');
@@ -93,6 +94,7 @@ const ElementEditor = (props) => {
 	}
 
 	const currentStyle = (currentClassName && globalState.styles[currentClassName] ? globalState.styles[currentClassName] : null);
+	const hasCssClassName = (canSetClass && currentClassName && currentStyle);
 
 	function setKaleflowerComputedValues(propKey, attrKey){
 		if(!isElementNode){
@@ -122,66 +124,128 @@ const ElementEditor = (props) => {
 		}}>
 			{globalState.selectedInstance
 				? <>
-					<div className="kaleflower-element-editor__property">
-						<div className="kaleflower-element-editor__property-key">
-							nodeName:
-						</div>
-						<div className="kaleflower-element-editor__property-val">
-							{globalState.selectedInstance.nodeName}
-						</div>
-					</div>
-
-					{isElementNode
+					{!isElementNode
 						? <>
+							{/* Text Node */}
+							<div className="kaleflower-element-editor__property">
+								<div className="kaleflower-element-editor__property-key">
+									nodeValue:
+								</div>
+								<div className="kaleflower-element-editor__property-val">
+									<textarea
+										className={`px2-input`}
+										value={typeof(globalState.selectedInstance.nodeValue) == typeof('string') ? globalState.selectedInstance.nodeValue : ''}
+										onInput={(event)=>{
+											const newNodeValue = event.target.value;
+											globalState.selectedInstance.nodeValue = newNodeValue;
+
+											onchange(globalState.selectedInstance);
+										}}></textarea>
+								</div>
+							</div>
+						</>
+						: <>
+							{/* Element Node */}
+							<div className="kaleflower-element-editor__property">
+								<div className="kaleflower-element-editor__property-key">
+									nodeName:
+								</div>
+								<div className="kaleflower-element-editor__property-val">
+									<code>&lt;{globalState.selectedInstance.nodeName}&gt;</code>
+								</div>
+							</div>
 							{(canSetClass ? <Attribute
 								instance={globalState.selectedInstance}
 								attrName="class"
 								onchange={onchange} /> : <></>)}
 
-							{(canSetContentsDirection ? <Attribute
-								instance={globalState.selectedInstance}
-								attrName="contents-direction"
-								onchange={onchange} /> : <></>)}
+							{hasCssClassName
+								? <><p>class <code>.{currentClassName}</code></p></>
+								: <></>}
 
-							{(canSetScrollable ? <Attribute
-								instance={globalState.selectedInstance}
-								attrName="scrollable"
-								onchange={onchange} /> : <></>)}
-
-							{(canBeLayer ? <>
+							{((canBeLayer || canSetClass) ? <>
 								<Attribute
-									instance={globalState.selectedInstance}
+									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
 									attrName="layer"
 									onchange={onchange} />
 								<Attribute
-									instance={globalState.selectedInstance}
+									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
 									attrName="layer-position-top"
 									onchange={onchange} />
 								<Attribute
-									instance={globalState.selectedInstance}
+									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
 									attrName="layer-position-right"
 									onchange={onchange} />
 								<Attribute
-									instance={globalState.selectedInstance}
+									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
 									attrName="layer-position-bottom"
 									onchange={onchange} />
 								<Attribute
-									instance={globalState.selectedInstance}
+									instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
 									attrName="layer-position-left"
 									onchange={onchange} />
 							</> : <></>)}
 
-							{(canSetWidth ? <Attribute
-								instance={globalState.selectedInstance}
+							{((canSetContentsDirection || canSetClass) ? <Attribute
+								instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
+								attrName="contents-direction"
+								onchange={onchange} /> : <></>)}
+
+							{((canSetWidth || canSetClass) ? <Attribute
+								instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
 								attrName="width"
 								computedKey="kaleflowerComputedWidth"
 								onchange={onchange} /> : <></>)}
 
-							{(canSetHeight ? <Attribute
-								instance={globalState.selectedInstance}
+							{((canSetHeight || canSetClass) ? <Attribute
+								instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
 								attrName="height"
 								computedKey="kaleflowerComputedHeight"
 								onchange={onchange} /> : <></>)}
+
+							{((canSetScrollable || canSetClass) ? <Attribute
+								instance={hasCssClassName ? currentStyle : globalState.selectedInstance}
+								attrName="scrollable"
+								onchange={onchange} /> : <></>)}
+
+							{hasCssClassName
+								? <>
+									<div className="kaleflower-element-editor__property">
+										<div className="kaleflower-element-editor__property-key">
+											custom style:
+										</div>
+										<div className="kaleflower-element-editor__property-val">
+											<textarea
+												className={`px2-input`}
+												value={typeof(currentClassName) == typeof('string') ? currentStyle.innerHTML : ''}
+												onInput={(event)=>{
+													const newStyleSheet = event.target.value;
+													currentStyle.innerHTML = newStyleSheet;
+
+													onchange(globalState.selectedInstance);
+												}} />
+										</div>
+									</div>
+								</>
+								: <></>}
+
+							{currentComponent.fields.length
+								? <>
+									<div className="">
+										<p>Custom Fields:</p>
+									{currentComponent.fields.map((field, index) => {
+										// カスタムフィールドの編集欄を表示する
+										const currentField = globalState.fields.get_field(field.type);
+										return <div key={index} className="kaleflower-element-editor__property">
+											<div className="kaleflower-element-editor__property-key">
+												{field.label}:
+											</div>
+											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: ''}} />
+										</div>
+									})}
+									</div>
+								</>
+								: <></>}
 
 							{!isVoidElement
 								? <>
@@ -204,123 +268,26 @@ const ElementEditor = (props) => {
 								</>
 								: <></>}
 
-							{canSetClass && currentClassName && currentStyle
-								? <>
-									<p>class <code>.{currentClassName}</code></p>
-									{(canSetContentsDirection ? <Attribute
-										instance={currentStyle}
-										attrName="contents-direction"
-										onchange={onchange} /> : <></>)}
-
-									{(canSetScrollable ? <Attribute
-										instance={currentStyle}
-										attrName="scrollable"
-										onchange={onchange} /> : <></>)}
-
-									{(canBeLayer ? <>
-										<Attribute
-											instance={currentStyle}
-											attrName="layer"
-											onchange={onchange} />
-										<Attribute
-											instance={currentStyle}
-											attrName="layer-position-top"
-											onchange={onchange} />
-										<Attribute
-											instance={currentStyle}
-											attrName="layer-position-right"
-											onchange={onchange} />
-										<Attribute
-											instance={currentStyle}
-											attrName="layer-position-bottom"
-											onchange={onchange} />
-										<Attribute
-											instance={currentStyle}
-											attrName="layer-position-left"
-											onchange={onchange} />
-									</> : <></>)}
-
-									{(canSetWidth ? <Attribute
-										instance={currentStyle}
-										attrName="width"
-										computedKey="kaleflowerComputedWidth"
-										onchange={onchange} /> : <></>)}
-
-									{(canSetHeight ? <Attribute
-										instance={currentStyle}
-										attrName="height"
-										computedKey="kaleflowerComputedHeight"
-										onchange={onchange} /> : <></>)}
-
-									<div className="kaleflower-element-editor__property">
-										<div className="kaleflower-element-editor__property-key">
-											style:
-										</div>
-										<div className="kaleflower-element-editor__property-val">
-											<textarea
-												className={`px2-input`}
-												value={typeof(currentClassName) == typeof('string') ? currentStyle.innerHTML : ''}
-												onInput={(event)=>{
-													const newStyleSheet = event.target.value;
-													currentStyle.innerHTML = newStyleSheet;
-
-													onchange(globalState.selectedInstance);
-												}} />
-										</div>
-									</div>
-								</>
-								: <></>}
-
-							{currentComponent.fields.length
-								? <>
-									{currentComponent.fields.map((field, index) => {
-										// カスタムフィールドの編集欄を表示する
-										const currentField = globalState.fields.get_field(field.type);
-										return <div key={index} className="kaleflower-element-editor__property">
-											<div className="kaleflower-element-editor__property-key">
-												{field.label}:
-											</div>
-											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: ''}} />
-										</div>
-									})}
-								</>
-								: <></>}
 						</>
-						: <>
-							<div className="kaleflower-element-editor__property">
-								<div className="kaleflower-element-editor__property-key">
-									nodeValue:
-								</div>
-								<div className="kaleflower-element-editor__property-val">
-									<textarea
-										className={`px2-input`}
-										value={typeof(globalState.selectedInstance.nodeValue) == typeof('string') ? globalState.selectedInstance.nodeValue : ''}
-										onInput={(event)=>{
-											const newNodeValue = event.target.value;
-											globalState.selectedInstance.nodeValue = newNodeValue;
-
-											onchange(globalState.selectedInstance);
-										}}></textarea>
-								</div>
-							</div>
-						</>}
+					}
 
 
-					<div className="kaleflower-element-editor__property">
+					{/* <div className="kaleflower-element-editor__property">
 						<div className="kaleflower-element-editor__property-key">
 							ID:
 						</div>
 						<div className="kaleflower-element-editor__property-val">
 							{globalState.selectedInstance.kaleflowerInstanceId}
 						</div>
-					</div>
-					<button
+					</div> */}
+					<hr />
+					<p><button
 						className={`px2-btn px2-btn--danger`}
 						onClick={()=>{
 							globalState.selectedInstance.remove();
 							const onremove = props.onremove() || function(){};
 							onremove();
-						}}>remove</button>
+						}}>remove</button></p>
 				</>
 				: <></>}
 		</div>

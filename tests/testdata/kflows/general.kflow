@@ -23,7 +23,8 @@ overflow: hidden;
 		</style>
 		<style class="paragraph">margin: 1em 0;</style>
 		<style class="test-div-class-001" width="110px" height="280px">/* div class test */</style>
-		<style class="flex-sample" contents-direction="horizontal">gap: 20px;</style>
+		<style class="flex-sample" contents-direction="horizontal">gap: 20px;
+padding: 20px;</style>
 	</styles>
 	<contents>
 		<content><div>
