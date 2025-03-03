@@ -10,12 +10,6 @@ const $ = jQuery;
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
 
-	if( !globalState.selectedInstance ){
-		return (<div className="kaleflower-element-editor" onClick={(event)=>{
-			event.stopPropagation();
-		}}></div>);
-	}
-
 	const currentComponent = (globalState.selectedInstance ? globalState.components.get_component(globalState.selectedInstance.tagName) : null);
 	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
 	const isElementNode = (globalState.selectedInstance ? !globalState.selectedInstance.nodeName.match(/^\#/) : null);
@@ -29,7 +23,7 @@ const ElementEditor = (props) => {
 	const canBeLayer = (currentComponent ? currentComponent.canBeLayer : null);
 
 	useEffect(() => {
-		if( !currentComponent ){
+		if (!currentComponent) {
 			return;
 		}
 		currentComponent.fields.map((field, index) => {
@@ -41,7 +35,7 @@ const ElementEditor = (props) => {
 			})()));
 
 			$targetDom.find('input, select, textarea')
-				.on('input', function(){
+				.on('input', function () {
 					const $targetDom = $(this);
 					const fieldValues = JSON.parse(globalState.selectedInstance.getAttribute(field.name)) || {};
 					fieldValues[$targetDom.attr('name')] = $targetDom.val();
@@ -50,7 +44,7 @@ const ElementEditor = (props) => {
 
 					const onchange = props.onchange || function(){};
 					onchange(globalState.selectedInstance);
-				} );
+				});
 
 			currentField.onload(
 				$targetDom.get(0),
@@ -67,6 +61,12 @@ const ElementEditor = (props) => {
 		return () => {
 		};
 	}, [currentComponent, globalState.selectedInstance]);
+
+	if( !globalState.selectedInstance ){
+		return (<div className="kaleflower-element-editor" onClick={(event)=>{
+			event.stopPropagation();
+		}}></div>);
+	}
 
 	if( currentClassName && !globalState.styles[currentClassName] ){
 		// create new style if not exists
@@ -175,6 +175,19 @@ const ElementEditor = (props) => {
 								canSetHeight={canSetHeight}
 								canSetScrollable={canSetScrollable}
 								onchange={onchange} />
+
+							{globalState.configs && globalState.configs['break-points']
+								? <>
+									{Object.keys(globalState.configs['break-points']).map((breakPointName, index) => {
+										const breakPoint = globalState.configs['break-points'][breakPointName];
+										return <div key={breakPointName}>
+											<code>Break point {breakPointName}</code>: {breakPoint['max-width']}px<br />
+											TODO: ブレークポイントごとに StylingFields を設置する
+										</div>
+									})}
+								</>
+								: <></>}
+
 
 							{currentComponent.fields.length
 								? <>
