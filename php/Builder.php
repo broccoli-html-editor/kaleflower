@@ -35,6 +35,12 @@ class Builder {
 	/** JavaScript */
 	private $js;
 
+	/** Module name */
+	private $module_name = '';
+
+	/** Class name prefix */
+	private $class_name_prefix = '';
+
 	/** Errors */
 	private $errors = array();
 
@@ -122,6 +128,22 @@ class Builder {
 			}
 		}
 
+		if( strlen($this->config->{"module-name"} ?? '') ){
+			$moduleName = trim($this->config->{"module-name"});
+			$moduleName = preg_replace('/^\-*/', '', $moduleName);
+			$moduleName = preg_replace('/\-*$/', '', $moduleName);
+			$this->module_name = $moduleName;
+		}
+		if( strlen($this->config->{"module-name-prefix"} ?? '') ){
+			$moduleNamePrefix = trim($this->config->{"module-name-prefix"});
+			$moduleNamePrefix = preg_replace('/^\-*/', '', $moduleNamePrefix);
+			$moduleNamePrefix = preg_replace('/\-*$/', '', $moduleNamePrefix);
+			$this->module_name = $moduleNamePrefix.'-'.$this->module_name;
+		}
+		if( strlen($this->module_name ?? '') ){
+			$this->class_name_prefix = $this->module_name.'__';
+		}
+
 		$this->fields = new Fields($this->utils);
 		foreach ($fieldNodes as $field) {
 			$this->fields->add_field($field);
@@ -134,7 +156,7 @@ class Builder {
 
 		foreach ($styleNodes as $styleNode) {
 			$className = $styleNode->getAttribute('class');
-			$rtn->css .= '.'.$className.' {'."\n";
+			$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
 
 			$rtn->css .= $this->buildCssByElementAttr($styleNode);
 
@@ -256,7 +278,7 @@ class Builder {
 			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($instance_number++);
 		}
 		if (strlen($attributes->style ?? '') && strlen($attributes->class ?? '')) {
-			$attributes->style = '.'.$attributes->class.' {'."\n".''.$attributes->style."\n".'}'."\n";
+			$attributes->style = '.'.$this->class_name_prefix.$attributes->class.' {'."\n".''.$attributes->style."\n".'}'."\n";
 		}
 		if (strlen($attributes->style ?? '')) {
 			$this->css .= $attributes->style;
@@ -298,7 +320,7 @@ class Builder {
 				$rtn .= "<".htmlspecialchars($node->nodeName);
 
 				if(strlen($attributes->class ?? '')){
-					$rtn .= ' class="'.htmlspecialchars($attributes->class).'"';
+					$rtn .= ' class="'.htmlspecialchars($this->class_name_prefix.$attributes->class).'"';
 				}
 
 				if($currentComponent->isVoidElement){

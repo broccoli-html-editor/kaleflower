@@ -1,38 +1,38 @@
-.test-image-sample {
+.cont-test__test-image-sample {
 border: 1px solid #000;
 border-radius: 5px;
 overflow: hidden;
 		
 }
-.paragraph {
+.cont-test__paragraph {
 margin: 1em 0;
 }
-.test-div-class-001 {
+.cont-test__test-div-class-001 {
 width: 110px;
 height: 280px;
 /* div class test */
 }
-.flex-sample {
+.cont-test__flex-sample {
 display: flex;
 flex-direction: row;
 gap: 20px;
 padding: 20px;
 }
-.kf-kf1928bb222858994f-0 {
+.cont-test__kf-kf1928bb222858994f-0 {
 width: 100%;
 
 }
-.kf-kf1928bb222858994f-1 {
+.cont-test__kf-kf1928bb222858994f-1 {
 position: absolute;
 top: 0;
 right: 10px;
 
 }
-.kf-kf1928bb222858994f-2 {
+.cont-test__kf-kf1928bb222858994f-2 {
 position: relative;
 
 }
-.kf-kf1928bb222858994f-3 {
+.cont-test__kf-kf1928bb222858994f-3 {
 overflow: auto;
 width: 50%;
 height: auto;

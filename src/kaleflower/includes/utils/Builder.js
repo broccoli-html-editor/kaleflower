@@ -11,6 +11,8 @@ export class Builder {
 	#html;
 	#css;
 	#js;
+	#module_name = '';
+	#class_name_prefix = '';
 	#errors = [];
 	#instance_number = 0;
 
@@ -64,13 +66,30 @@ export class Builder {
 		}
 
 		this.#config = globalState.configs;
+
+		if( this.#config["module-name"] ){
+			let $moduleName = this.#config["module-name"].trim();
+			$moduleName = $moduleName.replace(/^\-*/, '');
+			$moduleName = $moduleName.replace(/\-*$/, '');
+			this.#module_name = $moduleName;
+		}
+		if( this.#config["module-name-prefix"] ){
+			let $moduleNamePrefix = this.#config["module-name-prefix"].trim();
+			$moduleNamePrefix = $moduleNamePrefix.replace(/^\-*/, '');
+			$moduleNamePrefix = $moduleNamePrefix.replace(/\-*$/, '');
+			this.#module_name = $moduleNamePrefix + '-' + this.#module_name;
+		}
+		if( this.#module_name ){
+			this.#class_name_prefix = this.#module_name + '__';
+		}
+
 		this.#fields = globalState.fields;
 		this.#components = globalState.components;
 
 		Object.keys(globalState.styles).forEach((className) => {
 			const $styleNode = globalState.styles[className];
 			const $className = $styleNode.getAttribute('class');
-			$rtn.css += '.'+$className+' {'+"\n";
+			$rtn.css += '.'+this.#class_name_prefix+$className+' {'+"\n";
 			$rtn.css += this.#buildCssByElementAttr($styleNode);
 
 			Object.keys($styleNode.childNodes).forEach((idx) => {
@@ -190,7 +209,7 @@ export class Builder {
 			$attributes.class = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
 		}
 		if ($attributes.style.length && $attributes.class.length) {
-			$attributes.style = '.'+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
+			$attributes.style = '.'+this.#class_name_prefix+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
 		}
 		if ($attributes.style.length) {
 			this.#css += $attributes.style;
@@ -239,7 +258,7 @@ export class Builder {
 				$rtn += " data-kaleflower-instance-id=\""+($node.kaleflowerInstanceId)+"\"";
 
 				if($attributes.class.length){
-					$rtn += ' class="'+this.#utils.htmlSpecialChars($attributes.class)+'"';
+					$rtn += ' class="'+this.#utils.htmlSpecialChars(this.#class_name_prefix+$attributes.class)+'"';
 				}
 
 				if($currentComponent && $currentComponent.isVoidElement){
