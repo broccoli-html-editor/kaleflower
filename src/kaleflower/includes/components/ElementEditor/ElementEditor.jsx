@@ -176,6 +176,7 @@ const ElementEditor = (props) => {
 								canSetScrollable={canSetScrollable}
 								onchange={onchange} />
 
+							{/*
 							{globalState.configs && globalState.configs['break-points']
 								? <>
 									{Object.keys(globalState.configs['break-points']).map((breakPointName, index) => {
@@ -187,6 +188,7 @@ const ElementEditor = (props) => {
 									})}
 								</>
 								: <></>}
+							*/}
 
 
 							{currentComponent.fields.length
