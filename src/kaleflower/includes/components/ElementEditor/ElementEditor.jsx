@@ -182,7 +182,17 @@ const ElementEditor = (props) => {
 										const breakPoint = globalState.configs['break-points'][breakPointName];
 										return <div key={breakPointName}>
 											<code>Break point {breakPointName}</code>: {breakPoint['max-width']}px<br />
-											TODO: ブレークポイントごとに StylingFields を設置する
+											<StylingFields
+												hasCssClassName={hasCssClassName}
+												targetElementNode={hasCssClassName ? currentStyle : globalState.selectedInstance}
+												canSetClass={canSetClass}
+												currentClassName={currentClassName}
+												canBeLayer={canBeLayer}
+												canSetContentsDirection={canSetContentsDirection}
+												canSetWidth={canSetWidth}
+												canSetHeight={canSetHeight}
+												canSetScrollable={canSetScrollable}
+												onchange={onchange} />
 										</div>
 									})}
 								</>
