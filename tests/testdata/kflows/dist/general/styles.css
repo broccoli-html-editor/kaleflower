@@ -2,22 +2,23 @@
 border: 1px solid #000;
 border-radius: 5px;
 overflow: hidden;
-		
-}
+		}
 .cont-test__paragraph {
-margin: 1em 0;
-}
+margin: 1em 0;}
 .cont-test__test-div-class-001 {
 width: 110px;
 height: 280px;
-/* div class test */
-}
+/* div class test */}
 .cont-test__flex-sample {
 display: flex;
 flex-direction: row;
-gap: 20px;
-padding: 20px;
-}
+
+			gap: 20px;
+			padding: 20px;
+			
+			
+			
+		}
 .cont-test__kf-kf1928bb222858994f-0 {
 width: 100%;
 

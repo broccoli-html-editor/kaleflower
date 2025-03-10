@@ -162,7 +162,9 @@ class Builder {
 
 			foreach ($styleNode->childNodes as $child) {
 				// 子ノード(カスタムCSS)を文字列として追加
-				$rtn->css .= $styleNode->ownerDocument->saveHTML($child)."\n";
+				if($child->nodeType === XML_TEXT_NODE) {
+					$rtn->css .= $child->nodeValue;
+				}
 			}
 			$rtn->css .= '}'."\n";
 		}

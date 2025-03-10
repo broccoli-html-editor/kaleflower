@@ -95,7 +95,9 @@ export class Builder {
 			Object.keys($styleNode.childNodes).forEach((idx) => {
 				const $child = $styleNode.childNodes[idx];
 				// 子ノード(カスタムCSS)を文字列として追加
-				$rtn.css += ($styleNode.innerHTML || $child.nodeValue)+"\n";
+				if ($child.nodeType === Node.TEXT_NODE) {
+					$rtn.css += $child.nodeValue+"\n";
+				}
 			});
 			$rtn.css += '}'+"\n";
 		});
