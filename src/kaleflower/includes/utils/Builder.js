@@ -240,6 +240,14 @@ export class Builder {
 		if ($attributes.style.length && $attributes.class.length) {
 			$attributes.style = '.'+this.#class_name_prefix+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
 		}
+		Object.values(this.#config['break-points'] || {}).forEach((breakPointConfig) => {
+			const $breakPointStyle = $attributes.breakPoints[breakPointConfig.name] || '';
+			if ($breakPointStyle.length) {
+				$attributes.style += '@media all and (max-width: '+breakPointConfig['max-width']+'px) {'+"\n";
+				$attributes.style += '.'+this.#class_name_prefix+$attributes.class+' {'+"\n"+''+$breakPointStyle+"\n"+'}'+"\n";
+				$attributes.style += '}'+"\n";
+			}
+		});
 		if ($attributes.style.length) {
 			this.#css += $attributes.style;
 			delete($attributes.style);
