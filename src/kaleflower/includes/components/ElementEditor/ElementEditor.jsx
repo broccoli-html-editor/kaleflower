@@ -96,6 +96,23 @@ const ElementEditor = (props) => {
 
 	const currentStyle = (currentClassName && globalState.styles[currentClassName] ? globalState.styles[currentClassName] : null);
 	const hasCssClassName = (canSetClass && currentClassName && currentStyle);
+	const currentStyleBreakPoints = {};
+
+	if (currentStyle) {
+		// ブレイクポイント別の media要素を取得する
+		// ない場合は作成し、初期化する。
+		Object.keys(globalState.configs['break-points']).forEach((breakPointName) => {
+			const breakPoint = globalState.configs['break-points'][breakPointName];
+			let mediaElement = Array.from(currentStyle.children).find(child => child.getAttribute('break-point') === breakPointName);
+
+			if (!mediaElement) {
+				mediaElement = document.createElementNS('', 'media');
+				mediaElement.setAttribute('break-point', breakPointName);
+				currentStyle.appendChild(mediaElement);
+			}
+			currentStyleBreakPoints[breakPointName] = mediaElement;
+		});
+	}
 
 	function setKaleflowerComputedValues(propKey, attrKey){
 		if(!isElementNode){
