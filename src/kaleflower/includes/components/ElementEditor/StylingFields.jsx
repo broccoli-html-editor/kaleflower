@@ -6,6 +6,7 @@ const utils = new Utils();
 
 const StylingFields = (props) => {
 	const globalState = useContext(MainContext);
+	// const attNameSufix = (!props.hasCssClassName && props.breakPointName ? `--${props.breakPointName}` : '');
 
 	function onchange(){
 		const onchange = props.onchange || function(){};
@@ -17,46 +18,55 @@ const StylingFields = (props) => {
 			{((props.canBeLayer || props.canSetClass) ? <>
 				<Attribute
 					instance={props.targetElementNode}
-					attrName="layer"
+					attrName={"layer"}
+					breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 					onchange={onchange} />
 				<Attribute
 					instance={props.targetElementNode}
-					attrName="layer-position-top"
+					attrName={"layer-position-top"}
+					breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 					onchange={onchange} />
 				<Attribute
 					instance={props.targetElementNode}
-					attrName="layer-position-right"
+					attrName={"layer-position-right"}
+					breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 					onchange={onchange} />
 				<Attribute
 					instance={props.targetElementNode}
-					attrName="layer-position-bottom"
+					attrName={"layer-position-bottom"}
+					breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 					onchange={onchange} />
 				<Attribute
 					instance={props.targetElementNode}
-					attrName="layer-position-left"
+					attrName={"layer-position-left"}
+					breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 					onchange={onchange} />
 			</> : <></>)}
 
 			{((props.canSetContentsDirection || props.canSetClass) ? <Attribute
 				instance={props.targetElementNode}
-				attrName="contents-direction"
+				attrName={"contents-direction"}
+				breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 				onchange={onchange} /> : <></>)}
 
 			{((props.canSetWidth || props.canSetClass) ? <Attribute
 				instance={props.targetElementNode}
-				attrName="width"
+				attrName={"width"}
 				computedKey="kaleflowerComputedWidth"
+				breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 				onchange={onchange} /> : <></>)}
 
 			{((props.canSetHeight || props.canSetClass) ? <Attribute
 				instance={props.targetElementNode}
-				attrName="height"
+				attrName={"height"}
 				computedKey="kaleflowerComputedHeight"
+				breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 				onchange={onchange} /> : <></>)}
 
 			{((props.canSetScrollable || props.canSetClass) ? <Attribute
 				instance={props.targetElementNode}
-				attrName="scrollable"
+				attrName={"scrollable"}
+				breakPointName={!props.hasCssClassName ? props.breakPointName : null}
 				onchange={onchange} /> : <></>)}
 
 			{props.hasCssClassName &&

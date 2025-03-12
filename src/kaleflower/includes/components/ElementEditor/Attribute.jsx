@@ -5,6 +5,7 @@ import {Utils} from "../../utils/Utils.js";
 const Attribute = (props) => {
 	const globalState = useContext(MainContext);
 	const utils = new Utils();
+	const attrName = (!props.hasCssClassName && props.breakPointName ? `${props.attrName}--${props.breakPointName}` : props.attrName);
 
 	return (
 		<div className="kaleflower-element-editor__property">
@@ -15,7 +16,7 @@ const Attribute = (props) => {
 				<input
 					type={`text`}
 					className={`px2-input`}
-					value={typeof(props.instance.getAttribute(props.attrName)) == typeof('string') ? props.instance.getAttribute(props.attrName) : ''}
+					value={typeof(props.instance.getAttribute(attrName)) == typeof('string') ? props.instance.getAttribute(attrName) : ''}
 					onInput={(event)=>{
 						const newValue = event.target.value;
 
@@ -23,9 +24,9 @@ const Attribute = (props) => {
 							props.instance[props.computedKey] = newValue;
 						}
 
-						props.instance.setAttribute(props.attrName, newValue);
+						props.instance.setAttribute(attrName, newValue);
 						if( !newValue.length ){
-							props.instance.removeAttribute(props.attrName);
+							props.instance.removeAttribute(attrName);
 						}
 
 						const onchange = props.onchange() || function(){};
