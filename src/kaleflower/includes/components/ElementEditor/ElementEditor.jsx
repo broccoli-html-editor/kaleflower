@@ -201,7 +201,7 @@ const ElementEditor = (props) => {
 											<code>Break point {breakPointName}</code>: {breakPoint['max-width']}px<br />
 											<StylingFields
 												hasCssClassName={hasCssClassName}
-												targetElementNode={hasCssClassName ? currentStyle : globalState.selectedInstance}
+												targetElementNode={hasCssClassName ? currentStyleBreakPoints[breakPointName] : globalState.selectedInstance}
 												canSetClass={canSetClass}
 												currentClassName={currentClassName}
 												canBeLayer={canBeLayer}
@@ -209,6 +209,7 @@ const ElementEditor = (props) => {
 												canSetWidth={canSetWidth}
 												canSetHeight={canSetHeight}
 												canSetScrollable={canSetScrollable}
+												breakPointName={breakPointName}
 												onchange={onchange} />
 										</div>
 									})}

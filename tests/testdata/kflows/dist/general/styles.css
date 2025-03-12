@@ -8,7 +8,13 @@ margin: 1em 0;}
 .cont-test__test-div-class-001 {
 width: 110px;
 height: 280px;
-/* div class test */}
+
+			/* div class test */
+			
+			
+			
+			color: #000;
+		}
 .cont-test__flex-sample {
 display: flex;
 flex-direction: row;
