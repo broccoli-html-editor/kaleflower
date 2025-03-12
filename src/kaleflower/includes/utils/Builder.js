@@ -100,6 +100,28 @@ export class Builder {
 				}
 			});
 			$rtn.css += '}'+"\n";
+
+			// Handle media elements
+			Object.values(this.#config['break-points'] || {}).forEach((breakPointConfig) => {
+				const breakPointName = breakPointConfig.name;
+				const maxWidth = breakPointConfig['max-width'];
+				const $mediaNode = Array.from($styleNode.childNodes).find(node => node.nodeName === 'media' && node.getAttribute('break-point') === breakPointName);
+				if ($mediaNode) {
+					$rtn.css += '@media all and (max-width: ' + maxWidth + 'px) {' + "\n";
+					$rtn.css += '.' + this.#class_name_prefix + $className + ' {' + "\n";
+					$rtn.css += this.#buildCssByElementAttr($mediaNode);
+
+					Object.keys($mediaNode.childNodes).forEach((idx) => {
+						const $grandChild = $mediaNode.childNodes[idx];
+						// 子ノード(カスタムCSS)を文字列として追加
+						if ($grandChild.nodeType === Node.TEXT_NODE) {
+							$rtn.css += $grandChild.nodeValue + "\n";
+						}
+					});
+					$rtn.css += '}' + "\n";
+					$rtn.css += '}' + "\n";
+				}
+			});
 		});
 
 		// アセット (返される用)

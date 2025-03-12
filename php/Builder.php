@@ -107,6 +107,8 @@ class Builder {
 		$this->config = (object) array(
 			'id' => null,
 		);
+
+		$breakPoints = array();
 		foreach ($configNodes as $configNode) {
 			$configName = $configNode->getAttribute('name');
 			$configValueAttr = $configNode->getAttribute('value');
@@ -124,6 +126,11 @@ class Builder {
 						$attrObj->{$attr->name} = $attr->value;
 					}
 					$this->config->{$configName}->{$valueName} = $attrObj;
+				}
+				if ($configName === 'break-points') {
+					foreach ($valueElements as $valueElement) {
+						$breakPoints[$valueElement->getAttribute('name')] = $valueElement;
+					}
 				}
 			}
 		}
@@ -167,6 +174,30 @@ class Builder {
 				}
 			}
 			$rtn->css .= '}'."\n";
+
+			// Handle media elements
+			// Handle media elements for each break point
+			foreach ($breakPoints as $breakPointName => $breakPointNode) {
+				$maxWidth = $breakPointNode->getAttribute('max-width');
+				$mediaNodes = $xpath->query("media[@break-point='" . $breakPointName . "']", $styleNode);
+				
+				if ($mediaNodes->length > 0) {
+					$rtn->css .= '@media all and (max-width: '.$maxWidth.'px) {'."\n";
+					$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
+					
+					foreach ($mediaNodes as $mediaNode) {
+						$rtn->css .= $this->buildCssByElementAttr($mediaNode);
+						foreach ($mediaNode->childNodes as $child) {
+							if($child->nodeType === XML_TEXT_NODE) {
+								$rtn->css .= $child->nodeValue;
+							}
+						}
+					}
+					
+					$rtn->css .= '}'."\n";
+					$rtn->css .= '}'."\n";
+				}
+			}
 		}
 
 		// アセット (返される用)
