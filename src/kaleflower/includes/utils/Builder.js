@@ -203,12 +203,17 @@ export class Builder {
 			'class': '',
 			'id': '',
 			'style': '',
+			'breakPoints': {},
 			'script': '',
 		};
 
 		// 属性があれば処理する
 		if ($node && $node.hasAttributes && $node.hasAttributes()) {
 			$attributes.style += this.#buildCssByElementAttr($node);
+
+			Object.values(this.#config['break-points'] || {}).forEach((breakPointConfig) => {
+				$attributes.breakPoints[breakPointConfig.name] = this.#buildCssByElementAttr($node, breakPointConfig.name);
+			});
 
 			Object.keys($node.attributes).forEach((index) => {
 				const $attr = $node.attributes[index];
@@ -309,24 +314,25 @@ export class Builder {
 		return $rtn;
 	}
 
-	#buildCssByElementAttr($node) {
+	#buildCssByElementAttr($node, breakPointName) {
 		let $css = '';
-		const attrContentsDirection = $node.getAttribute('contents-direction');
+		const attrNameSufix = (breakPointName ? '--'+breakPointName : '');
+		const attrContentsDirection = $node.getAttribute('contents-direction'+attrNameSufix);
 		if( attrContentsDirection == "horizontal" ){
 			$css += 'display: flex;'+"\n";
 			$css += 'flex-direction: row;'+"\n";
 		}
 
-		const attrScrollable = $node.getAttribute('scrollable');
+		const attrScrollable = $node.getAttribute('scrollable'+attrNameSufix);
 		if( attrScrollable == "auto" ){
 			$css += 'overflow: auto;'+"\n";
 		}
 
-		const attrLayer = $node.getAttribute('layer');
-		const attrLayerPositionTop = $node.getAttribute('layer-position-top');
-		const attrLayerPositionRight = $node.getAttribute('layer-position-right');
-		const attrLayerPositionBottom = $node.getAttribute('layer-position-bottom');
-		const attrLayerPositionLeft = $node.getAttribute('layer-position-left');
+		const attrLayer = $node.getAttribute('layer'+attrNameSufix);
+		const attrLayerPositionTop = $node.getAttribute('layer-position-top'+attrNameSufix);
+		const attrLayerPositionRight = $node.getAttribute('layer-position-right'+attrNameSufix);
+		const attrLayerPositionBottom = $node.getAttribute('layer-position-bottom'+attrNameSufix);
+		const attrLayerPositionLeft = $node.getAttribute('layer-position-left'+attrNameSufix);
 		if( attrLayer ){
 			if( attrLayer == "relative" ){
 				$css += 'position: relative;'+"\n";
@@ -339,11 +345,11 @@ export class Builder {
 			$css += (attrLayerPositionLeft ? 'left: '+attrLayerPositionLeft+';'+"\n" : '');
 		}
 
-		const attrWidth = $node.getAttribute('width');
+		const attrWidth = $node.getAttribute('width'+attrNameSufix);
 		if( attrWidth ){
 			$css += 'width: '+attrWidth+';'+"\n";
 		}
-		const attrHeight = $node.getAttribute('height');
+		const attrHeight = $node.getAttribute('height'+attrNameSufix);
 		if( attrHeight ){
 			$css += 'height: '+attrHeight+';'+"\n";
 		}

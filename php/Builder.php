@@ -108,7 +108,6 @@ class Builder {
 			'id' => null,
 		);
 
-		$breakPoints = array();
 		foreach ($configNodes as $configNode) {
 			$configName = $configNode->getAttribute('name');
 			$configValueAttr = $configNode->getAttribute('value');
@@ -126,11 +125,6 @@ class Builder {
 						$attrObj->{$attr->name} = $attr->value;
 					}
 					$this->config->{$configName}->{$valueName} = $attrObj;
-				}
-				if ($configName === 'break-points') {
-					foreach ($valueElements as $valueElement) {
-						$breakPoints[$valueElement->getAttribute('name')] = $valueElement;
-					}
 				}
 			}
 		}
@@ -177,8 +171,8 @@ class Builder {
 
 			// Handle media elements
 			// Handle media elements for each break point
-			foreach ($breakPoints as $breakPointName => $breakPointNode) {
-				$maxWidth = $breakPointNode->getAttribute('max-width');
+			foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
+				$maxWidth = $breakPointNode->{'max-width'};
 				$mediaNodes = $xpath->query("media[@break-point='" . $breakPointName . "']", $styleNode);
 				
 				if ($mediaNodes->length > 0) {
@@ -282,12 +276,17 @@ class Builder {
 			'class' => '',
 			'id' => '',
 			'style' => '',
+			'breakPoints' => (object) array(),
 			'script' => '',
 		);
 
 		// 属性があれば処理する
 		if ($node->hasAttributes()) {
 			$attributes->style .= $this->buildCssByElementAttr($node);
+
+			foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
+				$attributes->breakPoints->{$breakPointName} = $this->buildCssByElementAttr($node, $breakPointName);
+			}
 
 			foreach ($node->attributes as $attr) {
 				switch($attr->nodeName){
@@ -307,6 +306,7 @@ class Builder {
 				}
 			}
 		}
+ob_start();var_dump($attributes);error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
 		if (strlen($attributes->style ?? '') && !strlen($attributes->class ?? '')) {
 			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($instance_number++);
 		}
@@ -380,24 +380,25 @@ class Builder {
 		return $rtn;
 	}
 
-	private function buildCssByElementAttr($node) {
+	private function buildCssByElementAttr($node, $breakPointName = null) {
 		$css = '';
-		$attrContentsDirection = $node->getAttribute('contents-direction');
+		$attrNameSufix = ($breakPointName ? '--'.$breakPointName : '');
+		$attrContentsDirection = $node->getAttribute('contents-direction'.$attrNameSufix);
 		if( $attrContentsDirection == "horizontal" ){
 			$css .= 'display: flex;'."\n";
 			$css .= 'flex-direction: row;'."\n";
 		}
 
-		$attrScrollable = $node->getAttribute('scrollable');
+		$attrScrollable = $node->getAttribute('scrollable'.$attrNameSufix);
 		if( $attrScrollable == "auto" ){
 			$css .= 'overflow: auto;'."\n";
 		}
 
-		$attrLayer = $node->getAttribute('layer');
-		$attrLayerPositionTop = $node->getAttribute('layer-position-top');
-		$attrLayerPositionRight = $node->getAttribute('layer-position-right');
-		$attrLayerPositionBottom = $node->getAttribute('layer-position-bottom');
-		$attrLayerPositionLeft = $node->getAttribute('layer-position-left');
+		$attrLayer = $node->getAttribute('layer'.$attrNameSufix);
+		$attrLayerPositionTop = $node->getAttribute('layer-position-top'.$attrNameSufix);
+		$attrLayerPositionRight = $node->getAttribute('layer-position-right'.$attrNameSufix);
+		$attrLayerPositionBottom = $node->getAttribute('layer-position-bottom'.$attrNameSufix);
+		$attrLayerPositionLeft = $node->getAttribute('layer-position-left'.$attrNameSufix);
 		if( $attrLayer ){
 			if( $attrLayer == "relative" ){
 				$css .= 'position: relative;'."\n";
@@ -410,12 +411,12 @@ class Builder {
 			$css .= (strlen($attrLayerPositionLeft ?? '') ? 'left: '.$attrLayerPositionLeft.';'."\n" : '');
 		}
 
-		$attrWidth = $node->getAttribute('width');
+		$attrWidth = $node->getAttribute('width'.$attrNameSufix);
 		if( $attrWidth ){
 			$css .= 'width: '.$attrWidth.';'."\n";
 		}
 
-		$attrHeight = $node->getAttribute('height');
+		$attrHeight = $node->getAttribute('height'.$attrNameSufix);
 		if( $attrHeight ){
 			$css .= 'height: '.$attrHeight.';'."\n";
 		}
