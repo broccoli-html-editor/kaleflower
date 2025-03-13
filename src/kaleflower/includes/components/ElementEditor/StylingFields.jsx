@@ -82,10 +82,35 @@ const StylingFields = (props) => {
 						<div className="kaleflower-element-editor__property-val">
 							<textarea
 								className={`px2-input`}
-								value={typeof(props.currentClassName) == typeof('string') ? props.targetElementNode.innerHTML : ''}
+								value={(()=>{
+									if(typeof(props.currentClassName) !== typeof('string')){
+										return '';
+									}
+									const textContent = Array.from(props.targetElementNode.childNodes)
+										.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
+										.map(node => node.textContent)
+										.join('');
+									return textContent;
+								})()}
 								onInput={(event)=>{
 									const newStyleSheet = event.target.value;
-									props.targetElementNode.innerHTML = newStyleSheet;
+									// Get all text nodes
+									const textNodes = Array.from(props.targetElementNode.childNodes)
+										.filter(node => node.nodeType === 3);
+
+									if (textNodes.length > 0) {
+										// Replace content of the first text node
+										textNodes[0].textContent = newStyleSheet;
+										
+										// Clear content of any additional text nodes
+										for (let i = 1; i < textNodes.length; i++) {
+											textNodes[i].textContent = '';
+										}
+									} else {
+										// If no text nodes exist, create one and insert at the beginning
+										const newTextNode = document.createTextNode(newStyleSheet);
+										props.targetElementNode.insertBefore(newTextNode, props.targetElementNode.firstChild);
+									}
 
 									onchange(globalState.selectedInstance);
 								}} />
