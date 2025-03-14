@@ -83,6 +83,10 @@ export class Builder {
 			this.#class_name_prefix = this.#module_name + '__';
 		}
 
+		if( !this.#config['break-points'] ){
+			this.#config['break-points'] = {};
+		}
+
 		this.#fields = globalState.fields;
 		this.#components = globalState.components;
 
@@ -102,7 +106,7 @@ export class Builder {
 			$rtn.css += '}'+"\n";
 
 			// Handle media elements
-			Object.values(this.#config['break-points'] || {}).forEach((breakPointConfig) => {
+			Object.values(this.#config['break-points']).forEach((breakPointConfig) => {
 				const breakPointName = breakPointConfig.name;
 				const maxWidth = breakPointConfig['max-width'];
 				const $mediaNode = Array.from($styleNode.childNodes).find(node => node.nodeName === 'media' && node.getAttribute('break-point') === breakPointName);
@@ -211,7 +215,7 @@ export class Builder {
 		if ($node && $node.hasAttributes && $node.hasAttributes()) {
 			$attributes.style += this.#buildCssByElementAttr($node);
 
-			Object.values(this.#config['break-points'] || {}).forEach((breakPointConfig) => {
+			Object.values(this.#config['break-points']).forEach((breakPointConfig) => {
 				$attributes.breakPoints[breakPointConfig.name] = this.#buildCssByElementAttr($node, breakPointConfig.name);
 			});
 
@@ -240,7 +244,7 @@ export class Builder {
 		if ($attributes.style.length && $attributes.class.length) {
 			$attributes.style = '.'+this.#class_name_prefix+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
 		}
-		Object.values(this.#config['break-points'] || {}).forEach((breakPointConfig) => {
+		Object.values(this.#config['break-points']).forEach((breakPointConfig) => {
 			const $breakPointStyle = $attributes.breakPoints[breakPointConfig.name] || '';
 			if ($breakPointStyle.length) {
 				$attributes.style += '@media all and (max-width: '+breakPointConfig['max-width']+'px) {'+"\n";
