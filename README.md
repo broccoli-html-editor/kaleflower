@@ -12,7 +12,7 @@ $ composer require broccoli-html-editor/kaleflower
 
 ## 更新履歴 - Change log
 
-### Kaleflower v0.0.1 (リリース日未定)
+### Kaleflower v0.1.0 (リリース日未定)
 
 - Initial release.
 
