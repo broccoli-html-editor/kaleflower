@@ -38,6 +38,9 @@ class Builder {
 	/** Module name */
 	private $module_name = '';
 
+	/** Module name prefix */
+	private $module_name_prefix = '';
+
 	/** Class name prefix */
 	private $class_name_prefix = '';
 
@@ -139,16 +142,20 @@ class Builder {
 			$moduleNamePrefix = trim($this->config->{"module-name-prefix"});
 			$moduleNamePrefix = preg_replace('/^\-*/', '', $moduleNamePrefix);
 			$moduleNamePrefix = preg_replace('/\-*$/', '', $moduleNamePrefix);
-			$this->module_name = $moduleNamePrefix.'-'.$this->module_name;
+			$this->module_name_prefix = $moduleNamePrefix;
 		}
-		if( strlen($this->module_name ?? '') ){
+		if( strlen($this->module_name) && strlen($this->module_name_prefix) ){
+			$this->class_name_prefix = $this->module_name_prefix.'-'.$this->module_name.'__';
+		}elseif( strlen($this->module_name) ){
 			$this->class_name_prefix = $this->module_name.'__';
+		}elseif( strlen($this->module_name_prefix) ){
+			$this->class_name_prefix = $this->module_name_prefix.'__';
 		}
 
-		if( is_null($this->config->{"break-points"}) ){
+		if( !is_object($this->config->{"break-points"} ?? null) ){
 			$this->config->{"break-points"} = (object) array();
 		}
-		if( is_null($this->config->{"color-palettes"}) ){
+		if( !is_object($this->config->{"color-palettes"} ?? null) ){
 			$this->config->{"color-palettes"} = (object) array();
 		}
 

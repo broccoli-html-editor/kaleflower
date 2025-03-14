@@ -12,6 +12,7 @@ export class Builder {
 	#css;
 	#js;
 	#module_name = '';
+	#module_name_prefix = '';
 	#class_name_prefix = '';
 	#errors = [];
 	#instance_number = 0;
@@ -77,10 +78,14 @@ export class Builder {
 			let $moduleNamePrefix = this.#config["module-name-prefix"].trim();
 			$moduleNamePrefix = $moduleNamePrefix.replace(/^\-*/, '');
 			$moduleNamePrefix = $moduleNamePrefix.replace(/\-*$/, '');
-			this.#module_name = $moduleNamePrefix + '-' + this.#module_name;
+			this.#module_name_prefix = $moduleNamePrefix;
 		}
-		if( this.#module_name ){
+		if( this.#module_name && this.#module_name_prefix ){
+			this.#class_name_prefix = this.#module_name_prefix + '-' + this.#module_name + '__';
+		}else if( this.#module_name ){
 			this.#class_name_prefix = this.#module_name + '__';
+		}else if( this.#module_name_prefix ){
+			this.#class_name_prefix = this.#module_name_prefix + '__';
 		}
 
 		if( !this.#config['break-points'] ){
