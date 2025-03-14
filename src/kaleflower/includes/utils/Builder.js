@@ -86,6 +86,9 @@ export class Builder {
 		if( !this.#config['break-points'] ){
 			this.#config['break-points'] = {};
 		}
+		if( !this.#config['color-palettes'] ){
+			this.#config['color-palettes'] = {};
+		}
 
 		this.#fields = globalState.fields;
 		this.#components = globalState.components;

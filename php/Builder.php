@@ -145,8 +145,11 @@ class Builder {
 			$this->class_name_prefix = $this->module_name.'__';
 		}
 
-		if( !is_array($this->config->{"break-points"} ?? null) ){
-			$this->config->{"break-points"} = array();
+		if( is_null($this->config->{"break-points"}) ){
+			$this->config->{"break-points"} = (object) array();
+		}
+		if( is_null($this->config->{"color-palettes"}) ){
+			$this->config->{"color-palettes"} = (object) array();
 		}
 
 		$this->fields = new Fields($this->utils);
