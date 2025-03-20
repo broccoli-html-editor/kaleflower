@@ -14,6 +14,9 @@ class Builder {
 	/** Utility */
 	private $utils;
 
+	/** Langbank */
+	private $lb;
+
 	/** $config */
 	private $config;
 
@@ -50,8 +53,9 @@ class Builder {
 	/**
 	 * Constructor
 	 */
-	public function __construct($utils){
+	public function __construct($utils, $lb){
 		$this->utils = $utils;
+		$this->lb = $lb;
 		$this->html = '';
 		$this->css = '';
 		$this->js = '';
@@ -355,7 +359,10 @@ class Builder {
 					'innerHTML' => $innerHTML,
 					'attributes' => $attributes,
 					'assets' => $this->assets,
-					'mode' => 'finalize',
+					'_ENV' => array(
+						'mode' => 'finalize',
+						'lang' => $this->lb->getLang(),
+					),
 				),
 				array(
 					'json_decode' => function($json){

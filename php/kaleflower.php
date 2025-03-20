@@ -31,7 +31,7 @@ class kaleflower {
 	 * @param array $buildOptions Build options
 	 */
 	public function build( $realpath_kflow, $buildOptions = array() ){
-		$builder = new Builder($this->utils);
+		$builder = new Builder($this->utils, $this->utils->lb());
 		$rtn = $builder->build($realpath_kflow, $buildOptions);
 		return $rtn;
 	}

@@ -4,6 +4,7 @@ import $ from 'jquery';
 export class Builder {
 
 	#utils;
+	#lb;
 	#config;
 	#components;
 	#fields;
@@ -20,8 +21,9 @@ export class Builder {
 	/**
 	 * Constructor
 	 */
-	constructor($utils){
+	constructor($utils, lb){
 		this.#utils = $utils;
+		this.#lb = lb;
 		this.#html = '';
 		this.#css = '';
 		this.#js = '';
@@ -280,7 +282,10 @@ export class Builder {
 					'innerHTML': $innerHTML,
 					'attributes': $attributes,
 					'assets': this.#assets,
-					'mode': 'canvas',
+					'_ENV': {
+						'mode': 'canvas',
+						'lang': this.#lb.getLang(),
+					},
 				},
 				{
 					'json_decode': function($json){

@@ -44,7 +44,7 @@ const LayoutView = React.memo((props) => {
 	})();
 
 	useEffect(async () => {
-		const builder = new Builder(globalState.utils);
+		const builder = new Builder(globalState.utils, globalState.lb);
 		const dist = builder.build(globalState);
 		const jsonDist = JSON.stringify(dist);
 
