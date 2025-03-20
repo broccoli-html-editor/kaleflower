@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kflow>
+	<configs>
+		<config name="id" value="kf1928bb222858994f" />
+		<config name="module-name-prefix" value="cont-" />
+		<config name="module-name" value="test" />
+		<config name="break-points">
+			<value name="lg" max-width="1400" />
+			<value name="md" max-width="800" />
+			<value name="sm" max-width="480" />
+		</config>
+		<config name="color-palettes">
+			<value name="key" color="#fff" />
+			<value name="sub" color="#ddd" />
+			<value name="text" color="#333" />
+			<value name="text-background" color="#eee" />
+		</config>
+	</configs>
+	<fields>
+	</fields>
+	<components>
+		<component name="custom-component-001" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
+			<fields>
+				<field type="image" name="image" label="Image" />
+			</fields>
+			<template><![CDATA[
+{% set image = json_decode(attributes.image) %}
+<div class="custom-component-001 {{ attributes.class }}">
+	<div class="custom-component-001__content">
+		<p>custom component 001</p>
+		<img src="{{ assets[image.assetId].path }}" alt="" />
+		<div class="custom-component-001__content-inner">
+			{{ innerHTML | raw }}
+		</div>
+	</div>
+</div>]]></template>
+</component>
+		<component name="custom-component-003" label="custom-component-003" is-void-element="true" can-set-class="false" can-set-width="false" can-set-height="false" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
+			<template><![CDATA[<div class="custom-component-003">
+	<div class="custom-component-003__content">
+		<div class="custom-component-003__content-inner">
+			<p>custom-component-003 ({{_ENV.mode}}, {{_ENV.lang}})</p>
+		</div>
+	</div>
+</div>]]></template>
+</component>
+	</components>
+</kflow>

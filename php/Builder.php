@@ -50,6 +50,9 @@ class Builder {
 	/** Errors */
 	private $errors = array();
 
+	/** Instance number */
+	private $instance_number = 0;
+
 	/**
 	 * Constructor
 	 */
@@ -60,6 +63,7 @@ class Builder {
 		$this->css = '';
 		$this->js = '';
 		$this->errors = array();
+		$this->instance_number = 0;
 	}
 
 	/**
@@ -264,7 +268,6 @@ class Builder {
 	 * @return string HTML
 	 */
 	private function buildComponentsRecursive($node) {
-		static $instance_number = 0;
 		$rtn = '';
 		$currentComponent = $this->components->get_component($node->nodeName ?? null);
 
@@ -312,7 +315,7 @@ class Builder {
 		}
 
 		if (strlen($attributes->style ?? '') && !strlen($attributes->class ?? '')) {
-			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($instance_number++);
+			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($this->instance_number++);
 		}
 		if( strlen($this->class_name_prefix ?? '') && strlen($attributes->class ?? '') ){
 			$attributes->class = $this->class_name_prefix.$attributes->class;

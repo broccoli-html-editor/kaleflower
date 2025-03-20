@@ -1,6 +1,6 @@
 <?php
 /**
- * test for broccoli-html-editor/broccoli-html-editor
+ * test for Kaleflower
  */
 class mainTest extends PHPUnit\Framework\TestCase{
 	private $fs;
@@ -20,8 +20,8 @@ class mainTest extends PHPUnit\Framework\TestCase{
 		$kaleflower = new \kaleflower\kaleflower();
 		$this->assertTrue( is_object($kaleflower) );
 
-		$kaleflower->load(__DIR__.'/testdata/kflows/general.kflow');
 		$result = $kaleflower->build(
+			__DIR__.'/testdata/kflows/general.kflow',
 			array(
 				'assetsPrefix' => './main_files/',
 			)
