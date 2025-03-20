@@ -280,6 +280,7 @@ export class Builder {
 					'innerHTML': $innerHTML,
 					'attributes': $attributes,
 					'assets': this.#assets,
+					'mode': 'canvas',
 				},
 				{
 					'json_decode': function($json){

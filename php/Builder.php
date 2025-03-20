@@ -355,6 +355,7 @@ class Builder {
 					'innerHTML' => $innerHTML,
 					'attributes' => $attributes,
 					'assets' => $this->assets,
+					'mode' => 'finalize',
 				),
 				array(
 					'json_decode' => function($json){
