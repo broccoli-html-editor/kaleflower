@@ -42,10 +42,27 @@ class kaleflower {
 	}
 
 	/**
+	 * Get kflow XML sourcecode
+	 */
+	public function getXml(){
+		return $this->kflowXml->getXml();
+	}
+
+	/**
 	 * Build
 	 * @param array $buildOptions Build options
 	 */
 	public function build( $buildOptions = array() ){
+
+		// Check if two arguments are provided
+		if (func_num_args() == 2) {
+			$realpath_kflow = func_get_arg(0);
+			$buildOptions = func_get_arg(1);
+			
+			// Load the XML file
+			$this->load($realpath_kflow);
+		}
+
 		$builder = new Builder($this->utils, $this->utils->lb());
 		$rtn = $builder->build($this->kflowXml->getDom(), $buildOptions);
 		return $rtn;
