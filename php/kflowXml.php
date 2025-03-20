@@ -81,12 +81,66 @@ class kflowXml {
 			return true;
 		}
 
-		// TODO: すでに $this->dom に DOM が読み込まれている場合、
-		// 新しい $dom の内容の差分のみをマージする処理を実装する。
-		// ただし、この処理は、
-		// 1. $domから、マージの対象となる要素を抽出する
-		// 2. その要素を $this->dom に追加する
-		// という処理を行う。
+		$mergeRules = array(
+			array(
+				'container' => 'configs',
+				'contents' => 'config',
+				'attrId' => 'name',
+			),
+			array(
+				'container' => 'fields',
+				'contents' => 'field',
+				'attrId' => 'type',
+			),
+			array(
+				'container' => 'components',
+				'contents' => 'component',
+				'attrId' => 'name',
+			),
+		);
+
+		foreach($mergeRules as $mergeRule){
+			// Get components from the new DOM
+			$componentsNode = $dom->getElementsByTagName($mergeRule['container'])->item(0);
+			if ($componentsNode) {
+				// Get components from the current DOM
+				$thisComponentsNode = $this->dom->getElementsByTagName($mergeRule['container'])->item(0);
+				if (!$thisComponentsNode) {
+					// If there's no components node in the current DOM, create one
+					$thisComponentsNode = $this->dom->createElement($mergeRule['container']);
+					$this->dom->documentElement->appendChild($thisComponentsNode);
+				}
+
+				// Go through each component in the new DOM
+				$newComponents = $componentsNode->getElementsByTagName($mergeRule['contents']);
+				for ($i = 0; $i < $newComponents->length; $i++) {
+					$newComponent = $newComponents->item($i);
+					$name = $newComponent->getAttribute($mergeRule['attrId']);
+					
+					// Check if component with same name exists in current DOM
+					$existingComponent = null;
+					$currentComponents = $thisComponentsNode->getElementsByTagName($mergeRule['contents']);
+					for ($j = 0; $j < $currentComponents->length; $j++) {
+						if ($currentComponents->item($j)->getAttribute($mergeRule['attrId']) === $name) {
+							$existingComponent = $currentComponents->item($j);
+							break;
+						}
+					}
+					
+					// Import the new component into the current DOM
+					$importedComponent = $this->dom->importNode($newComponent, true);
+					
+					if ($existingComponent) {
+						// Replace existing component
+						$thisComponentsNode->replaceChild($importedComponent, $existingComponent);
+					} else {
+						// Add new component
+						$thisComponentsNode->appendChild($importedComponent);
+					}
+				}
+			}
+		}
+
 
 		return true;
 	}

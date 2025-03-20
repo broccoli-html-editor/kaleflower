@@ -35,6 +35,9 @@ class kflowXmlTest extends PHPUnit\Framework\TestCase{
 		$xml = $kaleflower->getXml();
 		$this->assertTrue( is_string($xml) );
 		$this->assertTrue( strlen($xml) > 0 );
+		$this->assertSame( preg_match('/custom component 001 \- OVERRIDE/s', $xml), 1 );
+		$this->assertSame( preg_match('/\<component name\=\"custom\-component\-002\"/s', $xml), 1 );
+		$this->assertSame( preg_match('/\<component name\=\"custom\-component\-003\"/s', $xml), 1 );
 	}
 
 }
