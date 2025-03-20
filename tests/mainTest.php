@@ -20,13 +20,13 @@ class mainTest extends PHPUnit\Framework\TestCase{
 		$kaleflower = new \kaleflower\kaleflower();
 		$this->assertTrue( is_object($kaleflower) );
 
+		$kaleflower->load(__DIR__.'/testdata/kflows/general.kflow');
 		$result = $kaleflower->build(
-			__DIR__.'/testdata/kflows/general.kflow',
 			array(
 				'assetsPrefix' => './main_files/',
 			)
 		);
-		// var_dump($result);
+
 		$this->assertTrue( is_object($result) );
 		$this->assertTrue( $result->result );
 

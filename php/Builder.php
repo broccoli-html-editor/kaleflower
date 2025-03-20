@@ -71,10 +71,10 @@ class Builder {
 
 	/**
 	 * Build
-	 * @param string $realpath_kflow Realpath of the kflow file.
+	 * @param string $dom Realpath of the kflow file.
 	 * @param array $buildOptions Build options
 	 */
-	public function build( $realpath_kflow, $buildOptions = array() ){
+	public function build( $dom, $buildOptions = array() ){
 		$buildOptions = (is_array($buildOptions) || is_object($buildOptions) ? (object) $buildOptions : (object) array());
 		$buildOptions->assetsPrefix = $buildOptions->assetsPrefix ?? './';
 
@@ -88,20 +88,6 @@ class Builder {
 			'js' => null,
 			'assets' => array(),
 		);
-		if( !is_file($realpath_kflow) || !is_readable($realpath_kflow) ){
-			return (object) array(
-				'result' => false,
-				'error' => 'kflow file is not exists or not readable.',
-				'html' => (object) array(),
-				'css' => null,
-				'js' => null,
-				'assets' => array(),
-			);
-		}
-
-		// DOMDocumentのインスタンス作成
-		$dom = new \DOMDocument();
-		$dom->load($realpath_kflow);
 
 		$xpath = new \DOMXPath($dom);
 		$configNodes = $xpath->query("/kflow/configs/config");

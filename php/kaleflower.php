@@ -14,25 +14,40 @@ class kaleflower {
 	/** Utility */
 	private $utils;
 
-	/** Options */
-	private $options;
+	/** Kaleflower XML */
+	private $kflowXml;
 
 	/**
 	 * Constructor
 	 */
-	public function __construct($options = array()){
-		$this->options = (is_array($options) || is_object($options) ? (object) $options : (object) array());
+	public function __construct(){
 		$this->utils = new Utils();
+		$this->kflowXml = new kflowXml();
+	}
+
+	/**
+	 * Load kflow XML from file
+	 * @param string $realpath_kflow Realpath of the kflow file.
+	 */
+	public function load( $realpath_kflow ){
+		return $this->kflowXml->load($realpath_kflow);
+	}
+
+	/**
+	 * Load kflow XML from sourcecode
+	 * @param string $src_xml Sourcecode of the kflow XML Document.
+	 */
+	public function loadXml( $src_xml ){
+		return $this->kflowXml->loadXml($src_xml);
 	}
 
 	/**
 	 * Build
-	 * @param string $realpath_kflow Realpath of the kflow file.
 	 * @param array $buildOptions Build options
 	 */
-	public function build( $realpath_kflow, $buildOptions = array() ){
+	public function build( $buildOptions = array() ){
 		$builder = new Builder($this->utils, $this->utils->lb());
-		$rtn = $builder->build($realpath_kflow, $buildOptions);
+		$rtn = $builder->build($this->kflowXml->getDom(), $buildOptions);
 		return $rtn;
 	}
 
