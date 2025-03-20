@@ -324,14 +324,17 @@ class Builder {
 		if (strlen($attributes->style ?? '') && !strlen($attributes->class ?? '')) {
 			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($instance_number++);
 		}
+		if( strlen($this->class_name_prefix ?? '') && strlen($attributes->class ?? '') ){
+			$attributes->class = $this->class_name_prefix.$attributes->class;
+		}
 		if (strlen($attributes->style ?? '') && strlen($attributes->class ?? '')) {
-			$attributes->style = '.'.$this->class_name_prefix.$attributes->class.' {'."\n".''.$attributes->style."\n".'}'."\n";
+			$attributes->style = '.'.$attributes->class.' {'."\n".''.$attributes->style."\n".'}'."\n";
 		}
 		foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
 			$breakPointStyle = $attributes->breakPoints->{$breakPointName} ?? '';
 			if (strlen($breakPointStyle)) {
 				$attributes->style .= '@media all and (max-width: '.$breakPointNode->{'max-width'}.'px) {'."\n";
-				$attributes->style .= '.'.$this->class_name_prefix.$attributes->class.' {'."\n".''.$breakPointStyle."\n".'}'."\n";
+				$attributes->style .= '.'.$attributes->class.' {'."\n".''.$breakPointStyle."\n".'}'."\n";
 				$attributes->style .= '}'."\n";
 			}
 		}
@@ -375,7 +378,7 @@ class Builder {
 				$rtn .= "<".htmlspecialchars($node->nodeName);
 
 				if(strlen($attributes->class ?? '')){
-					$rtn .= ' class="'.htmlspecialchars($this->class_name_prefix.$attributes->class).'"';
+					$rtn .= ' class="'.htmlspecialchars($attributes->class).'"';
 				}
 
 				if($currentComponent->isVoidElement){

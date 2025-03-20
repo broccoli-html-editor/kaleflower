@@ -1,8 +1,22 @@
 .cont-test__test-image-sample {
+width: 80%;
 border: 1px solid #000;
 border-radius: 5px;
 overflow: hidden;
-		}
+display: inline-block;
+line-height: 1;}
+@media all and (max-width: 1400px) {
+.cont-test__test-image-sample {
+}
+}
+@media all and (max-width: 800px) {
+.cont-test__test-image-sample {
+}
+}
+@media all and (max-width: 480px) {
+.cont-test__test-image-sample {
+}
+}
 .cont-test__paragraph {
 margin: 1em 0;}
 .cont-test__test-div-class-001 {

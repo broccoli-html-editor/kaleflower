@@ -249,14 +249,17 @@ export class Builder {
 		if ($attributes.style.length && !$attributes.class.length) {
 			$attributes.class = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
 		}
+		if (this.#class_name_prefix.length && $attributes.class.length) {
+			$attributes.class = this.#class_name_prefix + $attributes.class;
+		}
 		if ($attributes.style.length && $attributes.class.length) {
-			$attributes.style = '.'+this.#class_name_prefix+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
+			$attributes.style = '.'+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
 		}
 		Object.values(this.#config['break-points']).forEach((breakPointConfig) => {
 			const $breakPointStyle = $attributes.breakPoints[breakPointConfig.name] || '';
 			if ($breakPointStyle.length) {
 				$attributes.style += '@media all and (max-width: '+breakPointConfig['max-width']+'px) {'+"\n";
-				$attributes.style += '.'+this.#class_name_prefix+$attributes.class+' {'+"\n"+''+$breakPointStyle+"\n"+'}'+"\n";
+				$attributes.style += '.'+$attributes.class+' {'+"\n"+''+$breakPointStyle+"\n"+'}'+"\n";
 				$attributes.style += '}'+"\n";
 			}
 		});
@@ -307,7 +310,7 @@ export class Builder {
 				$rtn += " data-kaleflower-instance-id=\""+($node.kaleflowerInstanceId)+"\"";
 
 				if($attributes.class.length){
-					$rtn += ' class="'+this.#utils.htmlSpecialChars(this.#class_name_prefix+$attributes.class)+'"';
+					$rtn += ' class="'+this.#utils.htmlSpecialChars($attributes.class)+'"';
 				}
 
 				if($currentComponent && $currentComponent.isVoidElement){
