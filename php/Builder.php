@@ -143,7 +143,7 @@ class Builder {
 		}elseif( strlen($this->module_name) ){
 			$this->class_name_prefix = $this->module_name.'__';
 		}elseif( strlen($this->module_name_prefix) ){
-			$this->class_name_prefix = $this->module_name_prefix.'__';
+			$this->class_name_prefix = $this->module_name_prefix.'-';
 		}
 
 		if( !is_object($this->config->{"break-points"} ?? null) ){

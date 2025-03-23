@@ -87,7 +87,7 @@ export class Builder {
 		}else if( this.#module_name ){
 			this.#class_name_prefix = this.#module_name + '__';
 		}else if( this.#module_name_prefix ){
-			this.#class_name_prefix = this.#module_name_prefix + '__';
+			this.#class_name_prefix = this.#module_name_prefix + '-';
 		}
 
 		if( !this.#config['break-points'] ){
