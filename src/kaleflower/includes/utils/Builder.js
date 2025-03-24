@@ -100,6 +100,10 @@ export class Builder {
 		this.#fields = globalState.fields;
 		this.#components = globalState.components;
 
+		Object.keys(this.#components.get_custom_components()).forEach((componentName) => {
+			$rtn.css += this.#components.get_component(componentName).style;
+		});
+
 		Object.keys(globalState.styles).forEach((className) => {
 			const $styleNode = globalState.styles[className];
 			const $className = $styleNode.getAttribute('class');

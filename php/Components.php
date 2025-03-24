@@ -72,7 +72,18 @@ class Components {
 		$templateNode = $component->getElementsByTagName('template')->item(0);
 		$rtn->template = $templateNode->textContent ?? null;
 
+		$styleNode = $component->getElementsByTagName('style')->item(0);
+		$rtn->style = $styleNode->textContent ?? null;
+
 		return $rtn;
+	}
+
+	public function get_system_components(){
+		return $this->system_components;
+	}
+
+	public function get_custom_components(){
+		return $this->custom_components;
 	}
 
 	public function get_component($tagName){

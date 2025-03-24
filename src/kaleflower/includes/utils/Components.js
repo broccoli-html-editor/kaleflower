@@ -70,6 +70,11 @@ export class Components {
 			$rtn.template = templateNodes[0].textContent || null;
 		}
 
+		const styleNodes = component.getElementsByTagName('style');
+		if(styleNodes.length){
+			$rtn.style = styleNodes[0].textContent || null;
+		}
+
 		return $rtn;
 	}
 

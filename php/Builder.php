@@ -163,6 +163,10 @@ class Builder {
 			$this->components->add_component($component);
 		}
 
+		foreach($this->components->get_custom_components() as $component){
+			$rtn->css .= $component->style;
+		}
+
 		foreach ($styleNodes as $styleNode) {
 			$className = $styleNode->getAttribute('class');
 			$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";

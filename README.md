@@ -16,6 +16,7 @@ $ composer require broccoli-html-editor/kaleflower
 
 - 出力時の calss 名が正しく与えられない場合がある不具合を修正。
 - コンポーネントに `_ENV.mode`、 `_ENV.lang` が送られるようになった。
+- コンポーネントに `<style>` を挿入できるようになった。
 - インターフェイスの変更: `load()` と `build()` を分けた。
 - その他の細かい不具合の修正など。
 
