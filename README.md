@@ -18,6 +18,8 @@ $ composer require broccoli-html-editor/kaleflower
 - コンポーネントに `_ENV.mode`、 `_ENV.lang` が送られるようになった。
 - コンポーネントに `<style>` を挿入できるようになった。
 - インターフェイスの変更: `load()` と `build()` を分けた。
+- `on()`, `off()`, `trigger()` を追加した。
+- `onchange` イベントを追加した。
 - その他の細かい不具合の修正など。
 
 ### Kaleflower v0.1.0 (2025年3月15日)

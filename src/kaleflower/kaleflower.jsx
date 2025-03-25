@@ -19,6 +19,7 @@ window.Kaleflower = class {
 		$: $,
 		jQuery: $,
 	};
+	#events = {};
 
 	/**
 	 * Constructor
@@ -29,6 +30,7 @@ window.Kaleflower = class {
 		this.#options = options;
 		this.#options.lang = options.lang || 'en';
 		this.#options.appearance = options.appearance || 'auto';
+		this.#events = {};
 
 		this.#kflowProcId = this.#utils.createUUID();
 
@@ -43,6 +45,7 @@ window.Kaleflower = class {
 		}).then(() => {
 			ReactDOM.render(
 				<Root
+					kaleflower={this}
 					kflow-proc-id={this.#kflowProcId}
 					options={this.#options}
 					lb={this.#lb}
@@ -107,5 +110,72 @@ window.Kaleflower = class {
 		const kflowXml = new KflowXml(this.#utils);
 		const xml = kflowXml.StateToKflowXml(this.#globalState);
 		return xml;
+	}
+
+	/**
+	 * Register an event handler
+	 * @param {string} eventName - Name of the event
+	 * @param {Function} callback - Event handler function
+	 * @returns {window.Kaleflower} - Returns this instance for method chaining
+	 */
+	on(eventName, callback){
+		if (typeof eventName !== 'string' || typeof callback !== 'function') {
+			return this;
+		}
+		
+		if (!this.#events[eventName]) {
+			this.#events[eventName] = [];
+		}
+		
+		this.#events[eventName].push(callback);
+		return this;
+	}
+
+	/**
+	 * Remove an event handler
+	 * @param {string} eventName - Name of the event
+	 * @param {Function} [callback] - Specific handler to remove (removes all handlers for this event if not provided)
+	 * @returns {window.Kaleflower} - Returns this instance for method chaining
+	 */
+	off(eventName, callback){
+		if (typeof eventName !== 'string') {
+			return this;
+		}
+
+		if (!this.#events[eventName]) {
+			return this;
+		}
+
+		if (!callback) {
+			// Remove all handlers for this event
+			delete this.#events[eventName];
+			return this;
+		}
+
+		// Remove specific handler
+		this.#events[eventName] = this.#events[eventName].filter(handler => handler !== callback);
+		return this;
+	}
+
+	/**
+	 * Trigger an event
+	 * @param {string} eventName - Name of the event to trigger
+	 * @param {any} [data] - Optional data to pass to event handlers
+	 * @returns {window.Kaleflower} - Returns this instance for method chaining
+	 */
+	trigger(eventName, data){
+		if (typeof eventName !== 'string' || !this.#events[eventName]) {
+			return this;
+		}
+
+		this.#events[eventName].forEach(callback => {
+			try {
+				callback(data);
+			} catch(e) {
+				console.error(`Error executing event handler for "${eventName}":`, e);
+			}
+		});
+		
+		return this;
 	}
 }
