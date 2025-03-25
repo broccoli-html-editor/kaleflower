@@ -134,6 +134,7 @@ const ElementEditor = (props) => {
 	function onchange(){
 		const onchange = props.onchange || function(){};
 		onchange(globalState.selectedInstance);
+		props.kaleflower.trigger('change');
 	}
 
 	return (
@@ -275,6 +276,7 @@ const ElementEditor = (props) => {
 							globalState.selectedInstance.remove();
 							const onremove = props.onremove() || function(){};
 							onremove();
+							props.kaleflower.trigger('change');
 						}}>remove</button></p>
 				</>
 				: <></>}

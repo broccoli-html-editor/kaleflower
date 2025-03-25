@@ -44,7 +44,7 @@
 					"appearance": <?= json_encode($_GET['appearance'] ?? "light") ?>,
 					"lang": <?= json_encode($_GET['lang'] ?? "en") ?>,
 				});
-				kaleflower.on('change': function(event){
+				kaleflower.on('change', function(event){
 					console.log('on change event: ', event);
 				});
 				kaleflower.load('../kflows/general.kflow');

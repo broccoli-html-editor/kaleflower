@@ -134,10 +134,9 @@ window.Kaleflower = class {
 	/**
 	 * Remove an event handler
 	 * @param {string} eventName - Name of the event
-	 * @param {Function} [callback] - Specific handler to remove (removes all handlers for this event if not provided)
 	 * @returns {window.Kaleflower} - Returns this instance for method chaining
 	 */
-	off(eventName, callback){
+	off(eventName){
 		if (typeof eventName !== 'string') {
 			return this;
 		}
@@ -146,14 +145,8 @@ window.Kaleflower = class {
 			return this;
 		}
 
-		if (!callback) {
-			// Remove all handlers for this event
-			delete this.#events[eventName];
-			return this;
-		}
-
 		// Remove specific handler
-		this.#events[eventName] = this.#events[eventName].filter(handler => handler !== callback);
+		this.#events[eventName] = [];
 		return this;
 	}
 
@@ -168,9 +161,13 @@ window.Kaleflower = class {
 			return this;
 		}
 
+		const event = {
+			"data": data || {},
+		};
+
 		this.#events[eventName].forEach(callback => {
 			try {
-				callback(data);
+				callback(event);
 			} catch(e) {
 				console.error(`Error executing event handler for "${eventName}":`, e);
 			}

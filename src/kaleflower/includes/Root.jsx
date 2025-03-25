@@ -141,6 +141,7 @@ const Root = React.memo((props) => {
 					targetElement.appendChild(newChild);
 				}
 				selectInstance(newChild);
+				props.kaleflower.trigger('change');
 				done();
 				return;
 			});
@@ -164,6 +165,7 @@ const Root = React.memo((props) => {
 			parentNode.insertBefore(instance, moveToInstance);
 		}
 		selectInstance(instance);
+		props.kaleflower.trigger('change');
 	}
 
 	if(!globalState.components){
@@ -184,6 +186,7 @@ const Root = React.memo((props) => {
 				<div className="kaleflower__body">
 					<div className="kaleflower__body-left">
 						<InstanceTreeView
+							kaleflower={props.kaleflower}
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
 							onmoveinstance={moveInstance}
@@ -192,6 +195,7 @@ const Root = React.memo((props) => {
 					</div>
 					<div className="kaleflower__body-center">
 						<LayoutView
+							kaleflower={props.kaleflower}
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
 							onmoveinstance={moveInstance}
@@ -221,6 +225,7 @@ const Root = React.memo((props) => {
 						*/}
 
 						<ElementEditor
+							kaleflower={props.kaleflower}
 							onchange={(selectedInstance)=>{selectInstance(selectedInstance);}}
 							onremove={unselectInstance}
 							/>
