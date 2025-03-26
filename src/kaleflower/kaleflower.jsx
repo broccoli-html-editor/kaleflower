@@ -19,7 +19,7 @@ window.Kaleflower = class {
 		$: $,
 		jQuery: $,
 	};
-	#events = {};
+	#eventCallbacks = {};
 
 	/**
 	 * Constructor
@@ -30,7 +30,7 @@ window.Kaleflower = class {
 		this.#options = options;
 		this.#options.lang = options.lang || 'en';
 		this.#options.appearance = options.appearance || 'auto';
-		this.#events = {};
+		this.#eventCallbacks = {};
 
 		this.#kflowProcId = this.#utils.createUUID();
 
@@ -123,11 +123,11 @@ window.Kaleflower = class {
 			return this;
 		}
 		
-		if (!this.#events[eventName]) {
-			this.#events[eventName] = [];
+		if (!this.#eventCallbacks[eventName]) {
+			this.#eventCallbacks[eventName] = [];
 		}
 		
-		this.#events[eventName].push(callback);
+		this.#eventCallbacks[eventName].push(callback);
 		return this;
 	}
 
@@ -141,12 +141,12 @@ window.Kaleflower = class {
 			return this;
 		}
 
-		if (!this.#events[eventName]) {
+		if (!this.#eventCallbacks[eventName]) {
 			return this;
 		}
 
 		// Remove specific handler
-		this.#events[eventName] = [];
+		this.#eventCallbacks[eventName] = [];
 		return this;
 	}
 
@@ -157,7 +157,7 @@ window.Kaleflower = class {
 	 * @returns {window.Kaleflower} - Returns this instance for method chaining
 	 */
 	trigger(eventName, data){
-		if (typeof eventName !== 'string' || !this.#events[eventName]) {
+		if (typeof eventName !== 'string' || !this.#eventCallbacks[eventName]) {
 			return this;
 		}
 
@@ -165,7 +165,7 @@ window.Kaleflower = class {
 			"data": data || {},
 		};
 
-		this.#events[eventName].forEach(callback => {
+		this.#eventCallbacks[eventName].forEach(callback => {
 			try {
 				callback(event);
 			} catch(e) {
