@@ -6,6 +6,7 @@ export class Builder {
 	#utils;
 	#lb;
 	#config;
+	#buildOptions;
 	#components;
 	#fields;
 	#assets;
@@ -46,6 +47,8 @@ export class Builder {
 	build( globalState, $buildOptions ){
 		$buildOptions = $buildOptions || {};
 		$buildOptions.assetsPrefix = $buildOptions.assetsPrefix || './';
+		$buildOptions.extra = $buildOptions.extra || globalState.options.extra || {};
+		this.#buildOptions = $buildOptions;
 
 		const $rtn = {
 			'result': true,
@@ -289,6 +292,7 @@ export class Builder {
 					'_ENV': {
 						'mode': 'canvas',
 						'lang': this.#lb.getLang(),
+						'extra': this.#buildOptions.extra,
 					},
 				},
 				{

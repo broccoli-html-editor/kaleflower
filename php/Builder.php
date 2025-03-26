@@ -20,6 +20,9 @@ class Builder {
 	/** $config */
 	private $config;
 
+	/** Build options */
+	private $buildOptions;
+
 	/** $components */
 	private $components;
 
@@ -81,6 +84,8 @@ class Builder {
 	public function build( $dom, $buildOptions = array() ){
 		$buildOptions = (is_array($buildOptions) || is_object($buildOptions) ? (object) $buildOptions : (object) array());
 		$buildOptions->assetsPrefix = $buildOptions->assetsPrefix ?? './';
+		$buildOptions->extra = $buildOptions->extra ?? (object) array();
+		$this->buildOptions = $buildOptions;
 
 		$rtn = (object) array(
 			'result' => true,
@@ -355,6 +360,7 @@ class Builder {
 					'_ENV' => array(
 						'mode' => 'finalize',
 						'lang' => $this->lb->getLang(),
+						'extra' => $this->buildOptions->extra,
 					),
 				),
 				array(

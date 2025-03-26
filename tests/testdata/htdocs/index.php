@@ -43,6 +43,9 @@
 					"contentsContainerNameBy": "data-kaleflower-contents-bowl-name",
 					"appearance": <?= json_encode($_GET['appearance'] ?? "light") ?>,
 					"lang": <?= json_encode($_GET['lang'] ?? "en") ?>,
+					"extra": {
+						"sample": "sample value",
+					},
 				});
 				kaleflower.on('change', function(event){
 					console.log('on change event: ', event);

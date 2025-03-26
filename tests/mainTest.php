@@ -24,6 +24,9 @@ class mainTest extends PHPUnit\Framework\TestCase{
 			__DIR__.'/testdata/kflows/general.kflow',
 			array(
 				'assetsPrefix' => './main_files/',
+				"extra" => array(
+					"sample" => "sample value",
+				),
 			)
 		);
 
