@@ -21,11 +21,13 @@ const Root = React.memo((props) => {
 	useEffect(() => {
 		// カスタムイベントをリッスンしてデータを取得
 		const handleDataLoaded = (event) => {
-			let newState = {
-				...globalState,
-				...event.detail,
-			};
-			setGlobalState(newState); // イベントからデータを取得してstateにセット
+			setGlobalState((pastState) => {
+				let newState = {
+					...pastState,
+					...event.detail,
+				};
+				return newState;
+			});
 		};
 
 		window.addEventListener(`kaleflower-${props['kflow-proc-id']}-state-updated`, handleDataLoaded);
@@ -68,42 +70,50 @@ const Root = React.memo((props) => {
 
 	function selectInstance(instance){
 		instance = getInstanceById(instance);
-		const newGlobalState = {
-			...globalState,
-			selectedInstance: instance,
-			hoveredInstanceDirection: null,
-		};
-		setGlobalState(newGlobalState);
+		setGlobalState((pastState) => {
+			const newGlobalState = {
+				...pastState,
+				selectedInstance: instance,
+				hoveredInstanceDirection: null,
+			};
+			return newGlobalState;
+		});
 	}
 
 	function hoverInstance(instance){
 		instance = getInstanceById(instance);
-		const newGlobalState = {
-			...globalState,
-			hoveredInstance: instance,
-			hoveredInstanceDirection: null,
-		};
-		setGlobalState(newGlobalState);
+		setGlobalState((pastState) => {
+			const newGlobalState = {
+				...pastState,
+				hoveredInstance: instance,
+				hoveredInstanceDirection: null,
+			};
+			return newGlobalState;
+		});
 	}
 
 	function dragoverInstance(instance, direction){
 		instance = getInstanceById(instance);
-		const newGlobalState = {
-			...globalState,
-			hoveredInstance: instance,
-			hoveredInstanceDirection: direction,
-		};
-		setGlobalState(newGlobalState);
+		setGlobalState((pastState) => {
+			const newGlobalState = {
+				...pastState,
+				hoveredInstance: instance,
+				hoveredInstanceDirection: direction,
+			};
+			return newGlobalState;
+		});
 	}
 
 	function unselectInstance(){
-		const newGlobalState = {
-			...globalState,
-			selectedInstance: null,
-			hoveredInstance: null,
-			hoveredInstanceDirection: null,
-		};
-		setGlobalState(newGlobalState);
+		setGlobalState((pastState) => {
+			const newGlobalState = {
+				...pastState,
+				selectedInstance: null,
+				hoveredInstance: null,
+				hoveredInstanceDirection: null,
+			};
+			return newGlobalState;
+		});
 	}
 
 	async function createNewInstance(targetElement, direction){
