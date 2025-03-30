@@ -148,6 +148,12 @@ export class KflowXml {
 				});
 				finalXml += '			</fields>';
 			}
+			if(component.style){
+				finalXml += "\n";
+				finalXml += '			<style><![CDATA['+component.style+']]></style>'+"\n";
+			}else{
+				finalXml += "\n";
+			}
 			if(component.template){
 				finalXml += "\n";
 				finalXml += '			<template><![CDATA['+component.template+']]></template>'+"\n";

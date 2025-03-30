@@ -23,6 +23,16 @@
 			<fields>
 				<field type="image" name="image" label="Image" />
 			</fields>
+			<style>
+				.custom-component-001 {
+					background-color: #fff;
+					color: #333;
+					font-size: 16px;
+					padding: 20px;
+					border-radius: 5px;
+					box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+				}
+			</style>
 			<template><![CDATA[
 {% set image = json_decode(attributes.image) %}
 <div class="custom-component-001 {{ attributes.class }}">

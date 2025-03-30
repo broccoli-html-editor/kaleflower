@@ -169,7 +169,7 @@ class Builder {
 		}
 
 		foreach($this->components->get_custom_components() as $component){
-			$rtn->css .= $component->style;
+			$rtn->css .= $component->style ?? '';
 		}
 
 		foreach ($styleNodes as $styleNode) {
