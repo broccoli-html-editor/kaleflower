@@ -150,7 +150,7 @@ export class KflowXml {
 			}
 			if(component.style){
 				finalXml += "\n";
-				finalXml += '			<style><![CDATA['+component.style+']]></style>'+"\n";
+				finalXml += '			<style>'+component.style+'</style>'+"\n";
 			}else{
 				finalXml += "\n";
 			}
