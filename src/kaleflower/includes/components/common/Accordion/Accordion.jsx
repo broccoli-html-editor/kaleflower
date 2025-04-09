@@ -2,7 +2,9 @@ import React, { useContext, useState, useEffect } from "react";
 
 const Accordion = (props) => {
 
-	const [openAccordion, setOpenAccordion] = useState({});
+	const [openAccordion, setOpenAccordion] = useState({
+		isOpened: false,
+	});
 
 	// Toggle function for accordions
 	const toggleAccordion = () => {
@@ -11,6 +13,14 @@ const Accordion = (props) => {
 			isOpened: !prev.isOpened,
 		}));
 	};
+
+	useEffect(() => {
+		// Initialize accordion state
+		setOpenAccordion(prev => ({
+			...prev,
+			isOpened: false,
+		}));
+	}, [props.id || null]);
 
 	return (
 		<div className="kaleflower-accordion">

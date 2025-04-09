@@ -181,6 +181,7 @@ const ElementEditor = (props) => {
 
 							<Accordion
 								label={hasCssClassName ? `class .${currentClassName}` : `Default styles`}
+								id={globalState.selectedInstance}
 							>
 								<StylingFields
 									hasCssClassName={hasCssClassName}
@@ -202,6 +203,7 @@ const ElementEditor = (props) => {
 										return <Accordion
 											key={breakPointName}
 											label={`Break point ${breakPoint['max-width']}px`}
+											id={globalState.selectedInstance}
 										>
 											<StylingFields
 												hasCssClassName={hasCssClassName}
