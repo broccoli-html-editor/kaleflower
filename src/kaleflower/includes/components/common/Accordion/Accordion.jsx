@@ -15,12 +15,9 @@ const Accordion = (props) => {
 	return (
 		<div className="kaleflower-accordion">
 			<div className="kaleflower-accordion__header" onClick={() => toggleAccordion()} >
-				<div>
+				<button type="button" className={`kaleflower-accordion__toggle-button ${openAccordion.isOpened ? 'kaleflower-accordion__toggle-button--is-opened' : ''}`}>
 					{props.label}
-				</div>
-				<div style={{ transform: openAccordion.isOpened ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
-					▼
-				</div>
+				</button>
 			</div>
 			{openAccordion.isOpened && (
 				<div className="kaleflower-accordion__content">

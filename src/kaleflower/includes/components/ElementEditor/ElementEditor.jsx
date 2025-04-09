@@ -201,7 +201,7 @@ const ElementEditor = (props) => {
 										const breakPoint = globalState.configs['break-points'][breakPointName];
 										return <Accordion
 											key={breakPointName}
-											label={`Break point ${breakPointName}: ${breakPoint['max-width']}px`}
+											label={`Break point ${breakPoint['max-width']}px`}
 										>
 											<StylingFields
 												hasCssClassName={hasCssClassName}
