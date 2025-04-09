@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
 import StylingFields from './StylingFields.jsx';
-import Attribute from './Attribute.jsx';
+import Text from './FormInputs/Text.jsx';
 import {Utils} from "../../utils/Utils.js";
 const utils = new Utils();
 import jQuery from "jquery";
@@ -173,7 +173,7 @@ const ElementEditor = (props) => {
 									<code>&lt;{globalState.selectedInstance.nodeName}&gt;</code>
 								</div>
 							</div>
-							{(canSetClass ? <Attribute
+							{(canSetClass ? <Text
 								instance={globalState.selectedInstance}
 								attrName="class"
 								onchange={onchange} /> : <></>)}

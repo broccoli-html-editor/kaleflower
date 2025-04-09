@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
-import Attribute from './Attribute.jsx';
+import Text from './FormInputs/Text.jsx';
 import {Utils} from "../../utils/Utils.js";
 const utils = new Utils();
 
@@ -10,7 +10,7 @@ const StylingFields = (props) => {
 		// NOTE: classNameがある場合、ブレイクポイントの編集対象の要素(props.targetElementNode)は media要素になるので、
 		// breakPointName を意識する必要がない。
 		// 通常の要素を編集する場合は、同じ要素に接尾辞 `--${props.breakPointName}` を付けた属性に値を保存するので、
-		// この値を使ってブレイクポイントの値を取得する必要があるので、 `<Attribute />` に引き回す。
+		// この値を使ってブレイクポイントの値を取得する必要があるので、 `<Text />` に引き回す。
 
 	function onchange(){
 		const onchange = props.onchange || function(){};
@@ -20,54 +20,54 @@ const StylingFields = (props) => {
 	return (
 		<>
 			{((props.canBeLayer || props.canSetClass) ? <>
-				<Attribute
+				<Text
 					instance={props.targetElementNode}
 					attrName={"layer"}
 					breakPointName={breakPointName}
 					onchange={onchange} />
-				<Attribute
+				<Text
 					instance={props.targetElementNode}
 					attrName={"layer-position-top"}
 					breakPointName={breakPointName}
 					onchange={onchange} />
-				<Attribute
+				<Text
 					instance={props.targetElementNode}
 					attrName={"layer-position-right"}
 					breakPointName={breakPointName}
 					onchange={onchange} />
-				<Attribute
+				<Text
 					instance={props.targetElementNode}
 					attrName={"layer-position-bottom"}
 					breakPointName={breakPointName}
 					onchange={onchange} />
-				<Attribute
+				<Text
 					instance={props.targetElementNode}
 					attrName={"layer-position-left"}
 					breakPointName={breakPointName}
 					onchange={onchange} />
 			</> : <></>)}
 
-			{((props.canSetContentsDirection || props.canSetClass) ? <Attribute
+			{((props.canSetContentsDirection || props.canSetClass) ? <Text
 				instance={props.targetElementNode}
 				attrName={"contents-direction"}
 				breakPointName={breakPointName}
 				onchange={onchange} /> : <></>)}
 
-			{((props.canSetWidth || props.canSetClass) ? <Attribute
+			{((props.canSetWidth || props.canSetClass) ? <Text
 				instance={props.targetElementNode}
 				attrName={"width"}
 				computedKey="kaleflowerComputedWidth"
 				breakPointName={breakPointName}
 				onchange={onchange} /> : <></>)}
 
-			{((props.canSetHeight || props.canSetClass) ? <Attribute
+			{((props.canSetHeight || props.canSetClass) ? <Text
 				instance={props.targetElementNode}
 				attrName={"height"}
 				computedKey="kaleflowerComputedHeight"
 				breakPointName={breakPointName}
 				onchange={onchange} /> : <></>)}
 
-			{((props.canSetScrollable || props.canSetClass) ? <Attribute
+			{((props.canSetScrollable || props.canSetClass) ? <Text
 				instance={props.targetElementNode}
 				attrName={"scrollable"}
 				breakPointName={breakPointName}
