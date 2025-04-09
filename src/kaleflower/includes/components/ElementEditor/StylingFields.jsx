@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
 import Text from './FormInputs/Text.jsx';
 import Select from './FormInputs/Select.jsx';
+import TextArea from './FormInputs/TextArea.jsx';
+import UnitValue from './FormInputs/UnitValue.jsx';
 
 const StylingFields = (props) => {
 	const globalState = useContext(MainContext);
@@ -46,22 +48,22 @@ const StylingFields = (props) => {
 						},
 					]}
 					onchange={onchange} />
-				<Text
+				<UnitValue
 					instance={props.targetElementNode}
 					attrName={"layer-position-top"}
 					breakPointName={breakPointName}
 					onchange={onchange} />
-				<Text
+				<UnitValue
 					instance={props.targetElementNode}
 					attrName={"layer-position-right"}
 					breakPointName={breakPointName}
 					onchange={onchange} />
-				<Text
+				<UnitValue
 					instance={props.targetElementNode}
 					attrName={"layer-position-bottom"}
 					breakPointName={breakPointName}
 					onchange={onchange} />
-				<Text
+				<UnitValue
 					instance={props.targetElementNode}
 					attrName={"layer-position-left"}
 					breakPointName={breakPointName}
@@ -88,14 +90,14 @@ const StylingFields = (props) => {
 				]}
 				onchange={onchange} /> : <></>)}
 
-			{((props.canSetWidth || props.canSetClass) ? <Text
+			{((props.canSetWidth || props.canSetClass) ? <UnitValue
 				instance={props.targetElementNode}
 				attrName={"width"}
 				computedKey={"kaleflowerComputedWidth"}
 				breakPointName={breakPointName}
 				onchange={onchange} /> : <></>)}
 
-			{((props.canSetHeight || props.canSetClass) ? <Text
+			{((props.canSetHeight || props.canSetClass) ? <UnitValue
 				instance={props.targetElementNode}
 				attrName={"height"}
 				computedKey={"kaleflowerComputedHeight"}
