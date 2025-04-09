@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
+import Accordion from './../common/Accordion/Accordion.jsx';
 import StylingFields from './StylingFields.jsx';
 import Text from './FormInputs/Text.jsx';
 import {Utils} from "../../utils/Utils.js";
@@ -178,28 +179,30 @@ const ElementEditor = (props) => {
 								attrName="class"
 								onchange={onchange} /> : <></>)}
 
-							{hasCssClassName
-								? <><p>class <code>.{currentClassName}</code></p></>
-								: <></>}
-
-							<StylingFields
-								hasCssClassName={hasCssClassName}
-								targetElementNode={hasCssClassName ? currentStyle : globalState.selectedInstance}
-								canSetClass={canSetClass}
-								currentClassName={currentClassName}
-								canBeLayer={canBeLayer}
-								canSetContentsDirection={canSetContentsDirection}
-								canSetWidth={canSetWidth}
-								canSetHeight={canSetHeight}
-								canSetScrollable={canSetScrollable}
-								onchange={onchange} />
+							<Accordion
+								label={hasCssClassName ? `class .${currentClassName}` : `Default styles`}
+							>
+								<StylingFields
+									hasCssClassName={hasCssClassName}
+									targetElementNode={hasCssClassName ? currentStyle : globalState.selectedInstance}
+									canSetClass={canSetClass}
+									currentClassName={currentClassName}
+									canBeLayer={canBeLayer}
+									canSetContentsDirection={canSetContentsDirection}
+									canSetWidth={canSetWidth}
+									canSetHeight={canSetHeight}
+									canSetScrollable={canSetScrollable}
+									onchange={onchange} />
+							</Accordion>
 
 							{globalState.configs && globalState.configs['break-points']
 								? <>
 									{Object.keys(globalState.configs['break-points']).map((breakPointName, index) => {
 										const breakPoint = globalState.configs['break-points'][breakPointName];
-										return <div key={breakPointName}>
-											<code>Break point {breakPointName}</code>: {breakPoint['max-width']}px<br />
+										return <Accordion
+											key={breakPointName}
+											label={`Break point ${breakPointName}: ${breakPoint['max-width']}px`}
+										>
 											<StylingFields
 												hasCssClassName={hasCssClassName}
 												targetElementNode={hasCssClassName ? currentStyleBreakPoints[breakPointName] : globalState.selectedInstance}
@@ -212,11 +215,10 @@ const ElementEditor = (props) => {
 												canSetScrollable={canSetScrollable}
 												breakPointName={breakPointName}
 												onchange={onchange} />
-										</div>
+										</Accordion>
 									})}
 								</>
 								: <></>}
-
 
 							{currentComponent.fields.length
 								? <>
