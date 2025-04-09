@@ -419,6 +419,9 @@ class Builder {
 		if( $attrContentsDirection == "horizontal" ){
 			$css .= 'display: flex;'."\n";
 			$css .= 'flex-direction: row;'."\n";
+		}elseif( $attrContentsDirection == "vertical" ){
+			$css .= 'display: flex;'."\n";
+			$css .= 'flex-direction: column;'."\n";
 		}
 
 		$attrScrollable = $node->getAttribute('scrollable'.$attrNameSufix);

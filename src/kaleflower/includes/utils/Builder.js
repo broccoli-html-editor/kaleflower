@@ -358,6 +358,9 @@ export class Builder {
 		if( attrContentsDirection == "horizontal" ){
 			$css += 'display: flex;'+"\n";
 			$css += 'flex-direction: row;'+"\n";
+		}else if( attrContentsDirection == "vertical" ){
+			$css += 'display: flex;'+"\n";
+			$css += 'flex-direction: column;'+"\n";
 		}
 
 		const attrScrollable = $node.getAttribute('scrollable'+attrNameSufix);

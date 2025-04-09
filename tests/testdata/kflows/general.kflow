@@ -104,6 +104,7 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 				box-sizing: border-box;
 			}
 			</style>
+
 			<template><![CDATA[
 {% set image = json_decode(attributes.image) %}
 <div class="custom-component-001 {{ attributes.class }}">
@@ -127,6 +128,7 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 				box-sizing: border-box;
 			}
 			</style>
+
 			<template><![CDATA[<div class="custom-component-002">
 	<div class="custom-component-002__content">
 		<div class="custom-component-002__content-inner">

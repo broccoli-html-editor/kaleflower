@@ -12,6 +12,11 @@ $ composer require broccoli-html-editor/kaleflower
 
 ## 更新履歴 - Change log
 
+### Kaleflower v0.1.2 (リリース日未定)
+
+- `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
+- `contents-direction` に `vertical` を追加。
+
 ### Kaleflower v0.1.1 (2025年4月3日)
 
 - 出力時の calss 名が正しく与えられない場合がある不具合を修正。

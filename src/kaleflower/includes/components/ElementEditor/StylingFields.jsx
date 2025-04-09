@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
 import Text from './FormInputs/Text.jsx';
-import {Utils} from "../../utils/Utils.js";
-const utils = new Utils();
+import Select from './FormInputs/Select.jsx';
 
 const StylingFields = (props) => {
 	const globalState = useContext(MainContext);
@@ -20,10 +19,32 @@ const StylingFields = (props) => {
 	return (
 		<>
 			{((props.canBeLayer || props.canSetClass) ? <>
-				<Text
+				<Select
 					instance={props.targetElementNode}
 					attrName={"layer"}
 					breakPointName={breakPointName}
+					options={[
+						{
+							label: "Absolute",
+							value: "absolute",
+						},
+						{
+							label: "Relative",
+							value: "relative",
+						},
+						{
+							label: "Fixed",
+							value: "fixed",
+						},
+						{
+							label: "Sticky",
+							value: "sticky",
+						},
+						{
+							label: "Normal",
+							value: "",
+						},
+					]}
 					onchange={onchange} />
 				<Text
 					instance={props.targetElementNode}
@@ -47,30 +68,54 @@ const StylingFields = (props) => {
 					onchange={onchange} />
 			</> : <></>)}
 
-			{((props.canSetContentsDirection || props.canSetClass) ? <Text
+			{((props.canSetContentsDirection || props.canSetClass) ? <Select
 				instance={props.targetElementNode}
 				attrName={"contents-direction"}
 				breakPointName={breakPointName}
+				options={[
+					{
+						label: "Natural",
+						value: "",
+					},
+					{
+						label: "Horizontal",
+						value: "horizontal",
+					},
+					{
+						label: "Vertical",
+						value: "vertical",
+					},
+				]}
 				onchange={onchange} /> : <></>)}
 
 			{((props.canSetWidth || props.canSetClass) ? <Text
 				instance={props.targetElementNode}
 				attrName={"width"}
-				computedKey="kaleflowerComputedWidth"
+				computedKey={"kaleflowerComputedWidth"}
 				breakPointName={breakPointName}
 				onchange={onchange} /> : <></>)}
 
 			{((props.canSetHeight || props.canSetClass) ? <Text
 				instance={props.targetElementNode}
 				attrName={"height"}
-				computedKey="kaleflowerComputedHeight"
+				computedKey={"kaleflowerComputedHeight"}
 				breakPointName={breakPointName}
 				onchange={onchange} /> : <></>)}
 
-			{((props.canSetScrollable || props.canSetClass) ? <Text
+			{((props.canSetScrollable || props.canSetClass) ? <Select
 				instance={props.targetElementNode}
 				attrName={"scrollable"}
 				breakPointName={breakPointName}
+				options={[
+					{
+						label: "Scrollable",
+						value: "auto",
+					},
+					{
+						label: "Nothing",
+						value: "",
+					},
+				]}
 				onchange={onchange} /> : <></>)}
 
 			{props.hasCssClassName &&
