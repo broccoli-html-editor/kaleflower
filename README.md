@@ -17,6 +17,7 @@ $ composer require broccoli-html-editor/kaleflower
 - `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
 - `contents-direction` に `vertical` を追加。
 - 単位付きの入力項目について、入力支援機能を追加。単位を別で選択できるようになった。
+- レイアウトビューが、横スクロール操作に追従しない問題を修正。
 - その他、いくつかの不具合の修正、UIの改善など。
 
 ### Kaleflower v0.1.1 (2025年4月3日)

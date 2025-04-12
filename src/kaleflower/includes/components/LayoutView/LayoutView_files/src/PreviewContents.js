@@ -54,54 +54,13 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 			const instances = panelsInfo.collectInstance();
 			callbackMessage('adjustPanelsPosition', {
 				'panels': instances,
+				'window': {
+					'width': $(window).width(),
+					'height': $(window).height(),
+				},
 			} );
 			return;
 		});
-	}
-
-	function getInstance($this){
-		var elm = {};
-		elm.instancePath = $this.attr('data-broccoli-instance-path');
-		elm.modId = $this.attr('data-broccoli-mod-id');// <- このidは、コンテンツデータ由来なので、実際にはinternalIdを扱っている。が、名前は id でよい。
-		elm.subModName = $this.attr('data-broccoli-sub-mod-name');
-		elm.isAppender = ($this.attr('data-broccoli-is-appender') == 'yes');
-		elm.areaSizeDetection = $this.attr('data-broccoli-area-size-detection');
-		elm.modName = $this.attr('data-broccoli-module-name');
-		elm.offsetLeft = $this.offset().left;
-		elm.offsetTop = $this.offset().top;
-		elm.outerWidth = elm.offsetLeft + $this.outerWidth();
-		elm.outerHeight = elm.offsetTop + $this.outerHeight();
-		if( elm.areaSizeDetection == 'deep' ){
-			$this.find('*').each(function(){
-				var $this = $(this);
-				if( $this.is(":hidden") ){
-					return;
-				}
-				var oL = $this.offset().left;
-				var oT = $this.offset().top;
-				var oW = oL + $this.outerWidth();
-				var oH = oT + $this.outerHeight();
-				if( elm.offsetLeft > oL ){
-					elm.offsetLeft = oL;
-				}
-				if( elm.offsetTop > oT ){
-					elm.offsetTop = oT;
-				}
-				if( elm.outerWidth < oW ){
-					elm.outerWidth = oW;
-				}
-				if( elm.outerHeight < oH ){
-					elm.outerHeight = oH;
-				}
-			});
-		}
-		elm.outerWidth = elm.outerWidth - elm.offsetLeft;
-		elm.outerHeight = elm.outerHeight - elm.offsetTop;
-		elm.visible = true;
-		if( $this.is(":hidden") ){
-			elm.visible = false;
-		}
-		return elm;
 	}
 
 	window.addEventListener('message',function(event){
@@ -204,6 +163,7 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 
 		}else if(data.api == 'scrollTo'){
 			$(window).scrollTop(data.options.scrollTop);
+			$(window).scrollLeft(data.options.scrollLeft);
 			return;
 
 		}else{
@@ -216,7 +176,7 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		return;
 	});
 
-	$iframeWindowDocument.on("click", "a", function() {
+	$iframeWindowDocument.on("click.kaleflower", "a", function() {
 		var data = {};
 		var $this = $(this);
 		data.url = $this.prop('href');
@@ -226,7 +186,7 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		callbackMessage('onClickContentsLink', data );
 		return false;
 	});
-	$iframeWindowDocument.find('form').on("submit", function() {
+	$iframeWindowDocument.find('form').on("submit.kaleflower", function() {
 		var data = {};
 		var $this = $(this);
 		data.url = $this.prop('action');
@@ -236,13 +196,17 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 		callbackMessage('onClickContentsLink', data );
 		return false;
 	});
-	$(window).on("resize", function() {
+	$(window).on("resize.kaleflower", function() {
 		const instances = panelsInfo.collectInstance();
 		callbackMessage('adjustPanelsPosition', {
 			'panels': instances,
+			'window': {
+				'width': $(window).width(),
+				'height': $(window).height(),
+			},
 		} );
 		return;
-	});
+	}).trigger("resize");
 
 	resetPreviewDomElements();
 

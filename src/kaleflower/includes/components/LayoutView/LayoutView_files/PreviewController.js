@@ -311,6 +311,7 @@ window.removeEventListener('message', f, false);
 			}else if(data.api == 'adjustPanelsPosition'){
 				this.trigger('adjustPanelsPosition', {
 					panels: data.options.panels,
+					window: data.options.window,
 				});
 				return;
 

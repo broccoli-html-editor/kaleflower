@@ -15,17 +15,21 @@ const LayoutView = React.memo((props) => {
 	const [localState, setLocalState] = useState({
 		panels: [],
 		lastPreviewHtml: '{}',
+		previewViewport: {
+			width: null,
+			height: null,
+		},
 	});
 
 	previewController
 		.on('adjustPanelsPosition', (event) => {
 			const $panelsContainer = $(panelsContainerRef.current);
 			$panelsContainer.scrollTop(event.scrollTop);
-			const newLocalState = {
-				...localState,
-				panels: event.panels,
-			};
-			setLocalState(newLocalState);
+			setLocalState((prevState) => {
+				prevState.panels = event.panels;
+				prevState.previewViewport = event.window;
+				return prevState;
+			});
 		});
 
 	const currentLayer = (() => {
@@ -61,6 +65,7 @@ const LayoutView = React.memo((props) => {
 		$panelsContainer.on('scroll.kaleflower', (event) => {
 			previewController.sendMessageToIframe('scrollTo', {
 				scrollTop: $panelsContainer.scrollTop(),
+				scrollLeft: $panelsContainer.scrollLeft(),
 			});
 		});
 
