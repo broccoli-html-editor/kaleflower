@@ -12,7 +12,12 @@ const Root = React.memo((props) => {
 	// const main = useContext(MainContext);
 
 	// State management using useState hook
-	const [globalState, setGlobalState] = useState({});
+	const [globalState, setGlobalState] = useState({
+		previewViewport: {
+			width: null,
+			height: null,
+		},
+	});
 
 	globalState.utils = new Utils();
 	globalState.options = props.options;
@@ -206,6 +211,13 @@ const Root = React.memo((props) => {
 					<div className="kaleflower__body-center">
 						<LayoutView
 							kaleflower={props.kaleflower}
+							onchangeviewportstatus={(event)=>{
+								setGlobalState((prevState) => {
+									prevState.previewViewport.width = event.width;
+									prevState.previewViewport.height = event.height;
+									return prevState;
+								});
+							}}
 							onselectinstance={selectInstance}
 							onhoverinstance={hoverInstance}
 							onmoveinstance={moveInstance}

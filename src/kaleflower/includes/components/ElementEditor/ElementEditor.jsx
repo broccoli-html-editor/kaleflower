@@ -115,6 +115,20 @@ const ElementEditor = (props) => {
 		});
 	}
 
+	// 現在のプレビューの画面幅から、該当するブレイクポイントを特定する
+	let currentBreakPoint = null;
+	Object.keys(globalState.configs['break-points']).forEach((breakPointName) => {
+		const breakPoint = globalState.configs['break-points'][breakPointName];
+		const maxWidth = Number(breakPoint['max-width']);
+		if(maxWidth < globalState.previewViewport.width){
+			return;
+		}
+		if(currentBreakPoint && maxWidth > Number(currentBreakPoint['max-width'])){
+			return;
+		}
+		currentBreakPoint = breakPoint;
+	});
+
 	function setKaleflowerComputedValues(propKey, attrKey){
 		if(!isElementNode){
 			return;

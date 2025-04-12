@@ -15,19 +15,18 @@ const LayoutView = React.memo((props) => {
 	const [localState, setLocalState] = useState({
 		panels: [],
 		lastPreviewHtml: '{}',
-		previewViewport: {
-			width: null,
-			height: null,
-		},
 	});
 
 	previewController
 		.on('adjustPanelsPosition', (event) => {
 			const $panelsContainer = $(panelsContainerRef.current);
 			$panelsContainer.scrollTop(event.scrollTop);
+			props.onchangeviewportstatus({
+				width: event.window.width,
+				height: event.window.height,
+			});
 			setLocalState((prevState) => {
 				prevState.panels = event.panels;
-				prevState.previewViewport = event.window;
 				return prevState;
 			});
 		});
