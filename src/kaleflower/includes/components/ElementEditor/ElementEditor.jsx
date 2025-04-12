@@ -196,8 +196,10 @@ const ElementEditor = (props) => {
 							<Accordion
 								label={hasCssClassName ? `class .${currentClassName}` : `Default styles`}
 								id={globalState.selectedInstance}
+								opened={!currentBreakPoint ? true : false}
 							>
 								<StylingFields
+									isActive={!currentBreakPoint ? true : false}
 									hasCssClassName={hasCssClassName}
 									targetElementNode={hasCssClassName ? currentStyle : globalState.selectedInstance}
 									canSetClass={canSetClass}
@@ -218,8 +220,10 @@ const ElementEditor = (props) => {
 											key={breakPointName}
 											label={`Break point ${breakPoint['max-width']}px`}
 											id={globalState.selectedInstance}
+											opened={currentBreakPoint && currentBreakPoint.name == breakPoint.name ? true : false}
 										>
 											<StylingFields
+												isActive={currentBreakPoint && currentBreakPoint.name == breakPoint.name ? true : false}
 												hasCssClassName={hasCssClassName}
 												targetElementNode={hasCssClassName ? currentStyleBreakPoints[breakPointName] : globalState.selectedInstance}
 												canSetClass={canSetClass}

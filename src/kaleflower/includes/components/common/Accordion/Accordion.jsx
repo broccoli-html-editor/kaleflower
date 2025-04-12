@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from "react";
 const Accordion = (props) => {
 
 	const [openAccordion, setOpenAccordion] = useState({
-		isOpened: false,
+		isOpened: props.opened,
 	});
 
 	// Toggle function for accordions
@@ -18,7 +18,7 @@ const Accordion = (props) => {
 		// Initialize accordion state
 		setOpenAccordion(prev => ({
 			...prev,
-			isOpened: false,
+			isOpened: props.opened,
 		}));
 	}, [props.id || null]);
 

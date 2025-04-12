@@ -1,0 +1,7 @@
+.kaleflower-styling-fields {
+    border-left: 2px solid #8885;
+    padding-left: 10px;
+    &--is-inactive {
+        border-left-color: #8880;
+    }
+}

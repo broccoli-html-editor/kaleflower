@@ -20,150 +20,152 @@ const StylingFields = (props) => {
 
 	return (
 		<>
-			{((props.canBeLayer || props.canSetClass) ? <>
-				<Select
+			<div className={`kaleflower-styling-fields ${!props.isActive ? 'kaleflower-styling-fields--is-inactive' : ''}`}>
+				{((props.canBeLayer || props.canSetClass) ? <>
+					<Select
+						instance={props.targetElementNode}
+						attrName={"layer"}
+						breakPointName={breakPointName}
+						options={[
+							{
+								label: "Absolute",
+								value: "absolute",
+							},
+							{
+								label: "Relative",
+								value: "relative",
+							},
+							{
+								label: "Fixed",
+								value: "fixed",
+							},
+							{
+								label: "Sticky",
+								value: "sticky",
+							},
+							{
+								label: "Normal",
+								value: "",
+							},
+						]}
+						onchange={onchange} />
+					<UnitValue
+						instance={props.targetElementNode}
+						attrName={"layer-position-top"}
+						breakPointName={breakPointName}
+						onchange={onchange} />
+					<UnitValue
+						instance={props.targetElementNode}
+						attrName={"layer-position-right"}
+						breakPointName={breakPointName}
+						onchange={onchange} />
+					<UnitValue
+						instance={props.targetElementNode}
+						attrName={"layer-position-bottom"}
+						breakPointName={breakPointName}
+						onchange={onchange} />
+					<UnitValue
+						instance={props.targetElementNode}
+						attrName={"layer-position-left"}
+						breakPointName={breakPointName}
+						onchange={onchange} />
+				</> : <></>)}
+
+				{((props.canSetContentsDirection || props.canSetClass) ? <Select
 					instance={props.targetElementNode}
-					attrName={"layer"}
+					attrName={"contents-direction"}
 					breakPointName={breakPointName}
 					options={[
 						{
-							label: "Absolute",
-							value: "absolute",
+							label: "Natural",
+							value: "",
 						},
 						{
-							label: "Relative",
-							value: "relative",
+							label: "Horizontal",
+							value: "horizontal",
 						},
 						{
-							label: "Fixed",
-							value: "fixed",
+							label: "Vertical",
+							value: "vertical",
+						},
+					]}
+					onchange={onchange} /> : <></>)}
+
+				{((props.canSetWidth || props.canSetClass) ? <UnitValue
+					instance={props.targetElementNode}
+					attrName={"width"}
+					computedKey={"kaleflowerComputedWidth"}
+					breakPointName={breakPointName}
+					onchange={onchange} /> : <></>)}
+
+				{((props.canSetHeight || props.canSetClass) ? <UnitValue
+					instance={props.targetElementNode}
+					attrName={"height"}
+					computedKey={"kaleflowerComputedHeight"}
+					breakPointName={breakPointName}
+					onchange={onchange} /> : <></>)}
+
+				{((props.canSetScrollable || props.canSetClass) ? <Select
+					instance={props.targetElementNode}
+					attrName={"scrollable"}
+					breakPointName={breakPointName}
+					options={[
+						{
+							label: "Scrollable",
+							value: "auto",
 						},
 						{
-							label: "Sticky",
-							value: "sticky",
-						},
-						{
-							label: "Normal",
+							label: "Nothing",
 							value: "",
 						},
 					]}
-					onchange={onchange} />
-				<UnitValue
-					instance={props.targetElementNode}
-					attrName={"layer-position-top"}
-					breakPointName={breakPointName}
-					onchange={onchange} />
-				<UnitValue
-					instance={props.targetElementNode}
-					attrName={"layer-position-right"}
-					breakPointName={breakPointName}
-					onchange={onchange} />
-				<UnitValue
-					instance={props.targetElementNode}
-					attrName={"layer-position-bottom"}
-					breakPointName={breakPointName}
-					onchange={onchange} />
-				<UnitValue
-					instance={props.targetElementNode}
-					attrName={"layer-position-left"}
-					breakPointName={breakPointName}
-					onchange={onchange} />
-			</> : <></>)}
+					onchange={onchange} /> : <></>)}
 
-			{((props.canSetContentsDirection || props.canSetClass) ? <Select
-				instance={props.targetElementNode}
-				attrName={"contents-direction"}
-				breakPointName={breakPointName}
-				options={[
-					{
-						label: "Natural",
-						value: "",
-					},
-					{
-						label: "Horizontal",
-						value: "horizontal",
-					},
-					{
-						label: "Vertical",
-						value: "vertical",
-					},
-				]}
-				onchange={onchange} /> : <></>)}
-
-			{((props.canSetWidth || props.canSetClass) ? <UnitValue
-				instance={props.targetElementNode}
-				attrName={"width"}
-				computedKey={"kaleflowerComputedWidth"}
-				breakPointName={breakPointName}
-				onchange={onchange} /> : <></>)}
-
-			{((props.canSetHeight || props.canSetClass) ? <UnitValue
-				instance={props.targetElementNode}
-				attrName={"height"}
-				computedKey={"kaleflowerComputedHeight"}
-				breakPointName={breakPointName}
-				onchange={onchange} /> : <></>)}
-
-			{((props.canSetScrollable || props.canSetClass) ? <Select
-				instance={props.targetElementNode}
-				attrName={"scrollable"}
-				breakPointName={breakPointName}
-				options={[
-					{
-						label: "Scrollable",
-						value: "auto",
-					},
-					{
-						label: "Nothing",
-						value: "",
-					},
-				]}
-				onchange={onchange} /> : <></>)}
-
-			{props.hasCssClassName &&
-				<>
-					<div className="kaleflower-element-editor__property">
-						<div className="kaleflower-element-editor__property-key">
-							custom style:
-						</div>
-						<div className="kaleflower-element-editor__property-val">
-							<textarea
-								className={`px2-input`}
-								value={(()=>{
-									if(typeof(props.currentClassName) !== typeof('string')){
-										return '';
-									}
-									const textContent = Array.from(props.targetElementNode.childNodes)
-										.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
-										.map(node => node.textContent)
-										.join('');
-									return textContent;
-								})()}
-								onInput={(event)=>{
-									const newStyleSheet = event.target.value;
-									// Get all text nodes
-									const textNodes = Array.from(props.targetElementNode.childNodes)
-										.filter(node => node.nodeType === 3);
-
-									if (textNodes.length > 0) {
-										// Replace content of the first text node
-										textNodes[0].textContent = newStyleSheet;
-										
-										// Clear content of any additional text nodes
-										for (let i = 1; i < textNodes.length; i++) {
-											textNodes[i].textContent = '';
+				{props.hasCssClassName &&
+					<>
+						<div className="kaleflower-element-editor__property">
+							<div className="kaleflower-element-editor__property-key">
+								custom style:
+							</div>
+							<div className="kaleflower-element-editor__property-val">
+								<textarea
+									className={`px2-input`}
+									value={(()=>{
+										if(typeof(props.currentClassName) !== typeof('string')){
+											return '';
 										}
-									} else {
-										// If no text nodes exist, create one and insert at the beginning
-										const newTextNode = document.createTextNode(newStyleSheet);
-										props.targetElementNode.insertBefore(newTextNode, props.targetElementNode.firstChild);
-									}
+										const textContent = Array.from(props.targetElementNode.childNodes)
+											.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
+											.map(node => node.textContent)
+											.join('');
+										return textContent;
+									})()}
+									onInput={(event)=>{
+										const newStyleSheet = event.target.value;
+										// Get all text nodes
+										const textNodes = Array.from(props.targetElementNode.childNodes)
+											.filter(node => node.nodeType === 3);
 
-									onchange(globalState.selectedInstance);
-								}} />
+										if (textNodes.length > 0) {
+											// Replace content of the first text node
+											textNodes[0].textContent = newStyleSheet;
+											
+											// Clear content of any additional text nodes
+											for (let i = 1; i < textNodes.length; i++) {
+												textNodes[i].textContent = '';
+											}
+										} else {
+											// If no text nodes exist, create one and insert at the beginning
+											const newTextNode = document.createTextNode(newStyleSheet);
+											props.targetElementNode.insertBefore(newTextNode, props.targetElementNode.firstChild);
+										}
+
+										onchange(globalState.selectedInstance);
+									}} />
+							</div>
 						</div>
-					</div>
-				</>}
+					</>}
+			</div>
 		</>
 	);
 };
