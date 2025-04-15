@@ -60,7 +60,7 @@ const ViewPortSetting = React.memo((props) => {
 		
 		return (
 			<div className="kaleflower__header-viewport-tools">
-				<span className="kaleflower__header-viewport-tools-label">ビューポート:</span>
+				<span className="kaleflower__header-viewport-tools-label">Viewport:</span>
 				{breakPointSizes.map((size) => (
 					<button 
 						key={size.name}
@@ -70,12 +70,6 @@ const ViewPortSetting = React.memo((props) => {
 						{size.name} ({size.width}px)
 					</button>
 				))}
-				<button 
-					className={`kaleflower__header-viewport-button ${globalState.selectedViewportSize === null ? 'kaleflower__header-viewport-button--active' : ''}`}
-					onClick={() => handleViewportSizeChange(null)}
-				>
-					成り行き幅
-				</button>
 			</div>
 		);
 	};
