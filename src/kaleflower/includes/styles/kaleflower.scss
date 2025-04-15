@@ -2,22 +2,22 @@
 @import '../../../../vendor/pickles2/px2style/dist/px2style';
 
 .kaleflower {
-    flex-grow: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: stretch;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: #f0f0f0;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
-    text-align: left;
+	flex-grow: 100;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: stretch;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-color: #f0f0f0;
+	color: #333;
+	font-family: 'Arial', sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	margin: 0;
+	padding: 0;
+	text-align: left;
 
 	[draggable=true]{
 		cursor: grab;
@@ -35,76 +35,40 @@
 		outline: none;
 	}
 
-    &__frame {
-        flex-grow: 100;
-        display: flex;
-        flex-direction: column;
-    }
-    &__header {
-        padding: 10px;
-        background-color: #e0e0e0;
-        border-bottom: 1px solid #ccc;
+	&__frame {
+		flex-grow: 100;
+		display: flex;
+		flex-direction: column;
+	}
+	&__header {
+		padding: 10px;
+		background-color: #e0e0e0;
+		border-bottom: 1px solid #ccc;
+	}
+	&__body {
+		flex-grow: 100;
+		display: flex;
+		flex-direction: row;
+		height: 1px;
 
-        &-viewport-tools {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
-
-            &-label {
-                margin-right: 5px;
-                font-weight: bold;
-            }
-        }
-
-        &-viewport-button {
-            padding: 5px 10px;
-            background-color: #f5f5f5;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
-
-            &:hover {
-                background-color: #eaeaea;
-            }
-
-            &--active {
-                background-color: #4a8af4;
-                color: white;
-                border-color: #3a7ae4;
-
-                &:hover {
-                    background-color: #3a7ae4;
-                }
-            }
-        }
-    }
-    &__body {
-        flex-grow: 100;
-        display: flex;
-        flex-direction: row;
-        height: 1px;
-
-        &-left {
-            flex-grow: 0;
-            width: 200px;
-            overflow: auto;
-        }
-        &-center {
-            flex-grow: 1;
-            width: auto;
-        }
-        &-right {
-            flex-grow: 0;
-            width: 200px;
-            overflow: auto;
-            background-color: #eee;
-        }
-    }
-    &__footer {
-    }
+		&-left {
+			flex-grow: 0;
+			width: 200px;
+			overflow: auto;
+		}
+		&-center {
+			flex-grow: 1;
+			width: auto;
+		}
+		&-right {
+			flex-grow: 0;
+			width: 200px;
+			overflow: auto;
+			background-color: #eee;
+		}
+	}
+	&__footer {
+	}
 }
 
 @import "../components/common/Accordion/Accordion.scss";

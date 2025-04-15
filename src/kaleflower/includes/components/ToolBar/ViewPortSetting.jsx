@@ -54,29 +54,24 @@ const ViewPortSetting = React.memo((props) => {
 		});
 	};
 
-	// ビューポートサイズボタンをレンダリング
-	const renderViewportSizeButtons = () => {
-		const breakPointSizes = getBreakPointSizes();
-		
-		return (
-			<div className="kaleflower__header-viewport-tools">
-				<span className="kaleflower__header-viewport-tools-label">Viewport:</span>
-				{breakPointSizes.map((size) => (
-					<button 
-						key={size.name}
-						className={`kaleflower__header-viewport-button ${globalState.selectedViewportSize === size.width ? 'kaleflower__header-viewport-button--active' : ''}`}
-						onClick={() => handleViewportSizeChange(size.width)}
-					>
-						{size.name} ({size.width}px)
-					</button>
-				))}
-			</div>
-		);
-	};
+	const breakPointSizes = getBreakPointSizes();
 
 	return (
 		<div className="kaleflower-viewport-setting">
-			{renderViewportSizeButtons()}
+			<span className="kaleflower-viewport-setting__tools-label">Viewport:</span>
+			<ul className="kaleflower-viewport-setting__list">
+				{breakPointSizes.map((size) => (
+					<li>
+						<button 
+							key={size.name}
+							className={`px2-btn px2-btn--sm ${globalState.selectedViewportSize === size.width ? 'px2-btn--primary' : ''}`}
+							onClick={() => handleViewportSizeChange(size.width)}
+						>
+							{size.name} ({size.width}px)
+						</button>
+					</li>
+				))}
+			</ul>
 		</div>
 	);
 });
