@@ -7,7 +7,9 @@ const ToolBar = React.memo((props) => {
 
 	return (
 		<div className="kaleflower-toolbar">
-            <ViewPortSetting />
+			<div className="kaleflower-toolbar__inner">
+				<ViewPortSetting />
+			</div>
 		</div>
 	);
 });

@@ -61,9 +61,8 @@ const ViewPortSetting = React.memo((props) => {
 			<span className="kaleflower-viewport-setting__tools-label">Viewport:</span>
 			<ul className="kaleflower-viewport-setting__list">
 				{breakPointSizes.map((size) => (
-					<li>
+					<li key={size.name}>
 						<button 
-							key={size.name}
 							className={`px2-btn px2-btn--sm ${globalState.selectedViewportSize === size.width ? 'px2-btn--primary' : ''}`}
 							onClick={() => handleViewportSizeChange(size.width)}
 						>

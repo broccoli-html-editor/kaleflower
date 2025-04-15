@@ -2,4 +2,9 @@
 
 .kaleflower-toolbar {
 	display: flex;
+	&__inner {
+		display: flex;
+		flex-wrap: nowrap;
+		overflow: auto;
+	}
 }

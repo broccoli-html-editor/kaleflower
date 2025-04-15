@@ -24,10 +24,6 @@ const LayoutView = React.memo((props) => {
 		}
 		return {
 			width: `${props.viewportWidth}px`,
-			margin: '0 auto',
-			display: 'block',
-			border: '1px solid #ccc',
-			boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)'
 		};
 	};
 
@@ -98,42 +94,43 @@ const LayoutView = React.memo((props) => {
 
 	return (
 		<div className="kaleflower-layout-view">
-			<iframe
-				ref={iframeRef}
-				className="kaleflower-layout-view__iframe"
-				src={globalState.options.urlLayoutViewPage || "about:blank"}
-				style={getIframeStyle()}
-				/>
-			<div className="kaleflower-layout-view__panels"
-				ref={panelsContainerRef}>
-				<div className="kaleflower-layout-view__panels-inner">
-					{localState.panels.map((panel, index) => {
+			<div className="kaleflower-layout-view__inner" style={getIframeStyle()}>
+				<iframe
+					ref={iframeRef}
+					className="kaleflower-layout-view__iframe"
+					src={globalState.options.urlLayoutViewPage || "about:blank"}
+					/>
+				<div className="kaleflower-layout-view__panels"
+					ref={panelsContainerRef}>
+					<div className="kaleflower-layout-view__panels-inner">
+						{localState.panels.map((panel, index) => {
 
-						let isAllowedPanel = false;
-						if(currentLayer === panel.currentLayer){
-							isAllowedPanel = true;
-						}
-						if(currentLayer === panel.parentLayer && panel.currentLayer === panel.instanceId){
-							isAllowedPanel = true;
-						}
-						if(currentLayer === panel.instanceId){
-							isAllowedPanel = true;
-						}
+							let isAllowedPanel = false;
+							if(currentLayer === panel.currentLayer){
+								isAllowedPanel = true;
+							}
+							if(currentLayer === panel.parentLayer && panel.currentLayer === panel.instanceId){
+								isAllowedPanel = true;
+							}
+							if(currentLayer === panel.instanceId){
+								isAllowedPanel = true;
+							}
 
-						if(!isAllowedPanel){
-							return;
-						}
-						return (
-							<Panel key={index}
-								panelInfo={panel}
-								panelIndex={index}
-								onselectinstance={props.onselectinstance}
-								onhoverinstance={props.onhoverinstance}
-								onmoveinstance={props.onmoveinstance}
-								ondragover={props.ondragover}
-								oncreatenewinstance={props.oncreatenewinstance} />
-						);
-					})}
+							if(!isAllowedPanel){
+								return;
+							}
+							return (
+								<Panel key={index}
+									panelInfo={panel}
+									panelIndex={index}
+									onselectinstance={props.onselectinstance}
+									onhoverinstance={props.onhoverinstance}
+									onmoveinstance={props.onmoveinstance}
+									ondragover={props.ondragover}
+									oncreatenewinstance={props.oncreatenewinstance} />
+							);
+						})}
+					</div>
 				</div>
 			</div>
 		</div>

@@ -53,15 +53,18 @@
 
 		&-left {
 			flex-grow: 0;
+			flex-shrink: 0;
 			width: 200px;
 			overflow: auto;
 		}
 		&-center {
 			flex-grow: 1;
 			width: auto;
+			overflow: auto;
 		}
 		&-right {
 			flex-grow: 0;
+			flex-shrink: 0;
 			width: 200px;
 			overflow: auto;
 			background-color: #eee;
