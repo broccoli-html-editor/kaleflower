@@ -14,5 +14,6 @@
 /package.json           export-ignore
 /package-lock.json      export-ignore
 /webpack.mix.js         export-ignore
+/mix-manifest.json      export-ignore
 
 *.php diff=php
