@@ -136,6 +136,16 @@ const Panel = React.memo((props) => {
 				event.preventDefault();
 				props.onselectinstance(props.panelInfo.instanceId);
 			}}
+			onDoubleClick={(event) => {
+				event.stopPropagation();
+				event.preventDefault();
+				props.onselectinstance(props.panelInfo.instanceId);
+				globalState.setGlobalState((prevState) => {
+					prevState.editWindowOpened = true;
+					return prevState;
+				});
+			}}
+
 			onMouseOver={(event) => {
 				event.stopPropagation();
 				event.preventDefault();

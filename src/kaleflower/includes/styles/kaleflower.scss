@@ -18,6 +18,7 @@
 	margin: 0;
 	padding: 0;
 	text-align: left;
+	container-type: inline-size;
 
 	[draggable=true]{
 		cursor: grab;
@@ -56,6 +57,10 @@
 			flex-shrink: 0;
 			width: 200px;
 			overflow: auto;
+
+			@container (max-width: 680px) {
+				display: none;
+			}
 		}
 		&-center {
 			flex-grow: 1;
@@ -68,9 +73,36 @@
 			width: 200px;
 			overflow: auto;
 			background-color: #eee;
+
+			@container (max-width: 680px) {
+				display: none;
+			}
 		}
 	}
 	&__footer {
+	}
+	&__edit-window {
+		display: none;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 1500;
+		height: 100%;
+		width: 100%;
+
+		@container (max-width: 680px) {
+			display: block;
+		}
+
+		&__inner {
+			overflow: auto;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			max-height: 90%;
+			width: 100%;
+			background-color: #eee;
+		}
 	}
 }
 

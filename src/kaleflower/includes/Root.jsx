@@ -19,6 +19,7 @@ const Root = React.memo((props) => {
 			height: null,
 		},
 		selectedViewportSize: null, // 選択されたビューポートのサイズ
+		editWindowOpened: false,
 	});
 
 	globalState.utils = new Utils();
@@ -261,6 +262,29 @@ const Root = React.memo((props) => {
 
 				<div className="kaleflower__footer">
 				</div>
+				{globalState.selectedInstance && globalState.editWindowOpened &&
+				<div className="kaleflower__edit-window">
+					<div className="kaleflower__edit-window__inner">
+						<div className="px2-text-align-right">
+							<button
+								type="button"
+								className="px2-btn"
+								onClick={()=>{
+									setGlobalState((prevState) => {
+										prevState.editWindowOpened = false;
+										return prevState;
+									});
+								}}
+							>close</button>
+						</div>
+						<ElementEditor
+							kaleflower={props.kaleflower}
+							onchange={(selectedInstance)=>{selectInstance(selectedInstance);}}
+							onremove={unselectInstance}
+							/>
+					</div>
+				</div>
+				}
 			</div>
 		</MainContext.Provider>
 	);
