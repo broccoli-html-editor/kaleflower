@@ -17,6 +17,20 @@ const LayoutView = React.memo((props) => {
 		lastPreviewHtml: '{}',
 	});
 
+	// iframeに適用するスタイルを生成
+	const getIframeStyle = () => {
+		if (props.viewportWidth === null) {
+			return {};
+		}
+		return {
+			width: `${props.viewportWidth}px`,
+			margin: '0 auto',
+			display: 'block',
+			border: '1px solid #ccc',
+			boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)'
+		};
+	};
+
 	previewController
 		.on('adjustPanelsPosition', (event) => {
 			const $panelsContainer = $(panelsContainerRef.current);
@@ -60,6 +74,15 @@ const LayoutView = React.memo((props) => {
 			setLocalState(newLocalState);
 		}
 
+		// ビューポートサイズが変更された場合、iframeにメッセージを送信
+		if (props.viewportWidth !== null) {
+			previewController.sendMessageToIframe('setViewportWidth', {
+				width: props.viewportWidth
+			});
+		} else {
+			previewController.sendMessageToIframe('resetViewportWidth', {});
+		}
+
 		const $panelsContainer = $(panelsContainerRef.current);
 		$panelsContainer.on('scroll.kaleflower', (event) => {
 			previewController.sendMessageToIframe('scrollTo', {
@@ -71,7 +94,7 @@ const LayoutView = React.memo((props) => {
 		return () => {
 			$panelsContainer.off('scroll.kaleflower');
 		};
-	}, [globalState]);
+	}, [globalState, props.viewportWidth]);
 
 	return (
 		<div className="kaleflower-layout-view">
@@ -79,6 +102,7 @@ const LayoutView = React.memo((props) => {
 				ref={iframeRef}
 				className="kaleflower-layout-view__iframe"
 				src={globalState.options.urlLayoutViewPage || "about:blank"}
+				style={getIframeStyle()}
 				/>
 			<div className="kaleflower-layout-view__panels"
 				ref={panelsContainerRef}>

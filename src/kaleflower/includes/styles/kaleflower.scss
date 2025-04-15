@@ -41,6 +41,45 @@
         flex-direction: column;
     }
     &__header {
+        padding: 10px;
+        background-color: #e0e0e0;
+        border-bottom: 1px solid #ccc;
+
+        &-viewport-tools {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+
+            &-label {
+                margin-right: 5px;
+                font-weight: bold;
+            }
+        }
+
+        &-viewport-button {
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+
+            &:hover {
+                background-color: #eaeaea;
+            }
+
+            &--active {
+                background-color: #4a8af4;
+                color: white;
+                border-color: #3a7ae4;
+
+                &:hover {
+                    background-color: #3a7ae4;
+                }
+            }
+        }
     }
     &__body {
         flex-grow: 100;
