@@ -3,6 +3,7 @@ import { MainContext } from './context/MainContext';
 import InstanceTreeView from './components/InstanceTreeView/InstanceTreeView.jsx';
 import ElementEditor from './components/ElementEditor/ElementEditor.jsx';
 import LayoutView from './components/LayoutView/LayoutView.jsx';
+import ToolBar from './components/ToolBar/ToolBar.jsx';
 import AppearanceStyles from './components/AppearanceStyles/AppearanceStyles.jsx';
 import {Utils} from './utils/Utils.js';
 import {CreateNewInstance} from './utils/CreateNewInstance.js';
@@ -273,6 +274,7 @@ const Root = React.memo((props) => {
 			<AppearanceStyles appearance={globalState.options.appearance} />
 			<div className="kaleflower__frame" onClick={unselectInstance}>
 				<div className="kaleflower__header">
+					<ToolBar />
 					{renderViewportSizeButtons()}
 				</div>
 
