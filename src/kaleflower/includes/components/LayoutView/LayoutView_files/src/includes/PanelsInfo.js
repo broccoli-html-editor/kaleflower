@@ -53,8 +53,9 @@ export class PanelsInfo {
 				'parent': {
 					'display': $parent.css('display'),
 					'flex-direction': $parent.css('flex-direction'),
-
 					'isLayer': this.#isLayer($parent.get(0)),
+					'width': $parent.outerWidth(),
+					'height': $parent.outerHeight(),
 				},
 
 				'display': $this.css('display'),
