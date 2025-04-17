@@ -11,17 +11,19 @@ const $ = jQuery;
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
 
-	const currentComponent = (globalState.selectedInstance ? globalState.components.get_component(globalState.selectedInstance.tagName) : null);
+	const currentComponent = globalState.selectedInstanceComponent;
 	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
 	const isElementNode = (globalState.selectedInstance ? !globalState.selectedInstance.nodeName.match(/^\#/) : null);
-	const currentClassName = (isElementNode && globalState.selectedInstance ? globalState.selectedInstance.getAttribute('class') : null);
+	const currentClassName = globalState.selectedInstanceClassName;
 
-	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
-	const canSetWidth = (currentComponent ? currentComponent.canSetWidth : null);
-	const canSetHeight = (currentComponent ? currentComponent.canSetHeight : null);
-	const canSetContentsDirection = (currentComponent ? currentComponent.canSetContentsDirection : null);
-	const canSetScrollable = (currentComponent ? currentComponent.canSetScrollable : null);
-	const canBeLayer = (currentComponent ? currentComponent.canBeLayer : null);
+	const canSetClass = globalState.selectedInstanceCanSetClass;
+	const canSetWidth = globalState.selectedInstanceCanSetWidth;
+	const canSetHeight = globalState.selectedInstanceCanSetHeight;
+	const canSetContentsDirection = globalState.selectedInstanceCanSetContentsDirection;
+	const canSetScrollable = globalState.selectedInstanceCanSetScrollable;
+	const canBeLayer = globalState.selectedInstanceCanBeLayer;
+
+	const currentBreakPoint = globalState.previewViewport.breakPoint;
 
 	useEffect(() => {
 		if (!currentComponent) {
@@ -115,19 +117,6 @@ const ElementEditor = (props) => {
 		});
 	}
 
-	// 現在のプレビューの画面幅から、該当するブレイクポイントを特定する
-	let currentBreakPoint = null;
-	Object.keys(globalState.configs['break-points']).forEach((breakPointName) => {
-		const breakPoint = globalState.configs['break-points'][breakPointName];
-		const maxWidth = Number(breakPoint['max-width']);
-		if(maxWidth < globalState.previewViewport.width){
-			return;
-		}
-		if(currentBreakPoint && maxWidth > Number(currentBreakPoint['max-width'])){
-			return;
-		}
-		currentBreakPoint = breakPoint;
-	});
 
 	function setKaleflowerComputedValues(propKey, attrKey){
 		if(!isElementNode){

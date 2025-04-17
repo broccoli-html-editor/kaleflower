@@ -33,7 +33,7 @@ const ViewPortSetting = React.memo((props) => {
 		
 		// 最大サイズよりも100px大きいサイズを追加
 		sizes.push({
-			name: 'xl',
+			name: 'max',
 			width: maxSize + 100
 		});
 		
