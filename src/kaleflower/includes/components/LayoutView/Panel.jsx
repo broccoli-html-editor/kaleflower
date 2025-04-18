@@ -2,6 +2,9 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext.js';
 import Icons from '../Icons/Icons.jsx';
 
+let startScreenX = 0;
+let startScreenY = 0;
+
 function onWindowEvents(){
 	window.addEventListener('mousemove', handleResizeMove);
 	window.addEventListener('mouseup', handleResizeEnd);
@@ -13,7 +16,7 @@ function offWindowEvents(){
 
 // リサイズ中の処理
 const handleResizeMove = (e) => {
-	console.log('handleResizeMove');
+	console.log('handleResizeMove', e.screenX - startScreenX, e.screenY - startScreenY);
 };
 
 // リサイズ終了時の処理
@@ -30,15 +33,11 @@ const Panel = React.memo((props) => {
 	const $ = globalState.jQuery;
 	const utils = globalState.utils;
 
-	// リサイズ関連のステート
-	const [resizing, setResizing] = useState(false);
-	const [resizeType, setResizeType] = useState(null);
-	const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-	const [startSize, setStartSize] = useState({ width: 0, height: 0 });
-
 	// リサイズ処理の開始
 	const handleResizeStart = (e, type) => {
-		console.log('handleResizeStart');
+		console.log('handleResizeStart', e, type);
+		startScreenX = e.screenX;
+		startScreenY = e.screenY;
 
 		// windowにイベントリスナーを追加
 		onWindowEvents()
@@ -75,11 +74,6 @@ const Panel = React.memo((props) => {
 		}
 		return 'y';
 	})();
-
-	useEffect(async () => {
-		return () => {
-		};
-	}, [globalState, props]);
 
 
 	/**
