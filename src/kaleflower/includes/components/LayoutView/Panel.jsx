@@ -4,25 +4,40 @@ import Icons from '../Icons/Icons.jsx';
 
 let startScreenX = 0;
 let startScreenY = 0;
+let distanceX = 0;
+let distanceY = 0;
+let resizerCallback;
 
-function onWindowEvents(){
+const addWindowEventListeners = () => {
 	window.addEventListener('mousemove', handleResizeMove);
 	window.addEventListener('mouseup', handleResizeEnd);
 }
-function offWindowEvents(){
+const removeWindowEventListeners = () => {
 	window.removeEventListener('mousemove', handleResizeMove);
 	window.removeEventListener('mouseup', handleResizeEnd);
 }
 
+// リサイズ処理の開始
+const handleResizeStart = (e, type, callback) => {
+	startScreenX = e.screenX;
+	startScreenY = e.screenY;
+	resizerCallback = callback;
+
+	// windowにイベントリスナーを追加
+	addWindowEventListeners()
+};
+
 // リサイズ中の処理
 const handleResizeMove = (e) => {
-	console.log('handleResizeMove', e.screenX - startScreenX, e.screenY - startScreenY);
+	distanceX = e.screenX - startScreenX;
+	distanceY = e.screenY - startScreenY;
 };
 
 // リサイズ終了時の処理
 const handleResizeEnd = () => {
-	console.log('--- handleResizeEnd');
-	offWindowEvents();
+	removeWindowEventListeners();
+	resizerCallback(distanceX, distanceY);
+	resizerCallback = null;
 };
 
 const Panel = React.memo((props) => {
@@ -33,20 +48,10 @@ const Panel = React.memo((props) => {
 	const $ = globalState.jQuery;
 	const utils = globalState.utils;
 
-	// リサイズ処理の開始
-	const handleResizeStart = (e, type) => {
-		console.log('handleResizeStart', e, type);
-		startScreenX = e.screenX;
-		startScreenY = e.screenY;
-
-		// windowにイベントリスナーを追加
-		onWindowEvents()
-	};
-
 	// コンポーネントのアンマウント時にリスナーを確実に削除
 	useEffect(() => {
 		return () => {
-			offWindowEvents();
+			removeWindowEventListeners();
 		};
 	}, []);
 
@@ -271,20 +276,28 @@ const Panel = React.memo((props) => {
 			{canSetClass && canSetWidth &&
 				<>
 					<div ref={beforeRef} className={`kaleflower-layout-view-panel__handle-resize-width-left`}>
-						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-left')}></button>
+						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-left', (distanceX, distanceY) => {
+							console.log('distanceX, distanceY', distanceX, distanceY);
+						})}></button>
 					</div>
 					<div ref={afterRef} className={`kaleflower-layout-view-panel__handle-resize-width-right`}>
-						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-right')}></button>
+						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-right', (distanceX, distanceY) => {
+							console.log('distanceX, distanceY', distanceX, distanceY);
+						})}></button>
 					</div>
 				</>
 			}
 			{canSetClass && canSetHeight &&
 				<>
 					<div ref={beforeRef} className={`kaleflower-layout-view-panel__handle-resize-height-top`}>
-						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-top')}></button>
+						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-top', (distanceX, distanceY) => {
+							console.log('distanceX, distanceY', distanceX, distanceY);
+						})}></button>
 					</div>
 					<div ref={afterRef} className={`kaleflower-layout-view-panel__handle-resize-height-bottom`}>
-						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-bottom')}></button>
+						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-bottom', (distanceX, distanceY) => {
+							console.log('distanceX, distanceY', distanceX, distanceY);
+						})}></button>
 					</div>
 				</>
 			}
