@@ -11,10 +11,11 @@ const $ = jQuery;
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
 
-	const currentComponent = (globalState.selectedInstance ? globalState.components.get_component(globalState.selectedInstance.tagName) : null);
+	const currentInstance = globalState.selectedInstance;
+	const currentComponent = (currentInstance ? globalState.components.get_component(currentInstance.tagName) : null);
 	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
-	const isElementNode = (globalState.selectedInstance ? !globalState.selectedInstance.nodeName.match(/^\#/) : null);
-	const currentClassName = (isElementNode && globalState.selectedInstance ? globalState.selectedInstance.getAttribute('class') : null);
+	const isElementNode = (currentInstance ? !currentInstance.nodeName.match(/^\#/) : null);
+	const currentClassName = (isElementNode && currentInstance ? currentInstance.getAttribute('class') : null);
 
 	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
 	const canSetWidth = (currentComponent ? currentComponent.canSetWidth : null);
@@ -34,19 +35,19 @@ const ElementEditor = (props) => {
 			const $targetDom = $(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
 
 			$targetDom.html(utils.bindTwig(currentField.editor, (() => {
-				return JSON.parse(globalState.selectedInstance.getAttribute(field.name)) || {};
+				return JSON.parse(currentInstance.getAttribute(field.name)) || {};
 			})()));
 
 			$targetDom.find('input, select, textarea')
 				.on('input', function () {
 					const $targetDom = $(this);
-					const fieldValues = JSON.parse(globalState.selectedInstance.getAttribute(field.name)) || {};
+					const fieldValues = JSON.parse(currentInstance.getAttribute(field.name)) || {};
 					fieldValues[$targetDom.attr('name')] = $targetDom.val();
 
-					globalState.selectedInstance.setAttribute(field.name, JSON.stringify(fieldValues));
+					currentInstance.setAttribute(field.name, JSON.stringify(fieldValues));
 
 					const onchange = props.onchange || function(){};
-					onchange(globalState.selectedInstance);
+					onchange(currentInstance);
 				});
 
 			currentField.onload(
@@ -63,9 +64,9 @@ const ElementEditor = (props) => {
 		// クリーンアップ処理
 		return () => {
 		};
-	}, [currentComponent, globalState.selectedInstance]);
+	}, [currentComponent, currentInstance]);
 
-	if( !globalState.selectedInstance ){
+	if( !currentInstance ){
 		return (<div className="kaleflower-element-editor" onClick={(event)=>{
 			event.stopPropagation();
 		}}></div>);
@@ -76,10 +77,10 @@ const ElementEditor = (props) => {
 		const newStyle = document.createElementNS('', 'style');
 		newStyle.innerHTML = '';
 		newStyle.setAttribute('class', currentClassName);
-		newStyle.setAttribute('width', globalState.selectedInstance.kaleflowerComputedWidth);
-		newStyle.setAttribute('height', globalState.selectedInstance.kaleflowerComputedHeight);
-		globalState.selectedInstance.removeAttribute('width');
-		globalState.selectedInstance.removeAttribute('height');
+		newStyle.setAttribute('width', currentInstance.kaleflowerComputedWidth);
+		newStyle.setAttribute('height', currentInstance.kaleflowerComputedHeight);
+		currentInstance.removeAttribute('width');
+		currentInstance.removeAttribute('height');
 		globalState.styles[currentClassName] = newStyle;
 
 		// 参照されていないclassを削除する
@@ -122,12 +123,12 @@ const ElementEditor = (props) => {
 		if(!isElementNode){
 			return;
 		}
-		if( !globalState.selectedInstance[propKey] ){
+		if( !currentInstance[propKey] ){
 			if( currentStyle ){
-				globalState.selectedInstance[propKey] = currentStyle.getAttribute(attrKey);
-				globalState.selectedInstance.removeAttribute(attrKey)
+				currentInstance[propKey] = currentStyle.getAttribute(attrKey);
+				currentInstance.removeAttribute(attrKey)
 			}else{
-				globalState.selectedInstance[propKey] = globalState.selectedInstance.getAttribute(attrKey);
+				currentInstance[propKey] = currentInstance.getAttribute(attrKey);
 			}
 		}
 	}
@@ -137,7 +138,7 @@ const ElementEditor = (props) => {
 
 	function onchange(){
 		const onchange = props.onchange || function(){};
-		onchange(globalState.selectedInstance);
+		onchange(currentInstance);
 		props.kaleflower.trigger('change');
 	}
 
@@ -145,7 +146,7 @@ const ElementEditor = (props) => {
 		<div className="kaleflower-element-editor" onClick={(event)=>{
 			event.stopPropagation();
 		}}>
-			{globalState.selectedInstance
+			{currentInstance
 				? <>
 					{!isElementNode
 						? <>
@@ -157,12 +158,12 @@ const ElementEditor = (props) => {
 								<div className="kaleflower-element-editor__property-val">
 									<textarea
 										className={`px2-input`}
-										value={typeof(globalState.selectedInstance.nodeValue) == typeof('string') ? globalState.selectedInstance.nodeValue : ''}
+										value={typeof(currentInstance.nodeValue) == typeof('string') ? currentInstance.nodeValue : ''}
 										onInput={(event)=>{
 											const newNodeValue = event.target.value;
-											globalState.selectedInstance.nodeValue = newNodeValue;
+											currentInstance.nodeValue = newNodeValue;
 
-											onchange(globalState.selectedInstance);
+											onchange(currentInstance);
 										}}></textarea>
 								</div>
 							</div>
@@ -174,23 +175,23 @@ const ElementEditor = (props) => {
 									nodeName:
 								</div>
 								<div className="kaleflower-element-editor__property-val">
-									<code>&lt;{globalState.selectedInstance.nodeName}&gt;</code>
+									<code>&lt;{currentInstance.nodeName}&gt;</code>
 								</div>
 							</div>
 							{(canSetClass ? <Text
-								instance={globalState.selectedInstance}
+								instance={currentInstance}
 								attrName="class"
 								onchange={onchange} /> : <></>)}
 
 							<Accordion
 								label={hasCssClassName ? `class .${currentClassName}` : `Default styles`}
-								id={globalState.selectedInstance}
+								id={currentInstance}
 								opened={!currentBreakPoint ? true : false}
 							>
 								<StylingFields
 									isActive={!currentBreakPoint ? true : false}
 									hasCssClassName={hasCssClassName}
-									targetElementNode={hasCssClassName ? currentStyle : globalState.selectedInstance}
+									targetElementNode={hasCssClassName ? currentStyle : currentInstance}
 									canSetClass={canSetClass}
 									currentClassName={currentClassName}
 									canBeLayer={canBeLayer}
@@ -208,13 +209,13 @@ const ElementEditor = (props) => {
 										return <Accordion
 											key={breakPointName}
 											label={`Break point ${breakPoint['max-width']}px`}
-											id={globalState.selectedInstance}
+											id={currentInstance}
 											opened={currentBreakPoint && currentBreakPoint.name == breakPoint.name ? true : false}
 										>
 											<StylingFields
 												isActive={currentBreakPoint && currentBreakPoint.name == breakPoint.name ? true : false}
 												hasCssClassName={hasCssClassName}
-												targetElementNode={hasCssClassName ? currentStyleBreakPoints[breakPointName] : globalState.selectedInstance}
+												targetElementNode={hasCssClassName ? currentStyleBreakPoints[breakPointName] : currentInstance}
 												canSetClass={canSetClass}
 												currentClassName={currentClassName}
 												canBeLayer={canBeLayer}
@@ -256,12 +257,12 @@ const ElementEditor = (props) => {
 										<div className="kaleflower-element-editor__property-val">
 											<textarea
 												className={`px2-input`}
-												value={typeof(globalState.selectedInstance.innerHTML) == typeof('string') ? globalState.selectedInstance.innerHTML : ''}
+												value={typeof(currentInstance.innerHTML) == typeof('string') ? currentInstance.innerHTML : ''}
 												onInput={(event)=>{
 													const newInnerHTML = event.target.value;
-													globalState.selectedInstance.innerHTML = newInnerHTML;
+													currentInstance.innerHTML = newInnerHTML;
 
-													onchange(globalState.selectedInstance);
+													onchange(currentInstance);
 												}}></textarea>
 										</div>
 									</div>
@@ -277,14 +278,14 @@ const ElementEditor = (props) => {
 							ID:
 						</div>
 						<div className="kaleflower-element-editor__property-val">
-							{globalState.selectedInstance.kaleflowerInstanceId}
+							{currentInstance.kaleflowerInstanceId}
 						</div>
 					</div> */}
 					<hr />
 					<p><button
 						className={`px2-btn px2-btn--danger`}
 						onClick={()=>{
-							globalState.selectedInstance.remove();
+							currentInstance.remove();
 							const onremove = props.onremove() || function(){};
 							onremove();
 							props.kaleflower.trigger('change');
