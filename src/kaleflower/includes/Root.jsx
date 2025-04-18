@@ -14,16 +14,6 @@ const Root = React.memo((props) => {
 
 	// State management using useState hook
 	const [globalState, setGlobalState] = useState({
-		selectedInstance: null,
-		selectedInstanceComponent: null,
-		selectedInstanceClassName: null,
-		selectedInstanceCanSetClass: null,
-		selectedInstanceCanSetWidth: null,
-		selectedInstanceCanSetHeight: null,
-		selectedInstanceCanSetContentsDirection: null,
-		selectedInstanceCanSetScrollable: null,
-		selectedInstanceCanBeLayer: null,
-		hoveredInstanceDirection: null,
 		previewViewport: {
 			width: null,
 			height: null,
@@ -90,29 +80,10 @@ const Root = React.memo((props) => {
 
 	function selectInstance(instance){
 		const selectedInstance = getInstanceById(instance);
-		const selectedInstanceComponent = (selectedInstance ? globalState.components.get_component(selectedInstance.tagName) : null);
-		const isElementNode = (selectedInstance ? !selectedInstance.nodeName.match(/^\#/) : null);
-		const selectedInstanceClassName = (isElementNode && selectedInstance ? selectedInstance.getAttribute('class') : null);
-
-		const canSetClass = (selectedInstanceComponent ? selectedInstanceComponent.canSetClass : null);
-		const canSetWidth = (selectedInstanceComponent ? selectedInstanceComponent.canSetWidth : null);
-		const canSetHeight = (selectedInstanceComponent ? selectedInstanceComponent.canSetHeight : null);
-		const canSetContentsDirection = (selectedInstanceComponent ? selectedInstanceComponent.canSetContentsDirection : null);
-		const canSetScrollable = (selectedInstanceComponent ? selectedInstanceComponent.canSetScrollable : null);
-		const canBeLayer = (selectedInstanceComponent ? selectedInstanceComponent.canBeLayer : null);
-
 		setGlobalState((pastState) => {
 			const newGlobalState = {
 				...pastState,
 				selectedInstance: selectedInstance,
-				selectedInstanceComponent: selectedInstanceComponent,
-				selectedInstanceClassName: selectedInstanceClassName,
-				selectedInstanceCanSetClass: canSetClass,
-				selectedInstanceCanSetWidth: canSetWidth,
-				selectedInstanceCanSetHeight: canSetHeight,
-				selectedInstanceCanSetContentsDirection: canSetContentsDirection,
-				selectedInstanceCanSetScrollable: canSetScrollable,
-				selectedInstanceCanBeLayer: canBeLayer,
 				hoveredInstanceDirection: null,
 			};
 			return newGlobalState;
@@ -148,14 +119,6 @@ const Root = React.memo((props) => {
 			const newGlobalState = {
 				...pastState,
 				selectedInstance: null,
-				selectedInstanceComponent: null,
-				selectedInstanceClassName: null,
-				selectedInstanceCanSetClass: null,
-				selectedInstanceCanSetWidth: null,
-				selectedInstanceCanSetHeight: null,
-				selectedInstanceCanSetContentsDirection: null,
-				selectedInstanceCanSetScrollable: null,
-				selectedInstanceCanBeLayer: null,
 				hoveredInstance: null,
 				hoveredInstanceDirection: null,
 			};

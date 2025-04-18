@@ -11,17 +11,17 @@ const $ = jQuery;
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
 
-	const currentComponent = globalState.selectedInstanceComponent;
+	const currentComponent = (globalState.selectedInstance ? globalState.components.get_component(globalState.selectedInstance.tagName) : null);
 	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
 	const isElementNode = (globalState.selectedInstance ? !globalState.selectedInstance.nodeName.match(/^\#/) : null);
-	const currentClassName = globalState.selectedInstanceClassName;
+	const currentClassName = (isElementNode && globalState.selectedInstance ? globalState.selectedInstance.getAttribute('class') : null);
 
-	const canSetClass = globalState.selectedInstanceCanSetClass;
-	const canSetWidth = globalState.selectedInstanceCanSetWidth;
-	const canSetHeight = globalState.selectedInstanceCanSetHeight;
-	const canSetContentsDirection = globalState.selectedInstanceCanSetContentsDirection;
-	const canSetScrollable = globalState.selectedInstanceCanSetScrollable;
-	const canBeLayer = globalState.selectedInstanceCanBeLayer;
+	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
+	const canSetWidth = (currentComponent ? currentComponent.canSetWidth : null);
+	const canSetHeight = (currentComponent ? currentComponent.canSetHeight : null);
+	const canSetContentsDirection = (currentComponent ? currentComponent.canSetContentsDirection : null);
+	const canSetScrollable = (currentComponent ? currentComponent.canSetScrollable : null);
+	const canBeLayer = (currentComponent ? currentComponent.canBeLayer : null);
 
 	const currentBreakPoint = globalState.previewViewport.breakPoint;
 
