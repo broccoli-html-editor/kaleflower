@@ -206,49 +206,57 @@
 	&__handle-resize-width-right,
 	&__handle-resize-height-top,
 	&__handle-resize-height-bottom {
+		display: none;
 		position: absolute;
-		width: 100%;
-		height: 100%;
+		z-index: 1020;
 		button {
 			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
 			padding: 0;
-			border: 0px none;
+			margin: 0;
+			border: 0 none;
 			outline: none;
 			background: transparent;
-			cursor: pointer;
+			width: 100%;
+			height: 100%;
 		}
 	}
+	&:hover &__handle-resize-width-left,
+	&:hover &__handle-resize-width-right,
+	&:hover &__handle-resize-height-top,
+	&:hover &__handle-resize-height-bottom {
+		display: block;
+	}
 	&__handle-resize-width-left {
-		left: 0px;
-		top: 0px;
+		left: 0;
+		top: 0;
 		width: 5px;
+		height: 100%;
 		button {
 			cursor: col-resize;
 		}
 	}
 	&__handle-resize-width-right {
-		right: 0px;
-		top: 0px;
+		right: 0;
+		top: 0;
 		width: 5px;
+		height: 100%;
 		button {
 			cursor: col-resize;
 		}
 	}
 	&__handle-resize-height-top {
-		left: 0px;
-		top: 0px;
+		left: 0;
+		top: 0;
+		width: 100%;
 		height: 5px;
 		button {
 			cursor: row-resize;
 		}
 	}
 	&__handle-resize-height-bottom {
-		left: 0px;
-		bottom: 0px;
+		left: 0;
+		bottom: 0;
+		width: 100%;
 		height: 5px;
 		button {
 			cursor: row-resize;
