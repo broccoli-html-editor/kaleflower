@@ -48,7 +48,7 @@ const Root = React.memo((props) => {
 		};
 	}, []);
 
-	function getInstanceById(instanceId){
+	globalState.getInstanceById = function(instanceId){
 		if(typeof(instanceId) == typeof({type:"object"})){
 			return instanceId;
 		}
@@ -79,7 +79,7 @@ const Root = React.memo((props) => {
 	}
 
 	function selectInstance(instance){
-		const selectedInstance = getInstanceById(instance);
+		const selectedInstance = globalState.getInstanceById(instance);
 		setGlobalState((pastState) => {
 			const newGlobalState = {
 				...pastState,
@@ -91,7 +91,7 @@ const Root = React.memo((props) => {
 	}
 
 	function hoverInstance(instance){
-		instance = getInstanceById(instance);
+		instance = globalState.getInstanceById(instance);
 		setGlobalState((pastState) => {
 			const newGlobalState = {
 				...pastState,
@@ -103,7 +103,7 @@ const Root = React.memo((props) => {
 	}
 
 	function dragoverInstance(instance, direction){
-		instance = getInstanceById(instance);
+		instance = globalState.getInstanceById(instance);
 		setGlobalState((pastState) => {
 			const newGlobalState = {
 				...pastState,
@@ -127,7 +127,7 @@ const Root = React.memo((props) => {
 	}
 
 	async function createNewInstance(targetElement, direction){
-		targetElement = getInstanceById(targetElement);
+		targetElement = globalState.getInstanceById(targetElement);
 		direction = direction || 'before';
 		const currentComponent = (targetElement ? globalState.components.get_component(targetElement.tagName) : null);
 		if(direction == 'append' && currentComponent.isVoidElement){
@@ -169,8 +169,8 @@ const Root = React.memo((props) => {
 	}
 
 	function moveInstance(instance, moveToInstance, direction){
-		instance = getInstanceById(instance);
-		moveToInstance = getInstanceById(moveToInstance);
+		instance = globalState.getInstanceById(instance);
+		moveToInstance = globalState.getInstanceById(moveToInstance);
 		const parentNode = moveToInstance.parentNode;
 		const currentComponent = (moveToInstance ? globalState.components.get_component(moveToInstance.tagName) : null);
 
