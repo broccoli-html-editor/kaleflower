@@ -70,6 +70,26 @@ const Panel = React.memo((props) => {
 
 	const currentBreakPoint = globalState.previewViewport.breakPoint;
 
+	const currentStyle = (currentClassName && globalState.styles[currentClassName] ? globalState.styles[currentClassName] : null);
+	const hasCssClassName = (canSetClass && currentClassName && currentStyle);
+	const currentStyleBreakPoints = {};
+
+	if (currentStyle) {
+		// ブレイクポイント別の media要素を取得する
+		// ない場合は作成し、初期化する。
+		Object.keys(globalState.configs['break-points']).forEach((breakPointName) => {
+			const breakPoint = globalState.configs['break-points'][breakPointName];
+			let mediaElement = Array.from(currentStyle.children).find(child => child.getAttribute('break-point') === breakPointName);
+
+			if (!mediaElement) {
+				mediaElement = document.createElementNS('', 'media');
+				mediaElement.setAttribute('break-point', breakPointName);
+				currentStyle.appendChild(mediaElement);
+			}
+			currentStyleBreakPoints[breakPointName] = mediaElement;
+		});
+	}
+
 	const containerDirection = (() => {
 		if( props.panelInfo.parent.display == 'flex' && props.panelInfo.parent['flex-direction'] == 'row' ){
 			return 'x';
@@ -144,6 +164,29 @@ const Panel = React.memo((props) => {
 			}
 		}
 		return direction;
+	}
+
+	function doResize(attrName, computedKey, distance){
+		const targetElementNode = (hasCssClassName ? currentStyleBreakPoints[currentBreakPoint.name] : currentInstance);
+		const currentValue = targetElementNode.getAttribute(attrName);
+		let newValue = currentValue;
+		if(currentValue === undefined || currentValue === null){
+			const tmpCurrentPxValue = props.panelInfo[attrName];
+			newValue = `${tmpCurrentPxValue + distance}px`;
+		}else if(currentValue.match(/^([1-9][0-9]*)px$/)){
+			const tmpCurrentPxValue = parseInt(RegExp.$1);
+			newValue = `${tmpCurrentPxValue + distance}px`;
+		}else if(currentValue.match(/^([1-9][0-9]*)\%$/)){
+			const tmpCurrentPercentValue = parseInt(RegExp.$1);
+			// TODO: パーセント指定のときの編集ロジックを追加する
+			// TODO: その他の単位に対応する
+		}
+		targetElementNode[computedKey] = newValue;
+		if( newValue.length ){
+			targetElementNode.setAttribute(attrName, newValue);
+		}else{
+			targetElementNode.removeAttribute(attrName);
+		}
 	}
 
 	return (
@@ -277,12 +320,18 @@ const Panel = React.memo((props) => {
 				<>
 					<div ref={beforeRef} className={`kaleflower-layout-view-panel__handle-resize-width-left`}>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-left', (distanceX, distanceY) => {
-							console.log('distanceX, distanceY', distanceX, distanceY);
+							const attrName = 'width';
+							const computedKey = 'kaleflowerComputedWidth';
+							doResize(attrName, computedKey, -distanceX);
+							props.onselectinstance(props.panelInfo.instanceId);
 						})}></button>
 					</div>
 					<div ref={afterRef} className={`kaleflower-layout-view-panel__handle-resize-width-right`}>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-right', (distanceX, distanceY) => {
-							console.log('distanceX, distanceY', distanceX, distanceY);
+							const attrName = 'width';
+							const computedKey = 'kaleflowerComputedWidth';
+							doResize(attrName, computedKey, distanceX);
+							props.onselectinstance(props.panelInfo.instanceId);
 						})}></button>
 					</div>
 				</>
@@ -291,12 +340,18 @@ const Panel = React.memo((props) => {
 				<>
 					<div ref={beforeRef} className={`kaleflower-layout-view-panel__handle-resize-height-top`}>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-top', (distanceX, distanceY) => {
-							console.log('distanceX, distanceY', distanceX, distanceY);
+							const attrName = 'height';
+							const computedKey = 'kaleflowerComputedHeight';
+							doResize(attrName, computedKey, -distanceY);
+							props.onselectinstance(props.panelInfo.instanceId);
 						})}></button>
 					</div>
 					<div ref={afterRef} className={`kaleflower-layout-view-panel__handle-resize-height-bottom`}>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-bottom', (distanceX, distanceY) => {
-							console.log('distanceX, distanceY', distanceX, distanceY);
+							const attrName = 'height';
+							const computedKey = 'kaleflowerComputedHeight';
+							doResize(attrName, computedKey, distanceY);
+							props.onselectinstance(props.panelInfo.instanceId);
 						})}></button>
 					</div>
 				</>
