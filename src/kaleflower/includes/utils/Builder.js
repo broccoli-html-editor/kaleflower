@@ -128,19 +128,24 @@ export class Builder {
 				const maxWidth = breakPointConfig['max-width'];
 				const $mediaNode = Array.from($styleNode.childNodes).find(node => node.nodeName === 'media' && node.getAttribute('break-point') === breakPointName);
 				if ($mediaNode) {
-					$rtn.css += '@media all and (max-width: ' + maxWidth + 'px) {' + "\n";
-					$rtn.css += '.' + this.#class_name_prefix + $className + ' {' + "\n";
-					$rtn.css += this.#buildCssByElementAttr($mediaNode);
+					let $tmp_css = '';
 
+					$tmp_css += this.#buildCssByElementAttr($mediaNode);
 					Object.keys($mediaNode.childNodes).forEach((idx) => {
 						const $grandChild = $mediaNode.childNodes[idx];
 						// 子ノード(カスタムCSS)を文字列として追加
 						if ($grandChild.nodeType === Node.TEXT_NODE) {
-							$rtn.css += $grandChild.nodeValue + "\n";
+							$tmp_css += $grandChild.nodeValue + "\n";
 						}
 					});
-					$rtn.css += '}' + "\n";
-					$rtn.css += '}' + "\n";
+
+					if($tmp_css.trim().length){
+						$rtn.css += '@media all and (max-width: ' + maxWidth + 'px) {' + "\n";
+						$rtn.css += '.' + this.#class_name_prefix + $className + ' {' + "\n";
+						$rtn.css += $tmp_css;
+						$rtn.css += '}' + "\n";
+						$rtn.css += '}' + "\n";
+					}
 				}
 			});
 		});
@@ -255,7 +260,11 @@ export class Builder {
 				}
 			});
 		}
-		if ($attributes.style.length && !$attributes.class.length) {
+
+		const $hasBreakPointCss = Object.keys($attributes.breakPoints).filter((breakPointName) => {
+			return $attributes.breakPoints[breakPointName].length;
+		});
+		if (($attributes.style.length || $hasBreakPointCss.length) && !$attributes.class.length) {
 			$attributes.class = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
 		}
 		if (this.#class_name_prefix.length && $attributes.class.length) {
@@ -265,7 +274,7 @@ export class Builder {
 			$attributes.style = '.'+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
 		}
 		Object.values(this.#config['break-points']).forEach((breakPointConfig) => {
-			const $breakPointStyle = $attributes.breakPoints[breakPointConfig.name] || '';
+			const $breakPointStyle = ($attributes.breakPoints[breakPointConfig.name] || '').trim();
 			if ($breakPointStyle.length) {
 				$attributes.style += '@media all and (max-width: '+breakPointConfig['max-width']+'px) {'+"\n";
 				$attributes.style += '.'+$attributes.class+' {'+"\n"+''+$breakPointStyle+"\n"+'}'+"\n";

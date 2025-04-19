@@ -193,20 +193,24 @@ class Builder {
 				$mediaNodes = $xpath->query("media[@break-point='" . $breakPointName . "']", $styleNode);
 				
 				if ($mediaNodes->length > 0) {
-					$rtn->css .= '@media all and (max-width: '.$maxWidth.'px) {'."\n";
-					$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
-					
+					$tmp_css = '';
 					foreach ($mediaNodes as $mediaNode) {
-						$rtn->css .= $this->buildCssByElementAttr($mediaNode);
+						$tmp_css .= $this->buildCssByElementAttr($mediaNode);
 						foreach ($mediaNode->childNodes as $child) {
 							if($child->nodeType === XML_TEXT_NODE) {
-								$rtn->css .= $child->nodeValue;
+								$tmp_css .= $child->nodeValue;
 							}
 						}
 					}
-					
-					$rtn->css .= '}'."\n";
-					$rtn->css .= '}'."\n";
+
+					if(strlen(trim($tmp_css))){
+						$rtn->css .= '@media all and (max-width: '.$maxWidth.'px) {'."\n";
+						$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
+						$rtn->css .= $tmp_css;
+						$rtn->css .= '}'."\n";
+						$rtn->css .= '}'."\n";
+					}
+					unset($tmp_css);
 				}
 			}
 		}
@@ -323,7 +327,13 @@ class Builder {
 			}
 		}
 
-		if (strlen($attributes->style ?? '') && !strlen($attributes->class ?? '')) {
+		$hasBreakPointCss = array();
+		foreach($attributes->breakPoints as $breakPointName => $breakPointStyle){
+			if( strlen($breakPointStyle) ){
+				array_push($hasBreakPointCss, $breakPointName);
+			}
+		}
+		if ((strlen($attributes->style ?? '') || count($hasBreakPointCss)) && !strlen($attributes->class ?? '')) {
 			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($this->instance_number++);
 		}
 		if( strlen($this->class_name_prefix ?? '') && strlen($attributes->class ?? '') ){
@@ -333,7 +343,7 @@ class Builder {
 			$attributes->style = '.'.$attributes->class.' {'."\n".''.$attributes->style."\n".'}'."\n";
 		}
 		foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
-			$breakPointStyle = $attributes->breakPoints->{$breakPointName} ?? '';
+			$breakPointStyle = trim($attributes->breakPoints->{$breakPointName} ?? '');
 			if (strlen($breakPointStyle)) {
 				$attributes->style .= '@media all and (max-width: '.$breakPointNode->{'max-width'}.'px) {'."\n";
 				$attributes->style .= '.'.$attributes->class.' {'."\n".''.$breakPointStyle."\n".'}'."\n";
