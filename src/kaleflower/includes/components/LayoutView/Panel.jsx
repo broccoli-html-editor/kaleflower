@@ -4,6 +4,8 @@ import Icons from '../Icons/Icons.jsx';
 
 let startScreenX = 0;
 let startScreenY = 0;
+let fromScreenX = 0;
+let fromScreenY = 0;
 let distanceX = 0;
 let distanceY = 0;
 let resizerCallback;
@@ -19,8 +21,11 @@ const removeWindowEventListeners = () => {
 
 // リサイズ処理の開始
 const handleResizeStart = (e, type, callback) => {
+	e.stopPropagation();
 	startScreenX = e.screenX;
 	startScreenY = e.screenY;
+	fromScreenX = e.screenX;
+	fromScreenY = e.screenY;
 	resizerCallback = callback;
 
 	// windowにイベントリスナーを追加
@@ -29,8 +34,11 @@ const handleResizeStart = (e, type, callback) => {
 
 // リサイズ中の処理
 const handleResizeMove = (e) => {
-	distanceX = e.screenX - startScreenX;
-	distanceY = e.screenY - startScreenY;
+	distanceX = e.screenX - fromScreenX;
+	distanceY = e.screenY - fromScreenY;
+	fromScreenX = e.screenX;
+	fromScreenY = e.screenY;
+	resizerCallback(distanceX, distanceY);
 };
 
 // リサイズ終了時の処理
@@ -167,6 +175,9 @@ const Panel = React.memo((props) => {
 	}
 
 	function doResize(attrName, computedKey, distance){
+		if(!distance){
+			return;
+		}
 		const targetElementNode = (hasCssClassName ? currentStyleBreakPoints[currentBreakPoint.name] : currentInstance);
 		const attrNameBp = `${attrName}${!hasCssClassName ? `--${currentBreakPoint.name}` : ''}`;
 		const currentValue = targetElementNode.getAttribute(attrNameBp);
@@ -180,10 +191,10 @@ const Panel = React.memo((props) => {
 		}else if(currentValue.match(/^([1-9][0-9]*)\%$/)){
 			const tmpCurrentPercentValue = parseInt(RegExp.$1);
 			// TODO: パーセント指定のときの編集ロジックを追加する
-			const tmpCurrentPxValue = props.panelInfo[attrName];
+			const tmpCurrentPxValue = parseInt(props.panelInfo[attrName]);
 			newValue = `${tmpCurrentPxValue + distance}px`;
 		}else{
-			const tmpCurrentPxValue = props.panelInfo[attrName];
+			const tmpCurrentPxValue = parseInt(props.panelInfo[attrName]);
 			newValue = `${tmpCurrentPxValue + distance}px`;
 		}
 		targetElementNode[computedKey] = newValue;

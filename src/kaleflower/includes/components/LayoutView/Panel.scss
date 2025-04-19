@@ -98,12 +98,13 @@
 		border: none;
 		background-color: #f93;
 		position: absolute;
-		left:5%; top:-8px;
-		width:90%;
-		margin:0 auto;
-		height:1px;
+		left: 5%; top: -8px;
+		width: 90%;
+		margin: 0 auto;
+		height: 1px;
 		z-index: 100000000;
 		animation: kaleflower-layout-view-panel__drop-to-insert-here 0.5s infinite;
+		pointer-events: none;
 		@keyframes kaleflower-layout-view-panel__drop-to-insert-here {
 			0%{
 				opacity: 1;
@@ -125,7 +126,7 @@
 			border-top-color: transparent;
 			border-bottom-color: transparent;
 			position: absolute;
-			left: -5%; top:-7px;
+			left: -5%; top: -7px;
 		}
 		&:after {
 			border-left-width: 0;
@@ -174,10 +175,10 @@
 	}
 
 	&--horizontal &__drop-to-insert-here {
-		top:5%; left:-8px;
-		height:90%;
-		margin:auto 0;
-		width:1px;
+		top: 5%; left: -8px;
+		height: 90%;
+		margin: auto 0;
+		width: 1px;
 
 		&:before,
 		&:after {
