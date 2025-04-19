@@ -35,10 +35,10 @@ const LayoutView = React.memo((props) => {
 				width: event.window.width,
 				height: event.window.height,
 			});
-			setLocalState((prevState) => {
-				prevState.panels = event.panels;
-				return prevState;
-			});
+			setLocalState((prevState) => ({
+				...prevState,
+				panels: event.panels,
+			}));
 		});
 
 	const currentLayer = (() => {
@@ -63,10 +63,10 @@ const LayoutView = React.memo((props) => {
 
 		if( localState.lastPreviewHtml != jsonDist ){
 			await previewController.refresh(globalState, iframeRef.current, dist);
-			setLocalState((pastState) => {
-				pastState.lastPreviewHtml = jsonDist;
-				return pastState;
-			});
+			setLocalState((prevState) => ({
+				...prevState,
+				lastPreviewHtml: jsonDist,
+			}));
 		}
 
 		// ビューポートサイズが変更された場合、iframeにメッセージを送信
@@ -79,17 +79,20 @@ const LayoutView = React.memo((props) => {
 		}
 
 		const $panelsContainer = $(panelsContainerRef.current);
-		$panelsContainer.on('scroll.kaleflower', (event) => {
-			previewController.sendMessageToIframe('scrollTo', {
-				scrollTop: $panelsContainer.scrollTop(),
-				scrollLeft: $panelsContainer.scrollLeft(),
-			});
-		});
+		$panelsContainer
+			.off('scroll.kaleflower')
+			.on('scroll.kaleflower', (event) => {
+				previewController.sendMessageToIframe('scrollTo', {
+					scrollTop: $panelsContainer.scrollTop(),
+					scrollLeft: $panelsContainer.scrollLeft(),
+				});
+			})
+			.trigger('scroll.kaleflower');
 
 		return () => {
 			$panelsContainer.off('scroll.kaleflower');
 		};
-	}, [globalState, props.viewportWidth]);
+	}, [globalState, props.viewportWidth, localState.panels]);
 
 	return (
 		<div className="kaleflower-layout-view">
