@@ -46,6 +46,16 @@
 			pointer-events: auto;
 		}
 	}
+
+	&__panels-spacer {
+		display: block;
+		width: 1px;
+		height: 1px;
+		position: absolute;
+		border: none;
+		pointer-events: none;
+		opacity: 0;
+	}
 }
 
 @import "./Panel.scss";

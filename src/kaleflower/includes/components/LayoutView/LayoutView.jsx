@@ -15,6 +15,12 @@ const LayoutView = React.memo((props) => {
 	const [localState, setLocalState] = useState({
 		panels: [],
 		lastPreviewHtml: '{}',
+		window: {
+			height: 0,
+			width: 0,
+			scrollHeight: 0,
+			scrollWidth: 0,
+		},
 	});
 
 	// iframeに適用するスタイルを生成
@@ -38,6 +44,7 @@ const LayoutView = React.memo((props) => {
 			setLocalState((prevState) => ({
 				...prevState,
 				panels: event.panels,
+				window: event.window,
 			}));
 		});
 
@@ -132,6 +139,13 @@ const LayoutView = React.memo((props) => {
 									oncreatenewinstance={props.oncreatenewinstance} />
 							);
 						})}
+						<div
+							className="kaleflower-layout-view__panels-spacer"
+							style={{
+								top: (localState.window.scrollHeight - 1),
+								left: (localState.window.scrollWidth - 1),
+							}}>
+						</div>
 					</div>
 				</div>
 			</div>
