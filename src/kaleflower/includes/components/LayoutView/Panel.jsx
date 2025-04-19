@@ -180,8 +180,8 @@ const Panel = React.memo((props) => {
 		if(!distance){
 			return;
 		}
-		const targetElementNode = (hasCssClassName ? currentStyleBreakPoints[currentBreakPoint.name] : currentInstance);
-		const attrNameBp = `${attrName}${!hasCssClassName ? `--${currentBreakPoint.name}` : ''}`;
+		const targetElementNode = (hasCssClassName ? (currentBreakPoint ? currentStyleBreakPoints[currentBreakPoint.name] : currentStyle) : currentInstance);
+		const attrNameBp = `${attrName}${!hasCssClassName && currentBreakPoint ? `--${currentBreakPoint.name}` : ''}`;
 		const currentValue = targetElementNode.getAttribute(attrNameBp);
 		let newValue = currentValue;
 		if(currentValue === undefined || currentValue === null){
