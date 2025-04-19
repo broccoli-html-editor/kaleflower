@@ -256,10 +256,10 @@ const Panel = React.memo((props) => {
 				event.stopPropagation();
 				event.preventDefault();
 				props.onselectinstance(props.panelInfo.instanceId);
-				globalState.setGlobalState((prevState) => {
-					prevState.editWindowOpened = true;
-					return prevState;
-				});
+				globalState.setGlobalState((prevState) => ({
+					...prevState,
+					editWindowOpened: true,
+				}));
 			}}
 
 			onMouseOver={(event) => {
