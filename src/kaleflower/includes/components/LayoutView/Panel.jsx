@@ -168,7 +168,8 @@ const Panel = React.memo((props) => {
 
 	function doResize(attrName, computedKey, distance){
 		const targetElementNode = (hasCssClassName ? currentStyleBreakPoints[currentBreakPoint.name] : currentInstance);
-		const currentValue = targetElementNode.getAttribute(attrName);
+		const attrNameBp = `${attrName}${!hasCssClassName ? `--${currentBreakPoint.name}` : ''}`;
+		const currentValue = targetElementNode.getAttribute(attrNameBp);
 		let newValue = currentValue;
 		if(currentValue === undefined || currentValue === null){
 			const tmpCurrentPxValue = props.panelInfo[attrName];
@@ -179,13 +180,17 @@ const Panel = React.memo((props) => {
 		}else if(currentValue.match(/^([1-9][0-9]*)\%$/)){
 			const tmpCurrentPercentValue = parseInt(RegExp.$1);
 			// TODO: パーセント指定のときの編集ロジックを追加する
-			// TODO: その他の単位に対応する
+			const tmpCurrentPxValue = props.panelInfo[attrName];
+			newValue = `${tmpCurrentPxValue + distance}px`;
+		}else{
+			const tmpCurrentPxValue = props.panelInfo[attrName];
+			newValue = `${tmpCurrentPxValue + distance}px`;
 		}
 		targetElementNode[computedKey] = newValue;
 		if( newValue.length ){
-			targetElementNode.setAttribute(attrName, newValue);
+			targetElementNode.setAttribute(attrNameBp, newValue);
 		}else{
-			targetElementNode.removeAttribute(attrName);
+			targetElementNode.removeAttribute(attrNameBp);
 		}
 	}
 

@@ -14,12 +14,13 @@ $ composer require broccoli-html-editor/kaleflower
 
 ### Kaleflower v0.1.2 (リリース日未定)
 
+- ドラッグ操作でインスタンスの幅と高さを編集できるようになった。
 - `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
 - `contents-direction` に `vertical` を追加。
 - 単位付きの入力項目について、入力支援機能を追加。単位を別で選択できるようになった。
-- レイアウトビューが、横スクロール操作に追従しない問題を修正。
 - ビューポート幅の変更機能を追加した。
 - 小さい画面での操作性を向上した。
+- レイアウトビューが、横スクロール操作に追従しない問題を修正。
 - その他、いくつかの不具合の修正、UIの改善など。
 
 ### Kaleflower v0.1.1 (2025年4月3日)

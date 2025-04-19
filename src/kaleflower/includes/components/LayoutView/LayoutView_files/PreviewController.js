@@ -181,7 +181,6 @@ export class PreviewController {
 			$iframe.attr({"data-kaleflower-preview-status": true});
 			$iframe.removeAttr("data-kaleflower-update-progress");
 
-			console.log('preview: refreshed');
 			resolve();
 		});});
 	}

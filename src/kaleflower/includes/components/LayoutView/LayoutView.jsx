@@ -63,11 +63,10 @@ const LayoutView = React.memo((props) => {
 
 		if( localState.lastPreviewHtml != jsonDist ){
 			await previewController.refresh(globalState, iframeRef.current, dist);
-			const newLocalState = {
-				...localState,
-				lastPreviewHtml: jsonDist,
-			};
-			setLocalState(newLocalState);
+			setLocalState((pastState) => {
+				pastState.lastPreviewHtml = jsonDist;
+				return pastState;
+			});
 		}
 
 		// ビューポートサイズが変更された場合、iframeにメッセージを送信
@@ -120,7 +119,7 @@ const LayoutView = React.memo((props) => {
 								return;
 							}
 							return (
-								<Panel key={index}
+								<Panel key={panel.instanceId}
 									panelInfo={panel}
 									panelIndex={index}
 									onselectinstance={props.onselectinstance}

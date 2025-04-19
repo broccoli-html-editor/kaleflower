@@ -116,6 +116,7 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 				"result": true,
 				"message": "OK"
 			});
+			$(window).trigger("resize");
 			return;
 
 		}else if(data.api == 'getInstancePositions'){
