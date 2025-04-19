@@ -8,7 +8,6 @@
 			</div>]]></editor>
 		<script function="onload"><![CDATA[
 			function(dom, fieldHelper){
-				console.log('text field: onload:', dom);
 				return;
 			}
 		]]></script>
@@ -39,7 +38,6 @@
 					$assetId.val(fieldHelper.assets.addNewAsset()).trigger('input');
 				}
 				const currentAssetInfo = fieldHelper.assets.getAsset($assetId.val());
-				console.log(currentAssetInfo);
 				setImagePreview({
 					...currentAssetInfo,
 					src: 'data:image/png;base64,'+currentAssetInfo.base64 || _imgDummy, // TODO: mimetypeを適切な値にする
@@ -48,7 +46,6 @@
 				$file.on('input', function(event){
 					const fileInfo = event.target.files[0];
 					const realpathSelected = $(this).val();
-					console.log('input:', fileInfo, realpathSelected);
 
 					if( realpathSelected ){
 						applyFile(fileInfo);

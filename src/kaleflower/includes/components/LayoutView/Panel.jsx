@@ -8,7 +8,8 @@ let fromScreenX = 0;
 let fromScreenY = 0;
 let distanceX = 0;
 let distanceY = 0;
-let resizerCallback;
+let resizerMoveCallback;
+let resizerEndCallback;
 
 const addWindowEventListeners = () => {
 	window.addEventListener('mousemove', handleResizeMove);
@@ -20,13 +21,14 @@ const removeWindowEventListeners = () => {
 }
 
 // リサイズ処理の開始
-const handleResizeStart = (e, type, callback) => {
+const handleResizeStart = (e, type, callback, endCallback) => {
 	e.stopPropagation();
 	startScreenX = e.screenX;
 	startScreenY = e.screenY;
 	fromScreenX = e.screenX;
 	fromScreenY = e.screenY;
-	resizerCallback = callback;
+	resizerMoveCallback = callback;
+	resizerEndCallback = endCallback;
 
 	// windowにイベントリスナーを追加
 	addWindowEventListeners()
@@ -38,14 +40,14 @@ const handleResizeMove = (e) => {
 	distanceY = e.screenY - fromScreenY;
 	fromScreenX = e.screenX;
 	fromScreenY = e.screenY;
-	resizerCallback(distanceX, distanceY);
+	resizerMoveCallback(distanceX, distanceY);
 };
 
 // リサイズ終了時の処理
 const handleResizeEnd = () => {
 	removeWindowEventListeners();
-	resizerCallback(distanceX, distanceY);
-	resizerCallback = null;
+	resizerEndCallback();
+	resizerEndCallback = null;
 };
 
 const Panel = React.memo((props) => {
@@ -334,40 +336,52 @@ const Panel = React.memo((props) => {
 			}
 			{canSetClass && canSetWidth &&
 				<>
-					<div ref={beforeRef} className={`kaleflower-layout-view-panel__handle-resize-width-left`}>
+					<div className={`kaleflower-layout-view-panel__handle-resize-width-left`}>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-left', (distanceX, distanceY) => {
+							$(panelRef.current).removeAttr('draggable');
 							const attrName = 'width';
 							const computedKey = 'kaleflowerComputedWidth';
 							doResize(attrName, computedKey, -distanceX);
 							props.onselectinstance(props.panelInfo.instanceId);
+						}, () => {
+							$(panelRef.current).attr('draggable', true);
 						})}></button>
 					</div>
-					<div ref={afterRef} className={`kaleflower-layout-view-panel__handle-resize-width-right`}>
+					<div className={`kaleflower-layout-view-panel__handle-resize-width-right`}>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-right', (distanceX, distanceY) => {
+							$(panelRef.current).removeAttr('draggable');
 							const attrName = 'width';
 							const computedKey = 'kaleflowerComputedWidth';
 							doResize(attrName, computedKey, distanceX);
 							props.onselectinstance(props.panelInfo.instanceId);
+						}, () => {
+							$(panelRef.current).attr('draggable', true);
 						})}></button>
 					</div>
 				</>
 			}
 			{canSetClass && canSetHeight &&
 				<>
-					<div ref={beforeRef} className={`kaleflower-layout-view-panel__handle-resize-height-top`}>
+					<div className={`kaleflower-layout-view-panel__handle-resize-height-top`}>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-top', (distanceX, distanceY) => {
+							$(panelRef.current).removeAttr('draggable');
 							const attrName = 'height';
 							const computedKey = 'kaleflowerComputedHeight';
 							doResize(attrName, computedKey, -distanceY);
 							props.onselectinstance(props.panelInfo.instanceId);
+						}, () => {
+							$(panelRef.current).attr('draggable', true);
 						})}></button>
 					</div>
-					<div ref={afterRef} className={`kaleflower-layout-view-panel__handle-resize-height-bottom`}>
+					<div className={`kaleflower-layout-view-panel__handle-resize-height-bottom`}>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-bottom', (distanceX, distanceY) => {
+							$(panelRef.current).removeAttr('draggable');
 							const attrName = 'height';
 							const computedKey = 'kaleflowerComputedHeight';
 							doResize(attrName, computedKey, distanceY);
 							props.onselectinstance(props.panelInfo.instanceId);
+						}, () => {
+							$(panelRef.current).attr('draggable', true);
 						})}></button>
 					</div>
 				</>
