@@ -79,6 +79,9 @@ class Utils {
 	 */
 	public function bindTwig($template, $data = array(), $funcs = array()){
 		$rtn = $template;
+		if( is_object($data) ){
+			$data = (array) $data;
+		}
 
 		if( class_exists('\\Twig_Loader_Array') ){
 			// Twig ^1.35, ^2.12
