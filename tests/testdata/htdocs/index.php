@@ -46,6 +46,10 @@
 					"extra": {
 						"sample": "sample value",
 					},
+					"finalize": (contents) => {
+						contents.html.main = contents.html.main.replace(/\{\{sample\}\}/g, "sample value (finalized)");
+						return contents;
+					}
 				});
 				kaleflower.on('change', function(event){
 					console.log('on change event: ', event);

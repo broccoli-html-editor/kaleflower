@@ -65,7 +65,14 @@ const LayoutView = React.memo((props) => {
 
 	useEffect(async () => {
 		const builder = new Builder(globalState.utils, globalState.lb);
-		const dist = builder.build(globalState);
+		const finalize = globalState.options.finalize;
+		let dist = builder.build(globalState);
+		if( finalize.constructor.name === "AsyncFunction" ){
+			dist = await finalize(dist);
+		}else{
+			dist = finalize(dist);
+		}
+console.log('dist', dist);
 		const jsonDist = JSON.stringify(dist);
 
 		if( localState.lastPreviewHtml != jsonDist ){

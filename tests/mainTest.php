@@ -30,6 +30,8 @@ class mainTest extends PHPUnit\Framework\TestCase{
 			)
 		);
 
+		$result->html->main = preg_replace('/\{\{sample\}\}/s', 'sample value (finalized)', $result->html->main);
+
 		$this->assertTrue( is_object($result) );
 		$this->assertTrue( $result->result );
 
