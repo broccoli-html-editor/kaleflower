@@ -207,7 +207,7 @@
 	&__handle-resize-width-right,
 	&__handle-resize-height-top,
 	&__handle-resize-height-bottom {
-		display: none;
+		display: block;
 		position: absolute;
 		z-index: 1020;
 		button {
@@ -221,44 +221,22 @@
 			height: 100%;
 		}
 	}
-	&:hover &__handle-resize-width-left,
-	&:hover &__handle-resize-width-right,
-	&:hover &__handle-resize-height-top,
-	&:hover &__handle-resize-height-bottom {
-		display: block;
-	}
 	&__handle-resize-width-left {
-		left: 0;
-		top: 0;
-		width: 5px;
-		height: 100%;
 		button {
 			cursor: col-resize;
 		}
 	}
 	&__handle-resize-width-right {
-		right: 0;
-		top: 0;
-		width: 5px;
-		height: 100%;
 		button {
 			cursor: col-resize;
 		}
 	}
 	&__handle-resize-height-top {
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 5px;
 		button {
 			cursor: row-resize;
 		}
 	}
 	&__handle-resize-height-bottom {
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		height: 5px;
 		button {
 			cursor: row-resize;
 		}

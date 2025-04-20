@@ -207,136 +207,149 @@ const Panel = React.memo((props) => {
 		}
 	}
 
+	const panelWidth = (()=>{
+		if( !props.panelInfo.nextOffsetLeft ){
+			return props.panelInfo.width;
+		}
+		const distance = props.panelInfo.nextOffsetLeft - (props.panelInfo.offsetLeft + props.panelInfo.width);
+		if( distance <= 0 ){
+			return props.panelInfo.width;
+		}
+		return props.panelInfo.width + distance;
+	})();
+	const panelHeight = (()=>{
+		if( !props.panelInfo.nextOffsetTop ){
+			return props.panelInfo.height;
+		}
+		const distance = props.panelInfo.nextOffsetTop - (props.panelInfo.offsetTop + props.panelInfo.height);
+		if( distance <= 0 ){
+			return props.panelInfo.height;
+		}
+		return props.panelInfo.height + distance;
+	})();
+
 	return (
-		<div
-			ref={panelRef}
-			className={`kaleflower-layout-view-panel`
-				+ (containerDirection == 'x' ? ' kaleflower-layout-view-panel--horizontal' : '')
-				+ `${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--selected' : ''}`
-				+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--hovered' : ''}`
-				+ `${globalState.hoveredInstanceDirection == 'before' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--drag-entered-before' : ''}`
-				+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--drag-entered-after' : ''}`
-				+ `${globalState.hoveredInstanceDirection == 'append' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--drag-entered-append' : ''}`
-				+ `${props.panelInfo.isLayer ? ' kaleflower-layout-view-panel--layer' : ''}`
+		<>
+			<div
+				ref={panelRef}
+				className={`kaleflower-layout-view-panel`
+					+ (containerDirection == 'x' ? ' kaleflower-layout-view-panel--horizontal' : '')
+					+ `${globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--selected' : ''}`
+					+ `${globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--hovered' : ''}`
+					+ `${globalState.hoveredInstanceDirection == 'before' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--drag-entered-before' : ''}`
+					+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--drag-entered-after' : ''}`
+					+ `${globalState.hoveredInstanceDirection == 'append' && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId ? ' kaleflower-layout-view-panel--drag-entered-append' : ''}`
+					+ `${props.panelInfo.isLayer ? ' kaleflower-layout-view-panel--layer' : ''}`
+					}
+				data-kaleflower-instance-id={props.panelInfo.instanceId}
+				data-kaleflower-current-layer={props.panelInfo.currentLayer}
+				data-kaleflower-parent-layer={props.panelInfo.parentLayer}
+				data-kaleflower-is-layer={props.panelInfo.isLayer}
+				style={{
+					top: props.panelInfo.offsetTop,
+					left: props.panelInfo.offsetLeft,
+					width: panelWidth,
+					height: panelHeight,
+				}}
+				onClick={(event) => {
+					event.stopPropagation();
+					event.preventDefault();
+					props.onselectinstance(props.panelInfo.instanceId);
+				}}
+				onDoubleClick={(event) => {
+					event.stopPropagation();
+					event.preventDefault();
+					props.onselectinstance(props.panelInfo.instanceId);
+					globalState.setGlobalState((prevState) => ({
+						...prevState,
+						editWindowOpened: true,
+					}));
+				}}
+
+				onMouseOver={(event) => {
+					event.stopPropagation();
+					event.preventDefault();
+					props.onhoverinstance(props.panelInfo.instanceId);
+				}}
+				onMouseOut={(event) => {
+					event.stopPropagation();
+					event.preventDefault();
+					props.onhoverinstance(null);
+				}}
+
+				onDragStart={(event)=>{
+					event.stopPropagation();
+					beforeRef.current.style.display = 'none';
+					afterRef.current.style.display = 'none';
+					const sendData = {
+						kaleflowerInstanceId: props.panelInfo.instanceId,
+					};
+					event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
+					const onselectinstance = props.onselectinstance || function(){};
+					onselectinstance(props.panelInfo.instanceId);
+				}}
+				onDragEnter={(event)=>{}}
+				onDragOver={(event)=>{
+					event.preventDefault();
+					event.stopPropagation();
+
+					const ud = getUd(event, panelRef.current);
+					const direction = getDirectionByUd(ud);
+					props.ondragover(props.panelInfo.instanceId, direction);
+				}}
+				onDragLeave={(event)=>{}}
+				onDrop={(event)=>{
+					event.preventDefault();
+					event.stopPropagation();
+					let transferData = event.dataTransfer.getData("text/json");
+					try {
+						transferData = JSON.parse(transferData);
+					} catch (e) {}
+
+					const ud = getUd(event, panelRef.current);
+					const direction = getDirectionByUd(ud);
+
+					const moveFromInstance = globalState.selectedInstance;
+					const moveToInstance = props.panelInfo.instanceId;
+					props.onmoveinstance(moveFromInstance, moveToInstance, direction);
+				}}
+				onDragEnd={(event)=>{}}
+
+				draggable="true"
+			>
+				{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId &&
+					<div className={`kaleflower-layout-view-panel__drop-to-insert-here`}></div>
 				}
-			data-kaleflower-instance-id={props.panelInfo.instanceId}
-			data-kaleflower-current-layer={props.panelInfo.currentLayer}
-			data-kaleflower-parent-layer={props.panelInfo.parentLayer}
-			data-kaleflower-is-layer={props.panelInfo.isLayer}
-			style={{
-				top: props.panelInfo.offsetTop,
-				left: props.panelInfo.offsetLeft,
-				width: (()=>{
-					if( !props.panelInfo.nextOffsetLeft ){
-						return props.panelInfo.width;
-					}
-					const distance = props.panelInfo.nextOffsetLeft - (props.panelInfo.offsetLeft + props.panelInfo.width);
-					if( distance <= 0 ){
-						return props.panelInfo.width;
-					}
-					return props.panelInfo.width + distance;
-				})(),
-				height: (()=>{
-					if( !props.panelInfo.nextOffsetTop ){
-						return props.panelInfo.height;
-					}
-					const distance = props.panelInfo.nextOffsetTop - (props.panelInfo.offsetTop + props.panelInfo.height);
-					if( distance <= 0 ){
-						return props.panelInfo.height;
-					}
-					return props.panelInfo.height + distance;
-				})(),
-			}}
-			onClick={(event) => {
-				event.stopPropagation();
-				event.preventDefault();
-				props.onselectinstance(props.panelInfo.instanceId);
-			}}
-			onDoubleClick={(event) => {
-				event.stopPropagation();
-				event.preventDefault();
-				props.onselectinstance(props.panelInfo.instanceId);
-				globalState.setGlobalState((prevState) => ({
-					...prevState,
-					editWindowOpened: true,
-				}));
-			}}
-
-			onMouseOver={(event) => {
-				event.stopPropagation();
-				event.preventDefault();
-				props.onhoverinstance(props.panelInfo.instanceId);
-			}}
-			onMouseOut={(event) => {
-				event.stopPropagation();
-				event.preventDefault();
-				props.onhoverinstance(null);
-			}}
-
-			onDragStart={(event)=>{
-				event.stopPropagation();
-				beforeRef.current.style.display = 'none';
-				afterRef.current.style.display = 'none';
-				const sendData = {
-					kaleflowerInstanceId: props.panelInfo.instanceId,
-				};
-				event.dataTransfer.setData("text/json", JSON.stringify(sendData) );
-				const onselectinstance = props.onselectinstance || function(){};
-				onselectinstance(props.panelInfo.instanceId);
-			}}
-			onDragEnter={(event)=>{}}
-			onDragOver={(event)=>{
-				event.preventDefault();
-				event.stopPropagation();
-
-				const ud = getUd(event, panelRef.current);
-				const direction = getDirectionByUd(ud);
-				props.ondragover(props.panelInfo.instanceId, direction);
-			}}
-			onDragLeave={(event)=>{}}
-			onDrop={(event)=>{
-				event.preventDefault();
-				event.stopPropagation();
-				let transferData = event.dataTransfer.getData("text/json");
-				try {
-					transferData = JSON.parse(transferData);
-				} catch (e) {}
-
-				const ud = getUd(event, panelRef.current);
-				const direction = getDirectionByUd(ud);
-
-				const moveFromInstance = globalState.selectedInstance;
-				const moveToInstance = props.panelInfo.instanceId;
-				props.onmoveinstance(moveFromInstance, moveToInstance, direction);
-			}}
-			onDragEnd={(event)=>{}}
-
-			draggable="true"
-		>
-			{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId &&
-				<div className={`kaleflower-layout-view-panel__drop-to-insert-here`}></div>
-			}
-			{!globalState.hoveredInstanceDirection && !props.panelInfo.isLayer &&
+				{!globalState.hoveredInstanceDirection && !props.panelInfo.isLayer &&
+					<>
+						<div ref={beforeRef} className={`kaleflower-layout-view-panel__create-new-element-before`}>
+							<button type={`button`} onClick={async (event) => {
+								event.preventDefault();
+								event.stopPropagation();
+								props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
+							}}><Icons type="plus" /></button>
+						</div>
+						<div ref={afterRef} className={`kaleflower-layout-view-panel__create-new-element-after`}>
+							<button type={`button`} onClick={async (event) => {
+								event.preventDefault();
+								event.stopPropagation();
+								props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
+							}}><Icons type="plus" /></button>
+						</div>
+					</>
+				}
+			</div>
+			{globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == props.panelInfo.instanceId && canSetClass && canSetWidth &&
 				<>
-					<div ref={beforeRef} className={`kaleflower-layout-view-panel__create-new-element-before`}>
-						<button type={`button`} onClick={async (event) => {
-							event.preventDefault();
-							event.stopPropagation();
-							props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
-						}}><Icons type="plus" /></button>
-					</div>
-					<div ref={afterRef} className={`kaleflower-layout-view-panel__create-new-element-after`}>
-						<button type={`button`} onClick={async (event) => {
-							event.preventDefault();
-							event.stopPropagation();
-							props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
-						}}><Icons type="plus" /></button>
-					</div>
-				</>
-			}
-			{canSetClass && canSetWidth &&
-				<>
-					<div className={`kaleflower-layout-view-panel__handle-resize-width-left`}>
+					<div
+						className={`kaleflower-layout-view-panel__handle-resize-width-left`}
+						style={{
+							top: props.panelInfo.offsetTop,
+							left: props.panelInfo.offsetLeft,
+							width: 5,
+							height: panelHeight,
+						}}
+						>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-left', (distanceX, distanceY) => {
 							$(panelRef.current).removeAttr('draggable');
 							const attrName = 'width';
@@ -347,7 +360,15 @@ const Panel = React.memo((props) => {
 							$(panelRef.current).attr('draggable', true);
 						})}></button>
 					</div>
-					<div className={`kaleflower-layout-view-panel__handle-resize-width-right`}>
+					<div
+						className={`kaleflower-layout-view-panel__handle-resize-width-right`}
+						style={{
+							top: props.panelInfo.offsetTop,
+							left: props.panelInfo.offsetLeft + panelWidth - 5,
+							width: 5,
+							height: panelHeight,
+						}}
+						>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-right', (distanceX, distanceY) => {
 							$(panelRef.current).removeAttr('draggable');
 							const attrName = 'width';
@@ -360,9 +381,17 @@ const Panel = React.memo((props) => {
 					</div>
 				</>
 			}
-			{canSetClass && canSetHeight &&
+			{globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == props.panelInfo.instanceId && canSetClass && canSetHeight &&
 				<>
-					<div className={`kaleflower-layout-view-panel__handle-resize-height-top`}>
+					<div
+						className={`kaleflower-layout-view-panel__handle-resize-height-top`}
+						style={{
+							top: props.panelInfo.offsetTop,
+							left: props.panelInfo.offsetLeft,
+							width: panelWidth,
+							height: 5,
+						}}
+						>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-top', (distanceX, distanceY) => {
 							$(panelRef.current).removeAttr('draggable');
 							const attrName = 'height';
@@ -373,7 +402,15 @@ const Panel = React.memo((props) => {
 							$(panelRef.current).attr('draggable', true);
 						})}></button>
 					</div>
-					<div className={`kaleflower-layout-view-panel__handle-resize-height-bottom`}>
+					<div
+						className={`kaleflower-layout-view-panel__handle-resize-height-bottom`}
+						style={{
+							top: props.panelInfo.offsetTop + panelHeight - 5,
+							left: props.panelInfo.offsetLeft,
+							width: panelWidth,
+							height: 5,
+						}}
+						>
 						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-bottom', (distanceX, distanceY) => {
 							$(panelRef.current).removeAttr('draggable');
 							const attrName = 'height';
@@ -386,7 +423,7 @@ const Panel = React.memo((props) => {
 					</div>
 				</>
 			}
-		</div>
+		</>
 	);
 });
 
