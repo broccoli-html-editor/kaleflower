@@ -53,10 +53,13 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
     <p width--md="50%" width--sm="100%">kflow main contents sample</p>
     <p>kflow main contents sample</p>
 	<custom-component-001 width="100%" image="{&quot;assetId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}">
-		<div/>
+		<div>inner contents.
+
+{{_ENV.extra.sample}}</div>
+		<custom-component-002/>
 	</custom-component-001>
 	<div class="flex-sample">
-		<div>Flex item 001</div>
+		<div>Flex item 001 {{_ENV.extra.sample}}</div>
 		<div>Flex item 002</div>
 		<div>Flex item 003</div>
 	</div>
@@ -110,8 +113,7 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 <div class="custom-component-001 {{ attributes.class }}">
 	<div class="custom-component-001__content">
 		<p>custom component 001</p>
-		<p>custom component 001</p>
-		<p>custom component 001</p>
+		<p>({{_ENV.mode}}, {{_ENV.lang}}, {{_ENV.extra.sample}}, {% verbatim %}{{_ENV.extra.sample}}{% endverbatim %})</p>
 		<img src="{{ assets[image.assetId].path }}" alt="" />
 		<div class="custom-component-001__content-inner">
 			{{ innerHTML | raw }}
@@ -132,7 +134,7 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 			<template><![CDATA[<div class="custom-component-002">
 	<div class="custom-component-002__content">
 		<div class="custom-component-002__content-inner">
-			<p>custom-component-002 ({{_ENV.mode}}, {{_ENV.lang}}, {{_ENV.extra.sample}})</p>
+			<p>custom-component-002 ({{_ENV.mode}}, {{_ENV.lang}}, {{_ENV.extra.sample}}, {% verbatim %}{{_ENV.extra.sample}}{% endverbatim %})</p>
 		</div>
 	</div>
 </div>]]></template>
