@@ -109,6 +109,7 @@
 								width: img.width,
 								height: img.height,
 							});
+						$assetId.trigger('input');
 					};
 					img.src = fileSrc;
 					return;

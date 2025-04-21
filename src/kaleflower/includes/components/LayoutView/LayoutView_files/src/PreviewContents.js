@@ -57,6 +57,8 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 				'window': {
 					'width': $(window).width(),
 					'height': $(window).height(),
+					'scrollWidth': document.documentElement.scrollWidth,
+					'scrollHeight': document.documentElement.scrollHeight,
 				},
 			} );
 			return;
