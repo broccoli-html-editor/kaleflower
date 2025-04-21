@@ -14,6 +14,7 @@
 			}
 			.cont-test__test-image-sample {
 width: 80%;
+height: auto;
 border: 1px solid #000;
 border-radius: 5px;
 overflow: hidden;
@@ -123,23 +124,28 @@ position: relative;
 
 }
 .cont-test__kf-kf1928bb222858994f-5 {
+width: auto;
+height: auto;
+
+}
+.cont-test__kf-kf1928bb222858994f-6 {
 overflow: auto;
 width: 50%;
 height: auto;
 
 }
 @media all and (max-width: 1400px) {
-.cont-test__kf-kf1928bb222858994f-5 {
+.cont-test__kf-kf1928bb222858994f-6 {
 width: 60%;
 }
 }
 @media all and (max-width: 800px) {
-.cont-test__kf-kf1928bb222858994f-5 {
+.cont-test__kf-kf1928bb222858994f-6 {
 width: 80%;
 }
 }
 @media all and (max-width: 480px) {
-.cont-test__kf-kf1928bb222858994f-5 {
+.cont-test__kf-kf1928bb222858994f-6 {
 width: 190%;
 }
 }

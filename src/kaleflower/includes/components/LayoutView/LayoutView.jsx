@@ -146,7 +146,7 @@ const LayoutView = React.memo((props) => {
 									oncreatenewinstance={props.oncreatenewinstance} />
 							);
 						})}
-						{(localState.window.scrollHeight && localState.window.scrollWidth &&
+						{(localState.window.scrollHeight && localState.window.scrollWidth ?
 							<div
 								className="kaleflower-layout-view__panels-spacer"
 								style={{
@@ -154,6 +154,7 @@ const LayoutView = React.memo((props) => {
 									left: (localState.window.scrollWidth - 1),
 								}}>
 							</div>
+							: null
 						)}
 					</div>
 				</div>

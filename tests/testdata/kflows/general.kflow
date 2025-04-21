@@ -114,7 +114,7 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 	<div class="custom-component-001__content">
 		<p>custom component 001</p>
 		<p>({{_ENV.mode}}, {{_ENV.lang}}, {{_ENV.extra.sample}}, {% verbatim %}{{sample}}{% endverbatim %})</p>
-		<img src="{{ assets[image.assetId].path }}" alt="" />
+		<img src="{{ assets[image.assetId].path }}" width="{{ assets[image.assetId].width }}" height="{{ assets[image.assetId].height }}" alt="" />
 		<div class="custom-component-001__content-inner">
 			{{ innerHTML | raw }}
 		</div>
