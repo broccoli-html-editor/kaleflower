@@ -21,11 +21,11 @@ const Root = React.memo((props) => {
 		},
 		selectedViewportSize: null,
 		editWindowOpened: false,
+		utils: new Utils(),
+		options: props.options,
+		lb: props.lb,
 	});
 
-	globalState.utils = new Utils();
-	globalState.options = props.options;
-	globalState.lb = props.lb;
 	globalState.setGlobalState = setGlobalState;
 
 	useEffect(() => {

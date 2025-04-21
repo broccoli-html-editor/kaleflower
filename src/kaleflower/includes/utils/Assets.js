@@ -24,6 +24,8 @@ export class Assets {
 			"id": assetId,
 			'ext': extension,
 			'size': bin.length,
+			'width': 0,
+			'height': 0,
 			'base64': utils79.base64_encode(bin),
 			// 'md5': utils79.md5(bin),
 			'isPrivateMaterial': false,
@@ -47,12 +49,14 @@ export class Assets {
 			"id": assetId,
 			'ext': extension,
 			'size': bin.length,
+			'width': parseInt(options.width) || 0,
+			'height': parseInt(options.height) || 0,
 			'base64': base64,
 			// 'md5': utils79.md5(bin),
 			'isPrivateMaterial': (options.isPrivateMaterial !== undefined ? options.isPrivateMaterial : false),
 			'publicFilename': (options.publicFilename !== undefined ? options.publicFilename : `${assetId}.${extension}`),
 			'field': (options.field !== undefined ? options.field : ''), // <= フィールド名 (ex: image, multitext)
-			'fieldNote': (options.fieldNote !== undefined ? options.fieldNote : ''), // <= フィールドが記録する欄\
+			'fieldNote': (options.fieldNote !== undefined ? options.fieldNote : ''), // <= フィールドが記録する欄
 		};
 
 		this.#assets[assetId] = assetInfo;
@@ -71,7 +75,9 @@ export class Assets {
 		const assetInfo = {
 			"id": assetId,
 			'ext': asset.getAttribute('ext'),
-			'size': asset.getAttribute('size'),
+			'size': parseInt(asset.getAttribute('size')),
+			'width': parseInt(asset.getAttribute('width')),
+			'height': parseInt(asset.getAttribute('height')),
 			'base64': asset.getAttribute('base64'),
 			'md5': asset.getAttribute('md5'),
 			'isPrivateMaterial': (asset.getAttribute('is-private-material') === 'true' ? true : asset.getAttribute('is-private-material') === 'false' ? false : null),

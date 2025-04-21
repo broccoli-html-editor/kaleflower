@@ -92,6 +92,8 @@ export class KflowXml {
 			finalXml += '		<asset id="' + this.#utils.htmlSpecialChars(asset.id) + '"';
 			finalXml += ' ext="' + this.#utils.htmlSpecialChars(asset.ext) + '"';
 			finalXml += ' size="' + this.#utils.htmlSpecialChars(asset.size) + '"';
+			finalXml += ' width="' + this.#utils.htmlSpecialChars(asset.width) + '"';
+			finalXml += ' height="' + this.#utils.htmlSpecialChars(asset.height) + '"';
 			finalXml += ' is-private-material="' + this.#utils.htmlSpecialChars(asset.isPrivateMaterial) + '"';
 			finalXml += ' public-filename="' + this.#utils.htmlSpecialChars(asset.publicFilename) + '"';
 			finalXml += ' field="' + this.#utils.htmlSpecialChars(asset.field) + '"';

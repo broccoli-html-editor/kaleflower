@@ -90,20 +90,27 @@
 					}
 					$img
 						.attr({
-							"src": fileSrc ,
-							"data-size": fileInfo.size ,
+							"src": fileSrc,
+							"data-size": fileInfo.size,
 							"data-extension": fileInfo.ext,
-							"data-mime-type": fileMimeType ,
+							"data-mime-type": fileMimeType,
 							"data-base64": fileInfo.base64,
-							"data-is-updated": 'yes'
+							"data-is-updated": 'yes',
 						})
 					;
-					fieldHelper.assets.updateAsset(
-						$assetId.val(),
-						fileInfo.base64,
-						`originalFileName.${fileInfo.ext}`,
-						{
-						});
+
+					const img = new Image();
+					img.onload = function() {
+						fieldHelper.assets.updateAsset(
+							$assetId.val(),
+							fileInfo.base64,
+							`originalFileName.${fileInfo.ext}`,
+							{
+								width: img.width,
+								height: img.height,
+							});
+					};
+					img.src = fileSrc;
 					return;
 				}
 

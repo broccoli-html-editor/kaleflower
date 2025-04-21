@@ -235,6 +235,8 @@ class Builder {
 				'id' => $assetId,
 				'ext' => $assetNode->getAttribute('ext'),
 				'size' => intval($assetNode->getAttribute('size')),
+				'width' => intval($assetNode->getAttribute('width')),
+				'height' => intval($assetNode->getAttribute('height')),
 				'isPrivateMaterial' => $this->utils->to_boolean($assetNode->getAttribute('is-private-material')),
 				'publicFilename' => $this->utils->to_boolean($assetNode->getAttribute('public-filename')),
 				'path' => $buildOptions->assetsPrefix.$assetNode->getAttribute('public-filename'),

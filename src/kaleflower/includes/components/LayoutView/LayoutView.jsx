@@ -72,7 +72,7 @@ const LayoutView = React.memo((props) => {
 		}else{
 			dist = finalize(dist);
 		}
-console.log('dist', dist);
+
 		const jsonDist = JSON.stringify(dist);
 
 		if( localState.lastPreviewHtml != jsonDist ){
@@ -146,13 +146,15 @@ console.log('dist', dist);
 									oncreatenewinstance={props.oncreatenewinstance} />
 							);
 						})}
-						<div
-							className="kaleflower-layout-view__panels-spacer"
-							style={{
-								top: (localState.window.scrollHeight - 1),
-								left: (localState.window.scrollWidth - 1),
-							}}>
-						</div>
+						{(localState.window.scrollHeight && localState.window.scrollWidth &&
+							<div
+								className="kaleflower-layout-view__panels-spacer"
+								style={{
+									top: (localState.window.scrollHeight - 1),
+									left: (localState.window.scrollWidth - 1),
+								}}>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

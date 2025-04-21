@@ -171,7 +171,9 @@ export class Builder {
 			this.#assets[$assetId] = {
 				'id': $assetId,
 				'ext': $asset.ext,
-				'size': Number($asset.size),
+				'size': parseInt($asset.size),
+				'width': parseInt($asset.width),
+				'height': parseInt($asset.height),
 				'isPrivateMaterial': $asset.isPrivateMaterial,
 				'publicFilename': $asset.publicFilename,
 				'path': 'data:image/' + $asset.ext+';base64,' + $asset.base64,
