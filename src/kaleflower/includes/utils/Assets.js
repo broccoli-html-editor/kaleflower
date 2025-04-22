@@ -4,6 +4,7 @@ export class Assets {
 
 	/** Utility */
 	#utils;
+	#events = {};
 
 	#assets;
 
@@ -14,6 +15,32 @@ export class Assets {
 		this.#utils = utils;
 
 		this.#assets = {};
+	}
+
+
+	/**
+	 * イベントハンドラを登録する
+	 * @param {*} eventName 
+	 * @param {*} callback 
+	 * @returns 
+	 */
+	on (eventName, callback) {
+		this.#events[eventName] = callback;
+		return;
+	}
+
+	/**
+	 * イベントを発火する
+	 * @param {*} eventName 
+	 * @param {*} data 
+	 * @returns 
+	 */
+	trigger (eventName, data) {
+		this.#events[eventName]({
+			...data,
+			type: eventName,
+		});
+		return;
 	}
 
 	addNewAsset(){
@@ -35,6 +62,10 @@ export class Assets {
 		};
 
 		this.#assets[assetId] = assetInfo;
+		this.trigger("create", {
+			"assetId": assetId,
+			"assetInfo": assetInfo,
+		});
 		return this.#assets[assetId].id;
 	}
 
@@ -60,6 +91,10 @@ export class Assets {
 		};
 
 		this.#assets[assetId] = assetInfo;
+		this.trigger("update", {
+			"assetId": assetId,
+			"assetInfo": assetInfo,
+		});
 		return this.#assets[assetId];
 	}
 

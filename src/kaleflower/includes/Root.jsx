@@ -19,6 +19,7 @@ const Root = React.memo((props) => {
 			height: null,
 			breakPoint: null,
 		},
+		assets: null,
 		selectedViewportSize: null,
 		editWindowOpened: false,
 		utils: new Utils(),
@@ -27,6 +28,13 @@ const Root = React.memo((props) => {
 	});
 
 	globalState.setGlobalState = setGlobalState;
+	if(globalState.assets){
+		globalState.assets.on('update', (event) => {
+			globalState.setGlobalState(prevState => ({
+				...prevState,
+			}));
+		});
+	}
 
 	useEffect(() => {
 		// カスタムイベントをリッスンしてデータを取得
