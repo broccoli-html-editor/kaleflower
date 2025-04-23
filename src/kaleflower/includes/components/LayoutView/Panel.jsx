@@ -350,15 +350,18 @@ const Panel = React.memo((props) => {
 							height: panelHeight,
 						}}
 						>
-						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-left', (distanceX, distanceY) => {
-							$(panelRef.current).removeAttr('draggable');
-							const attrName = 'width';
-							const computedKey = 'kaleflowerComputedWidth';
-							doResize(attrName, computedKey, -distanceX);
-							props.onselectinstance(props.panelInfo.instanceId);
-						}, () => {
-							$(panelRef.current).attr('draggable', true);
-						})}></button>
+						<button
+							type={`button`}
+							onMouseDown={(e) => handleResizeStart(e, 'width-left', (distanceX, distanceY) => {
+								$(panelRef.current).removeAttr('draggable');
+								const attrName = 'width';
+								const computedKey = 'kaleflowerComputedWidth';
+								doResize(attrName, computedKey, -distanceX);
+								props.onselectinstance(props.panelInfo.instanceId);
+							}, () => {
+								$(panelRef.current).attr('draggable', true);
+							})}
+							onClick={(e) => {e.stopPropagation();}}></button>
 					</div>
 					<div
 						className={`kaleflower-layout-view-panel__handle-resize-width-right`}
@@ -369,15 +372,18 @@ const Panel = React.memo((props) => {
 							height: panelHeight,
 						}}
 						>
-						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'width-right', (distanceX, distanceY) => {
-							$(panelRef.current).removeAttr('draggable');
-							const attrName = 'width';
-							const computedKey = 'kaleflowerComputedWidth';
-							doResize(attrName, computedKey, distanceX);
-							props.onselectinstance(props.panelInfo.instanceId);
-						}, () => {
-							$(panelRef.current).attr('draggable', true);
-						})}></button>
+						<button
+							type={`button`}
+							onMouseDown={(e) => handleResizeStart(e, 'width-right', (distanceX, distanceY) => {
+								$(panelRef.current).removeAttr('draggable');
+								const attrName = 'width';
+								const computedKey = 'kaleflowerComputedWidth';
+								doResize(attrName, computedKey, distanceX);
+								props.onselectinstance(props.panelInfo.instanceId);
+							}, () => {
+								$(panelRef.current).attr('draggable', true);
+							})}
+							onClick={(e) => {e.stopPropagation();}}></button>
 					</div>
 				</>
 			}
@@ -392,15 +398,18 @@ const Panel = React.memo((props) => {
 							height: 5,
 						}}
 						>
-						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-top', (distanceX, distanceY) => {
-							$(panelRef.current).removeAttr('draggable');
-							const attrName = 'height';
-							const computedKey = 'kaleflowerComputedHeight';
-							doResize(attrName, computedKey, -distanceY);
-							props.onselectinstance(props.panelInfo.instanceId);
-						}, () => {
-							$(panelRef.current).attr('draggable', true);
-						})}></button>
+						<button
+							type={`button`}
+							onMouseDown={(e) => handleResizeStart(e, 'height-top', (distanceX, distanceY) => {
+								$(panelRef.current).removeAttr('draggable');
+								const attrName = 'height';
+								const computedKey = 'kaleflowerComputedHeight';
+								doResize(attrName, computedKey, -distanceY);
+								props.onselectinstance(props.panelInfo.instanceId);
+							}, () => {
+								$(panelRef.current).attr('draggable', true);
+							})}
+							onClick={(e) => {e.stopPropagation();}}></button>
 					</div>
 					<div
 						className={`kaleflower-layout-view-panel__handle-resize-height-bottom`}
@@ -411,15 +420,18 @@ const Panel = React.memo((props) => {
 							height: 5,
 						}}
 						>
-						<button type={`button`} onMouseDown={(e) => handleResizeStart(e, 'height-bottom', (distanceX, distanceY) => {
-							$(panelRef.current).removeAttr('draggable');
-							const attrName = 'height';
-							const computedKey = 'kaleflowerComputedHeight';
-							doResize(attrName, computedKey, distanceY);
-							props.onselectinstance(props.panelInfo.instanceId);
-						}, () => {
-							$(panelRef.current).attr('draggable', true);
-						})}></button>
+						<button
+							type={`button`}
+							onMouseDown={(e) => handleResizeStart(e, 'height-bottom', (distanceX, distanceY) => {
+								$(panelRef.current).removeAttr('draggable');
+								const attrName = 'height';
+								const computedKey = 'kaleflowerComputedHeight';
+								doResize(attrName, computedKey, distanceY);
+								props.onselectinstance(props.panelInfo.instanceId);
+							}, () => {
+								$(panelRef.current).attr('draggable', true);
+							})}
+							onClick={(e) => {e.stopPropagation();}}></button>
 					</div>
 				</>
 			}
