@@ -67,4 +67,9 @@ mix
 	.js('src/kaleflower/includes/components/LayoutView/LayoutView_files/src/PreviewContents.js',
 		'src/kaleflower/includes/components/LayoutView/LayoutView_files/dist/PreviewContents.js')
 	.js('src/kaleflower/kaleflower.jsx', 'dist/')
+
+	// --------------------------------------
+	// Appearance
+	.sass('src/kaleflower/includes/styles/kaleflower--dark.scss', 'src/kaleflower/includes/components/AppearanceStyles/kaleflower--dark.css')
+	.sass('src/kaleflower/includes/styles/kaleflower--light.scss', 'src/kaleflower/includes/components/AppearanceStyles/kaleflower--light.css')
 ;

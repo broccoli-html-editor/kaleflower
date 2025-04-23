@@ -1,10 +1,8 @@
-import InstanceTreeView from '!!raw-loader!./../InstanceTreeView/InstanceTreeView--dark.scss';
-import LayoutView from '!!raw-loader!./../LayoutView/LayoutView--dark.scss';
+import css from '!!raw-loader!./kaleflower--dark.css';
 
 const Dark = () => {
 	return `
-${InstanceTreeView}
-${LayoutView}
+${css}
 `;
 };
 
