@@ -1,8 +1,10 @@
-import DarkScss from '!!raw-loader!./Dark.scss';
+import InstanceTreeView from '!!raw-loader!./../InstanceTreeView/InstanceTreeView--dark.scss';
+import LayoutView from '!!raw-loader!./../LayoutView/LayoutView--dark.scss';
 
 const Dark = () => {
 	return `
-${DarkScss}
+${InstanceTreeView}
+${LayoutView}
 `;
 };
 
