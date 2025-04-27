@@ -50,10 +50,14 @@ class Components {
 		$component_name = $component->getAttribute('name');
 		$rtn = (object) array(
 			"tagName" => $component_name,
+			"label" => $component->getAttribute('label') || '<'.htmlspecialchars($component_name).'>',
 			"isVoidElement" => $this->utils->to_boolean($component->getAttribute('is-void-element')),
 			"canSetClass" => $this->utils->to_boolean($component->getAttribute('can-set-class')),
 			"canSetWidth" => $this->utils->to_boolean($component->getAttribute('can-set-width')),
 			"canSetHeight" => $this->utils->to_boolean($component->getAttribute('can-set-height')),
+			"canSetContentsDirection" => $this->utils->to_boolean($component->getAttribute('can-set-contents-direction')),
+			"canSetScrollable" => $this->utils->to_boolean($component->getAttribute('can-set-scrollable')),
+			"canBeLayer" => $this->utils->to_boolean($component->getAttribute('can-be-layer')),
 			'fields' => array(),
 			'template' => null,
 		);
@@ -87,6 +91,28 @@ class Components {
 	}
 
 	public function get_component($tagName){
-		return $this->custom_components->{$tagName} ?? $this->system_components->{$tagName} ?? null;
+		$component = null;
+		$component = $this->custom_components->{$tagName} ?? null;
+		if( $component ){
+			return $component;
+		}
+		$component = $this->system_components->{$tagName} ?? null;
+		if( $component ){
+			return $component;
+		}
+		$component = (object) array(
+			"tagName" => $tagName,
+			"label" => '<'.htmlspecialchars($tagName).'>',
+			"isVoidElement" => false,
+			"canSetClass" => true,
+			"canSetWidth" => true,
+			"canSetHeight" => true,
+			"canSetContentsDirection" => true,
+			"canSetScrollable" => true,
+			"canBeLayer" => false,
+			"fields" => [],
+			"template" => null,
+		);
+		return $component;
 	}
 }

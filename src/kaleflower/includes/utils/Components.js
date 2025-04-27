@@ -87,6 +87,28 @@ export class Components {
 	}
 
 	get_component($tagName){
-		return this.#custom_components[$tagName] || this.#system_components[$tagName] || null;
+		let $component = null;
+		$component = this.#custom_components[$tagName];
+		if( $component ){
+			return $component;
+		}
+		$component = this.#system_components[$tagName];
+		if( $component ){
+			return $component;
+		}
+		$component = {
+			"tagName": $tagName,
+			"label": `<${$tagName}>`,
+			"isVoidElement": false,
+			"canSetClass": true,
+			"canSetWidth": true,
+			"canSetHeight": true,
+			"canSetContentsDirection": true,
+			"canSetScrollable": true,
+			"canBeLayer": false,
+			"fields": [],
+			"template": null,
+		};
+		return $component;
 	}
 };
