@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fields>
-	<field type="text">
+	<field type="text" format="plain">
 		<editor><![CDATA[<div class="kaleflower-field-text-editor">
 				<div class="kaleflower-field-text-editor__inner">
-					<textarea name="text" class="px2-input">{{ text }}</textarea>
+					<textarea name="_" class="px2-input">{{ _ }}</textarea>
 				</div>
 			</div>]]></editor>
 		<script function="onload"><![CDATA[
@@ -12,7 +12,7 @@
 			}
 		]]></script>
 	</field>
-	<field type="image">
+	<field type="image" format="json">
 		<editor><![CDATA[<div class="kaleflower-field-image-editor">
 				<div>
 					<img src="about:blank" class="kaleflower-field-image-editor__image-preview" style="width:100%;" />

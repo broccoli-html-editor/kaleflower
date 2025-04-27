@@ -61,7 +61,7 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 	<div class="flex-sample">
 		<div>Flex item 001 {{sample}}</div>
 		<div>Flex item 002</div>
-		<div>Flex item <unknown-element>(unknown)</unknown-element><a>003</a></div>
+		<div>Flex item <unknown-element>(unknown)</unknown-element><a href="javascript:alert(&quot;clicked!&quot;);" target="_slef">003</a></div>
 	</div>
 	<div layer="relative">
 		<div>This is a div item 01.</div>
@@ -74,8 +74,8 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 	<custom-component-002/>
 </div>
 <div scrollable="auto" width="50%" height="auto" width--lg="60%" width--md="80%" width--sm="190%">
-	<img class="test-image-sample" alt="{&quot;text&quot;:&quot;1つめのaltテキスト&quot;}" image="{&quot;assetId&quot;:&quot;95a0cd90-0468-4f12-806f-4a13a9327a8b&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo009_thumb.jpg&quot;}"/>
-	<div class="test-div-class-001"/><img alt="{&quot;text&quot;:&quot;2つめのaltテキスト \&quot;escape HTML\&quot;&quot;}" image="{&quot;assetId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}" width="auto" height="auto"/>
+	<img class="test-image-sample" alt="1つめのaltテキスト" image="{&quot;assetId&quot;:&quot;95a0cd90-0468-4f12-806f-4a13a9327a8b&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo009_thumb.jpg&quot;}"/>
+	<div class="test-div-class-001"/><img alt="2つめのaltテキスト &quot;escape HTML&quot;" image="{&quot;assetId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}" width="auto" height="auto"/>
 	
 	<hr/>
 	<p>テスト文字列</p>

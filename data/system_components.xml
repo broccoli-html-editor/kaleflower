@@ -8,14 +8,21 @@
 	<component name="ul" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="ol" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="li" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="a" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true">
+		<fields>
+			<field type="text" name="href" label="href" />
+			<field type="text" name="target" label="Target window" />
+		</fields>
+		<template><![CDATA[
+<a href="{{ attributes.href }}"{% if attributes.target %} target="{{ attributes.target }}"{% endif %}{% if attributes.class %} class="{{ attributes.class }}"{% endif %}>{{ innerHTML | raw }}</a>]]></template>
+	</component>
 	<component name="img" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true">
 		<fields>
 			<field type="image" name="image" label="Image" />
 			<field type="text" name="alt" label="Alt text" />
 		</fields>
 		<template><![CDATA[{% set image = json_decode(attributes.image) %}
-{% set alt = json_decode(attributes.alt) %}
-<img src="{{ assets[image.assetId].path }}" width="{{ assets[image.assetId].width }}" height="{{ assets[image.assetId].height }}" alt="{{ alt.text }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %} />]]></template>
+<img src="{{ assets[image.assetId].path }}" width="{{ assets[image.assetId].width }}" height="{{ assets[image.assetId].height }}" alt="{{ attributes.alt }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %} />]]></template>
 	</component>
 	<component name="hr" is-void-element="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="br" is-void-element="true" can-set-class="true" can-set-width="false" can-set-height="false"></component>

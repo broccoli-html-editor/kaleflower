@@ -47,9 +47,9 @@ class Fields {
 	}
 
 	private function parse_field($field){
-		$field_name = $field->getAttribute('type');
 		$rtn = (object) array(
-			"type" => $field_name,
+			"type" => $field->getAttribute('type'),
+			"format" => $field->getAttribute('format'),
 			'ui' => null,
 		);
 

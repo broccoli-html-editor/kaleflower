@@ -38,9 +38,9 @@ export class Fields {
 	}
 
 	#parse_field(field){
-		const fieldType = field.getAttribute('type');
 		const $rtn = {
-			"type": fieldType,
+			"type": field.getAttribute('type'),
+			"format": field.getAttribute('format'),
 			"editor": null,
 			"onload": function(){},
 		};

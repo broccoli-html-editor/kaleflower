@@ -18,6 +18,7 @@ $ composer require broccoli-html-editor/kaleflower
 - `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
 - `contents-direction` に `vertical` を追加。
 - オプション `finalize()` を追加。
+- フィールドに `format` を追加。デフォルトは `plain` とした。
 - 単位付きの入力項目について、入力支援機能を追加。単位を別で選択できるようになった。
 - ビューポート幅の変更機能を追加した。
 - 小さい画面での操作性を向上した。

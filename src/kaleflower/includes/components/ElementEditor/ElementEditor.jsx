@@ -35,17 +35,27 @@ const ElementEditor = (props) => {
 			const $targetDom = $(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
 
 			$targetDom.html(utils.bindTwig(currentField.editor, (() => {
+				if(currentField.format == 'plain'){
+					return {
+						"_": currentInstance.getAttribute(field.name),
+					};
+				}
 				return JSON.parse(currentInstance.getAttribute(field.name)) || {};
 			})()));
 
 			$targetDom.find('input, select, textarea')
 				.on('input', function () {
 					const $targetDom = $(this);
-					const fieldValues = JSON.parse(currentInstance.getAttribute(field.name)) || {};
-					fieldValues[$targetDom.attr('name')] = $targetDom.val();
-
-					currentInstance.setAttribute(field.name, JSON.stringify(fieldValues));
-
+					const fieldName = $targetDom.attr('name');
+					let fieldValues;
+					if(currentField.format == 'json'){
+						fieldValues = JSON.parse(currentInstance.getAttribute(field.name)) || {};
+						fieldValues[fieldName] = $targetDom.val();
+						currentInstance.setAttribute(field.name, JSON.stringify(fieldValues));
+					}else{
+						fieldValues = $targetDom.val();
+						currentInstance.setAttribute(field.name, fieldValues);
+					}
 					const onchange = props.onchange || function(){};
 					onchange(currentInstance);
 				});
@@ -178,6 +188,46 @@ const ElementEditor = (props) => {
 									<code>&lt;{currentInstance.nodeName}&gt;</code>
 								</div>
 							</div>
+
+							{currentComponent.fields.length
+								? <>
+									<div>
+										<p>Custom Fields:</p>
+									{currentComponent.fields.map((field, index) => {
+										// カスタムフィールドの編集欄を表示する
+										const currentField = globalState.fields.get_field(field.type);
+										return <div key={index} className="kaleflower-element-editor__property">
+											<div className="kaleflower-element-editor__property-key">
+												{field.label}:
+											</div>
+											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: ''}} />
+										</div>
+									})}
+									</div>
+								</>
+								: <></>}
+
+							{!isVoidElement
+								? <>
+									<div className="kaleflower-element-editor__property">
+										<div className="kaleflower-element-editor__property-key">
+											innerHTML:
+										</div>
+										<div className="kaleflower-element-editor__property-val">
+											<textarea
+												className={`px2-input`}
+												value={typeof(currentInstance.innerHTML) == typeof('string') ? currentInstance.innerHTML : ''}
+												onInput={(event)=>{
+													const newInnerHTML = event.target.value;
+													currentInstance.innerHTML = newInnerHTML;
+
+													onchange(currentInstance);
+												}}></textarea>
+										</div>
+									</div>
+								</>
+								: <></>}
+
 							{(canSetClass ? <Text
 								instance={currentInstance}
 								attrName="class"
@@ -227,45 +277,6 @@ const ElementEditor = (props) => {
 												onchange={onchange} />
 										</Accordion>
 									})}
-								</>
-								: <></>}
-
-							{currentComponent.fields.length
-								? <>
-									<div className="">
-										<p>Custom Fields:</p>
-									{currentComponent.fields.map((field, index) => {
-										// カスタムフィールドの編集欄を表示する
-										const currentField = globalState.fields.get_field(field.type);
-										return <div key={index} className="kaleflower-element-editor__property">
-											<div className="kaleflower-element-editor__property-key">
-												{field.label}:
-											</div>
-											<div className="kaleflower-element-editor__property-val" data-field-name={field.name} dangerouslySetInnerHTML={{__html: ''}} />
-										</div>
-									})}
-									</div>
-								</>
-								: <></>}
-
-							{!isVoidElement
-								? <>
-									<div className="kaleflower-element-editor__property">
-										<div className="kaleflower-element-editor__property-key">
-											innerHTML:
-										</div>
-										<div className="kaleflower-element-editor__property-val">
-											<textarea
-												className={`px2-input`}
-												value={typeof(currentInstance.innerHTML) == typeof('string') ? currentInstance.innerHTML : ''}
-												onInput={(event)=>{
-													const newInnerHTML = event.target.value;
-													currentInstance.innerHTML = newInnerHTML;
-
-													onchange(currentInstance);
-												}}></textarea>
-										</div>
-									</div>
 								</>
 								: <></>}
 
