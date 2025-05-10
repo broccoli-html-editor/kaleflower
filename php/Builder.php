@@ -336,20 +336,21 @@ class Builder {
 				array_push($hasBreakPointCss, $breakPointName);
 			}
 		}
-		if ((strlen($attributes->style ?? '') || count($hasBreakPointCss)) && !strlen($attributes->class ?? '')) {
-			$attributes->class = 'kf-'.urlencode($this->config->id).'-'.($this->instance_number++);
+		$splitedClassName = preg_split('/\s/', $attributes->class ?? '');
+		if ((strlen($attributes->style ?? '') || count($hasBreakPointCss)) && !strlen($splitedClassName[0] ?? '')) {
+			$splitedClassName[0] = 'kf-'.urlencode($this->config->id).'-'.($this->instance_number++);
 		}
-		if( strlen($this->class_name_prefix ?? '') && strlen($attributes->class ?? '') ){
-			$attributes->class = $this->class_name_prefix.$attributes->class;
+		if( strlen($this->class_name_prefix ?? '') && strlen($splitedClassName[0] ?? '') ){
+			$splitedClassName[0] = $this->class_name_prefix.$splitedClassName[0];
 		}
-		if (strlen($attributes->style ?? '') && strlen($attributes->class ?? '')) {
-			$attributes->style = '.'.$attributes->class.' {'."\n".''.$attributes->style."\n".'}'."\n";
+		if (strlen($attributes->style ?? '') && strlen($splitedClassName[0] ?? '')) {
+			$attributes->style = '.'.$splitedClassName[0].' {'."\n".''.$attributes->style."\n".'}'."\n";
 		}
 		foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
 			$breakPointStyle = trim($attributes->breakPoints->{$breakPointName} ?? '');
 			if (strlen($breakPointStyle)) {
 				$attributes->style .= '@media all and (max-width: '.$breakPointNode->{'max-width'}.'px) {'."\n";
-				$attributes->style .= '.'.$attributes->class.' {'."\n".''.$breakPointStyle."\n".'}'."\n";
+				$attributes->style .= '.'.$splitedClassName[0].' {'."\n".''.$breakPointStyle."\n".'}'."\n";
 				$attributes->style .= '}'."\n";
 			}
 		}
@@ -361,6 +362,8 @@ class Builder {
 			$this->js .= $attributes->script;
 			unset($attributes->script);
 		}
+
+		$attributes->class = implode(' ', array_filter($splitedClassName));
 
 		if (strlen($currentComponent->template ?? '')) {
 			// コンポーネントにテンプレートが定義されている場合の処理

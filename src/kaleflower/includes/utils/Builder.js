@@ -267,20 +267,21 @@ export class Builder {
 		const $hasBreakPointCss = Object.keys($attributes.breakPoints).filter((breakPointName) => {
 			return $attributes.breakPoints[breakPointName].length;
 		});
-		if (($attributes.style.length || $hasBreakPointCss.length) && !$attributes.class.length) {
-			$attributes.class = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
+		const $splitedClassName = $attributes.class.split(/\s/);
+		if (($attributes.style.length || $hasBreakPointCss.length) && !$splitedClassName[0].length) {
+			$splitedClassName[0] = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
 		}
-		if (this.#class_name_prefix.length && $attributes.class.length) {
-			$attributes.class = this.#class_name_prefix + $attributes.class;
+		if (this.#class_name_prefix.length && $splitedClassName[0].length) {
+			$splitedClassName[0] = this.#class_name_prefix + $splitedClassName[0];
 		}
-		if ($attributes.style.length && $attributes.class.length) {
-			$attributes.style = '.'+$attributes.class+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
+		if ($attributes.style.length && $splitedClassName[0].length) {
+			$attributes.style = '.'+$splitedClassName[0]+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";
 		}
 		Object.values(this.#config['break-points']).forEach((breakPointConfig) => {
 			const $breakPointStyle = ($attributes.breakPoints[breakPointConfig.name] || '').trim();
 			if ($breakPointStyle.length) {
 				$attributes.style += '@media all and (max-width: '+breakPointConfig['max-width']+'px) {'+"\n";
-				$attributes.style += '.'+$attributes.class+' {'+"\n"+''+$breakPointStyle+"\n"+'}'+"\n";
+				$attributes.style += '.'+$splitedClassName[0]+' {'+"\n"+''+$breakPointStyle+"\n"+'}'+"\n";
 				$attributes.style += '}'+"\n";
 			}
 		});
@@ -292,6 +293,8 @@ export class Builder {
 			this.#js += $attributes.script;
 			delete($attributes.script);
 		}
+
+		$attributes.class = $splitedClassName.join(' ');
 
 		if ($currentComponent && typeof($currentComponent.template) == typeof('string') && $currentComponent.template.length) {
 			// コンポーネントにテンプレートが定義されている場合の処理
