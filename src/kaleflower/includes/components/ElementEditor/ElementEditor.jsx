@@ -15,7 +15,14 @@ const ElementEditor = (props) => {
 	const currentComponent = (currentInstance ? globalState.components.get_component(currentInstance.tagName) : null);
 	const isVoidElement = (currentComponent ? currentComponent.isVoidElement : null);
 	const isElementNode = (currentInstance ? !currentInstance.nodeName.match(/^\#/) : null);
-	const currentClassName = (isElementNode && currentInstance ? currentInstance.getAttribute('class') : null);
+	const currentClassName = (() => {
+		let className = (isElementNode && currentInstance ? currentInstance.getAttribute('class') : null);
+		if(typeof(className) == typeof('string')){
+			className = className.replace(/^([a-zA-Z0-9\-\_]*)[\s\S]*$/, '$1');
+			className = className.trim();
+		}
+		return className;
+	})();
 
 	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
 	const canSetWidth = (currentComponent ? currentComponent.canSetWidth : null);
