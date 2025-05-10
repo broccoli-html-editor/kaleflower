@@ -51,7 +51,7 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 		<content><div>
     <p width--sm="100%" width--md="80%" width--lg="60%" width="50%">kflow main contents sample</p>
     <p width--md="50%" width--sm="100%">kflow main contents sample</p>
-    <p>kflow main contents sample</p>
+    <p style--lg="color: red;" style="color: blue;" style--sm="color: green;">kflow main contents sample</p>
 	<custom-component-001 width="100%" image="{&quot;assetId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}">
 		<div>inner contents.
 

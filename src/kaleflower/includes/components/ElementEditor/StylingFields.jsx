@@ -121,50 +121,51 @@ const StylingFields = (props) => {
 					]}
 					onchange={onchange} /> : <></>)}
 
-				{props.hasCssClassName &&
-					<>
-						<div className="kaleflower-element-editor__property">
-							<div className="kaleflower-element-editor__property-key">
-								custom style:
-							</div>
-							<div className="kaleflower-element-editor__property-val">
-								<textarea
-									className={`px2-input`}
-									value={(()=>{
-										if(typeof(props.currentClassName) !== typeof('string')){
-											return '';
-										}
-										const textContent = Array.from(props.targetElementNode.childNodes)
-											.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
-											.map(node => node.textContent)
-											.join('');
-										return textContent;
-									})()}
-									onInput={(event)=>{
-										const newStyleSheet = event.target.value;
-										// Get all text nodes
-										const textNodes = Array.from(props.targetElementNode.childNodes)
-											.filter(node => node.nodeType === 3);
+				<div className="kaleflower-element-editor__property">
+					<div className="kaleflower-element-editor__property-key">
+						custom style:
+					</div>
+					<div className="kaleflower-element-editor__property-val">
+						<textarea
+							className={`px2-input`}
+							value={(()=>{
+								if(typeof(props.currentClassName) !== typeof('string')){
+									const textContent = props.targetElementNode.getAttribute(`style${breakPointName ? '--'+breakPointName : ''}`) || '';
+									return textContent;
+								}
+								const textContent = Array.from(props.targetElementNode.childNodes)
+									.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
+									.map(node => node.textContent)
+									.join('');
+								return textContent;
+							})()}
+							onInput={(event)=>{
+								const newStyleSheet = event.target.value;
 
-										if (textNodes.length > 0) {
-											// Replace content of the first text node
-											textNodes[0].textContent = newStyleSheet;
-											
-											// Clear content of any additional text nodes
-											for (let i = 1; i < textNodes.length; i++) {
-												textNodes[i].textContent = '';
-											}
-										} else {
-											// If no text nodes exist, create one and insert at the beginning
-											const newTextNode = document.createTextNode(newStyleSheet);
-											props.targetElementNode.insertBefore(newTextNode, props.targetElementNode.firstChild);
+								if(typeof(props.currentClassName) !== typeof('string')){
+									props.targetElementNode.setAttribute(`style${breakPointName ? '--'+breakPointName : ''}` || '', newStyleSheet);
+								}else{
+									const textNodes = Array.from(props.targetElementNode.childNodes)
+										.filter(node => node.nodeType === 3);
+									if (textNodes.length > 0) {
+										// Replace content of the first text node
+										textNodes[0].textContent = newStyleSheet;
+										
+										// Clear content of any additional text nodes
+										for (let i = 1; i < textNodes.length; i++) {
+											textNodes[i].textContent = '';
 										}
+									} else {
+										// If no text nodes exist, create one and insert at the beginning
+										const newTextNode = document.createTextNode(newStyleSheet);
+										props.targetElementNode.insertBefore(newTextNode, props.targetElementNode.firstChild);
+									}
+								}
 
-										onchange(globalState.selectedInstance);
-									}} />
-							</div>
-						</div>
-					</>}
+								onchange(globalState.selectedInstance);
+							}} />
+					</div>
+				</div>
 			</div>
 		</>
 	);

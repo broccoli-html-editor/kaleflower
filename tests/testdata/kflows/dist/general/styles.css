@@ -110,42 +110,55 @@ width: 100%;
 }
 }
 .cont-test__kf-kf1928bb222858994f-2 {
+color: blue;
+}
+@media all and (max-width: 1400px) {
+.cont-test__kf-kf1928bb222858994f-2 {
+color: red;
+}
+}
+@media all and (max-width: 480px) {
+.cont-test__kf-kf1928bb222858994f-2 {
+color: green;
+}
+}
+.cont-test__kf-kf1928bb222858994f-3 {
 width: 100%;
 
 }
-.cont-test__kf-kf1928bb222858994f-3 {
+.cont-test__kf-kf1928bb222858994f-4 {
 position: absolute;
 top: 0;
 right: 10px;
 
 }
-.cont-test__kf-kf1928bb222858994f-4 {
+.cont-test__kf-kf1928bb222858994f-5 {
 position: relative;
 
 }
-.cont-test__kf-kf1928bb222858994f-5 {
+.cont-test__kf-kf1928bb222858994f-6 {
 width: auto;
 height: auto;
 
 }
-.cont-test__kf-kf1928bb222858994f-6 {
+.cont-test__kf-kf1928bb222858994f-7 {
 overflow: auto;
 width: 50%;
 height: auto;
 
 }
 @media all and (max-width: 1400px) {
-.cont-test__kf-kf1928bb222858994f-6 {
+.cont-test__kf-kf1928bb222858994f-7 {
 width: 60%;
 }
 }
 @media all and (max-width: 800px) {
-.cont-test__kf-kf1928bb222858994f-6 {
+.cont-test__kf-kf1928bb222858994f-7 {
 width: 80%;
 }
 }
 @media all and (max-width: 480px) {
-.cont-test__kf-kf1928bb222858994f-6 {
+.cont-test__kf-kf1928bb222858994f-7 {
 width: 190%;
 }
 }

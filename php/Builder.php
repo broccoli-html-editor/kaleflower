@@ -307,7 +307,8 @@ class Builder {
 			$attributes->style .= $this->buildCssByElementAttr($node);
 
 			foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
-				$attributes->breakPoints->{$breakPointName} = $this->buildCssByElementAttr($node, $breakPointName);
+				$attributes->breakPoints->{$breakPointName} = $node->getAttribute('style--'.$breakPointName) ?? '';
+				$attributes->breakPoints->{$breakPointName} .= $this->buildCssByElementAttr($node, $breakPointName);
 			}
 
 			foreach ($node->attributes as $attr) {

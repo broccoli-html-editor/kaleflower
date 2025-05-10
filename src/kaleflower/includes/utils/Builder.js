@@ -240,7 +240,8 @@ export class Builder {
 			$attributes.style += this.#buildCssByElementAttr($node);
 
 			Object.values(this.#config['break-points']).forEach((breakPointConfig) => {
-				$attributes.breakPoints[breakPointConfig.name] = this.#buildCssByElementAttr($node, breakPointConfig.name);
+				$attributes.breakPoints[breakPointConfig.name] = $node.getAttribute('style--'+breakPointConfig.name) || '';
+				$attributes.breakPoints[breakPointConfig.name] += this.#buildCssByElementAttr($node, breakPointConfig.name);
 			});
 
 			Object.keys($node.attributes).forEach((index) => {

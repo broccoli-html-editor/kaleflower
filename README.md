@@ -17,6 +17,7 @@ $ composer require broccoli-html-editor/kaleflower
 - ドラッグ操作でインスタンスの幅と高さを編集できるようになった。
 - `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
 - `contents-direction` に `vertical` を追加。
+- クラス名を設定していない要素で、カスタムCSSを追加できるようになった。
 - オプション `finalize()` を追加。
 - フィールドに `format` を追加。デフォルトは `plain` とした。
 - 単位付きの入力項目について、入力支援機能を追加。単位を別で選択できるようになった。
