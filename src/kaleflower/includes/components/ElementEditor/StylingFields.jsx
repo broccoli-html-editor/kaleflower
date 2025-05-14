@@ -105,6 +105,12 @@ const StylingFields = (props) => {
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
+				{((props.canSetClass) ? <UnitValue
+					instance={props.targetElementNode}
+					cssPropName={"font-size"}
+					breakPointName={breakPointName}
+					onchange={onchange} /> : <></>)}
+
 				{((props.canSetScrollable || props.canSetClass) ? <Select
 					instance={props.targetElementNode}
 					attrName={"scrollable"}
