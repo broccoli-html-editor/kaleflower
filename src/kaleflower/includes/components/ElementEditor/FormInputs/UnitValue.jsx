@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
+import { CssParser } from '../../../utils/CssParser.js';
 
 const UnitValue = (props) => {
+    const cssParser = new CssParser();
     const attrName = (!props.hasCssClassName && props.breakPointName ? `${props.attrName}--${props.breakPointName}` : props.attrName);
     
     const units = ["px", "%", "vw", "vh", "em", "rem", "ex", "rex"];
