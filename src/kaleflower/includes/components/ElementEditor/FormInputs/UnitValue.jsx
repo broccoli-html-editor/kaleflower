@@ -37,8 +37,8 @@ const UnitValue = (props) => {
 				setIsKeyword(false);
 			}
 		}
-	}, [props.instance.getAttribute(attrName)]);
-	
+	}, [props.instance.getAttribute(attrName), cssParser.save()]);
+
 	// Update the attribute value
 	const updateValue = (num, unit, isKeywordValue) => {
 		const newValue = isKeywordValue ? unit : `${num}${unit}`;
