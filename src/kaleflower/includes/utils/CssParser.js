@@ -59,8 +59,18 @@ export class CssParser {
 	save() {
 		if (!this.#cssRoot) {
 			return this.#cssText;
-		}
-		const newStyleSheet = this.#cssRoot.toResult().css;
+			}
+		
+		// CSSをフォーマットする
+		let newStyleSheet = '';
+		this.#cssRoot.nodes.forEach(node => {
+			if (node.type === 'decl') {
+				// プロパティの場合は、セミコロンで終わり改行する
+				newStyleSheet += `${node.prop}: ${node.value};` + "\n";
+			} else {
+				newStyleSheet += `${node.toString()}` + "\n";
+			}
+		});
 
 		if(!this.#hasCssClassName){
 			this.#instance.setAttribute(`style${this.#breakPointName ? '--'+this.#breakPointName : ''}` || '', newStyleSheet);
