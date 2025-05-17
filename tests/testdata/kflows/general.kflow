@@ -17,17 +17,19 @@
 		</config>
 	</configs>
 	<styles>
-		<style class="test-image-sample" width="80%" height="auto">border: 1px solid #000;
+		<style class="test-image-sample">width: 80%; height: auto; border: 1px solid #000;
 border-radius: 5px;
 overflow: hidden;
 display: inline-block;
 line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-point="sm"/></style>
 		<style class="paragraph">margin: 1em 0;<media break-point="lg"/><media break-point="md"/><media break-point="sm"/></style>
-		<style class="test-div-class-001" width="110px" height="280px">
+		<style class="test-div-class-001">
 			/* div class test */
-			<media break-point="lg" width="60%">color: #00f;</media>
-			<media break-point="md" width="80%">color: #0f0;</media>
-			<media break-point="sm" width="100%">color: #f00;</media>
+			width: 110px;
+			height: 280px;
+			<media break-point="lg">color: #00f; width: 60%;</media>
+			<media break-point="md">color: #0f0; width: 80%;</media>
+			<media break-point="sm">color: #f00; width: 100%;</media>
 			color: #000;
 		</style>
 		<style class="flex-sample" contents-direction="horizontal">
@@ -49,10 +51,10 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 	</styles>
 	<contents>
 		<content><div>
-    <p width--sm="100%" width--md="80%" width--lg="60%" width="50%">kflow main contents sample</p>
-    <p width--md="50%" width--sm="100%">kflow main contents sample</p>
-    <p style--lg="color: red;" style="color: blue;" style--sm="color: green;">kflow main contents sample</p>
-	<custom-component-001 width="100%" image="{&quot;assetId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}">
+    <p style--sm="width: 100%;" style--md="width: 80%;" style--lg="width: 60%;&#xA;" style="width: 50%;">kflow main contents sample</p>
+    <p style--md="width: 50%;" style--sm="width: 100%;">kflow main contents sample</p>
+    <p style="color: blue;" style--lg="color: red;" style--sm="color: green;">kflow main contents sample</p>
+	<custom-component-001 image="{&quot;assetId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}" style="width: 100%;">
 		<div>inner contents.
 
 {{sample}}</div>
@@ -63,19 +65,19 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 		<div>Flex item 002</div>
 		<div>Flex item <unknown-element>(unknown)</unknown-element><a href="javascript:alert(&quot;clicked!&quot;);" target="_slef">003</a></div>
 	</div>
-	<div layer="relative">
+	<div style="position: relative;">
 		<div>This is a div item 01.</div>
 		<div>This is a div item 02.</div>
-		<div layer="absolute" layer-position-right="10px" layer-position-top="0">
+		<div style="position: absolute;&#xA;right: 10px;&#xA;top: 0px;&#xA;" style--lg="">
 			This is a absolute layer sample.
 			<div>div inside layer.</div>
 		</div>
 	</div>
 	<custom-component-002/>
 </div>
-<div scrollable="auto" width="50%" height="auto" width--lg="60%" width--md="80%" width--sm="190%">
+<div style="overflow: auto; width: 50%; height: auto;" style--lg="width: 60%;" style--md="width: 80%;" style--sm="width: 190%;">
 	<img class="test-image-sample" alt="1つめのaltテキスト" image="{&quot;assetId&quot;:&quot;95a0cd90-0468-4f12-806f-4a13a9327a8b&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo009_thumb.jpg&quot;}"/>
-	<div class="test-div-class-001"/><img alt="2つめのaltテキスト &quot;escape HTML&quot;" image="{&quot;assetId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}" width="auto" height="auto"/>
+	<div class="test-div-class-001"/><img alt="2つめのaltテキスト &quot;escape HTML&quot;" image="{&quot;assetId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}" style="width: auto; height: auto;"/>
 	
 	<hr/>
 	<p>テスト文字列</p>

@@ -24,7 +24,7 @@ const StylingFields = (props) => {
 				{((props.canBeLayer || props.canSetClass) ? <>
 					<Select
 						instance={props.targetElementNode}
-						attrName={"layer"}
+						cssPropName={"position"}
 						breakPointName={breakPointName}
 						options={[
 							{
@@ -51,22 +51,22 @@ const StylingFields = (props) => {
 						onchange={onchange} />
 					<UnitValue
 						instance={props.targetElementNode}
-						attrName={"layer-position-top"}
+						cssPropName={"top"}
 						breakPointName={breakPointName}
 						onchange={onchange} />
 					<UnitValue
 						instance={props.targetElementNode}
-						attrName={"layer-position-right"}
+						cssPropName={"right"}
 						breakPointName={breakPointName}
 						onchange={onchange} />
 					<UnitValue
 						instance={props.targetElementNode}
-						attrName={"layer-position-bottom"}
+						cssPropName={"bottom"}
 						breakPointName={breakPointName}
 						onchange={onchange} />
 					<UnitValue
 						instance={props.targetElementNode}
-						attrName={"layer-position-left"}
+						cssPropName={"left"}
 						breakPointName={breakPointName}
 						onchange={onchange} />
 				</> : <></>)}
@@ -93,14 +93,14 @@ const StylingFields = (props) => {
 
 				{((props.canSetWidth || props.canSetClass) ? <UnitValue
 					instance={props.targetElementNode}
-					attrName={"width"}
+					cssPropName={"width"}
 					computedKey={"kaleflowerComputedWidth"}
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
 				{((props.canSetHeight || props.canSetClass) ? <UnitValue
 					instance={props.targetElementNode}
-					attrName={"height"}
+					cssPropName={"height"}
 					computedKey={"kaleflowerComputedHeight"}
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
@@ -113,7 +113,7 @@ const StylingFields = (props) => {
 
 				{((props.canSetScrollable || props.canSetClass) ? <Select
 					instance={props.targetElementNode}
-					attrName={"scrollable"}
+					cssPropName={"overflow"}
 					breakPointName={breakPointName}
 					options={[
 						{
