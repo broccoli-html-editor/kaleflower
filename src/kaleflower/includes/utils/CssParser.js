@@ -24,6 +24,14 @@ export class CssParser {
 
 	/**
 	 * SCSSコードをセットする
+	 * 
+	 * 対象となるDOM要素とCSSクラス情報、ブレークポイント名を設定し、
+	 * 現在のCSSスタイルを解析してパーサーを初期化します。
+	 * 
+	 * @param {HTMLElement} instance - スタイルを設定する対象のDOM要素
+	 * @param {boolean} hasCssClassName - CSSクラス名を持つかどうか
+	 * @param {string|null} breakPointName - ブレークポイント名（レスポンシブ対応用）
+	 * @return {CssParser} - メソッドチェーン用のインスタンス
 	 */
 	set(instance, hasCssClassName, breakPointName) {
 		this.#instance = instance;
@@ -55,6 +63,11 @@ export class CssParser {
 
 	/**
 	 * 編集済みのSCSSコードを取得する
+	 * 
+	 * 編集されたCSSをフォーマットして文字列として取得し、
+	 * DOM要素に適用します。スタイル属性または子テキストノードとして設定します。
+	 * 
+	 * @return {string} フォーマットされたCSSコード
 	 */
 	save() {
 		if (!this.#cssRoot) {
@@ -97,6 +110,12 @@ export class CssParser {
 
 	/**
 	 * 指定したプロパティの値を取得する
+	 * 
+	 * CSSルート内から指定されたプロパティ名の値を検索して返します。
+	 * 複数ある場合は最初に見つかった値を返します。
+	 * 
+	 * @param {string} propName - 取得したいCSSプロパティ名
+	 * @return {string|null} プロパティ値、見つからない場合はnull
 	 */
 	getProperty(propName) {
 		if (!this.#cssRoot) {
@@ -114,12 +133,36 @@ export class CssParser {
 
 	/**
 	 * 指定したプロパティの値を上書きする
+	 * 
+	 * CSSルート内の指定されたプロパティの値を新しい値で上書きします。
+	 * 該当するプロパティが存在しない場合は新しく追加します。
+	 * nullを指定した場合、プロパティを削除します。
+	 * 
+	 * @param {string} propName - 設定したいCSSプロパティ名
+	 * @param {string|null} newValue - 新しいプロパティ値、nullの場合はプロパティを削除
+	 * @return {CssParser} - メソッドチェーン用のインスタンス
 	 */
 	setProperty(propName, newValue) {
 		if (!this.#cssRoot) {
 			return this;
 		}
 
+		// newValueがnullの場合は、プロパティを削除する
+		if (newValue === null) {
+			// ルートノードから直接プロパティを削除
+			this.#cssRoot.nodes = this.#cssRoot.nodes.filter(decl => {
+				return decl.type !== 'decl' || decl.prop !== propName;
+			});
+			
+			// 他の場所にあるプロパティも削除（例：メディアクエリ内など）
+			this.#cssRoot.walkDecls(propName, (decl) => {
+				decl.remove();
+			});
+			
+			return this;
+		}
+
+		// newValueがnull以外の場合は通常の処理
 		let found = false;
 		this.#cssRoot.nodes.forEach((decl) => {
 			if(decl.type != 'decl'){

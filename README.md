@@ -12,9 +12,10 @@ $ composer require broccoli-html-editor/kaleflower
 
 ## 更新履歴 - Change log
 
-### Kaleflower v0.1.2 (リリース日未定)
+### Kaleflower v0.2.0 (リリース日未定)
 
 - ドラッグ操作でインスタンスの幅と高さを編集できるようになった。
+- データ構造変更: 各要素のスタイリング情報を、属性値ではなくCSSを直接操作するようになった。
 - `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
 - `contents-direction` に `vertical` を追加。
 - クラス名を設定していない要素で、カスタムCSSを追加できるようになった。

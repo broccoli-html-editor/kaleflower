@@ -25,9 +25,14 @@ const StylingFields = (props) => {
 				{((props.canBeLayer || props.canSetClass) ? <>
 					<Select
 						instance={props.targetElementNode}
+						hasCssClassName={props.hasCssClassName}
 						cssPropName={"position"}
 						breakPointName={breakPointName}
 						options={[
+							{
+								label: "",
+								value: "",
+							},
 							{
 								label: "Absolute",
 								value: "absolute",
@@ -44,29 +49,29 @@ const StylingFields = (props) => {
 								label: "Sticky",
 								value: "sticky",
 							},
-							{
-								label: "Normal",
-								value: "",
-							},
 						]}
 						onchange={onchange} />
 					<UnitValue
 						instance={props.targetElementNode}
+						hasCssClassName={props.hasCssClassName}
 						cssPropName={"top"}
 						breakPointName={breakPointName}
 						onchange={onchange} />
 					<UnitValue
 						instance={props.targetElementNode}
+						hasCssClassName={props.hasCssClassName}
 						cssPropName={"right"}
 						breakPointName={breakPointName}
 						onchange={onchange} />
 					<UnitValue
 						instance={props.targetElementNode}
+						hasCssClassName={props.hasCssClassName}
 						cssPropName={"bottom"}
 						breakPointName={breakPointName}
 						onchange={onchange} />
 					<UnitValue
 						instance={props.targetElementNode}
+						hasCssClassName={props.hasCssClassName}
 						cssPropName={"left"}
 						breakPointName={breakPointName}
 						onchange={onchange} />
@@ -74,11 +79,13 @@ const StylingFields = (props) => {
 
 				{((props.canSetContentsDirection || props.canSetClass) ? <ContentsDirection
 					instance={props.targetElementNode}
+					hasCssClassName={props.hasCssClassName}
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
 				{((props.canSetWidth || props.canSetClass) ? <UnitValue
 					instance={props.targetElementNode}
+					hasCssClassName={props.hasCssClassName}
 					cssPropName={"width"}
 					computedKey={"kaleflowerComputedWidth"}
 					breakPointName={breakPointName}
@@ -86,6 +93,7 @@ const StylingFields = (props) => {
 
 				{((props.canSetHeight || props.canSetClass) ? <UnitValue
 					instance={props.targetElementNode}
+					hasCssClassName={props.hasCssClassName}
 					cssPropName={"height"}
 					computedKey={"kaleflowerComputedHeight"}
 					breakPointName={breakPointName}
@@ -93,22 +101,24 @@ const StylingFields = (props) => {
 
 				{((props.canSetClass) ? <UnitValue
 					instance={props.targetElementNode}
+					hasCssClassName={props.hasCssClassName}
 					cssPropName={"font-size"}
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
 				{((props.canSetScrollable || props.canSetClass) ? <Select
 					instance={props.targetElementNode}
+					hasCssClassName={props.hasCssClassName}
 					cssPropName={"overflow"}
 					breakPointName={breakPointName}
 					options={[
 						{
-							label: "Scrollable",
-							value: "auto",
+							label: "",
+							value: "",
 						},
 						{
-							label: "Nothing",
-							value: "",
+							label: "Scrollable",
+							value: "auto",
 						},
 					]}
 					onchange={onchange} /> : <></>)}
