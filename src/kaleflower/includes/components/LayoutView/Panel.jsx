@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext.js';
 import Icons from '../Icons/Icons.jsx';
+import { CssParser } from '../../utils/CssParser.js';
 
 let startScreenX = 0;
 let startScreenY = 0;
@@ -100,6 +101,14 @@ const Panel = React.memo((props) => {
 		});
 	}
 
+	const cssParser = new CssParser();
+	const currentStyleElement = (
+		currentStyleBreakPoints[currentBreakPoint.name] ? currentStyleBreakPoints[currentBreakPoint.name]
+		: currentStyle ? currentStyle : currentInstance ? currentInstance : null);
+	if(currentStyleElement){
+		cssParser.set(currentStyleElement, !!currentClassName, currentBreakPoint.name);
+	}
+
 	const containerDirection = (() => {
 		if( props.panelInfo.parent.display == 'flex' && props.panelInfo.parent['flex-direction'] == 'row' ){
 			return 'x';
@@ -181,8 +190,7 @@ const Panel = React.memo((props) => {
 			return;
 		}
 		const targetElementNode = (hasCssClassName ? (currentBreakPoint ? currentStyleBreakPoints[currentBreakPoint.name] : currentStyle) : currentInstance);
-		const attrNameBp = `${attrName}${!hasCssClassName && currentBreakPoint ? `--${currentBreakPoint.name}` : ''}`;
-		const currentValue = targetElementNode.getAttribute(attrNameBp);
+		const currentValue = cssParser.getProperty(attrName);
 		let newValue = currentValue;
 		if(currentValue === undefined || currentValue === null){
 			const tmpCurrentPxValue = props.panelInfo[attrName];
@@ -201,10 +209,11 @@ const Panel = React.memo((props) => {
 		}
 		targetElementNode[computedKey] = newValue;
 		if( newValue.length ){
-			targetElementNode.setAttribute(attrNameBp, newValue);
+			cssParser.setProperty(attrName, newValue);
 		}else{
-			targetElementNode.removeAttribute(attrNameBp);
+			cssParser.setProperty(attrName, null);
 		}
+		cssParser.save();
 	}
 
 	const panelWidth = (()=>{
