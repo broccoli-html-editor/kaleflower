@@ -17,11 +17,17 @@
 		</config>
 	</configs>
 	<styles>
-		<style class="test-image-sample" width="80%">border: 1px solid #000;
-border-radius: 5px;
-overflow: hidden;
-display: inline-block;
-line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-point="sm"/></style>
+		<style class="test-image-sample">
+			width: 80%;
+			border: 1px solid #000;
+			border-radius: 5px;
+			overflow: hidden;
+			display: inline-block;
+			line-height: 1;
+			<media break-point="lg"/>
+			<media break-point="md"/>
+			<media break-point="sm"/>
+		</style>
 		<style class="paragraph">margin: 1em 0;</style>
 		<style class="test-div-class-001" width="110px" height="280px">
 			/* div class test */
@@ -30,14 +36,18 @@ line-height: 1;<media break-point="lg"/><media break-point="md"/><media break-po
 			<media break-point="sm" width="100%">color: #f00;</media>
 			color: #000;
 		</style>
-		<style class="flex-sample" contents-direction="horizontal">
+		<style class="flex-sample">
+			display: flex;
+			flex-direction: row;
 			gap: 20px;
 			padding: 20px;
 			<media break-point="lg">
 				gap: 15px;
 				padding: 15px;
 			</media>
-			<media break-point="md" contents-direction="vertical">
+			<media break-point="md">
+				display: flex;
+				flex-direction: column;
 				gap: 10px;
 				padding: 10px;
 			</media>

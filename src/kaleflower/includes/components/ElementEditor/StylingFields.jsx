@@ -4,6 +4,7 @@ import Text from './FormInputs/Text.jsx';
 import Select from './FormInputs/Select.jsx';
 import TextArea from './FormInputs/TextArea.jsx';
 import UnitValue from './FormInputs/UnitValue.jsx';
+import ContentsDirection from './FormInputs/ContentsDirection.jsx';
 
 const StylingFields = (props) => {
 	const globalState = useContext(MainContext);
@@ -71,24 +72,9 @@ const StylingFields = (props) => {
 						onchange={onchange} />
 				</> : <></>)}
 
-				{((props.canSetContentsDirection || props.canSetClass) ? <Select
+				{((props.canSetContentsDirection || props.canSetClass) ? <ContentsDirection
 					instance={props.targetElementNode}
-					attrName={"contents-direction"}
 					breakPointName={breakPointName}
-					options={[
-						{
-							label: "Natural",
-							value: "",
-						},
-						{
-							label: "Horizontal",
-							value: "horizontal",
-						},
-						{
-							label: "Vertical",
-							value: "vertical",
-						},
-					]}
 					onchange={onchange} /> : <></>)}
 
 				{((props.canSetWidth || props.canSetClass) ? <UnitValue

@@ -369,14 +369,6 @@ export class Builder {
 	#buildCssByElementAttr($node, breakPointName) {
 		let $css = '';
 		const attrNameSufix = (breakPointName ? '--'+breakPointName : '');
-		const attrContentsDirection = $node.getAttribute('contents-direction'+attrNameSufix);
-		if( attrContentsDirection == "horizontal" ){
-			$css += 'display: flex;'+"\n";
-			$css += 'flex-direction: row;'+"\n";
-		}else if( attrContentsDirection == "vertical" ){
-			$css += 'display: flex;'+"\n";
-			$css += 'flex-direction: column;'+"\n";
-		}
 		return $css;
 	}
 };

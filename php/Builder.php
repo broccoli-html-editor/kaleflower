@@ -431,14 +431,6 @@ class Builder {
 	private function buildCssByElementAttr($node, $breakPointName = null) {
 		$css = '';
 		$attrNameSufix = ($breakPointName ? '--'.$breakPointName : '');
-		$attrContentsDirection = $node->getAttribute('contents-direction'.$attrNameSufix);
-		if( $attrContentsDirection == "horizontal" ){
-			$css .= 'display: flex;'."\n";
-			$css .= 'flex-direction: row;'."\n";
-		}elseif( $attrContentsDirection == "vertical" ){
-			$css .= 'display: flex;'."\n";
-			$css .= 'flex-direction: column;'."\n";
-		}
 		return $css;
 	}
 }

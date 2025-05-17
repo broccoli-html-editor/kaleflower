@@ -94,10 +94,6 @@ const ElementEditor = (props) => {
 		const newStyle = document.createElementNS('', 'style');
 		newStyle.innerHTML = '';
 		newStyle.setAttribute('class', currentClassName);
-		newStyle.setAttribute('width', currentInstance.kaleflowerComputedWidth);
-		newStyle.setAttribute('height', currentInstance.kaleflowerComputedHeight);
-		currentInstance.removeAttribute('width');
-		currentInstance.removeAttribute('height');
 		globalState.styles[currentClassName] = newStyle;
 
 		// 参照されていないclassを削除する
