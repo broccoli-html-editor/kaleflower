@@ -439,38 +439,6 @@ class Builder {
 			$css .= 'display: flex;'."\n";
 			$css .= 'flex-direction: column;'."\n";
 		}
-
-		$attrScrollable = $node->getAttribute('scrollable'.$attrNameSufix);
-		if( $attrScrollable == "auto" ){
-			$css .= 'overflow: auto;'."\n";
-		}
-
-		$attrLayer = $node->getAttribute('layer'.$attrNameSufix);
-		$attrLayerPositionTop = $node->getAttribute('layer-position-top'.$attrNameSufix);
-		$attrLayerPositionRight = $node->getAttribute('layer-position-right'.$attrNameSufix);
-		$attrLayerPositionBottom = $node->getAttribute('layer-position-bottom'.$attrNameSufix);
-		$attrLayerPositionLeft = $node->getAttribute('layer-position-left'.$attrNameSufix);
-		if( $attrLayer ){
-			if( $attrLayer == "relative" ){
-				$css .= 'position: relative;'."\n";
-			}elseif( $attrLayer == "absolute" ){
-				$css .= 'position: absolute;'."\n";
-			}
-			$css .= (strlen($attrLayerPositionTop ?? '') ? 'top: '.$attrLayerPositionTop.';'."\n" : '');
-			$css .= (strlen($attrLayerPositionRight ?? '') ? 'right: '.$attrLayerPositionRight.';'."\n" : '');
-			$css .= (strlen($attrLayerPositionBottom ?? '') ? 'bottom: '.$attrLayerPositionBottom.';'."\n" : '');
-			$css .= (strlen($attrLayerPositionLeft ?? '') ? 'left: '.$attrLayerPositionLeft.';'."\n" : '');
-		}
-
-		$attrWidth = $node->getAttribute('width'.$attrNameSufix);
-		if( $attrWidth ){
-			$css .= 'width: '.$attrWidth.';'."\n";
-		}
-
-		$attrHeight = $node->getAttribute('height'.$attrNameSufix);
-		if( $attrHeight ){
-			$css .= 'height: '.$attrHeight.';'."\n";
-		}
 		return $css;
 	}
 }

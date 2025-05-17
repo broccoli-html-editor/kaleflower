@@ -377,37 +377,6 @@ export class Builder {
 			$css += 'display: flex;'+"\n";
 			$css += 'flex-direction: column;'+"\n";
 		}
-
-		const attrScrollable = $node.getAttribute('scrollable'+attrNameSufix);
-		if( attrScrollable == "auto" ){
-			$css += 'overflow: auto;'+"\n";
-		}
-
-		const attrLayer = $node.getAttribute('layer'+attrNameSufix);
-		const attrLayerPositionTop = $node.getAttribute('layer-position-top'+attrNameSufix);
-		const attrLayerPositionRight = $node.getAttribute('layer-position-right'+attrNameSufix);
-		const attrLayerPositionBottom = $node.getAttribute('layer-position-bottom'+attrNameSufix);
-		const attrLayerPositionLeft = $node.getAttribute('layer-position-left'+attrNameSufix);
-		if( attrLayer ){
-			if( attrLayer == "relative" ){
-				$css += 'position: relative;'+"\n";
-			}else if( attrLayer == "absolute" ){
-				$css += 'position: absolute;'+"\n";
-			}
-			$css += (attrLayerPositionTop ? 'top: '+attrLayerPositionTop+';'+"\n" : '');
-			$css += (attrLayerPositionRight ? 'right: '+attrLayerPositionRight+';'+"\n" : '');
-			$css += (attrLayerPositionBottom ? 'bottom: '+attrLayerPositionBottom+';'+"\n" : '');
-			$css += (attrLayerPositionLeft ? 'left: '+attrLayerPositionLeft+';'+"\n" : '');
-		}
-
-		const attrWidth = $node.getAttribute('width'+attrNameSufix);
-		if( attrWidth ){
-			$css += 'width: '+attrWidth+';'+"\n";
-		}
-		const attrHeight = $node.getAttribute('height'+attrNameSufix);
-		if( attrHeight ){
-			$css += 'height: '+attrHeight+';'+"\n";
-		}
 		return $css;
 	}
 };
