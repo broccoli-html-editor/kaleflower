@@ -65,14 +65,23 @@ const ColorPicker = (props) => {
 
 	const handleChangeH = (e) => {
 		setH(parseInt(e.target.value));
+		const newValue = rgbToHex(Math.floor((h/360)*255), Math.floor((s/100)*255), Math.floor((l/100)*255));
+		cssParser.setProperty(cssPropName, newValue).save();
+		props.onchange();
 	};
 
 	const handleChangeS = (e) => {
 		setS(parseInt(e.target.value));
+		const newValue = rgbToHex(Math.floor((h/360)*255), Math.floor((s/100)*255), Math.floor((l/100)*255));
+		cssParser.setProperty(cssPropName, newValue).save();
+		props.onchange();
 	};
 
 	const handleChangeL = (e) => {
 		setL(parseInt(e.target.value));
+		const newValue = rgbToHex(Math.floor((h/360)*255), Math.floor((s/100)*255), Math.floor((l/100)*255));
+		cssParser.setProperty(cssPropName, newValue).save();
+		props.onchange();
 	};
 
 	return (
@@ -96,7 +105,7 @@ const ColorPicker = (props) => {
 					</div>
 				</div>
 				<div style={{ marginTop: '10px' }}>
-					Current Color: <span style={{ backgroundColor: 'black', color: 'white' }}>{rgbToHex(Math.floor((h/360)*255), Math.floor((s/100)*255), Math.floor((l/100)*255))}</span>
+					Current Color: <span style={{ backgroundColor: 'black', color: 'white' }}>{defaultValue}</span>
 				</div>
 			</div>
 		</div>
