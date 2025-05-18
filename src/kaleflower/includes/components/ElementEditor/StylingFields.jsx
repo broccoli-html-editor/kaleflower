@@ -4,6 +4,7 @@ import Text from './FormInputs/Text.jsx';
 import Select from './FormInputs/Select.jsx';
 import TextArea from './FormInputs/TextArea.jsx';
 import UnitValue from './FormInputs/UnitValue.jsx';
+import ColorPicker from './FormInputs/ColorPicker.jsx';
 import ContentsDirection from './FormInputs/ContentsDirection.jsx';
 
 const StylingFields = (props) => {
@@ -103,6 +104,13 @@ const StylingFields = (props) => {
 					instance={props.targetElementNode}
 					hasCssClassName={props.hasCssClassName}
 					cssPropName={"font-size"}
+					breakPointName={breakPointName}
+					onchange={onchange} /> : <></>)}
+
+				{((props.canSetClass) ? <ColorPicker
+					instance={props.targetElementNode}
+					hasCssClassName={props.hasCssClassName}
+					cssPropName={"background-color"}
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
