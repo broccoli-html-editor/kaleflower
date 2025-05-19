@@ -92,7 +92,7 @@ const ColorPicker = (props) => {
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
 					<div style={{ display: 'flex' }}>
 						<label>H:</label>
-						<input type="range" min="0" max="255" value={hsb.h} onChange={handleChangeH} style={{ width: '100px', marginLeft: '10px' }} />
+						<input type="range" min="0" max="359" value={hsb.h} onChange={handleChangeH} style={{ width: '100px', marginLeft: '10px' }} />
 					</div>
 					<div style={{ display: 'flex' }}>
 						<label>S:</label>
