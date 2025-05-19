@@ -148,7 +148,7 @@ export class CssParser {
 		}
 
 		// newValueがnullの場合は、プロパティを削除する
-		if (newValue === null) {
+		if (newValue === null || newValue === undefined || newValue === '') {
 			// ルートノードから直接プロパティを削除
 			this.#cssRoot.nodes = this.#cssRoot.nodes.filter(decl => {
 				return decl.type !== 'decl' || decl.prop !== propName;

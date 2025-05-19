@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CssParser } from '../../../utils/CssParser.js';
 
 const ColorPicker = (props) => {
+	const inputRef = useRef(null);
+	const attrName = (!props.hasCssClassName && props.breakPointName ? `${props.attrName}--${props.breakPointName}` : props.attrName);
 	const cssPropName = props.cssPropName || null;
 	const cssParser = new CssParser();
 	cssParser.set(props.instance, props.hasCssClassName, props.breakPointName);
@@ -14,6 +16,8 @@ const ColorPicker = (props) => {
 
 	useEffect(() => {
 		if (defaultValue) {
+			inputRef.current.value = defaultValue;
+
 			// Convert hex to HSL
 			const hex = defaultValue.substring(1);
 			const r = parseInt(hex.substring(0, 0 + 2), 16) / 255;
@@ -65,17 +69,26 @@ const ColorPicker = (props) => {
 
 	const handleChangeH = (e) => {
 		setH(parseInt(e.target.value));
-		triggerOnChange();
+		const rgb = hslToRgb(h, s, l);
+		const newValue = rgbToHex(rgb.r, rgb.g, rgb.b);
+		inputRef.current.value = newValue;
+		updateValue();
 	};
 
 	const handleChangeS = (e) => {
 		setS(parseInt(e.target.value));
-		triggerOnChange();
+		const rgb = hslToRgb(h, s, l);
+		const newValue = rgbToHex(rgb.r, rgb.g, rgb.b);
+		inputRef.current.value = newValue;
+		updateValue();
 	};
 
 	const handleChangeL = (e) => {
 		setL(parseInt(e.target.value));
-		triggerOnChange();
+		const rgb = hslToRgb(h, s, l);
+		const newValue = rgbToHex(rgb.r, rgb.g, rgb.b);
+		inputRef.current.value = newValue;
+		updateValue();
 	};
 
 	const hslToRgb = (h, s, l) => {
@@ -110,12 +123,27 @@ const ColorPicker = (props) => {
 		};
 	};
 
-	const triggerOnChange = () => {
-		const rgb = hslToRgb(h, s, l);
-		const newValue = rgbToHex(rgb.r, rgb.g, rgb.b);
-		cssParser.setProperty(cssPropName, newValue).save();
-		props.onchange();
-	}
+	// Update the attribute value
+	const updateValue = () => {
+		const newValue = inputRef.current.value;
+		
+		if(props.computedKey){
+			props.instance[props.computedKey] = newValue;
+		}
+
+		if( !cssPropName ) {
+			props.instance.setAttribute(attrName, newValue);
+			if (!newValue.length) {
+				props.instance.removeAttribute(attrName);
+			}
+		}else{
+			cssParser.setProperty(cssPropName, newValue);
+			const newStyleSheet = cssParser.save();
+		}
+
+		const onchange = props.onchange() || function(){};
+		onchange(props.instance);
+	};
 
 	return (
 		<div className="kaleflower-element-editor__property">
@@ -146,6 +174,19 @@ const ColorPicker = (props) => {
 					}}>
 						{rgbToHex(hslToRgb(h, s, l).r, hslToRgb(h, s, l).g, hslToRgb(h, s, l).b)}
 					</span>
+				</div>
+				<div style={{ marginTop: '10px' }}>
+					<input
+						ref={inputRef}
+						type="text"
+						className="px2-input"
+						style={{ flexGrow: 1, marginRight: '5px' }}
+						value={defaultValue || ''}
+						onInput={(event) => {
+							updateValue();
+						}}
+					/>
+
 				</div>
 			</div>
 		</div>
