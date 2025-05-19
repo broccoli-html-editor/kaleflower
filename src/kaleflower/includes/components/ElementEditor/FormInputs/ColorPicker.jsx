@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Color } from '../../../utils/Color.js';
 import { CssParser } from '../../../utils/CssParser.js';
 
 const ColorPicker = (props) => {
 	const inputRef = useRef(null);
 	const attrName = (!props.hasCssClassName && props.breakPointName ? `${props.attrName}--${props.breakPointName}` : props.attrName);
 	const cssPropName = props.cssPropName || null;
+	const color = new Color();
 	const cssParser = new CssParser();
 	cssParser.set(props.instance, props.hasCssClassName, props.breakPointName);
 
