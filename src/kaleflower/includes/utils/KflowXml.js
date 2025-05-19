@@ -126,6 +126,7 @@ export class KflowXml {
 				finalXml += ' label="' + this.#utils.htmlSpecialChars(component.label) + '"';
 			}
 			finalXml += ' is-void-element="' + (component.isVoidElement ? 'true' : 'false') + '"';
+			finalXml += ' can-set-css="' + (component.canSetCss ? 'true' : 'false') + '"';
 			finalXml += ' can-set-class="' + (component.canSetClass ? 'true' : 'false') + '"';
 			finalXml += ' can-set-width="' + (component.canSetWidth ? 'true' : 'false') + '"';
 			finalXml += ' can-set-height="' + (component.canSetHeight ? 'true' : 'false') + '"';

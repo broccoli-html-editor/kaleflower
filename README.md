@@ -20,6 +20,7 @@ $ composer require broccoli-html-editor/kaleflower
 - `contents-direction` に `vertical` を追加。
 - クラス名を設定していない要素で、カスタムCSSを追加できるようになった。
 - オプション `finalize()` を追加。
+- コンポーネントに `can-set-css` 属性を追加。
 - フィールドに `format` を追加。デフォルトは `plain` とした。
 - 単位付きの入力項目について、入力支援機能を追加。単位を別で選択できるようになった。
 - ビューポート幅の変更機能を追加した。

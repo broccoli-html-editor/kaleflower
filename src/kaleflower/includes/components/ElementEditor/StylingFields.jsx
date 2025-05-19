@@ -23,7 +23,7 @@ const StylingFields = (props) => {
 	return (
 		<>
 			<div className={`kaleflower-styling-fields ${!props.isActive ? 'kaleflower-styling-fields--is-inactive' : ''}`}>
-				{((props.canBeLayer || props.canSetClass) ? <>
+				{((props.canBeLayer) ? <>
 					<Select
 						instance={props.targetElementNode}
 						hasCssClassName={props.hasCssClassName}
@@ -78,13 +78,13 @@ const StylingFields = (props) => {
 						onchange={onchange} />
 				</> : <></>)}
 
-				{((props.canSetContentsDirection || props.canSetClass) ? <ContentsDirection
+				{((props.canSetContentsDirection) ? <ContentsDirection
 					instance={props.targetElementNode}
 					hasCssClassName={props.hasCssClassName}
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
-				{((props.canSetWidth || props.canSetClass) ? <UnitValue
+				{((props.canSetWidth) ? <UnitValue
 					instance={props.targetElementNode}
 					hasCssClassName={props.hasCssClassName}
 					cssPropName={"width"}
@@ -92,7 +92,7 @@ const StylingFields = (props) => {
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
-				{((props.canSetHeight || props.canSetClass) ? <UnitValue
+				{((props.canSetHeight) ? <UnitValue
 					instance={props.targetElementNode}
 					hasCssClassName={props.hasCssClassName}
 					cssPropName={"height"}
@@ -107,14 +107,14 @@ const StylingFields = (props) => {
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
-				{((props.canSetClass) ? <ColorPicker
+				{((1) ? <ColorPicker
 					instance={props.targetElementNode}
 					hasCssClassName={props.hasCssClassName}
 					cssPropName={"background-color"}
 					breakPointName={breakPointName}
 					onchange={onchange} /> : <></>)}
 
-				{((props.canSetScrollable || props.canSetClass) ? <Select
+				{((props.canSetScrollable) ? <Select
 					instance={props.targetElementNode}
 					hasCssClassName={props.hasCssClassName}
 					cssPropName={"overflow"}

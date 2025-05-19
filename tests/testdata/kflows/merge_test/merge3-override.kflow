@@ -19,7 +19,7 @@
 	<fields>
 	</fields>
 	<components>
-		<component name="custom-component-001" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
+		<component name="custom-component-001" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
 			<fields>
 				<field type="image" name="image" label="Image" />
 			</fields>

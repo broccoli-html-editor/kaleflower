@@ -41,8 +41,15 @@ const UnitValue = (props) => {
 
 	// Update the attribute value
 	const updateValue = (num, unit, isKeywordValue) => {
-		const newValue = isKeywordValue ? unit : `${num}${unit}`;
-		
+		const newValue = (() => {
+			if (num === "" && units.includes(unit) && !keywords.includes(unit)) {
+				// 空の値や単位のみの値をチェックし、必要に応じて空白に変換
+				return "";
+			}
+
+			return (isKeywordValue ? unit : `${num}${unit}`);
+		})();
+
 		if(props.computedKey){
 			props.instance[props.computedKey] = newValue;
 		}

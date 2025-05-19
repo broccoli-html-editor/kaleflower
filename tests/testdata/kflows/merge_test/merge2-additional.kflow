@@ -19,7 +19,7 @@
 	<fields>
 	</fields>
 	<components>
-		<component name="custom-component-001" is-void-element="false" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
+		<component name="custom-component-001" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
 			<fields>
 				<field type="image" name="image" label="Image" />
 			</fields>
@@ -35,7 +35,7 @@
 	</div>
 </div>]]></template>
 </component>
-		<component name="custom-component-003" label="custom-component-003" is-void-element="true" can-set-class="false" can-set-width="false" can-set-height="false" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
+		<component name="custom-component-003" label="custom-component-003" is-void-element="true" can-set-css="false" can-set-class="false" can-set-width="false" can-set-height="false" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
 			<template><![CDATA[<div class="custom-component-003">
 	<div class="custom-component-003__content">
 		<div class="custom-component-003__content-inner">
