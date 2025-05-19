@@ -24,6 +24,7 @@ const ElementEditor = (props) => {
 		return className;
 	})();
 
+	const canSetCss = (currentComponent ? currentComponent.canSetCss : null);
 	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
 	const canSetWidth = (currentComponent ? currentComponent.canSetWidth : null);
 	const canSetHeight = (currentComponent ? currentComponent.canSetHeight : null);
@@ -231,58 +232,61 @@ const ElementEditor = (props) => {
 								</>
 								: <></>}
 
-							{(canSetClass ? <Text
+							{((canSetCss && canSetClass) ? <Text
 								instance={currentInstance}
 								attrName="class"
 								onchange={onchange} /> : <></>)}
 
-							<Accordion
-								label={hasCssClassName ? `class .${currentClassName}` : `Default styles`}
-								id={currentInstance}
-								opened={!currentBreakPoint ? true : false}
-							>
-								<StylingFields
-									isActive={!currentBreakPoint ? true : false}
-									hasCssClassName={hasCssClassName}
-									targetElementNode={hasCssClassName ? currentStyle : currentInstance}
-									canSetClass={canSetClass}
-									currentClassName={currentClassName}
-									canBeLayer={canBeLayer}
-									canSetContentsDirection={canSetContentsDirection}
-									canSetWidth={canSetWidth}
-									canSetHeight={canSetHeight}
-									canSetScrollable={canSetScrollable}
-									onchange={onchange} />
-							</Accordion>
+							{(canSetCss ? <>
+								<Accordion
+									label={hasCssClassName ? `class .${currentClassName}` : `Default styles`}
+									id={currentInstance}
+									opened={!currentBreakPoint ? true : false}
+								>
+									<StylingFields
+										isActive={!currentBreakPoint ? true : false}
+										hasCssClassName={hasCssClassName}
+										targetElementNode={hasCssClassName ? currentStyle : currentInstance}
+										canSetCss={canSetCss}
+										canSetClass={canSetClass}
+										currentClassName={currentClassName}
+										canBeLayer={canBeLayer}
+										canSetContentsDirection={canSetContentsDirection}
+										canSetWidth={canSetWidth}
+										canSetHeight={canSetHeight}
+										canSetScrollable={canSetScrollable}
+										onchange={onchange} />
+								</Accordion>
+								{globalState.configs && globalState.configs['break-points']
+									? <>
+										{Object.keys(globalState.configs['break-points']).map((breakPointName, index) => {
+											const breakPoint = globalState.configs['break-points'][breakPointName];
+											return <Accordion
+												key={breakPointName}
+												label={`Break point ${breakPoint['max-width']}px`}
+												id={currentInstance}
+												opened={currentBreakPoint && currentBreakPoint.name == breakPoint.name ? true : false}
+											>
+												<StylingFields
+													isActive={currentBreakPoint && currentBreakPoint.name == breakPoint.name ? true : false}
+													hasCssClassName={hasCssClassName}
+													targetElementNode={hasCssClassName ? currentStyleBreakPoints[breakPointName] : currentInstance}
+													canSetCss={canSetCss}
+													canSetClass={canSetClass}
+													currentClassName={currentClassName}
+													canBeLayer={canBeLayer}
+													canSetContentsDirection={canSetContentsDirection}
+													canSetWidth={canSetWidth}
+													canSetHeight={canSetHeight}
+													canSetScrollable={canSetScrollable}
+													breakPointName={breakPointName}
+													onchange={onchange} />
+											</Accordion>
+										})}
+									</>
+									: <></>}
 
-							{globalState.configs && globalState.configs['break-points']
-								? <>
-									{Object.keys(globalState.configs['break-points']).map((breakPointName, index) => {
-										const breakPoint = globalState.configs['break-points'][breakPointName];
-										return <Accordion
-											key={breakPointName}
-											label={`Break point ${breakPoint['max-width']}px`}
-											id={currentInstance}
-											opened={currentBreakPoint && currentBreakPoint.name == breakPoint.name ? true : false}
-										>
-											<StylingFields
-												isActive={currentBreakPoint && currentBreakPoint.name == breakPoint.name ? true : false}
-												hasCssClassName={hasCssClassName}
-												targetElementNode={hasCssClassName ? currentStyleBreakPoints[breakPointName] : currentInstance}
-												canSetClass={canSetClass}
-												currentClassName={currentClassName}
-												canBeLayer={canBeLayer}
-												canSetContentsDirection={canSetContentsDirection}
-												canSetWidth={canSetWidth}
-												canSetHeight={canSetHeight}
-												canSetScrollable={canSetScrollable}
-												breakPointName={breakPointName}
-												onchange={onchange} />
-										</Accordion>
-									})}
-								</>
-								: <></>}
-
+							</> : <></>)}
 						</>
 					}
 

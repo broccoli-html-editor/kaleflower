@@ -43,6 +43,7 @@ export class Components {
 			"tagName": componentTagName,
 			"label": component.getAttribute('label') || `<${componentTagName}>`,
 			"isVoidElement": this.#utils.toBoolean(component.getAttribute('is-void-element')),
+			"canSetCss": this.#utils.toBoolean(component.getAttribute('can-set-css')),
 			"canSetClass": this.#utils.toBoolean(component.getAttribute('can-set-class')),
 			"canSetWidth": this.#utils.toBoolean(component.getAttribute('can-set-width')),
 			"canSetHeight": this.#utils.toBoolean(component.getAttribute('can-set-height')),
