@@ -65,24 +65,24 @@ const ColorPicker = (props) => {
 
 	const handleChangeH = (e) => {
 		setH(parseInt(e.target.value));
-		const newValue = rgbToHex(Math.floor((h/360)*255), Math.floor((s/100)*255), Math.floor((l/100)*255));
-		cssParser.setProperty(cssPropName, newValue).save();
-		props.onchange();
+		triggerOnChange();
 	};
 
 	const handleChangeS = (e) => {
 		setS(parseInt(e.target.value));
-		const newValue = rgbToHex(Math.floor((h/360)*255), Math.floor((s/100)*255), Math.floor((l/100)*255));
-		cssParser.setProperty(cssPropName, newValue).save();
-		props.onchange();
+		triggerOnChange();
 	};
 
 	const handleChangeL = (e) => {
 		setL(parseInt(e.target.value));
+		triggerOnChange();
+	};
+
+	const triggerOnChange = () => {
 		const newValue = rgbToHex(Math.floor((h/360)*255), Math.floor((s/100)*255), Math.floor((l/100)*255));
 		cssParser.setProperty(cssPropName, newValue).save();
 		props.onchange();
-	};
+	}
 
 	return (
 		<div className="kaleflower-element-editor__property">
