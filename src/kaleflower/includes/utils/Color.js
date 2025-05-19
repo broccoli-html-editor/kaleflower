@@ -126,7 +126,7 @@ export class Color {
 		if( rgb === false ){ return false; }
 
 		var aryRGB = [rgb['r'], rgb['g'], rgb['b']];
-		aryRGB.sort();
+		aryRGB.sort((a, b) => a - b);
 		var minval = aryRGB[0];
 		var maxval = aryRGB[2];
 
@@ -135,14 +135,14 @@ export class Color {
 			return	0;
 		}
 
-		var saturation = ( 100-( minval/maxval * 100 ) );
+		var saturation = ( 100 - ( minval/maxval * 100 ) );
 
 		if( int_round ){
 			saturation = Math.round( saturation , int_round );
 		}else{
 			saturation = this.#intval( saturation );
 		}
-		return this.#intval(saturation);
+		return saturation;
 	}
 
 	/**
