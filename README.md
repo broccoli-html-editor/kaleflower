@@ -18,8 +18,9 @@ $ composer require broccoli-html-editor/kaleflower
 - データ構造変更: 各要素のスタイリング情報を、属性値ではなくCSSを直接操作するようになった。
 - `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
 - `contents-direction` に `vertical` を追加。
+- 要素の `onclick` 属性値を出力するようになった。
 - クラス名を設定していない要素で、カスタムCSSを追加できるようになった。
-- クラス名を設定していないスタイル要素を、ベースCSSとして出力に含めるようになった。
+- クラス名を設定していないスタイル要素を、CSS出力に含めるようになった。
 - オプション `finalize()` を追加。
 - コンポーネントに `can-set-css` 属性を追加。
 - フィールドに `format` を追加。デフォルトは `plain` とした。
@@ -27,7 +28,7 @@ $ composer require broccoli-html-editor/kaleflower
 - ビューポート幅の変更機能を追加した。
 - 小さい画面での操作性を向上した。
 - レイアウトビューが、横スクロール操作に追従しない問題を修正。
-- メディアクエリのCSSが、ベースのスタイルがない場合に出力されない不具合を修正。
+- メディアクエリのCSSが、ベースクラスのスタイルがない場合に出力されない不具合を修正。
 - その他、いくつかの不具合の修正、UIの改善など。
 
 ### Kaleflower v0.1.1 (2025年4月3日)

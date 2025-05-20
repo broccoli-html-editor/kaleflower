@@ -244,6 +244,7 @@ export class Builder {
 			'style': '',
 			'breakPoints': {},
 			'script': '',
+			'onclick': '',
 		};
 
 		// 属性があれば処理する
@@ -257,21 +258,7 @@ export class Builder {
 
 			Object.keys($node.attributes).forEach((index) => {
 				const $attr = $node.attributes[index];
-				switch($attr.nodeName){
-					case 'contents-direction':
-					case 'scrollable':
-					case 'layer':
-					case 'layer-position-top':
-					case 'layer-position-right':
-					case 'layer-position-bottom':
-					case 'layer-position-left':
-					case 'width':
-					case 'height':
-						break;
-					default:
-						$attributes[$attr.nodeName] = $attr.nodeValue;
-						break;
-				}
+				$attributes[$attr.nodeName] = $attr.nodeValue;
 			});
 		}
 
@@ -351,6 +338,10 @@ export class Builder {
 
 				if($attributes.class.length){
 					$rtn += ' class="'+this.#utils.htmlSpecialChars($attributes.class)+'"';
+				}
+
+				if($attributes.onclick.length){
+					$rtn += ' onclick="'+this.#utils.htmlSpecialChars($attributes.onclick)+'"';
 				}
 
 				if($currentComponent && $currentComponent.isVoidElement){

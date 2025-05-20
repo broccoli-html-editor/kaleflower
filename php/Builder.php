@@ -308,6 +308,7 @@ class Builder {
 			'style' => '',
 			'breakPoints' => (object) array(),
 			'script' => '',
+			'onclick' => '',
 		);
 
 		// 属性があれば処理する
@@ -320,21 +321,7 @@ class Builder {
 			}
 
 			foreach ($node->attributes as $attr) {
-				switch($attr->nodeName){
-					case 'contents-direction':
-					case 'scrollable':
-					case 'layer':
-					case 'layer-position-top':
-					case 'layer-position-right':
-					case 'layer-position-bottom':
-					case 'layer-position-left':
-					case 'width':
-					case 'height':
-						break;
-					default:
-						$attributes->{$attr->nodeName} = $attr->nodeValue;
-						break;
-				}
+				$attributes->{$attr->nodeName} = $attr->nodeValue;
 			}
 		}
 
@@ -410,6 +397,10 @@ class Builder {
 
 				if(strlen($attributes->class ?? '')){
 					$rtn .= ' class="'.htmlspecialchars($attributes->class).'"';
+				}
+
+				if(strlen($attributes->onclick ?? '')){
+					$rtn .= ' onclick="'.htmlspecialchars($attributes->onclick).'"';
 				}
 
 				if($currentComponent->isVoidElement){
