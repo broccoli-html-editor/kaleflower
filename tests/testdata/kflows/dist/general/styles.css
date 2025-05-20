@@ -12,7 +12,18 @@
 				margin: 1em 0;
 				box-sizing: border-box;
 			}
-			.cont-test__test-image-sample {
+			
+			html, body {
+				background-color: #f7f7f7;
+				color: #333;
+			}
+			a {
+				color: #00d;
+			}
+			a:hover {
+				color: #33f;
+			}
+		.cont-test__test-image-sample {
 
 			width: 80%; height: auto; border: 1px solid #000;
 			border-radius: 5px;

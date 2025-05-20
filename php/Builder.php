@@ -174,8 +174,16 @@ class Builder {
 
 		foreach ($styleNodes as $styleNode) {
 			$className = $styleNode->getAttribute('class');
+			if(!$className){
+				foreach ($styleNode->childNodes as $child) {
+					// 子ノード(カスタムCSS)を文字列として追加
+					if($child->nodeType === XML_TEXT_NODE) {
+						$rtn->css .= $child->nodeValue;
+					}
+				}
+				continue;
+			}
 			$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
-
 			$rtn->css .= $this->buildCssByElementAttr($styleNode);
 
 			foreach ($styleNode->childNodes as $child) {

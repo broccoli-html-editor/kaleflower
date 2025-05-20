@@ -110,6 +110,17 @@ export class Builder {
 		Object.keys(globalState.styles).forEach((className) => {
 			const $styleNode = globalState.styles[className];
 			const $className = $styleNode.getAttribute('class');
+			if(!$className){
+				Object.keys($styleNode.childNodes).forEach((idx) => {
+					const $child = $styleNode.childNodes[idx];
+					// 子ノード(カスタムCSS)を文字列として追加
+					if ($child.nodeType === Node.TEXT_NODE) {
+						$rtn.css += $child.nodeValue+"\n";
+					}
+				});
+				return;
+			}
+
 			$rtn.css += '.'+this.#class_name_prefix+$className+' {'+"\n";
 			$rtn.css += this.#buildCssByElementAttr($styleNode);
 

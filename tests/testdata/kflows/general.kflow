@@ -17,6 +17,18 @@
 		</config>
 	</configs>
 	<styles>
+		<style>
+			html, body {
+				background-color: #f7f7f7;
+				color: #333;
+			}
+			a {
+				color: #00d;
+			}
+			a:hover {
+				color: #33f;
+			}
+		</style>
 		<style class="test-image-sample">
 			width: 80%; height: auto; border: 1px solid #000;
 			border-radius: 5px;

@@ -19,6 +19,7 @@ $ composer require broccoli-html-editor/kaleflower
 - `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
 - `contents-direction` に `vertical` を追加。
 - クラス名を設定していない要素で、カスタムCSSを追加できるようになった。
+- クラス名を設定していないスタイル要素を、ベースCSSとして出力に含めるようになった。
 - オプション `finalize()` を追加。
 - コンポーネントに `can-set-css` 属性を追加。
 - フィールドに `format` を追加。デフォルトは `plain` とした。
