@@ -84,7 +84,7 @@
 	<div class="flex-sample">
 		<div>Flex item 001 {{sample}}</div>
 		<div>Flex item 002</div>
-		<div style--lg="">Flex item <unknown-element>(unknown)</unknown-element><a href="javascript:alert(&quot;clicked!&quot;);" target="_slef" style--lg="" onclick="alert('test');">003</a></div>
+		<div style--lg="" style--md="">Flex item <unknown-element>(unknown)</unknown-element><a href="javascript:alert(&quot;clicked!&quot;);" target="_slef" style--lg="" onclick="alert('test'); return false;" style--md="">Link: 003</a></div>
 	</div>
 	<div style="position: relative;">
 		<div>This is a div item 01.</div>

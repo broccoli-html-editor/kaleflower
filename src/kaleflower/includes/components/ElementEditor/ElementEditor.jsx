@@ -23,7 +23,7 @@ const ElementEditor = (props) => {
 		}
 		return className;
 	})();
-	const currentOnClick = (currentInstance ? currentInstance.getAttribute('onclick') : null);
+	const currentOnClick = (isElementNode && currentInstance ? currentInstance.getAttribute('onclick') : null);
 
 	const canSetCss = (currentComponent ? currentComponent.canSetCss : null);
 	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
