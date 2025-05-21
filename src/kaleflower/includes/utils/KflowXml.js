@@ -66,7 +66,7 @@ export class KflowXml {
 
 		Object.keys(globalState.styles).forEach((key) => {
 			// XMLSerializerを使ってDOMツリーをXML文字列に変換
-			if(!tmpHtmlAll.match(`class="${key}`)){
+			if(key.length && !tmpHtmlAll.match(`class="${key}`)){
 				return;
 			}
 			const style = globalState.styles[key];
@@ -216,7 +216,8 @@ export class KflowXml {
 			newGlobalState.styles = {};
 			const styles = xml.querySelectorAll('kflow>styles>style');
 			styles.forEach((style, index) => {
-				newGlobalState.styles[style.getAttribute('class')] = style;
+				const className = style.getAttribute('class') || '';
+				newGlobalState.styles[className] = style;
 			});
 
 			// --------------------------------------
