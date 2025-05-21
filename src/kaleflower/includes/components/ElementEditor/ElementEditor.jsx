@@ -24,6 +24,7 @@ const ElementEditor = (props) => {
 		return className;
 	})();
 	const currentOnClick = (isElementNode && currentInstance ? currentInstance.getAttribute('onclick') : null);
+	const currentOnSubmit = (isElementNode && currentInstance ? currentInstance.getAttribute('onsubmit') : null);
 
 	const canSetCss = (currentComponent ? currentComponent.canSetCss : null);
 	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
@@ -33,6 +34,7 @@ const ElementEditor = (props) => {
 	const canSetScrollable = (currentComponent ? currentComponent.canSetScrollable : null);
 	const canBeLayer = (currentComponent ? currentComponent.canBeLayer : null);
 	const canSetOnClickEvent = (currentComponent ? currentComponent.canSetOnClickEvent : null);
+	const canSetOnSubmitEvent = (currentComponent ? currentComponent.canSetOnSubmitEvent : null);
 
 	const currentBreakPoint = globalState.previewViewport.breakPoint;
 
@@ -305,6 +307,29 @@ const ElementEditor = (props) => {
 											currentInstance.setAttribute('onclick', newOnClick);
 											if(!newOnClick.trim().length){
 												currentInstance.removeAttribute('onclick');
+											}
+
+											onchange(currentInstance);
+										}}></textarea>
+									</div>
+								</div>
+							</> : <></>)}
+
+							{(canSetOnSubmitEvent ? <>
+								{/* Element Node */}
+								<div className="kaleflower-element-editor__property">
+									<div className="kaleflower-element-editor__property-key">
+										onsubmit:
+									</div>
+									<div className="kaleflower-element-editor__property-val">
+									<textarea
+										className={`px2-input`}
+										value={currentOnSubmit}
+										onInput={(event)=>{
+											const newOnSubmit = event.target.value;
+											currentInstance.setAttribute('onsubmit', newOnSubmit);
+											if(!newOnSubmit.trim().length){
+												currentInstance.removeAttribute('onsubmit');
 											}
 
 											onchange(currentInstance);

@@ -18,7 +18,7 @@ $ composer require broccoli-html-editor/kaleflower
 - データ構造変更: 各要素のスタイリング情報を、属性値ではなくCSSを直接操作するようになった。
 - `layout`、 `contents-direction`、 `scrollable` を、`select` ボックスで選択できるようになった。
 - `contents-direction` に `vertical` を追加。
-- 要素の `onclick` 属性値を出力するようになった。
+- 要素の `onclick`, `onsubmit` 属性値を出力するようになった。
 - クラス名を設定していない要素で、カスタムCSSを追加できるようになった。
 - クラス名を設定していないスタイル要素を、CSS出力に含めるようになった。
 - オプション `finalize()` を追加。

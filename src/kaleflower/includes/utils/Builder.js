@@ -245,6 +245,7 @@ export class Builder {
 			'breakPoints': {},
 			'script': '',
 			'onclick': '',
+			'onsubmit': '',
 		};
 
 		// 属性があれば処理する
@@ -342,6 +343,10 @@ export class Builder {
 
 				if($attributes.onclick.length){
 					$rtn += ' onclick="'+this.#utils.htmlSpecialChars($attributes.onclick)+'"';
+				}
+
+				if($attributes.onsubmit.length){
+					$rtn += ' onsubmit="'+this.#utils.htmlSpecialChars($attributes.onsubmit)+'"';
 				}
 
 				if($currentComponent && $currentComponent.isVoidElement){

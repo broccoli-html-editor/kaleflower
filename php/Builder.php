@@ -309,6 +309,7 @@ class Builder {
 			'breakPoints' => (object) array(),
 			'script' => '',
 			'onclick' => '',
+			'onsubmit' => '',
 		);
 
 		// 属性があれば処理する
@@ -401,6 +402,10 @@ class Builder {
 
 				if(strlen($attributes->onclick ?? '')){
 					$rtn .= ' onclick="'.htmlspecialchars($attributes->onclick).'"';
+				}
+
+				if(strlen($attributes->onsubmit ?? '')){
+					$rtn .= ' onsubmit="'.htmlspecialchars($attributes->onsubmit).'"';
 				}
 
 				if($currentComponent->isVoidElement){

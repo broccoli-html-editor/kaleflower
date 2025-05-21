@@ -60,6 +60,7 @@ class Components {
 			"canSetScrollable" => $this->utils->to_boolean($component->getAttribute('can-set-scrollable')),
 			"canBeLayer" => $this->utils->to_boolean($component->getAttribute('can-be-layer')),
 			"canSetOnClickEvent" => $this->utils->to_boolean($component->getAttribute('can-set-onclick-event')),
+			"canSetOnSubmitEvent" => $this->utils->to_boolean($component->getAttribute('can-set-onsubmit-event')),
 			'fields' => array(),
 			'template' => null,
 		);

@@ -51,6 +51,7 @@ export class Components {
 			"canSetScrollable": this.#utils.toBoolean(component.getAttribute('can-set-scrollable')),
 			"canBeLayer": this.#utils.toBoolean(component.getAttribute('can-be-layer')),
 			"canSetOnClickEvent": this.#utils.toBoolean(component.getAttribute('can-set-onclick-event')),
+			"canSetOnSubmitEvent": this.#utils.toBoolean(component.getAttribute('can-set-onsubmit-event')),
 			"fields": [],
 			"template": null,
 		};

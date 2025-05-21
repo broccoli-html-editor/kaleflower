@@ -101,7 +101,7 @@
 	<div class="test-div-class-001"/><img alt="2つめのaltテキスト &quot;escape HTML&quot;" image="{&quot;assetId&quot;:&quot;1e7b6006-3fb3-4eef-9762-31938013db64&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo010_thumb.jpg&quot;}" style="width: auto; height: auto;"/>
 	
 	<hr/>
-	<p>テスト文字列</p>
+	<p>テスト文字列</p><form action="javascript:alert(&quot;submited&quot;);" onsubmit="alert(&quot;submit&quot;);"><div><button type="button">submit</button></div></form>
 	<div>
 		<p class="paragraph">kflow</p>
 	</div>
@@ -118,7 +118,7 @@
 	<fields>
 	</fields>
 	<components>
-		<component name="custom-component-001" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false" can-set-onclick-event="false">
+		<component name="custom-component-001" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false" can-set-onclick-event="false" can-set-onsubmit-event="false">
 			<fields>
 				<field type="image" name="image" label="Image" />
 			</fields>
@@ -144,7 +144,7 @@
 	</div>
 </div>]]></template>
 </component>
-		<component name="custom-component-002" label="custom-component-002" is-void-element="true" can-set-css="false" can-set-class="false" can-set-width="false" can-set-height="false" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false" can-set-onclick-event="false">
+		<component name="custom-component-002" label="custom-component-002" is-void-element="true" can-set-css="false" can-set-class="false" can-set-width="false" can-set-height="false" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false" can-set-onclick-event="false" can-set-onsubmit-event="false">
 			<style>
 			.custom-component-002 {
 				background-color: #ddd;

@@ -16,7 +16,14 @@
 		<template><![CDATA[
 <a href="{{ attributes.href }}"{% if attributes.target %} target="{{ attributes.target }}"{% endif %}{% if attributes.class %} class="{{ attributes.class }}"{% endif %}{% if attributes.onclick %} onclick="{{ attributes.onclick }}"{% endif %}>{{ innerHTML | raw }}</a>]]></template>
 	</component>
-	<component name="button" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-onclick-event="true"></component>
+	<component name="button" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-onclick-event="true">
+		<fields>
+			<field type="text" name="type" label="Type" />
+			<field type="text" name="value" label="Value" />
+		</fields>
+		<template><![CDATA[
+<button type="{{ attributes.type }}" value="{{ attributes.value }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %}{% if attributes.onclick %} onclick="{{ attributes.onclick }}"{% endif %}>{{ innerHTML | raw }}</button>]]></template>
+	</component>
 	<component name="img" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true">
 		<fields>
 			<field type="image" name="image" label="Image" />
@@ -27,6 +34,15 @@
 	</component>
 	<component name="hr" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="br" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="false" can-set-height="false"></component>
+	<component name="form" is-void-element="false" can-set-css="false" can-set-class="false" can-set-onsubmit-event="true">
+		<fields>
+			<field type="text" name="action" label="Action" />
+			<field type="text" name="method" label="method" />
+			<field type="text" name="target" label="Target window" />
+		</fields>
+		<template><![CDATA[
+<form action="{{ attributes.action }}" method="{{ attributes.method }}"{% if attributes.target %} target="{{ attributes.target }}"{% endif %}{% if attributes.onsubmit %} onsubmit="{{ attributes.onsubmit }}"{% endif %}>{{ innerHTML | raw }}</form>]]></template>
+	</component>
 	<component name="input" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="textarea" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 </components>
