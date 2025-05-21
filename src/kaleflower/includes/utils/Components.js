@@ -50,6 +50,7 @@ export class Components {
 			"canSetContentsDirection": this.#utils.toBoolean(component.getAttribute('can-set-contents-direction')),
 			"canSetScrollable": this.#utils.toBoolean(component.getAttribute('can-set-scrollable')),
 			"canBeLayer": this.#utils.toBoolean(component.getAttribute('can-be-layer')),
+			"canSetOnClickEvent": this.#utils.toBoolean(component.getAttribute('can-set-onclick-event')),
 			"fields": [],
 			"template": null,
 		};

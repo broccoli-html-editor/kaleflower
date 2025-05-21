@@ -59,6 +59,7 @@ class Components {
 			"canSetContentsDirection" => $this->utils->to_boolean($component->getAttribute('can-set-contents-direction')),
 			"canSetScrollable" => $this->utils->to_boolean($component->getAttribute('can-set-scrollable')),
 			"canBeLayer" => $this->utils->to_boolean($component->getAttribute('can-be-layer')),
+			"canSetOnClickEvent" => $this->utils->to_boolean($component->getAttribute('can-set-onclick-event')),
 			'fields' => array(),
 			'template' => null,
 		);

@@ -23,6 +23,7 @@ const ElementEditor = (props) => {
 		}
 		return className;
 	})();
+	const currentOnClick = (currentInstance ? currentInstance.getAttribute('onclick') : null);
 
 	const canSetCss = (currentComponent ? currentComponent.canSetCss : null);
 	const canSetClass = (currentComponent ? currentComponent.canSetClass : null);
@@ -31,6 +32,7 @@ const ElementEditor = (props) => {
 	const canSetContentsDirection = (currentComponent ? currentComponent.canSetContentsDirection : null);
 	const canSetScrollable = (currentComponent ? currentComponent.canSetScrollable : null);
 	const canBeLayer = (currentComponent ? currentComponent.canBeLayer : null);
+	const canSetOnClickEvent = (currentComponent ? currentComponent.canSetOnClickEvent : null);
 
 	const currentBreakPoint = globalState.previewViewport.breakPoint;
 
@@ -287,6 +289,27 @@ const ElementEditor = (props) => {
 									: <></>}
 
 							</> : <></>)}
+
+							{(canSetOnClickEvent ? <>
+								{/* Element Node */}
+								<div className="kaleflower-element-editor__property">
+									<div className="kaleflower-element-editor__property-key">
+										onclick:
+									</div>
+									<div className="kaleflower-element-editor__property-val">
+									<textarea
+										className={`px2-input`}
+										value={currentOnClick}
+										onInput={(event)=>{
+											const newOnClick = event.target.value;
+											currentInstance.setAttribute('onclick', newOnClick);
+
+											onchange(currentInstance);
+										}}></textarea>
+									</div>
+								</div>
+							</> : <></>)}
+
 						</>
 					}
 

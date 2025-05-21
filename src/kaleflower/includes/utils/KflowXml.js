@@ -133,6 +133,7 @@ export class KflowXml {
 			finalXml += ' can-set-contents-direction="' + (component.canSetContentsDirection ? 'true' : 'false') + '"';
 			finalXml += ' can-set-scrollable="' + (component.canSetScrollable ? 'true' : 'false') + '"';
 			finalXml += ' can-be-layer="' + (component.canBeLayer ? 'true' : 'false') + '"';
+			finalXml += ' can-set-onclick-event="' + (component.canSetOnClickEvent ? 'true' : 'false') + '"';
 			finalXml += '>';
 			if(component.fields && component.fields.length){
 				finalXml += "\n";

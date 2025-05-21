@@ -84,7 +84,7 @@
 	<div class="flex-sample">
 		<div>Flex item 001 {{sample}}</div>
 		<div>Flex item 002</div>
-		<div>Flex item <unknown-element>(unknown)</unknown-element><a href="javascript:alert(&quot;clicked!&quot;);" target="_slef">003</a></div>
+		<div style--lg="">Flex item <unknown-element>(unknown)</unknown-element><a href="javascript:alert(&quot;clicked!&quot;);" target="_slef" style--lg="" onclick="alert('test');">003</a></div>
 	</div>
 	<div style="position: relative;">
 		<div>This is a div item 01.</div>
@@ -118,7 +118,7 @@
 	<fields>
 	</fields>
 	<components>
-		<component name="custom-component-001" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
+		<component name="custom-component-001" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false" can-set-onclick-event="false">
 			<fields>
 				<field type="image" name="image" label="Image" />
 			</fields>
@@ -144,7 +144,7 @@
 	</div>
 </div>]]></template>
 </component>
-		<component name="custom-component-002" label="custom-component-002" is-void-element="true" can-set-css="false" can-set-class="false" can-set-width="false" can-set-height="false" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false">
+		<component name="custom-component-002" label="custom-component-002" is-void-element="true" can-set-css="false" can-set-class="false" can-set-width="false" can-set-height="false" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false" can-set-onclick-event="false">
 			<style>
 			.custom-component-002 {
 				background-color: #ddd;
