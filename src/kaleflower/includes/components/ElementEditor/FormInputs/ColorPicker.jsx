@@ -71,7 +71,7 @@ const ColorPicker = (props) => {
 
 		if( !cssPropName ) {
 			props.instance.setAttribute(attrName, newValue);
-			if (!newValue.length) {
+			if (!newValue.trim().length) {
 				props.instance.removeAttribute(attrName);
 			}
 		}else{

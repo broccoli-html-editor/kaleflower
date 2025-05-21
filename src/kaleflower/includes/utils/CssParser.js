@@ -86,7 +86,11 @@ export class CssParser {
 		});
 
 		if(!this.#hasCssClassName){
-			this.#instance.setAttribute(`style${this.#breakPointName ? '--'+this.#breakPointName : ''}` || '', newStyleSheet);
+			const styleAttrName = `style${this.#breakPointName ? '--'+this.#breakPointName : ''}`;
+			this.#instance.setAttribute(styleAttrName, newStyleSheet);
+			if(!newStyleSheet.trim().length){
+				this.#instance.removeAttribute(styleAttrName);
+			}
 		}else{
 			const textNodes = Array.from(this.#instance.childNodes)
 				.filter(node => node.nodeType === 3);

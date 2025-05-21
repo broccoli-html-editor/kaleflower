@@ -20,7 +20,7 @@ const Text = (props) => {
                             props.instance[props.computedKey] = newValue;
                         }
 
-                        if( newValue.length ){
+                        if( newValue.trim().length ){
                             props.instance.setAttribute(attrName, newValue);
                         }else{
                             props.instance.removeAttribute(attrName);

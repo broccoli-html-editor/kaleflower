@@ -303,6 +303,9 @@ const ElementEditor = (props) => {
 										onInput={(event)=>{
 											const newOnClick = event.target.value;
 											currentInstance.setAttribute('onclick', newOnClick);
+											if(!newOnClick.trim().length){
+												currentInstance.removeAttribute('onclick');
+											}
 
 											onchange(currentInstance);
 										}}></textarea>

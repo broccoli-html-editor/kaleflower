@@ -153,7 +153,12 @@ const StylingFields = (props) => {
 								const newStyleSheet = event.target.value;
 
 								if(typeof(props.currentClassName) !== typeof('string')){
-									props.targetElementNode.setAttribute(`style${breakPointName ? '--'+breakPointName : ''}` || '', newStyleSheet);
+									const styleAttrName = `style${breakPointName ? '--'+breakPointName : ''}`;
+									if(!newStyleSheet.trim().length){
+										props.targetElementNode.removeAttribute(styleAttrName);
+									}else{
+										props.targetElementNode.setAttribute(styleAttrName, newStyleSheet);
+									}
 								}else{
 									const textNodes = Array.from(props.targetElementNode.childNodes)
 										.filter(node => node.nodeType === 3);

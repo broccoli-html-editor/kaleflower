@@ -21,7 +21,7 @@ const TextArea = (props) => {
                         }
 
                         props.instance.setAttribute(attrName, newValue);
-                        if( !newValue.length ){
+                        if( !newValue.trim().length ){
                             props.instance.removeAttribute(attrName);
                         }
 
