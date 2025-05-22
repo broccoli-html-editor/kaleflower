@@ -14,7 +14,7 @@
 			<field type="text" name="target" label="Target window" />
 		</fields>
 		<template><![CDATA[
-<a href="{{ attributes.href }}"{% if attributes.target %} target="{{ attributes.target }}"{% endif %}{% if attributes.class %} class="{{ attributes.class }}"{% endif %}{% if attributes.onclick %} onclick="{{ attributes.onclick }}"{% endif %}>{{ innerHTML | raw }}</a>]]></template>
+<a href="{{ attributes.href }}"{% if attributes.target %} target="{{ attributes.target }}"{% endif %}{% if attributes.class %} class="{{ attributes.class }}"{% endif %}{% if attributes.onclick %} onclick="{{ js_script_prefix }}{{ attributes.onclick }}"{% endif %}>{{ innerHTML | raw }}</a>]]></template>
 	</component>
 	<component name="button" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-onclick-event="true">
 		<fields>
@@ -22,7 +22,7 @@
 			<field type="text" name="value" label="Value" />
 		</fields>
 		<template><![CDATA[
-<button type="{{ attributes.type }}" value="{{ attributes.value }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %}{% if attributes.onclick %} onclick="{{ attributes.onclick }}"{% endif %}>{{ innerHTML | raw }}</button>]]></template>
+<button type="{{ attributes.type }}" value="{{ attributes.value }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %}{% if attributes.onclick %} onclick="{{ js_script_prefix }}{{ attributes.onclick }}"{% endif %}>{{ innerHTML | raw }}</button>]]></template>
 	</component>
 	<component name="img" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true">
 		<fields>
@@ -41,7 +41,7 @@
 			<field type="text" name="target" label="Target window" />
 		</fields>
 		<template><![CDATA[
-<form action="{{ attributes.action }}" method="{{ attributes.method }}"{% if attributes.target %} target="{{ attributes.target }}"{% endif %}{% if attributes.onsubmit %} onsubmit="{{ attributes.onsubmit }}"{% endif %}>{{ innerHTML | raw }}</form>]]></template>
+<form action="{{ attributes.action }}" method="{{ attributes.method }}"{% if attributes.target %} target="{{ attributes.target }}"{% endif %}{% if attributes.onsubmit %} onsubmit="{{ js_script_prefix }}{{ attributes.onsubmit }}"{% endif %}>{{ innerHTML | raw }}</form>]]></template>
 	</component>
 	<component name="input" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="textarea" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>

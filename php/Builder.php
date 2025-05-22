@@ -50,6 +50,9 @@ class Builder {
 	/** Class name prefix */
 	private $class_name_prefix = '';
 
+	/** JS Script prefix */
+	private $js_script_prefix = '';
+
 	/** Errors */
 	private $errors = array();
 
@@ -150,6 +153,7 @@ class Builder {
 		}elseif( strlen($this->module_name_prefix) ){
 			$this->class_name_prefix = $this->module_name_prefix.'-';
 		}
+		$this->js_script_prefix = 'const kfGetClassName=(orgName)=>('.json_encode($this->class_name_prefix).'+orgName);';
 
 		if( !is_object($this->config->{"break-points"} ?? null) ){
 			$this->config->{"break-points"} = (object) array();
@@ -369,6 +373,7 @@ class Builder {
 					'innerHTML' => $innerHTML,
 					'attributes' => $attributes,
 					'assets' => $this->assets,
+					'js_script_prefix' => $this->js_script_prefix,
 					'_ENV' => array(
 						'mode' => 'finalize',
 						'lang' => $this->lb->getLang(),
@@ -401,11 +406,11 @@ class Builder {
 				}
 
 				if(strlen($attributes->onclick ?? '')){
-					$rtn .= ' onclick="'.htmlspecialchars($attributes->onclick).'"';
+					$rtn .= ' onclick="'.htmlspecialchars($this->js_script_prefix.$attributes->onclick).'"';
 				}
 
 				if(strlen($attributes->onsubmit ?? '')){
-					$rtn .= ' onsubmit="'.htmlspecialchars($attributes->onsubmit).'"';
+					$rtn .= ' onsubmit="'.htmlspecialchars($this->js_script_prefix.$attributes->onsubmit).'"';
 				}
 
 				if($currentComponent->isVoidElement){

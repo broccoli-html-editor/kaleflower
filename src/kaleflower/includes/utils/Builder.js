@@ -15,6 +15,7 @@ export class Builder {
 	#js;
 	#module_name = '';
 	#module_name_prefix = '';
+	#js_script_prefix = '';
 	#class_name_prefix = '';
 	#errors = [];
 	#instance_number = 0;
@@ -92,6 +93,7 @@ export class Builder {
 		}else if( this.#module_name_prefix ){
 			this.#class_name_prefix = this.#module_name_prefix + '-';
 		}
+		this.#js_script_prefix = `const kfGetClassName=(orgName)=>(${JSON.stringify(this.#module_name_prefix)}+orgName);`;
 
 		if( !this.#config['break-points'] ){
 			this.#config['break-points'] = {};
@@ -303,6 +305,7 @@ export class Builder {
 					'innerHTML': $innerHTML,
 					'attributes': $attributes,
 					'assets': this.#assets,
+					'js_script_prefix': this.#js_script_prefix,
 					'_ENV': {
 						'mode': 'canvas',
 						'lang': this.#lb.getLang(),
@@ -342,11 +345,11 @@ export class Builder {
 				}
 
 				if($attributes.onclick.length){
-					$rtn += ' onclick="'+this.#utils.htmlSpecialChars($attributes.onclick)+'"';
+					$rtn += ' onclick="'+this.#utils.htmlSpecialChars(this.#js_script_prefix + $attributes.onclick)+'"';
 				}
 
 				if($attributes.onsubmit.length){
-					$rtn += ' onsubmit="'+this.#utils.htmlSpecialChars($attributes.onsubmit)+'"';
+					$rtn += ' onsubmit="'+this.#utils.htmlSpecialChars(this.#js_script_prefix + $attributes.onsubmit)+'"';
 				}
 
 				if($currentComponent && $currentComponent.isVoidElement){
