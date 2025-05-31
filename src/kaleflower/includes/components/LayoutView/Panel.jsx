@@ -103,10 +103,10 @@ const Panel = React.memo((props) => {
 
 	const cssParser = new CssParser();
 	const currentStyleElement = (
-		currentStyleBreakPoints[currentBreakPoint.name] ? currentStyleBreakPoints[currentBreakPoint.name]
+		(currentBreakPoint && currentStyleBreakPoints[currentBreakPoint.name]) ? currentStyleBreakPoints[currentBreakPoint.name]
 		: currentStyle ? currentStyle : currentInstance ? currentInstance : null);
 	if(currentStyleElement){
-		cssParser.set(currentStyleElement, !!currentClassName, currentBreakPoint.name);
+		cssParser.set(currentStyleElement, !!currentClassName, (currentBreakPoint ? currentBreakPoint.name : null));
 	}
 
 	const containerDirection = (() => {
