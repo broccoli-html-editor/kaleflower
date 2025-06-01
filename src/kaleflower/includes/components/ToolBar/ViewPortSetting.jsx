@@ -32,9 +32,14 @@ const ViewPortSetting = React.memo((props) => {
 		});
 
 		// 最大サイズよりも100px大きいサイズを追加
+		const minimumMaxSize = 390; // 最小の最大サイズ
+		maxSize = maxSize + 100;
+		if(maxSize < minimumMaxSize){
+			maxSize = minimumMaxSize;
+		}
 		sizes.push({
 			name: 'max',
-			width: maxSize + 100
+			width: maxSize,
 		});
 
 		// サイズの小さい順にソート
