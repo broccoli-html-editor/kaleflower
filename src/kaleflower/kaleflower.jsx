@@ -73,8 +73,10 @@ window.Kaleflower = class {
 			$.ajax({
 				url: realpath,
 				success: async (res) => {
-					await this.loadXml(res);
-					rlv();
+					setTimeout(() => {
+						this.loadXml(res);
+						rlv();
+					}, 10);
 				},
 				error: (res) => {
 					console.error('Kaleflower: Failed to load a file.', realpath, res);

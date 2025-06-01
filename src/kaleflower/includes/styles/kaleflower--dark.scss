@@ -1,2 +1,23 @@
+.kaleflower {
+	background-color: #333;
+	color: #ddd;
+
+	&__header {
+        background-color: #333;
+		border-bottom: 1px solid #444;
+	}
+	&__body {
+		&-right {
+			background-color: #222;
+		}
+	}
+	&__edit-window {
+		&__inner {
+			background-color: #222;
+		}
+	}
+}
+
+@import './../components/ToolBar/ToolBar--dark.scss';
 @import './../components/InstanceTreeView/InstanceTreeView--dark.scss';
 @import './../components/LayoutView/LayoutView--dark.scss';

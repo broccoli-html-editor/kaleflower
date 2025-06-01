@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+<?php
+$appearance = (strlen($_GET['appearance'] ?? '') ? $_GET['appearance'] : 'light');
+?><!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<title>Kaleflower TEST</title>
 		<link rel="stylesheet" href="../../../vendor/pickles2/px2style/dist/px2style.css" />
-		<link rel="stylesheet" href="../../../vendor/pickles2/px2style/dist/themes/default.css" />
+		<link rel="stylesheet" href="../../../vendor/pickles2/px2style/dist/themes/<?= ($appearance == "dark" ? "darkmode" : "default" ) ?>.css" />
 		<style>
 			html, body {
 				padding: 0;
@@ -41,7 +43,7 @@
 					"scriptReceiverSelector": "[data-kaleflower-receive-message=yes]",
 					"contentsAreaSelector": "[data-kaleflower-contents-bowl-name]",
 					"contentsContainerNameBy": "data-kaleflower-contents-bowl-name",
-					"appearance": <?= json_encode($_GET['appearance'] ?? "light") ?>,
+					"appearance": <?= json_encode($appearance) ?>,
 					"lang": <?= json_encode($_GET['lang'] ?? "en") ?>,
 					"extra": {
 						"sample": "sample value",

@@ -1,4 +1,26 @@
 .kaleflower-insance-tree-view {
-	background-color: #555;
+	background-color: #222;
 	color: #ddd;
+
+	&__node {
+		border: 1px solid #666;
+		background-color: #000;
+		&--hovered,
+		&:hover {
+			background-color: #222;
+		}
+		&--selected {
+			background-color: #555;
+			&:hover {
+				background-color: #777;
+			}
+		}
+	}
+	&__node:has(&__node:hover) {
+		background-color: #000;
+	}
+
+	&__node-name {
+		color: #ddd;
+	}
 }
