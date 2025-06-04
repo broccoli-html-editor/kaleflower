@@ -226,9 +226,10 @@ export class Builder {
 	/**
 	 * Build Contents Recursively
 	 * @param object $node Node Object
+	 * @param integer $depth Current depth in the DOM tree
 	 * @return string HTML
 	 */
-	#buildContentsRecursive($node) {
+	#buildContentsRecursive($node, $depth = 0) {
 		let $rtn = '';
 		const $currentComponent = this.#components.get_component($node.nodeName || null);
 
@@ -236,7 +237,7 @@ export class Builder {
 		let $innerHTML = '';
 		if ($node.hasChildNodes()) {
 			$node.childNodes.forEach(($childNode) => {
-				$innerHTML += this.#buildContentsRecursive($childNode);
+				$innerHTML += this.#buildContentsRecursive($childNode, $depth + 1);
 			});
 		}
 
@@ -269,11 +270,24 @@ export class Builder {
 			return $attributes.breakPoints[breakPointName].length;
 		});
 		const $splitedClassName = $attributes.class.split(/\s/);
-		if (($attributes.style.length || $hasBreakPointCss.length) && !$splitedClassName[0].length) {
-			$splitedClassName[0] = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
-		}
-		if (this.#class_name_prefix.length && $splitedClassName[0].length) {
-			$splitedClassName[0] = this.#class_name_prefix + $splitedClassName[0];
+		if (!$depth && this.#module_name.length) {
+			// ルート要素の場合、モジュール名をクラス名に追加
+			if( !$splitedClassName[0].length ){
+				$splitedClassName[0] = this.#class_name_prefix.replace(/[-_]*$/, '');
+			}
+			if (($attributes.style.length || $hasBreakPointCss.length) && !$splitedClassName[0].length) {
+				$splitedClassName[0] = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
+				if (this.#class_name_prefix.length && $splitedClassName[0].length) {
+					$splitedClassName[0] = this.#class_name_prefix + $splitedClassName[0];
+				}
+			}
+		}else{
+			if (($attributes.style.length || $hasBreakPointCss.length) && !$splitedClassName[0].length) {
+				$splitedClassName[0] = 'kf-' + this.#config.id+'-'+(this.#instance_number++);
+			}
+			if (this.#class_name_prefix.length && $splitedClassName[0].length) {
+				$splitedClassName[0] = this.#class_name_prefix + $splitedClassName[0];
+			}
 		}
 		if ($attributes.style.length && $splitedClassName[0].length) {
 			$attributes.style = '.'+$splitedClassName[0]+' {'+"\n"+''+$attributes.style+"\n"+'}'+"\n";

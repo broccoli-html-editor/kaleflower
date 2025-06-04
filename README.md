@@ -21,6 +21,7 @@ $ composer require broccoli-html-editor/kaleflower
 - 要素の `onclick`, `onsubmit` 属性値を出力するようになった。
 - クラス名を設定していない要素で、カスタムCSSを追加できるようになった。
 - クラス名を設定していないスタイル要素を、CSS出力に含めるようになった。
+- `module-name` が設定されている場合に、ルート要素にクラス名が出力されるようになった。
 - オプション `finalize()` を追加。
 - コンポーネントに `can-set-css` 属性を追加。
 - フィールドに `format` を追加。デフォルトは `plain` とした。

@@ -285,16 +285,17 @@ class Builder {
 		$this->css = '';
 		$this->js = '';
 
-		$this->html = $this->buildComponentsRecursive($content);
+		$this->html = $this->buildContentsRecursive($content);
 		return;
 	}
 
 	/**
-	 * Build Components Recursively
+	 * Build Contents Recursively
 	 * @param object $node Node Object
+	 * @param integer $depth Current depth in the DOM tree
 	 * @return string HTML
 	 */
-	private function buildComponentsRecursive($node) {
+	private function buildContentsRecursive($node, $depth = 0) {
 		$rtn = '';
 		$currentComponent = $this->components->get_component($node->nodeName ?? null);
 
@@ -302,7 +303,7 @@ class Builder {
 		$innerHTML = '';
 		if ($node->hasChildNodes()) {
 			foreach ($node->childNodes as $childNode) {
-				$innerHTML .= $this->buildComponentsRecursive($childNode);
+				$innerHTML .= $this->buildContentsRecursive($childNode, $depth + 1);
 			}
 		}
 
@@ -337,11 +338,24 @@ class Builder {
 			}
 		}
 		$splitedClassName = preg_split('/\s/', $attributes->class ?? '');
-		if ((strlen($attributes->style ?? '') || count($hasBreakPointCss)) && !strlen($splitedClassName[0] ?? '')) {
-			$splitedClassName[0] = 'kf-'.urlencode($this->config->id).'-'.($this->instance_number++);
-		}
-		if( strlen($this->class_name_prefix ?? '') && strlen($splitedClassName[0] ?? '') ){
-			$splitedClassName[0] = $this->class_name_prefix.$splitedClassName[0];
+		if(!$depth && strlen($this->module_name)){
+			// ルート要素の場合、モジュール名をクラス名に追加
+			if( !strlen($splitedClassName[0] ?? '') ){
+				$splitedClassName[0] = preg_replace('/[\-\_]*$/', '', $this->class_name_prefix);
+			}
+			if ((strlen($attributes->style ?? '') || count($hasBreakPointCss)) && !strlen($splitedClassName[0] ?? '')) {
+				$splitedClassName[0] = 'kf-'.urlencode($this->config->id).'-'.($this->instance_number++);
+				if( strlen($this->class_name_prefix ?? '') && strlen($splitedClassName[0] ?? '') ){
+					$splitedClassName[0] = $this->class_name_prefix.$splitedClassName[0];
+				}
+			}
+		}else{
+			if ((strlen($attributes->style ?? '') || count($hasBreakPointCss)) && !strlen($splitedClassName[0] ?? '')) {
+				$splitedClassName[0] = 'kf-'.urlencode($this->config->id).'-'.($this->instance_number++);
+			}
+			if( strlen($this->class_name_prefix ?? '') && strlen($splitedClassName[0] ?? '') ){
+				$splitedClassName[0] = $this->class_name_prefix.$splitedClassName[0];
+			}
 		}
 		if (strlen($attributes->style ?? '') && strlen($splitedClassName[0] ?? '')) {
 			$attributes->style = '.'.$splitedClassName[0].' {'."\n".''.$attributes->style."\n".'}'."\n";

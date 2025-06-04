@@ -147,21 +147,21 @@ position: relative;
 .cont-test__kf-kf1928bb222858994f-6 {
 width: auto; height: auto;
 }
-.cont-test__kf-kf1928bb222858994f-7 {
+.cont-test {
 overflow: auto; width: 50%; height: auto;
 }
 @media all and (max-width: 1400px) {
-.cont-test__kf-kf1928bb222858994f-7 {
+.cont-test {
 width: 60%;
 }
 }
 @media all and (max-width: 800px) {
-.cont-test__kf-kf1928bb222858994f-7 {
+.cont-test {
 width: 80%;
 }
 }
 @media all and (max-width: 480px) {
-.cont-test__kf-kf1928bb222858994f-7 {
+.cont-test {
 width: 190%;
 }
 }
