@@ -329,24 +329,6 @@ const Panel = React.memo((props) => {
 				{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == props.panelInfo.instanceId &&
 					<div className={`kaleflower-layout-view-panel__drop-to-insert-here`}></div>
 				}
-				{!globalState.hoveredInstanceDirection && !props.panelInfo.isLayer &&
-					<>
-						<div ref={beforeRef} className={`kaleflower-layout-view-panel__create-new-element-before`}>
-							<button type={`button`} onClick={async (event) => {
-								event.preventDefault();
-								event.stopPropagation();
-								props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
-							}}><Icons type="plus" /></button>
-						</div>
-						<div ref={afterRef} className={`kaleflower-layout-view-panel__create-new-element-after`}>
-							<button type={`button`} onClick={async (event) => {
-								event.preventDefault();
-								event.stopPropagation();
-								props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
-							}}><Icons type="plus" /></button>
-						</div>
-					</>
-				}
 			</div>
 			{globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == props.panelInfo.instanceId && canSetClass && canSetWidth &&
 				<>
@@ -441,6 +423,44 @@ const Panel = React.memo((props) => {
 								$(panelRef.current).attr('draggable', true);
 							})}
 							onClick={(e) => {e.stopPropagation();}}></button>
+					</div>
+				</>
+			}
+			{globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == props.panelInfo.instanceId && !globalState.hoveredInstanceDirection && !props.panelInfo.isLayer &&
+				<>
+					<div ref={beforeRef} className={`kaleflower-layout-view-panel__create-new-element-before`}
+						style={
+							(containerDirection == 'x' ? {
+								top: props.panelInfo.offsetTop + (props.panelInfo.height / 2) - 16,
+								left: props.panelInfo.offsetLeft - 16,
+							} : {
+								top: props.panelInfo.offsetTop - 16,
+								left: props.panelInfo.offsetLeft + (props.panelInfo.width / 2) - 16,
+							})
+						}
+					>
+						<button type={`button`} onClick={async (event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
+						}}><Icons type="plus" /></button>
+					</div>
+					<div ref={afterRef} className={`kaleflower-layout-view-panel__create-new-element-after`}
+						style={
+							(containerDirection == 'x' ? {
+								top: props.panelInfo.offsetTop + (props.panelInfo.height / 2) - 16,
+								left: props.panelInfo.offsetLeft + panelWidth - 16,
+							} : {
+								top: props.panelInfo.offsetTop + panelHeight - 16,
+								left: props.panelInfo.offsetLeft + (props.panelInfo.width / 2) - 16,
+							})
+						}
+					>
+						<button type={`button`} onClick={async (event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
+						}}><Icons type="plus" /></button>
 					</div>
 				</>
 			}

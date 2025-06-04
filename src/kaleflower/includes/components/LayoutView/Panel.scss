@@ -52,10 +52,10 @@
 
 	&__create-new-element-before,
 	&__create-new-element-after {
-		display: none;
+		display: block;
 		font-size: 8px;
 		position: absolute;
-		left: calc(50% - 16px);
+		z-index: 1030;
 		button {
 			-webkit-appearance: none;
 			-moz-appearance: none;
@@ -81,16 +81,6 @@
 			width: 100%;
 			height: 100%;
 		}
-	}
-	&__create-new-element-before {
-		top: -19px;
-	}
-	&__create-new-element-after {
-		bottom: -21px;
-	}
-	&:hover &__create-new-element-before,
-	&:hover &__create-new-element-after {
-		display: block;
 	}
 
 	&__drop-to-insert-here {
@@ -158,20 +148,6 @@
 		>.kaleflower-layout-view-panel__drop-to-insert-here {
 			display: none;
 		}
-	}
-
-	&--horizontal &__create-new-element-before,
-	&--horizontal &__create-new-element-after {
-		display: none;
-		left: auto;
-		top: calc(50% - 16px);
-	}
-	&--horizontal &__create-new-element-before {
-		left: -19px;
-	}
-	&--horizontal &__create-new-element-after {
-		bottom: auto;
-		right: -21px;
 	}
 
 	&--horizontal &__drop-to-insert-here {
