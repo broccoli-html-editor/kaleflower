@@ -216,6 +216,17 @@ const Panel = React.memo((props) => {
 		cssParser.save();
 	}
 
+	function onMouseOver(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		props.onhoverinstance(props.panelInfo.instanceId);
+	};
+	function onMouseOut(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		props.onhoverinstance(null);
+	};
+
 	const panelWidth = (()=>{
 		if( !props.panelInfo.nextOffsetLeft ){
 			return props.panelInfo.width;
@@ -275,16 +286,8 @@ const Panel = React.memo((props) => {
 					}));
 				}}
 
-				onMouseOver={(event) => {
-					event.stopPropagation();
-					event.preventDefault();
-					props.onhoverinstance(props.panelInfo.instanceId);
-				}}
-				onMouseOut={(event) => {
-					event.stopPropagation();
-					event.preventDefault();
-					props.onhoverinstance(null);
-				}}
+				onMouseOver={onMouseOver}
+				onMouseOut={onMouseOut}
 
 				onDragStart={(event)=>{
 					event.stopPropagation();
@@ -343,6 +346,8 @@ const Panel = React.memo((props) => {
 						>
 						<button
 							type={`button`}
+							onMouseOver={onMouseOver}
+							onMouseOut={onMouseOut}
 							onMouseDown={(e) => handleResizeStart(e, 'width-left', (distanceX, distanceY) => {
 								$(panelRef.current).removeAttr('draggable');
 								const attrName = 'width';
@@ -365,6 +370,8 @@ const Panel = React.memo((props) => {
 						>
 						<button
 							type={`button`}
+							onMouseOver={onMouseOver}
+							onMouseOut={onMouseOut}
 							onMouseDown={(e) => handleResizeStart(e, 'width-right', (distanceX, distanceY) => {
 								$(panelRef.current).removeAttr('draggable');
 								const attrName = 'width';
@@ -391,6 +398,8 @@ const Panel = React.memo((props) => {
 						>
 						<button
 							type={`button`}
+							onMouseOver={onMouseOver}
+							onMouseOut={onMouseOut}
 							onMouseDown={(e) => handleResizeStart(e, 'height-top', (distanceX, distanceY) => {
 								$(panelRef.current).removeAttr('draggable');
 								const attrName = 'height';
@@ -413,6 +422,8 @@ const Panel = React.memo((props) => {
 						>
 						<button
 							type={`button`}
+							onMouseOver={onMouseOver}
+							onMouseOut={onMouseOut}
 							onMouseDown={(e) => handleResizeStart(e, 'height-bottom', (distanceX, distanceY) => {
 								$(panelRef.current).removeAttr('draggable');
 								const attrName = 'height';
@@ -439,11 +450,15 @@ const Panel = React.memo((props) => {
 							})
 						}
 					>
-						<button type={`button`} onClick={async (event) => {
-							event.preventDefault();
-							event.stopPropagation();
-							props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
-						}}><Icons type="plus" /></button>
+						<button
+							type={`button`}
+							onMouseOver={onMouseOver}
+							onMouseOut={onMouseOut}
+							onClick={async (event) => {
+								event.preventDefault();
+								event.stopPropagation();
+								props.oncreatenewinstance(props.panelInfo.instanceId, 'before');
+							}}><Icons type="plus" /></button>
 					</div>
 					<div ref={afterRef} className={`kaleflower-layout-view-panel__create-new-element-after`}
 						style={
@@ -456,11 +471,15 @@ const Panel = React.memo((props) => {
 							})
 						}
 					>
-						<button type={`button`} onClick={async (event) => {
-							event.preventDefault();
-							event.stopPropagation();
-							props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
-						}}><Icons type="plus" /></button>
+						<button
+							type={`button`}
+							onMouseOver={onMouseOver}
+							onMouseOut={onMouseOut}
+							onClick={async (event) => {
+								event.preventDefault();
+								event.stopPropagation();
+								props.oncreatenewinstance(props.panelInfo.instanceId, 'after');
+							}}><Icons type="plus" /></button>
 					</div>
 				</>
 			}
