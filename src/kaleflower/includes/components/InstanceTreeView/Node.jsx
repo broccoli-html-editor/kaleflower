@@ -94,7 +94,13 @@ const Node = React.memo((props) => {
 	return (<>
 		<div
 			ref={panelRef}
-			key={props.key}
+			className={`kaleflower-insance-tree-view__node`
+				+ `${(globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--selected' : '')}`
+				+ `${(globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--hovered' : '')}`
+				+ `${globalState.hoveredInstanceDirection == 'before' && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--drag-entered-before' : ''}`
+				+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--drag-entered-after' : ''}`
+				+ `${globalState.hoveredInstanceDirection == 'append' && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--drag-entered-append' : ''}`
+				}
 			onClick={selectInstance}
 			onMouseOver={hoverInstance}
 
@@ -125,10 +131,6 @@ const Node = React.memo((props) => {
 
 			data-kaleflower-instance-id={content.kaleflowerInstanceId}
 			data-kaleflower-instance-path={`${props.instancePath}`}
-			className={`kaleflower-insance-tree-view__node`
-				+ `${(globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--selected' : '')}`
-				+ `${(globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--hovered' : '')}`
-				}
 			>
 			<div className="kaleflower-insance-tree-view__node-name"
 				onDragStart={(event)=>{
