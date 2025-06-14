@@ -1,9 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext';
 import Icons from '../Icons/Icons.jsx';
 
 const Node = React.memo((props) => {
 	const globalState = useContext(MainContext);
+	const $ = globalState.jQuery;
+	const panelRef = useRef(null);
 	const utils = globalState.utils;
 	const content = props.node;
 	if( !content.kaleflowerInstanceId ){
@@ -39,8 +41,63 @@ const Node = React.memo((props) => {
 		props.oncreatenewinstance(content, 'append');
 	}
 
+	/**
+	 * マウス座標の四象限の位置を得る
+	 */
+	function getUd(e, elm){
+		var posx = 0;
+		var posy = 0;
+		if (!e) e = window.event;
+		if (e.pageX || e.pageY) {
+			posx = e.pageX;
+			posy = e.pageY;
+		}else if (e.clientX || e.clientY) {
+			posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+			posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+		}
+		var mousepos = { x : posx, y : posy };
+
+		var docScrolls = {
+			left : document.body.scrollLeft + document.documentElement.scrollLeft,
+			top : document.body.scrollTop + document.documentElement.scrollTop
+		};
+		var bounds = elm.getBoundingClientRect(); // 対象要素の情報取得
+		var relmousepos = {
+			x : mousepos.x - bounds.left - docScrolls.left,
+			y : mousepos.y - bounds.top - docScrolls.top
+		};
+
+		var ud = {};
+		if( relmousepos.y < $(elm).height()/3 ){
+			ud.y = 'u';
+		}else if( relmousepos.y > $(elm).height()/3*2 ){
+			ud.y = 'd';
+		}else{
+			ud.y = 'c';
+		}
+		if( relmousepos.x < $(elm).width()/3 ){
+			ud.x = 'l';
+		}else if( relmousepos.x > $(elm).width()/3*2 ){
+			ud.x = 'r';
+		}else{
+			ud.x = 'c';
+		}
+		return ud;
+	}
+
+	function getDirectionByUd(ud){
+		let direction = 'append';
+		if( ud.y == 'u' ){
+			direction = 'before';
+		}else if( ud.y == 'd' ){
+			direction = 'after';
+		}
+		return direction;
+	}
+
 	return (<>
 		<div
+			ref={panelRef}
 			key={props.key}
 			onClick={selectInstance}
 			onMouseOver={hoverInstance}
@@ -49,12 +106,16 @@ const Node = React.memo((props) => {
 			onDragOver={(event)=>{
 				event.preventDefault();
 				event.stopPropagation();
-				props.ondragover(content);
+				const ud = getUd(event, panelRef.current);
+				const direction = getDirectionByUd(ud);
+				props.ondragover(content, direction);
 			}}
 			onDragLeave={(event)=>{}}
 			onDrop={(event)=>{
 				event.preventDefault();
 				event.stopPropagation();
+				const ud = getUd(event, panelRef.current);
+				const direction = getDirectionByUd(ud);
 				let transferData = event.dataTransfer.getData("text/json");
 				try {
 					transferData = JSON.parse(transferData);
@@ -62,7 +123,7 @@ const Node = React.memo((props) => {
 
 				const moveFromInstance = globalState.selectedInstance;
 				const moveToInstance = content;
-				props.onmoveinstance(moveFromInstance, moveToInstance);
+				props.onmoveinstance(moveFromInstance, moveToInstance, direction);
 			}}
 			onDragEnd={(event)=>{}}
 
