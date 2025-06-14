@@ -68,25 +68,21 @@ const Node = React.memo((props) => {
 		};
 
 		var ud = {};
-		if( relmousepos.y < $(elm).height()/3 ){
+		if( relmousepos.y < $(elm).height()/2 ){
 			ud.y = 'u';
-		}else if( relmousepos.y > $(elm).height()/3*2 ){
+		}else{
 			ud.y = 'd';
-		}else{
-			ud.y = 'c';
 		}
-		if( relmousepos.x < $(elm).width()/3 ){
+		if( relmousepos.x < $(elm).width()/2 ){
 			ud.x = 'l';
-		}else if( relmousepos.x > $(elm).width()/3*2 ){
-			ud.x = 'r';
 		}else{
-			ud.x = 'c';
+			ud.x = 'r';
 		}
 		return ud;
 	}
 
 	function getDirectionByUd(ud){
-		let direction = 'append';
+		let direction = 'before';
 		if( ud.y == 'u' ){
 			direction = 'before';
 		}else if( ud.y == 'd' ){
