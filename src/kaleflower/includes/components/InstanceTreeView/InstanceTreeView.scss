@@ -1,4 +1,5 @@
 .kaleflower-insance-tree-view {
+	position: relative;
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
@@ -16,6 +17,29 @@
 		padding: 2px 0 0 8px;
 		border: 1px solid #999;
 		border-radius: 3px;
+		position: relative;
+
+		// Vertical
+		&--drag-entered-before {
+			background: linear-gradient(rgba(56, 113, 224, 0.8), rgba(56, 113, 224, 0.3)) !important;
+			>.kaleflower-insance-tree-view__drop-to-insert-here {
+				top: -8px; bottom: auto;
+			}
+		}
+
+		&--drag-entered-after {
+			background: linear-gradient(rgba(56, 113, 224, 0.3), rgba(56, 113, 224, 0.8)) !important;
+			>.kaleflower-insance-tree-view__drop-to-insert-here {
+				top: auto; bottom: -8px;
+			}
+		}
+
+		&--drag-entered-append {
+			background: linear-gradient(rgba(56, 113, 224, 0.3), rgba(56, 113, 224, 0.8), rgba(56, 113, 224, 0.3)) !important;
+			>.kaleflower-insance-tree-view__drop-to-insert-here {
+				display: none;
+			}
+		}
 	}
 	&__node-list {
 		padding: 0;
@@ -30,5 +54,48 @@
 	&__node-name {
 		font-weight: bold;
 		margin: 0;
+	}
+
+	&__drop-to-insert-here {
+		display: block;
+		border: none;
+		background-color: #f93;
+		position: absolute;
+		left: 5%; top: -8px;
+		width: 90%;
+		margin: 0 auto;
+		height: 1px;
+		z-index: 100000000;
+		animation: kaleflower-insance-tree-view__drop-to-insert-here 0.5s infinite;
+		pointer-events: none;
+		@keyframes kaleflower-insance-tree-view__drop-to-insert-here {
+			0%{
+				opacity: 1;
+			}
+			50%{
+				opacity: 0.6;
+			}
+		}
+
+		&:before,
+		&:after {
+			content: "";
+			width: 0;
+			height: 0;
+			display: inline-block;
+			border-width: 7px 0 7px 13px;
+			border-style: solid;
+			border-color: #f93;
+			border-top-color: transparent;
+			border-bottom-color: transparent;
+			position: absolute;
+			left: -5%; top: -7px;
+		}
+		&:after {
+			border-left-width: 0;
+			border-right-width: 13px;
+			right: -5%;
+			left: auto;
+		}
 	}
 }

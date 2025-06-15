@@ -188,6 +188,9 @@ const Node = React.memo((props) => {
 					</li>
 				) : <></>}
 			</ul>
+			{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId &&
+				<div className={`kaleflower-insance-tree-view__drop-to-insert-here`}></div>
+			}
 		</div>
 	</>);
 });
