@@ -4,8 +4,10 @@ import Icons from '../Icons/Icons.jsx';
 
 const Node = React.memo((props) => {
 	const globalState = useContext(MainContext);
-	const $ = globalState.jQuery;
 	const panelRef = useRef(null);
+	const beforeRef = useRef(null);
+	const afterRef = useRef(null);
+	const $ = globalState.jQuery;
 	const utils = globalState.utils;
 	const content = props.node;
 	if( !content.kaleflowerInstanceId ){
@@ -101,6 +103,7 @@ const Node = React.memo((props) => {
 				+ `${globalState.hoveredInstanceDirection == 'after' && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--drag-entered-after' : ''}`
 				+ `${globalState.hoveredInstanceDirection == 'append' && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId ? ' kaleflower-insance-tree-view__node--drag-entered-append' : ''}`
 				}
+			tabIndex={0}
 			onClick={selectInstance}
 			onMouseOver={hoverInstance}
 
@@ -190,6 +193,30 @@ const Node = React.memo((props) => {
 			</ul>
 			{globalState.hoveredInstanceDirection && globalState.hoveredInstance && globalState.hoveredInstance.kaleflowerInstanceId == content.kaleflowerInstanceId &&
 				<div className={`kaleflower-insance-tree-view__drop-to-insert-here`}></div>
+			}
+			{globalState.selectedInstance && globalState.selectedInstance.kaleflowerInstanceId == content.kaleflowerInstanceId && !globalState.hoveredInstanceDirection &&
+				<>
+					<div ref={beforeRef} className={`kaleflower-insance-tree-view__create-new-element-before`}>
+						<button
+							type={`button`}
+							onMouseOver={hoverInstance}
+							onClick={async (event) => {
+								event.preventDefault();
+								event.stopPropagation();
+								props.oncreatenewinstance(content.kaleflowerInstanceId, 'before');
+							}}><Icons type="plus" /></button>
+					</div>
+					<div ref={afterRef} className={`kaleflower-insance-tree-view__create-new-element-after`}>
+						<button
+							type={`button`}
+							onMouseOver={hoverInstance}
+							onClick={async (event) => {
+								event.preventDefault();
+								event.stopPropagation();
+								props.oncreatenewinstance(content.kaleflowerInstanceId, 'after');
+							}}><Icons type="plus" /></button>
+					</div>
+				</>
 			}
 		</div>
 	</>);
