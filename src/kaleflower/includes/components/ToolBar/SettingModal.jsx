@@ -13,7 +13,12 @@ const SettingModal = React.memo((props) => {
 	const onClick = (event) => {
 		const $body = $(utils.bindTwig(
 			require('-!text-loader!./SettingModal_files/templates/modal.twig'),
-			{}
+			{
+				moduleName: globalState.configs['module-name'],
+				moduleNamePrefix: globalState.configs['module-name-prefix'],
+				breakPoints: globalState.configs['break-points'],
+				colorPalettes: globalState.configs['color-palettes'],
+			}
 		));
 		modal = px2style.modal({
 			"title": 'Settings',
@@ -31,6 +36,15 @@ const SettingModal = React.memo((props) => {
 			],
 			"form": {
 				"submit": function(event){
+					globalState.setGlobalState((prevState) => {
+						prevState.configs['module-name'] = $body.find('[name=module-name]').val();
+						prevState.configs['module-name-prefix'] = $body.find('[name=module-name-prefix]').val();
+
+						// TODO: break-points の編集機能を追加する
+						// TODO: color-palettes の編集機能を追加する
+
+						return prevState;
+					});
 					modal.close();
 				},
 			},
