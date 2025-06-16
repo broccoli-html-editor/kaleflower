@@ -21,27 +21,14 @@ const SettingModal = React.memo((props) => {
 	};
 
 	const createBreakPointItem = (id, data, index) => {
-		return `
-<div class="kaleflower-setting-modal__breakpoints-editor__item" data-index="${index}">
-	<div class="kaleflower-setting-modal__breakpoints-editor__item-row">
-		<div class="kaleflower-setting-modal__breakpoints-editor__item-field kaleflower-setting-modal__breakpoints-editor__item-field--id">
-			<label class="kaleflower-setting-modal__breakpoints-editor__item-label">ID</label>
-			<input type="text" class="px2-input kaleflower-setting-modal__breakpoints-editor__item-input" data-field="id" value="${id}" placeholder="e.g. lg" />
-		</div>
-		<div class="kaleflower-setting-modal__breakpoints-editor__item-field kaleflower-setting-modal__breakpoints-editor__item-field--name">
-			<label class="kaleflower-setting-modal__breakpoints-editor__item-label">Name</label>
-			<input type="text" class="px2-input kaleflower-setting-modal__breakpoints-editor__item-input" data-field="name" value="${data.name || ''}" placeholder="e.g. Large" />
-		</div>
-		<div class="kaleflower-setting-modal__breakpoints-editor__item-field kaleflower-setting-modal__breakpoints-editor__item-field--max-width">
-			<label class="kaleflower-setting-modal__breakpoints-editor__item-label">Max Width</label>
-			<input type="number" class="px2-input kaleflower-setting-modal__breakpoints-editor__item-input" data-field="max-width" value="${data['max-width'] || ''}" placeholder="1400" />
-		</div>
-		<div class="kaleflower-setting-modal__breakpoints-editor__item-actions">
-			<button type="button" class="kaleflower-setting-modal__breakpoints-editor__remove-btn" data-action="remove">Remove</button>
-		</div>
-	</div>
-</div>
-`;
+		return utils.bindTwig(
+			require('-!text-loader!./SettingModal_files/templates/breakPointItem.twig'),
+			{
+				id: id,
+				data: data,
+				index: index,
+			}
+		);
 	};
 
 	const onClick = (event) => {
@@ -57,8 +44,8 @@ const SettingModal = React.memo((props) => {
 		const formObj = px2style.form($body);
 
 		// ブレイクポイント編集機能の初期化
-		const $breakpointsItems = $body.find('#breakpoints-items');
-		const $addBtn = $body.find('#add-breakpoint-btn');
+		const $breakpointsItems = $body.find('#kaleflower-breakpoints-items-container');
+		const $addBtn = $body.find('#kaleflower-add-breakpoint-btn');
 
 		// 初期データの表示
 		const renderBreakPoints = () => {
