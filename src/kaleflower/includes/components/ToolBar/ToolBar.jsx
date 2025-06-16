@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext.js';
-import ViewPortSetting from './ViewPortSetting.jsx';
+import ViewPortSwitch from './ViewPortSwitch.jsx';
+import SettingModal from './SettingModal.jsx';
 
 const ToolBar = React.memo((props) => {
 	const globalState = useContext(MainContext);
@@ -8,7 +9,8 @@ const ToolBar = React.memo((props) => {
 	return (
 		<div className="kaleflower-toolbar">
 			<div className="kaleflower-toolbar__inner">
-				<ViewPortSetting />
+				<SettingModal />
+				<ViewPortSwitch />
 			</div>
 		</div>
 	);
