@@ -20,6 +20,8 @@ const SettingModal = React.memo((props) => {
 				colorPalettes: globalState.configs['color-palettes'],
 			}
 		));
+		const formObj = px2style.form($body);
+
 		modal = px2style.modal({
 			"title": 'Settings',
 			"body": $body,
@@ -36,7 +38,24 @@ const SettingModal = React.memo((props) => {
 			],
 			"form": {
 				"submit": function(event){
+					const errors = {};
+					const moduleName = $body.find('[name=module-name]').val();
+					if(moduleName.match(/[^0-9a-zA-Z\-\_]/)){
+						errors['module-name'] = 'Invalid charactor included.';
+					}
+					const moduleNamePrefix = $body.find('[name=module-name-prefix]').val();
+					if(moduleNamePrefix.match(/[^0-9a-zA-Z\-\_]/)){
+						errors['module-name-prefix'] = 'Invalid charactor included.';
+					}
+					if( Object.keys(errors).length ){
+						formObj.reportValidationError({
+							errors: errors,
+						});
+						return;
+					}
+
 					globalState.setGlobalState((prevState) => {
+
 						prevState.configs['module-name'] = $body.find('[name=module-name]').val();
 						prevState.configs['module-name-prefix'] = $body.find('[name=module-name-prefix]').val();
 
