@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext.js';
+import { BreakPointsEditor } from "./SettingModal_files/BreakPointsEditor.js";
 import { Utils } from "../../utils/Utils.js";
 const utils = new Utils();
 import jQuery from "jquery";
@@ -10,28 +11,11 @@ const SettingModal = React.memo((props) => {
 	const btnRef = useRef(null);
 	let modal;
 
-	// ブレイクポイントの管理用関数
-	const sortBreakPointsByMaxWidth = (breakPoints) => {
-		const entries = Object.entries(breakPoints || {});
-		return entries.sort((a, b) => {
-			const maxWidthA = parseInt(a[1]['max-width']) || 0;
-			const maxWidthB = parseInt(b[1]['max-width']) || 0;
-			return maxWidthB - maxWidthA; // 降順（大きい順）
-		});
-	};
-
-	const createBreakPointItem = (id, data, index) => {
-		return utils.bindTwig(
-			require('-!text-loader!./SettingModal_files/templates/breakPointItem.twig'),
-			{
-				id: id,
-				data: data,
-				index: index,
-			}
-		);
-	};
-
-	const onClick = (event) => {
+	/**
+	 * 設定モーダルを開く
+	 * @param {*} event 
+	 */
+	const onClickOpenSettingModalButton = (event) => {
 		const $body = $(utils.bindTwig(
 			require('-!text-loader!./SettingModal_files/templates/modal.twig'),
 			{
@@ -43,95 +27,11 @@ const SettingModal = React.memo((props) => {
 		));
 		const formObj = px2style.form($body);
 
-		// ブレイクポイント編集機能の初期化
-		const $breakpointsItems = $body.find('#kaleflower-breakpoints-items-container');
-		const $addBtn = $body.find('#kaleflower-add-breakpoint-btn');
-
-		// 初期データの表示
-		const renderBreakPoints = () => {
-			const sortedBreakPoints = sortBreakPointsByMaxWidth(globalState.configs['break-points']);
-			$breakpointsItems.html('');
-			sortedBreakPoints.forEach(([id, data], index) => {
-				$breakpointsItems.append(createBreakPointItem(id, data, index));
-			});
-		};
-
-		// 新しいブレイクポイントを追加
-		const addBreakPoint = () => {
-			const newIndex = $breakpointsItems.find('.kaleflower-setting-modal__breakpoints-editor__item').length;
-			const newId = `bp${newIndex + 1}`;
-			const newData = { name: '', 'max-width': '' };
-			$breakpointsItems.append(createBreakPointItem(newId, newData, newIndex));
-		};
-
-		// ブレイクポイントを削除
-		const removeBreakPoint = (index) => {
-			$breakpointsItems.find(`[data-index="${index}"]`).remove();
-		};
-
-		// ブレイクポイントデータを収集
-		const collectBreakPointsData = () => {
-			const breakPoints = {};
-			let hasAnyError = false;
-
-			$breakpointsItems.find('.kaleflower-setting-modal__breakpoints-editor__item').each(function () {
-				const $item = $(this);
-				const id = $item.find('[data-field="id"]').val().trim();
-				const name = $item.find('[data-field="name"]').val().trim();
-				const maxWidth = $item.find('[data-field="max-width"]').val().trim();
-
-				// エラーメッセージをクリア
-				$item.find('.kaleflower-setting-modal__breakpoints-editor__error').remove();
-
-				// バリデーション
-				let hasError = false;
-
-				if (!id) {
-					$item.find('[data-field="id"]').after('<div class="kaleflower-setting-modal__breakpoints-editor__error">ID is required</div>');
-					hasError = true;
-				} else if (id.match(/[^0-9a-zA-Z\-\_]/)) {
-					$item.find('[data-field="id"]').after('<div class="kaleflower-setting-modal__breakpoints-editor__error">Invalid character in ID</div>');
-					hasError = true;
-				} else if (breakPoints[id]) {
-					$item.find('[data-field="id"]').after('<div class="kaleflower-setting-modal__breakpoints-editor__error">Duplicate ID</div>');
-					hasError = true;
-				}
-
-				if (!name) {
-					$item.find('[data-field="name"]').after('<div class="kaleflower-setting-modal__breakpoints-editor__error">Name is required</div>');
-					hasError = true;
-				}
-
-				if (!maxWidth) {
-					$item.find('[data-field="max-width"]').after('<div class="kaleflower-setting-modal__breakpoints-editor__error">Max width is required</div>');
-					hasError = true;
-				} else if (isNaN(parseInt(maxWidth)) || parseInt(maxWidth) <= 0) {
-					$item.find('[data-field="max-width"]').after('<div class="kaleflower-setting-modal__breakpoints-editor__error">Invalid max width</div>');
-					hasError = true;
-				}
-
-				if (hasError) {
-					hasAnyError = true;
-				} else {
-					breakPoints[id] = {
-						name: name,
-						'max-width': maxWidth
-					};
-				}
-			});
-
-			return { breakPoints, hasErrors: hasAnyError };
-		};
-
-		// イベントリスナーの設定
-		$addBtn.on('click', addBreakPoint);
-		$breakpointsItems.on('click', '[data-action="remove"]', function () {
-			const index = $(this).closest('.kaleflower-setting-modal__breakpoints-editor__item').data('index');
-			removeBreakPoint(index);
+		const breakPointsEditor = new BreakPointsEditor({
+			$body: $body,
+			globalState: globalState,
+			utils: utils,
 		});
-
-		// 初期表示
-		renderBreakPoints();
 
 		modal = px2style.modal({
 			"title": 'Settings',
@@ -160,7 +60,7 @@ const SettingModal = React.memo((props) => {
 					}
 
 					// ブレイクポイントデータのバリデーション
-					const breakPointsResult = collectBreakPointsData();
+					const breakPointsResult = breakPointsEditor.collectBreakPointsData();
 					if (breakPointsResult.hasErrors) {
 						// ブレイクポイントにエラーがある場合は送信を停止
 						return;
@@ -196,7 +96,7 @@ const SettingModal = React.memo((props) => {
 			<button
 				ref={btnRef}
 				type="button"
-				onClick={onClick}
+				onClick={onClickOpenSettingModalButton}
 				className="px2-btn kaleflower-setting-modal__button"
 			>Settings</button>
 		</div>
