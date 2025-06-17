@@ -1,27 +1,34 @@
 <div class="px2-form-input-list">
 	<ul class="px2-form-input-list__ul">
-        <li class="px2-form-input-list__li" data-name="module-name">
-            <div class="px2-form-input-list__label"><label for="kaleflower-form-element--module-name">module name</label></div>
-            <div class="px2-form-input-list__input">
-                <input type="text" id="kaleflower-form-element--module-name" name="module-name" value="{{ moduleName|e("html_attr") }}" class="px2-input px2-input--block" />
-            </div>
-        </li>
-        <li class="px2-form-input-list__li" data-name="module-name-prefix">
-            <div class="px2-form-input-list__label"><label for="kaleflower-form-element--module-name-prefix">module name prefix</label></div>
-            <div class="px2-form-input-list__input">
-                <input type="text" id="kaleflower-form-element--module-name-prefix" name="module-name-prefix" value="{{ moduleNamePrefix|e("html_attr") }}" class="px2-input px2-input--block" />
-            </div>
-        </li>
-        <li class="px2-form-input-list__li" data-name="break-points">
-            <div class="px2-form-input-list__label"><label>Break Points</label></div>
-            <div class="px2-form-input-list__input">
-                <div class="kaleflower-setting-modal__breakpoints-editor">
-                    <div class="kaleflower-setting-modal__breakpoints-editor__items" id="kaleflower-breakpoints-items-container">
-                        <!-- ブレイクポイント項目がここに動的に挿入される -->
-                    </div>
-                    <p><button type="button" class="px2-btn px2-btn--primary" id="kaleflower-add-breakpoint-btn">Add Break Point</button></p>
-                </div>
-            </div>
-        </li>
-    </ul>
+		<li class="px2-form-input-list__li" data-name="module-name">
+			<div class="px2-form-input-list__label"><label for="kaleflower-form-element--module-name">module name</label></div>
+			<div class="px2-form-input-list__input">
+				<input type="text" id="kaleflower-form-element--module-name" name="module-name" value="{{ moduleName|e("html_attr") }}" class="px2-input px2-input--block" />
+			</div>
+		</li>
+		<li class="px2-form-input-list__li" data-name="module-name-prefix">
+			<div class="px2-form-input-list__label"><label for="kaleflower-form-element--module-name-prefix">module name prefix</label></div>
+			<div class="px2-form-input-list__input">
+				<input type="text" id="kaleflower-form-element--module-name-prefix" name="module-name-prefix" value="{{ moduleNamePrefix|e("html_attr") }}" class="px2-input px2-input--block" />
+			</div>
+		</li>
+		<li class="px2-form-input-list__li" data-name="break-points">
+			<div class="px2-form-input-list__label"><label>Break Points</label></div>
+			<div class="px2-form-input-list__input">
+				<div class="kaleflower-setting-modal__breakpoints-editor">
+					<div class="kaleflower-setting-modal__breakpoints-editor__items" id="kaleflower-breakpoints-items-container">
+						<!-- ブレイクポイント項目がここに動的に挿入される -->
+					</div>
+					<p><button type="button" class="px2-btn px2-btn--primary" id="kaleflower-add-breakpoint-btn">Add Break Point</button></p>
+				</div>
+			</div>
+		</li>
+		<li class="px2-form-input-list__li" data-name="color-palettes">
+			<div class="px2-form-input-list__label"><label>Color Palettes</label></div>
+			<div class="px2-form-input-list__input">
+				<div class="kaleflower-setting-modal__color-palettes-editor">
+				</div>
+			</div>
+		</li>
+	</ul>
 </div>

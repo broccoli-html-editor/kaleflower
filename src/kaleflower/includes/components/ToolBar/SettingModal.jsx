@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext.js';
 import { BreakPointsEditor } from "./SettingModal_files/BreakPointsEditor.js";
+import { ColorPalettesEditor } from "./SettingModal_files/ColorPalettesEditor.js";
 import { Utils } from "../../utils/Utils.js";
 const utils = new Utils();
 import jQuery from "jquery";
@@ -28,6 +29,12 @@ const SettingModal = React.memo((props) => {
 		const formObj = px2style.form($body);
 
 		const breakPointsEditor = new BreakPointsEditor({
+			$body: $body,
+			globalState: globalState,
+			utils: utils,
+		});
+
+		const colorPalettesEditor = new ColorPalettesEditor({
 			$body: $body,
 			globalState: globalState,
 			utils: utils,
@@ -66,6 +73,13 @@ const SettingModal = React.memo((props) => {
 						return;
 					}
 
+					// カラーパレットデータのバリデーション
+					const colorPalettesResult = colorPalettesEditor.collectColorPalettesData();
+					if (colorPalettesResult.hasErrors) {
+						// カラーパレットにエラーがある場合は送信を停止
+						return;
+					}
+
 					if (Object.keys(errors).length) {
 						formObj.reportValidationError({
 							errors: errors,
@@ -82,6 +96,8 @@ const SettingModal = React.memo((props) => {
 						prevState.configs['break-points'] = breakPointsResult.breakPoints;
 
 						// TODO: color-palettes の編集機能を追加する
+						// color-palettes の編集機能
+						prevState.configs['color-palettes'] = colorPalettesResult.colorPalettes;
 
 						return prevState;
 					});
