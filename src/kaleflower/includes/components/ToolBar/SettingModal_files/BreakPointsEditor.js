@@ -29,11 +29,13 @@ export class BreakPointsEditor {
 		});
 
 		// 初期表示
-		this.#renderBreakPoints();
+		this.#init();
 	}
 
-	// 初期データの表示
-	#renderBreakPoints () {
+	/**
+	 * 初期表示
+	 */
+	#init () {
 		const sortedBreakPoints = this.#sortBreakPointsByMaxWidth(this.#globalState.configs['break-points']);
 		this.#$breakpointsItems.html('');
 		sortedBreakPoints.forEach(([id, data], index) => {
@@ -66,7 +68,9 @@ export class BreakPointsEditor {
 	};
 
 
-	// 新しいブレイクポイントを追加
+	/**
+	 * 新しいブレイクポイントを追加
+	 */
 	#addBreakPoint () {
 		const newIndex = this.#$breakpointsItems.find('.kaleflower-setting-modal__breakpoints-editor__item').length;
 		const newId = `bp${newIndex + 1}`;
@@ -74,13 +78,17 @@ export class BreakPointsEditor {
 		this.#$breakpointsItems.append(this.#createBreakPointItem(newId, newData, newIndex));
 	};
 
-	// ブレイクポイントを削除
+	/**
+	 * ブレイクポイントを削除
+	 */
 	#removeBreakPoint (index) {
 		this.#$breakpointsItems.find(`[data-index="${index}"]`).remove();
 	};
 
-	// ブレイクポイントデータを収集
-	collectBreakPointsData () {
+	/**
+	 * ブレイクポイントデータを取得
+	 */
+	get () {
 		const breakPoints = {};
 		let hasAnyError = false;
 

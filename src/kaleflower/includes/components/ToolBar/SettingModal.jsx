@@ -67,14 +67,14 @@ const SettingModal = React.memo((props) => {
 					}
 
 					// ブレイクポイントデータのバリデーション
-					const breakPointsResult = breakPointsEditor.collectBreakPointsData();
+					const breakPointsResult = breakPointsEditor.get();
 					if (breakPointsResult.hasErrors) {
 						// ブレイクポイントにエラーがある場合は送信を停止
 						return;
 					}
 
 					// カラーパレットデータのバリデーション
-					const colorPalettesResult = colorPalettesEditor.collectColorPalettesData();
+					const colorPalettesResult = colorPalettesEditor.get();
 					if (colorPalettesResult.hasErrors) {
 						// カラーパレットにエラーがある場合は送信を停止
 						return;

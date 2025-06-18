@@ -13,10 +13,22 @@ export class ColorPalettesEditor {
 		this.#$body = params.$body;
 		this.#globalState = params.globalState;
 		this.#utils = params.utils;
+
+		// 初期表示
+		this.#init();
 	}
 
-	// カラーパレットデータを収集
-	collectColorPalettesData () {
+	/**
+	 * 初期表示
+	 */
+	#init () {
+		// TODO: ここに カラーパレット編集機能を実装する
+	};
+
+	/**
+	 * カラーパレットデータを取得する
+	 */
+	get () {
 		return { colorPalettes: {}, hasErrors: false };
 	};
 };
