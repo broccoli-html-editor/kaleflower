@@ -43,6 +43,7 @@ const SettingModal = React.memo((props) => {
 		modal = px2style.modal({
 			"title": 'Settings',
 			"body": $body,
+			"width": 800,
 			"buttons": [
 				$('<button class="px2-btn px2-btn--primary">')
 					.text('OK'),

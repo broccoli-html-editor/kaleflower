@@ -1,6 +1,5 @@
-// カラーパレット編集機能のスタイル
-
 .kaleflower-setting-modal__color-palettes-editor {
+	container-type: inline-size;
 	
 	&__items {
 		margin-bottom: 1rem;
@@ -14,10 +13,9 @@
 		background-color: #f9f9f9;
 
 		&__fields {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr auto;
-			gap: 1rem;
-			align-items: end;
+			display: flex;
+			gap: 10px;
+			width: 100%;
 
 			@media (max-width: 768px) {
 				grid-template-columns: 1fr;
@@ -28,6 +26,9 @@
 		&__field {
 			display: flex;
 			flex-direction: column;
+			flex-grow: 1;
+			flex-shrink: 1;
+			width: 25%;
 
 			&--actions {
 				display: flex;
