@@ -1,0 +1,16 @@
+// ダークテーマ用のスタイル
+.kaleflower-setting-modal__color-palettes-editor {
+    
+    &__item {
+        border-color: #555;
+        background-color: #2a2a2a;
+    }
+
+    &__label {
+        color: #e0e0e0;
+    }
+
+    &__error {
+        color: #ff6b6b;
+    }
+}

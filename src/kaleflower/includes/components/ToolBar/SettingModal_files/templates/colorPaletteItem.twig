@@ -1,0 +1,33 @@
+<div class="kaleflower-setting-modal__color-palettes-editor__item" data-index="{{ index }}">
+    <div class="kaleflower-setting-modal__color-palettes-editor__item__fields">
+        <div class="kaleflower-setting-modal__color-palettes-editor__item__field">
+            <label class="kaleflower-setting-modal__color-palettes-editor__item__label">Color ID</label>
+            <input type="text" 
+                   class="px2-input kaleflower-setting-modal__color-palettes-editor__item__input" 
+                   data-field="id" 
+                   value="{{ id|e("html_attr") }}" 
+                   placeholder="e.g. key" />
+        </div>
+        <div class="kaleflower-setting-modal__color-palettes-editor__item__field">
+            <label class="kaleflower-setting-modal__color-palettes-editor__item__label">Color Name</label>
+            <input type="text" 
+                   class="px2-input kaleflower-setting-modal__color-palettes-editor__item__input" 
+                   data-field="name" 
+                   value="{{ data.name|e("html_attr") }}" 
+                   placeholder="e.g. Key color" />
+        </div>
+        <div class="kaleflower-setting-modal__color-palettes-editor__item__field">
+            <label class="kaleflower-setting-modal__color-palettes-editor__item__label">Color Code</label>
+            <input type="text" 
+                   class="px2-input kaleflower-setting-modal__color-palettes-editor__item__input" 
+                   data-field="color" 
+                   value="{{ data.color|e("html_attr") }}" 
+                   placeholder="e.g. #ffffff" />
+        </div>
+        <div class="kaleflower-setting-modal__color-palettes-editor__item__field kaleflower-setting-modal__color-palettes-editor__item__field--actions">
+            <button type="button" 
+                    class="px2-btn px2-btn--danger px2-btn--sm kaleflower-setting-modal__color-palettes-editor__item__remove-btn" 
+                    data-action="remove">Remove</button>
+        </div>
+    </div>
+</div>

@@ -95,7 +95,6 @@ const SettingModal = React.memo((props) => {
 						// break-points の編集機能
 						prevState.configs['break-points'] = breakPointsResult.breakPoints;
 
-						// TODO: color-palettes の編集機能を追加する
 						// color-palettes の編集機能
 						prevState.configs['color-palettes'] = colorPalettesResult.colorPalettes;
 

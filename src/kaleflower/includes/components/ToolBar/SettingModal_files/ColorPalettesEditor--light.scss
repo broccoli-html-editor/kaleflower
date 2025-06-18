@@ -1,0 +1,16 @@
+// ライトテーマ用のスタイル
+.kaleflower-setting-modal__color-palettes-editor {
+    
+    &__item {
+        border-color: #ddd;
+        background-color: #f9f9f9;
+    }
+
+    &__label {
+        color: #333;
+    }
+
+    &__error {
+        color: #dc3545;
+    }
+}
