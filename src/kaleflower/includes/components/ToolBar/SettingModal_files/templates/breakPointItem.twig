@@ -1,16 +1,16 @@
-<div class="kaleflower-setting-modal__breakpoints-editor__item" data-index="{{ index | e }}">
+<div class="kaleflower-setting-modal__breakpoints-editor__item" data-index="{{ index|e("html_attr") }}">
 	<div class="kaleflower-setting-modal__breakpoints-editor__item-row">
 		<div class="kaleflower-setting-modal__breakpoints-editor__item-field kaleflower-setting-modal__breakpoints-editor__item-field--id">
 			<label class="kaleflower-setting-modal__breakpoints-editor__item-label">ID</label>
-			<input type="text" class="px2-input" data-field="id" value="{{ id | e }}" placeholder="e.g. lg" />
+			<input type="text" class="px2-input" data-field="id" value="{{ id|e("html_attr") }}" placeholder="e.g. lg" />
 		</div>
 		<div class="kaleflower-setting-modal__breakpoints-editor__item-field kaleflower-setting-modal__breakpoints-editor__item-field--name">
 			<label class="kaleflower-setting-modal__breakpoints-editor__item-label">Name</label>
-			<input type="text" class="px2-input" data-field="name" value="{{ data.name | e }}" placeholder="e.g. Large" />
+			<input type="text" class="px2-input" data-field="name" value="{{ data.name|e("html_attr") }}" placeholder="e.g. Large" />
 		</div>
 		<div class="kaleflower-setting-modal__breakpoints-editor__item-field kaleflower-setting-modal__breakpoints-editor__item-field--max-width">
 			<label class="kaleflower-setting-modal__breakpoints-editor__item-label">Max Width</label>
-			<input type="number" class="px2-input" data-field="max-width" value="{{ data['max-width'] | e }}" placeholder="1400" />
+			<input type="number" class="px2-input" data-field="max-width" value="{{ data['max-width']|e("html_attr") }}" placeholder="1400" />
 		</div>
 		<div class="kaleflower-setting-modal__breakpoints-editor__item-actions">
 			<button type="button" class="px2-btn px2-btn--danger px2-btn--sm" data-action="remove">Remove</button>
