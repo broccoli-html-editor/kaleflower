@@ -22,6 +22,7 @@ const SettingModal = React.memo((props) => {
 			{
 				moduleName: globalState.configs['module-name'],
 				moduleNamePrefix: globalState.configs['module-name-prefix'],
+				breakPointQueryType: globalState.configs['break-point-query-type'],
 				breakPoints: globalState.configs['break-points'],
 				colorPalettes: globalState.configs['color-palettes'],
 			}
@@ -66,6 +67,10 @@ const SettingModal = React.memo((props) => {
 					if (moduleNamePrefix.match(/[^0-9a-zA-Z\-\_]/)) {
 						errors['module-name-prefix'] = 'Invalid charactor included.';
 					}
+					const breakPointQueryType = $body.find('[name=break-point-query-type]').val();
+					if (!breakPointQueryType.match(/^(?:media|container)\-query$/)) {
+						errors['break-point-query-type'] = 'Invalid value.';
+					}
 
 					// ブレイクポイントデータのバリデーション
 					const breakPointsResult = breakPointsEditor.get();
@@ -92,6 +97,7 @@ const SettingModal = React.memo((props) => {
 
 						prevState.configs['module-name'] = $body.find('[name=module-name]').val();
 						prevState.configs['module-name-prefix'] = $body.find('[name=module-name-prefix]').val();
+						prevState.configs['break-point-query-type'] = $body.find('[name=break-point-query-type]').val();
 
 						// break-points の編集機能
 						prevState.configs['break-points'] = breakPointsResult.breakPoints;

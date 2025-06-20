@@ -12,6 +12,15 @@
 				<input type="text" id="kaleflower-form-element--module-name-prefix" name="module-name-prefix" value="{{ moduleNamePrefix|e("html_attr") }}" class="px2-input px2-input--block" />
 			</div>
 		</li>
+		<li class="px2-form-input-list__li" data-name="break-point-query-type">
+			<div class="px2-form-input-list__label"><label for="kaleflower-form-element--break-point-query-type">break point query type</label></div>
+			<div class="px2-form-input-list__input">
+				<select name="break-point-query-type" id="kaleflower-form-element--break-point-query-type" class="px2-input px2-input--block">
+					<option value="media-query"{% if breakPointQueryType == "media-query" %} selected="selected"{% endif %}>media-query</option>
+					<option value="container-query"{% if breakPointQueryType == "container-query" %} selected="selected"{% endif %}>container-query</option>
+				</select>
+			</div>
+		</li>
 		<li class="px2-form-input-list__li" data-name="break-points">
 			<div class="px2-form-input-list__label"><label>Break Points</label></div>
 			<div class="px2-form-input-list__input">
