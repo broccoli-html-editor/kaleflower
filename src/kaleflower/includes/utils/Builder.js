@@ -96,7 +96,7 @@ export class Builder {
 		}
 		this.#js_script_prefix = `const kfGetClassName=(orgName)=>(${JSON.stringify(this.#module_name_prefix)}+orgName);`;
 
-		if( this.config['break-point-query-type'] && this.config['break-point-query-type'] == 'container-query' ){
+		if( this.#config['break-point-query-type'] && this.#config['break-point-query-type'] == 'container-query' ){
 			this.#break_point_query = '@container';
 		}
 		if( !this.#config['break-points'] ){
@@ -268,6 +268,13 @@ export class Builder {
 				const $attr = $node.attributes[index];
 				$attributes[$attr.nodeName] = $attr.nodeValue;
 			});
+		}
+
+		if (!$depth && $node.nodeType == Node.ELEMENT_NODE && this.#config['break-point-query-type'] && this.#config['break-point-query-type'] == 'container-query') {
+			// コンテナクエリの場合、ルート要素に container-type: inline-size; を追加
+			if (!$attributes.style.match(/container\-type/ig)) {
+				$attributes.style = 'container-type: inline-size;'+$attributes.style;
+			}
 		}
 
 		const $hasBreakPointCss = Object.keys($attributes.breakPoints).filter((breakPointName) => {

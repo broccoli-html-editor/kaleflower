@@ -144,11 +144,14 @@ top: 0px;
 .cont-test__kf-kf1928bb222858994f-5 {
 position: relative;
 }
+.cont-test {
+container-type: inline-size;
+}
 .cont-test__kf-kf1928bb222858994f-6 {
 width: auto; height: auto;
 }
 .cont-test {
-overflow: auto; width: 50%; height: auto;
+container-type: inline-size;overflow: auto; width: 50%; height: auto;
 }
 @container (max-width: 1400px) {
 .cont-test {
@@ -164,4 +167,7 @@ width: 80%;
 .cont-test {
 width: 190%;
 }
+}
+.cont-test {
+container-type: inline-size;
 }

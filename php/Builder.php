@@ -337,6 +337,13 @@ class Builder {
 			}
 		}
 
+		if(!$depth && $node->nodeType == XML_ELEMENT_NODE && strlen($this->config->{'break-point-query-type'} ?? '') && $this->config->{'break-point-query-type'} == 'container-query'){
+			// コンテナクエリの場合、ルート要素に container-type: inline-size; を追加
+			if( !preg_match('/container\-type/is', $attributes->style ?? '') ){
+				$attributes->style = 'container-type: inline-size;'.$attributes->style;
+			}
+		}
+
 		$hasBreakPointCss = array();
 		foreach($attributes->breakPoints as $breakPointName => $breakPointStyle){
 			if( strlen($breakPointStyle) ){
