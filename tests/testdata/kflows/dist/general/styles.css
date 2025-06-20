@@ -94,27 +94,27 @@ color: #f00; width: 100%;}
 .cont-test__kf-kf1928bb222858994f-0 {
 width: 50%;
 }
-@media all and (max-width: 1400px) {
+@container (max-width: 1400px) {
 .cont-test__kf-kf1928bb222858994f-0 {
 width: 60%;
 }
 }
-@media all and (max-width: 800px) {
+@container (max-width: 800px) {
 .cont-test__kf-kf1928bb222858994f-0 {
 width: 80%;
 }
 }
-@media all and (max-width: 480px) {
+@container (max-width: 480px) {
 .cont-test__kf-kf1928bb222858994f-0 {
 width: 100%;
 }
 }
-@media all and (max-width: 800px) {
+@container (max-width: 800px) {
 .cont-test__kf-kf1928bb222858994f-1 {
 width: 50%;
 }
 }
-@media all and (max-width: 480px) {
+@container (max-width: 480px) {
 .cont-test__kf-kf1928bb222858994f-1 {
 width: 100%;
 }
@@ -122,12 +122,12 @@ width: 100%;
 .cont-test__kf-kf1928bb222858994f-2 {
 color: blue;
 }
-@media all and (max-width: 1400px) {
+@container (max-width: 1400px) {
 .cont-test__kf-kf1928bb222858994f-2 {
 color: red;
 }
 }
-@media all and (max-width: 480px) {
+@container (max-width: 480px) {
 .cont-test__kf-kf1928bb222858994f-2 {
 color: green;
 }
@@ -150,17 +150,17 @@ width: auto; height: auto;
 .cont-test {
 overflow: auto; width: 50%; height: auto;
 }
-@media all and (max-width: 1400px) {
+@container (max-width: 1400px) {
 .cont-test {
 width: 60%;
 }
 }
-@media all and (max-width: 800px) {
+@container (max-width: 800px) {
 .cont-test {
 width: 80%;
 }
 }
-@media all and (max-width: 480px) {
+@container (max-width: 480px) {
 .cont-test {
 width: 190%;
 }

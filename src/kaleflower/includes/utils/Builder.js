@@ -15,8 +15,9 @@ export class Builder {
 	#js;
 	#module_name = '';
 	#module_name_prefix = '';
-	#js_script_prefix = '';
 	#class_name_prefix = '';
+	#js_script_prefix = '';
+	#break_point_query = '@media';
 	#errors = [];
 	#instance_number = 0;
 
@@ -95,6 +96,9 @@ export class Builder {
 		}
 		this.#js_script_prefix = `const kfGetClassName=(orgName)=>(${JSON.stringify(this.#module_name_prefix)}+orgName);`;
 
+		if( this.config['break-point-query-type'] && this.config['break-point-query-type'] == 'container-query' ){
+			this.#break_point_query = '@container';
+		}
 		if( !this.#config['break-points'] ){
 			this.#config['break-points'] = {};
 		}
@@ -295,7 +299,7 @@ export class Builder {
 		Object.values(this.#config['break-points']).forEach((breakPointConfig) => {
 			const $breakPointStyle = ($attributes.breakPoints[breakPointConfig.name] || '').trim();
 			if ($breakPointStyle.length) {
-				$attributes.style += '@media all and (max-width: '+breakPointConfig['max-width']+'px) {'+"\n";
+				$attributes.style += this.#break_point_query+' (max-width: '+breakPointConfig['max-width']+'px) {'+"\n";
 				$attributes.style += '.'+$splitedClassName[0]+' {'+"\n"+''+$breakPointStyle+"\n"+'}'+"\n";
 				$attributes.style += '}'+"\n";
 			}

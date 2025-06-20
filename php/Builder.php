@@ -53,6 +53,9 @@ class Builder {
 	/** JS Script prefix */
 	private $js_script_prefix = '';
 
+	/** Break point query */
+	private $break_point_query = '@media';
+
 	/** Errors */
 	private $errors = array();
 
@@ -155,6 +158,9 @@ class Builder {
 		}
 		$this->js_script_prefix = 'const kfGetClassName=(orgName)=>('.json_encode($this->class_name_prefix).'+orgName);';
 
+		if( strlen($this->config->{'break-point-query-type'} ?? '') && $this->config->{'break-point-query-type'} == 'container-query' ){
+			$this->break_point_query = '@container';
+		}
 		if( !is_object($this->config->{"break-points"} ?? null) ){
 			$this->config->{"break-points"} = (object) array();
 		}
@@ -363,7 +369,7 @@ class Builder {
 		foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
 			$breakPointStyle = trim($attributes->breakPoints->{$breakPointName} ?? '');
 			if (strlen($breakPointStyle)) {
-				$attributes->style .= '@media all and (max-width: '.$breakPointNode->{'max-width'}.'px) {'."\n";
+				$attributes->style .= $this->break_point_query.' (max-width: '.$breakPointNode->{'max-width'}.'px) {'."\n";
 				$attributes->style .= '.'.$splitedClassName[0].' {'."\n".''.$breakPointStyle."\n".'}'."\n";
 				$attributes->style .= '}'."\n";
 			}

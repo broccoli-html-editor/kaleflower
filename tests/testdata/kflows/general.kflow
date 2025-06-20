@@ -4,6 +4,7 @@
 		<config name="id" value="kf1928bb222858994f" />
 		<config name="module-name-prefix" value="cont-" />
 		<config name="module-name" value="test" />
+		<config name="break-point-query-type" value="container-query" />
 		<config name="break-points">
 			<value name="lg" max-width="1400" />
 			<value name="md" max-width="800" />
