@@ -48,7 +48,7 @@ class mainTest extends PHPUnit\Framework\TestCase{
 	}
 
 	/**
-	 * ビルド empty.kflow
+	 * ビルド: empty contents
 	 */
 	public function testBuildEmptyContents(){
 		$kaleflower = new \kaleflower\kaleflower();
@@ -98,6 +98,37 @@ class mainTest extends PHPUnit\Framework\TestCase{
 		$this->fs->mkdir(__DIR__.'/testdata/kflows/dist/empty-002/main_files/');
 		foreach($result->assets as $asset){
 			$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty-002/'.$asset->path, base64_decode($asset->base64));
+		}
+	}
+
+	/**
+	 * ビルド: broken contents
+	 */
+	public function testBuildBrokenContents(){
+		$kaleflower = new \kaleflower\kaleflower();
+		$this->assertTrue( is_object($kaleflower) );
+
+		// broken.kflow
+		$result = $kaleflower->build(
+			__DIR__.'/testdata/kflows/broken.kflow',
+			array(
+				'assetsPrefix' => './main_files/',
+				"extra" => array(
+					"sample" => "sample value",
+				),
+			)
+		);
+
+		$this->assertTrue( is_object($result) );
+		$this->assertFalse( $result->result );
+
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/broken/main.html', $result->html->main);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/broken/styles.css', $result->css);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/broken/scripts.js', $result->js);
+
+		$this->fs->mkdir(__DIR__.'/testdata/kflows/dist/broken/main_files/');
+		foreach($result->assets as $asset){
+			$this->fs->save_file(__DIR__.'/testdata/kflows/dist/broken/'.$asset->path, base64_decode($asset->base64));
 		}
 	}
 

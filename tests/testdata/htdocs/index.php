@@ -56,14 +56,14 @@ $appearance = (strlen($_GET['appearance'] ?? '') ? $_GET['appearance'] : 'light'
 				kaleflower.on('change', function(event){
 					console.log('on change event: ', event);
 				});
-				kaleflower.load('../kflows/general.kflow');
+				kaleflower.load('../kflows/'+<?= json_encode(urlencode($_GET['file'] ?? "general")) ?>+'.kflow');
 			});
 		</script>
 		<script>
 			function save(){
 				let data = kaleflower.get();
 				console.info(data);
-				fetch('./save.php', {
+				fetch('./save.php?file='+<?= json_encode(urlencode($_GET['file'] ?? "general")) ?>+'', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
