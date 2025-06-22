@@ -20,6 +20,7 @@ class mainTest extends PHPUnit\Framework\TestCase{
 		$kaleflower = new \kaleflower\kaleflower();
 		$this->assertTrue( is_object($kaleflower) );
 
+		// general.kflow
 		$result = $kaleflower->build(
 			__DIR__.'/testdata/kflows/general.kflow',
 			array(
@@ -43,6 +44,60 @@ class mainTest extends PHPUnit\Framework\TestCase{
 		$this->fs->mkdir(__DIR__.'/testdata/kflows/dist/general/main_files/');
 		foreach($result->assets as $asset){
 			$this->fs->save_file(__DIR__.'/testdata/kflows/dist/general/'.$asset->path, base64_decode($asset->base64));
+		}
+	}
+
+	/**
+	 * ビルド empty.kflow
+	 */
+	public function testBuildEmptyContents(){
+		$kaleflower = new \kaleflower\kaleflower();
+		$this->assertTrue( is_object($kaleflower) );
+
+		// empty.kflow
+		$result = $kaleflower->build(
+			__DIR__.'/testdata/kflows/empty.kflow',
+			array(
+				'assetsPrefix' => './main_files/',
+				"extra" => array(
+					"sample" => "sample value",
+				),
+			)
+		);
+
+		$this->assertTrue( is_object($result) );
+		$this->assertFalse( $result->result );
+
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty/main.html', $result->html->main);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty/styles.css', $result->css);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty/scripts.js', $result->js);
+
+		$this->fs->mkdir(__DIR__.'/testdata/kflows/dist/empty/main_files/');
+		foreach($result->assets as $asset){
+			$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty/'.$asset->path, base64_decode($asset->base64));
+		}
+
+		// empty-002.kflow
+		$result = $kaleflower->build(
+			__DIR__.'/testdata/kflows/empty-002.kflow',
+			array(
+				'assetsPrefix' => './main_files/',
+				"extra" => array(
+					"sample" => "sample value",
+				),
+			)
+		);
+
+		$this->assertTrue( is_object($result) );
+		$this->assertTrue( $result->result );
+
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty-002/main.html', $result->html->main);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty-002/styles.css', $result->css);
+		$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty-002/scripts.js', $result->js);
+
+		$this->fs->mkdir(__DIR__.'/testdata/kflows/dist/empty-002/main_files/');
+		foreach($result->assets as $asset){
+			$this->fs->save_file(__DIR__.'/testdata/kflows/dist/empty-002/'.$asset->path, base64_decode($asset->base64));
 		}
 	}
 

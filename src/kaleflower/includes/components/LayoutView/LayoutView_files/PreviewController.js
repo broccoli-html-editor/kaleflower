@@ -126,7 +126,7 @@ export class PreviewController {
 			this.sendMessageToIframe('ping', {}, (res) => {
 				try {
 					if( !res.result ){
-						console.error('postMessenger: ping got a error', res);
+						console.error('postMessenger: ping got an error', res);
 					}
 
 				} catch(e) {
@@ -166,7 +166,7 @@ export class PreviewController {
 			}, (res) => {
 				try {
 					if( !res.result ){
-						console.error('postMessenger: updateHtml got a error', res);
+						console.error('postMessenger: updateHtml got an error', res);
 					}
 
 				} catch(e) {

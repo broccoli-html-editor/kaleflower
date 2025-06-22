@@ -49,8 +49,13 @@ class kflowXml {
 			return false;
 		}
 
-		$dom = new \DOMDocument();
-		$dom->load($realpath_kflow);
+		try {
+			$dom = new \DOMDocument();
+			$dom->load($realpath_kflow);
+		}catch (\Exception $e) {
+			// If the file is not a valid XML, return false
+			return false;
+		}
 
 		$this->mergeDom($dom);
 

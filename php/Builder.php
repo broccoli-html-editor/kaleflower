@@ -84,7 +84,7 @@ class Builder {
 
 	/**
 	 * Build
-	 * @param string $dom Realpath of the kflow file.
+	 * @param string $dom DOM Object of the kflow file.
 	 * @param array $buildOptions Build options
 	 */
 	public function build( $dom, $buildOptions = array() ){
@@ -104,179 +104,192 @@ class Builder {
 			'assets' => array(),
 		);
 
-		$xpath = new \DOMXPath($dom);
-		$configNodes = $xpath->query("/kflow/configs/config");
-		$styleNodes = $xpath->query("/kflow/styles/style");
-		$fieldNodes = $xpath->query("/kflow/fields/field");
-		$componentNodes = $xpath->query("/kflow/components/component");
-		$assetNodes = $xpath->query("/kflow/assets/asset");
-		$contentNodes = $xpath->query("/kflow/contents/content");
+		if(is_null($dom)){
+			$rtn->result = false;
+			$rtn->error = 'DOM is null.';
+			return $rtn;
+		}
 
-		$this->config = (object) array(
-			'id' => null,
-		);
+		try {
+			$xpath = new \DOMXPath($dom);
+			$configNodes = $xpath->query("/kflow/configs/config");
+			$styleNodes = $xpath->query("/kflow/styles/style");
+			$fieldNodes = $xpath->query("/kflow/fields/field");
+			$componentNodes = $xpath->query("/kflow/components/component");
+			$assetNodes = $xpath->query("/kflow/assets/asset");
+			$contentNodes = $xpath->query("/kflow/contents/content");
 
-		foreach ($configNodes as $configNode) {
-			$configName = $configNode->getAttribute('name');
-			$configValueAttr = $configNode->getAttribute('value');
-			$configHasValueAttr = $configNode->hasAttribute('value');
+			$this->config = (object) array(
+				'id' => null,
+			);
 
-			if ($configHasValueAttr) {
-				$this->config->{$configName} = $configValueAttr;
-			} else {
-				$valueElements = $xpath->query("value", $configNode);
-				$this->config->{$configName} = (Object) array();
-				foreach ($valueElements as $value) {
-					$valueName = $value->getAttribute('name');
-					$attrObj = (Object) array();
-					foreach ($value->attributes as $attr) {
-						$attrObj->{$attr->name} = $attr->value;
+			foreach ($configNodes as $configNode) {
+				$configName = $configNode->getAttribute('name');
+				$configValueAttr = $configNode->getAttribute('value');
+				$configHasValueAttr = $configNode->hasAttribute('value');
+
+				if ($configHasValueAttr) {
+					$this->config->{$configName} = $configValueAttr;
+				} else {
+					$valueElements = $xpath->query("value", $configNode);
+					$this->config->{$configName} = (Object) array();
+					foreach ($valueElements as $value) {
+						$valueName = $value->getAttribute('name');
+						$attrObj = (Object) array();
+						foreach ($value->attributes as $attr) {
+							$attrObj->{$attr->name} = $attr->value;
+						}
+						$this->config->{$configName}->{$valueName} = $attrObj;
 					}
-					$this->config->{$configName}->{$valueName} = $attrObj;
 				}
 			}
-		}
 
-		if( strlen($this->config->{"module-name"} ?? '') ){
-			$moduleName = trim($this->config->{"module-name"});
-			$moduleName = preg_replace('/^\-*/', '', $moduleName);
-			$moduleName = preg_replace('/\-*$/', '', $moduleName);
-			$this->module_name = $moduleName;
-		}
-		if( strlen($this->config->{"module-name-prefix"} ?? '') ){
-			$moduleNamePrefix = trim($this->config->{"module-name-prefix"});
-			$moduleNamePrefix = preg_replace('/^\-*/', '', $moduleNamePrefix);
-			$moduleNamePrefix = preg_replace('/\-*$/', '', $moduleNamePrefix);
-			$this->module_name_prefix = $moduleNamePrefix;
-		}
-		if( strlen($this->module_name) && strlen($this->module_name_prefix) ){
-			$this->class_name_prefix = $this->module_name_prefix.'-'.$this->module_name.'__';
-		}elseif( strlen($this->module_name) ){
-			$this->class_name_prefix = $this->module_name.'__';
-		}elseif( strlen($this->module_name_prefix) ){
-			$this->class_name_prefix = $this->module_name_prefix.'-';
-		}
-		$this->js_script_prefix = 'const kfGetClassName=(orgName)=>('.json_encode($this->class_name_prefix).'+orgName);';
+			if( strlen($this->config->{"module-name"} ?? '') ){
+				$moduleName = trim($this->config->{"module-name"});
+				$moduleName = preg_replace('/^\-*/', '', $moduleName);
+				$moduleName = preg_replace('/\-*$/', '', $moduleName);
+				$this->module_name = $moduleName;
+			}
+			if( strlen($this->config->{"module-name-prefix"} ?? '') ){
+				$moduleNamePrefix = trim($this->config->{"module-name-prefix"});
+				$moduleNamePrefix = preg_replace('/^\-*/', '', $moduleNamePrefix);
+				$moduleNamePrefix = preg_replace('/\-*$/', '', $moduleNamePrefix);
+				$this->module_name_prefix = $moduleNamePrefix;
+			}
+			if( strlen($this->module_name) && strlen($this->module_name_prefix) ){
+				$this->class_name_prefix = $this->module_name_prefix.'-'.$this->module_name.'__';
+			}elseif( strlen($this->module_name) ){
+				$this->class_name_prefix = $this->module_name.'__';
+			}elseif( strlen($this->module_name_prefix) ){
+				$this->class_name_prefix = $this->module_name_prefix.'-';
+			}
+			$this->js_script_prefix = 'const kfGetClassName=(orgName)=>('.json_encode($this->class_name_prefix).'+orgName);';
 
-		if( strlen($this->config->{'break-point-query-type'} ?? '') && $this->config->{'break-point-query-type'} == 'container-query' ){
-			$this->break_point_query = '@container';
-		}
-		if( !is_object($this->config->{"break-points"} ?? null) ){
-			$this->config->{"break-points"} = (object) array();
-		}
-		if( !is_object($this->config->{"color-palettes"} ?? null) ){
-			$this->config->{"color-palettes"} = (object) array();
-		}
+			if( strlen($this->config->{'break-point-query-type'} ?? '') && $this->config->{'break-point-query-type'} == 'container-query' ){
+				$this->break_point_query = '@container';
+			}
+			if( !is_object($this->config->{"break-points"} ?? null) ){
+				$this->config->{"break-points"} = (object) array();
+			}
+			if( !is_object($this->config->{"color-palettes"} ?? null) ){
+				$this->config->{"color-palettes"} = (object) array();
+			}
 
-		$this->fields = new Fields($this->utils);
-		foreach ($fieldNodes as $field) {
-			$this->fields->add_field($field);
-		}
+			$this->fields = new Fields($this->utils);
+			foreach ($fieldNodes as $field) {
+				$this->fields->add_field($field);
+			}
 
-		$this->components = new Components($this->utils);
-		foreach ($componentNodes as $component) {
-			$this->components->add_component($component);
-		}
+			$this->components = new Components($this->utils);
+			foreach ($componentNodes as $component) {
+				$this->components->add_component($component);
+			}
 
-		foreach($this->components->get_custom_components() as $component){
-			$rtn->css .= $component->style ?? '';
-		}
+			foreach($this->components->get_custom_components() as $component){
+				$rtn->css .= $component->style ?? '';
+			}
 
-		foreach ($styleNodes as $styleNode) {
-			$className = $styleNode->getAttribute('class');
-			if(!$className){
+			foreach ($styleNodes as $styleNode) {
+				$className = $styleNode->getAttribute('class');
+				if(!$className){
+					foreach ($styleNode->childNodes as $child) {
+						// 子ノード(カスタムCSS)を文字列として追加
+						if($child->nodeType === XML_TEXT_NODE) {
+							$rtn->css .= $child->nodeValue;
+						}
+					}
+					continue;
+				}
+				$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
+				$rtn->css .= $this->buildCssByElementAttr($styleNode);
+
 				foreach ($styleNode->childNodes as $child) {
 					// 子ノード(カスタムCSS)を文字列として追加
 					if($child->nodeType === XML_TEXT_NODE) {
 						$rtn->css .= $child->nodeValue;
 					}
 				}
-				continue;
-			}
-			$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
-			$rtn->css .= $this->buildCssByElementAttr($styleNode);
+				$rtn->css .= '}'."\n";
 
-			foreach ($styleNode->childNodes as $child) {
-				// 子ノード(カスタムCSS)を文字列として追加
-				if($child->nodeType === XML_TEXT_NODE) {
-					$rtn->css .= $child->nodeValue;
-				}
-			}
-			$rtn->css .= '}'."\n";
-
-			// Handle media elements
-			// Handle media elements for each break point
-			foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
-				$maxWidth = $breakPointNode->{'max-width'};
-				$mediaNodes = $xpath->query("media[@break-point='" . $breakPointName . "']", $styleNode);
-				
-				if ($mediaNodes->length > 0) {
-					$tmp_css = '';
-					foreach ($mediaNodes as $mediaNode) {
-						$tmp_css .= $this->buildCssByElementAttr($mediaNode);
-						foreach ($mediaNode->childNodes as $child) {
-							if($child->nodeType === XML_TEXT_NODE) {
-								$tmp_css .= $child->nodeValue;
+				// Handle media elements
+				// Handle media elements for each break point
+				foreach ($this->config->{'break-points'} as $breakPointName => $breakPointNode) {
+					$maxWidth = $breakPointNode->{'max-width'};
+					$mediaNodes = $xpath->query("media[@break-point='" . $breakPointName . "']", $styleNode);
+					
+					if ($mediaNodes->length > 0) {
+						$tmp_css = '';
+						foreach ($mediaNodes as $mediaNode) {
+							$tmp_css .= $this->buildCssByElementAttr($mediaNode);
+							foreach ($mediaNode->childNodes as $child) {
+								if($child->nodeType === XML_TEXT_NODE) {
+									$tmp_css .= $child->nodeValue;
+								}
 							}
 						}
-					}
 
-					if(strlen(trim($tmp_css))){
-						$rtn->css .= '@media all and (max-width: '.$maxWidth.'px) {'."\n";
-						$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
-						$rtn->css .= $tmp_css;
-						$rtn->css .= '}'."\n";
-						$rtn->css .= '}'."\n";
+						if(strlen(trim($tmp_css))){
+							$rtn->css .= '@media all and (max-width: '.$maxWidth.'px) {'."\n";
+							$rtn->css .= '.'.$this->class_name_prefix.$className.' {'."\n";
+							$rtn->css .= $tmp_css;
+							$rtn->css .= '}'."\n";
+							$rtn->css .= '}'."\n";
+						}
+						unset($tmp_css);
 					}
-					unset($tmp_css);
 				}
 			}
-		}
 
-		// アセット (返される用)
-		foreach ($assetNodes as $assetNode) {
-			$isPrivateMaterial = $assetNode->getAttribute('is-private-material');
-			if($this->utils->to_boolean($isPrivateMaterial)){
-				continue;
+			// アセット (返される用)
+			foreach ($assetNodes as $assetNode) {
+				$isPrivateMaterial = $assetNode->getAttribute('is-private-material');
+				if($this->utils->to_boolean($isPrivateMaterial)){
+					continue;
+				}
+				array_push($rtn->assets, (object) array(
+					'path' => $buildOptions->assetsPrefix.$assetNode->getAttribute('public-filename'),
+					'base64' => $assetNode->getAttribute('base64'),
+				));
 			}
-			array_push($rtn->assets, (object) array(
-				'path' => $buildOptions->assetsPrefix.$assetNode->getAttribute('public-filename'),
-				'base64' => $assetNode->getAttribute('base64'),
-			));
-		}
 
-		// アセット (フィールドテンプレートに渡される用)
-		$this->assets = array();
-		foreach ($assetNodes as $assetNode) {
-			$assetId = $assetNode->getAttribute('id');
-			$this->assets[$assetId] = array(
-				'id' => $assetId,
-				'ext' => $assetNode->getAttribute('ext'),
-				'size' => intval($assetNode->getAttribute('size')),
-				'width' => intval($assetNode->getAttribute('width')),
-				'height' => intval($assetNode->getAttribute('height')),
-				'isPrivateMaterial' => $this->utils->to_boolean($assetNode->getAttribute('is-private-material')),
-				'publicFilename' => $this->utils->to_boolean($assetNode->getAttribute('public-filename')),
-				'path' => $buildOptions->assetsPrefix.$assetNode->getAttribute('public-filename'),
-				'base64' => $assetNode->getAttribute('base64'),
-				'field' => $assetNode->getAttribute('field'),
-				'fieldNote' => $assetNode->getAttribute('field-note'),
-			);
-		}
-
-		foreach ($contentNodes as $contentNode) {
-			$bowlName = $contentNode->getAttribute('name');
-			if(!strlen($bowlName ?? '')){
-				$bowlName = 'main';
+			// アセット (フィールドテンプレートに渡される用)
+			$this->assets = array();
+			foreach ($assetNodes as $assetNode) {
+				$assetId = $assetNode->getAttribute('id');
+				$this->assets[$assetId] = array(
+					'id' => $assetId,
+					'ext' => $assetNode->getAttribute('ext'),
+					'size' => intval($assetNode->getAttribute('size')),
+					'width' => intval($assetNode->getAttribute('width')),
+					'height' => intval($assetNode->getAttribute('height')),
+					'isPrivateMaterial' => $this->utils->to_boolean($assetNode->getAttribute('is-private-material')),
+					'publicFilename' => $this->utils->to_boolean($assetNode->getAttribute('public-filename')),
+					'path' => $buildOptions->assetsPrefix.$assetNode->getAttribute('public-filename'),
+					'base64' => $assetNode->getAttribute('base64'),
+					'field' => $assetNode->getAttribute('field'),
+					'fieldNote' => $assetNode->getAttribute('field-note'),
+				);
 			}
-			foreach($contentNode->childNodes as $childNode){
-				$this->buildContent($childNode);
 
-				$rtn->html->{$bowlName} = $rtn->html->{$bowlName} ?? '';
-				$rtn->html->{$bowlName} .= $this->html;
-				$rtn->css .= $this->css;
-				$rtn->js .= $this->js;
+			foreach ($contentNodes as $contentNode) {
+				$bowlName = $contentNode->getAttribute('name');
+				if(!strlen($bowlName ?? '')){
+					$bowlName = 'main';
+				}
+				foreach($contentNode->childNodes as $childNode){
+					$this->buildContent($childNode);
+
+					$rtn->html->{$bowlName} = $rtn->html->{$bowlName} ?? '';
+					$rtn->html->{$bowlName} .= $this->html;
+					$rtn->css .= $this->css;
+					$rtn->js .= $this->js;
+				}
 			}
+
+		} catch (\Exception $e) {
+			$rtn->result = false;
+			$rtn->error = $e->getMessage();
+			return $rtn;
 		}
 
 		return $rtn;
