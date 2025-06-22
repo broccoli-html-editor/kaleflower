@@ -28,7 +28,7 @@ export class KflowXml {
 			
 			if(typeof configValue === 'string') {
 				// 単純な値の場合
-				finalXml += '		<config name="'+this.#utils.htmlSpecialChars(configName)+'" value="'+this.#utils.htmlSpecialChars(configValue)+'" />\n';
+				finalXml += '		<config name="'+this.#utils.htmlSpecialChars(configName)+'" value="'+this.#utils.htmlSpecialChars(configValue)+'"/>\n';
 			} else if(typeof configValue === 'object') {
 				// オブジェクト型の場合は入れ子構造で出力
 				finalXml += '		<config name="'+this.#utils.htmlSpecialChars(configName)+'">\n';
@@ -46,7 +46,7 @@ export class KflowXml {
 						});
 					}
 					
-					finalXml += ' />\n';
+					finalXml += '/>\n';
 				});
 				
 				finalXml += '		</config>\n';
@@ -149,7 +149,7 @@ export class KflowXml {
 					if(typeof(field.default) == typeof('string') && field.default.length){
 						finalXml += ' default="'+this.#utils.htmlSpecialChars(field.default)+'"';
 					}
-					finalXml += ' />'+"\n";
+					finalXml += '/>'+"\n";
 				});
 				finalXml += '			</fields>';
 			}
