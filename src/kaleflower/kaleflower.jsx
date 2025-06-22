@@ -36,7 +36,11 @@ window.Kaleflower = class {
 
 		this.#kflowProcId = this.#utils.createUUID();
 
-		this.#container.className = ["kaleflower", `kaleflower--appearance-${this.#options.appearance}`, this.#container.className].join(' ');
+		this.#container.className = [
+			"kaleflower",
+			`kaleflower--appearance-${this.#options.appearance}`,
+			this.#container.className
+		].join(' ');
 
 		new Promise((resolve) => {
 			this.#lb = new LangBank(languageCsv, () => {
@@ -62,7 +66,14 @@ window.Kaleflower = class {
 	 * Render the Root component
 	 */
 	#render() {
-		window.dispatchEvent(new CustomEvent(`kaleflower-${this.#kflowProcId}-state-updated`, {detail: this.#globalState}));
+		window.dispatchEvent(
+			new CustomEvent(
+				`kaleflower-${this.#kflowProcId}-state-updated`,
+				{
+					detail: this.#globalState,
+				}
+			)
+		);
 	}
 
 	/**

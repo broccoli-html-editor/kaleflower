@@ -255,6 +255,9 @@ export class KflowXml {
 				})();
 				newGlobalState.contents[contentAreaName] = content;
 			});
+			if(!newGlobalState.contents['main']){
+				newGlobalState.contents['main'] = document.createElementNS('', 'content');
+			}
 
 			rlv(newGlobalState);
 		});
