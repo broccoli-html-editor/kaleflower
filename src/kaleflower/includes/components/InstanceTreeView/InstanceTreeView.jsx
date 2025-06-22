@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from '../../context/MainContext';
-import Node from './Node.jsx';
+import ContentElementNode from './ContentElementNode.jsx';
 import {Utils} from "../../utils/Utils.js";
 import Icons from '../Icons/Icons.jsx';
 
@@ -12,6 +12,7 @@ const InstanceTreeView = React.memo((props) => {
 		<div className="kaleflower-insance-tree-view">
 			{Object.keys(globalState.contents).map((key, index) => {
 				const content = globalState.contents[key];
+				console.log('key', key, content);
 				return (<div key={index} className="kaleflower-insance-tree-view__bowl">
 					<p className="kaleflower-insance-tree-view__title">{key}</p>
 					<ul className="kaleflower-insance-tree-view__node-list">
@@ -24,7 +25,7 @@ const InstanceTreeView = React.memo((props) => {
 							}
 							return (
 								<li key={index}>
-									<Node
+									<ContentElementNode
 										node={child}
 										instancePath={`document[name="${key}"].childNodes[${index}]`}
 										onselectinstance={props.onselectinstance}
@@ -36,7 +37,7 @@ const InstanceTreeView = React.memo((props) => {
 								</li>
 							);
 						})}
-						{(content.nodeName != '#text' && content.nodeName != '#comment' && !content.childNodes.length) ? (
+						{(content.nodeName != '#text' && content.nodeName != '#comment' && !Array.from(content.childNodes).filter(currentNode=>currentNode.nodeType == Node.ELEMENT_NODE).length) ? (
 							<li>
 								<button
 									className={`px2-btn px2-btn--secondary px2-btn--block`}

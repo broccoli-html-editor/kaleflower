@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { MainContext } from '../../context/MainContext';
+import { MainContext } from '../../context/MainContext.js';
 import Icons from '../Icons/Icons.jsx';
 
-const Node = React.memo((props) => {
+const ContentElementNode = React.memo((props) => {
 	const globalState = useContext(MainContext);
 	const panelRef = useRef(null);
 	const beforeRef = useRef(null);
@@ -158,7 +158,7 @@ const Node = React.memo((props) => {
 					}
 					return (
 						<li key={index}>
-							<Node
+							<ContentElementNode
 								node={child}
 								instancePath={`${props.instancePath}.childNodes[${index}]`}
 								onselectinstance={props.onselectinstance}
@@ -222,4 +222,4 @@ const Node = React.memo((props) => {
 	</>);
 });
 
-export default Node;
+export default ContentElementNode;
