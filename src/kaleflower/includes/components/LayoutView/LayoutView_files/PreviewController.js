@@ -21,7 +21,7 @@ export class PreviewController {
 	 */
 	on (eventName, callback) {
 		this.#events[eventName] = callback;
-		return;
+		return this;
 	}
 
 	/**
@@ -35,7 +35,7 @@ export class PreviewController {
 			...data,
 			type: eventName,
 		});
-		return;
+		return this;
 	}
 
 	/**
@@ -172,6 +172,24 @@ export class PreviewController {
 				} catch(e) {
 					console.error('postMessenger: updateHtml problem:', e);
 				}
+				resolve();
+			});
+		});})
+		.then(() => { return new Promise((resolve, reject) => {
+			this.sendMessageToIframe('getBowlList', {
+				contentsAreaSelector: this.#globalState.options.contentsAreaSelector || '[data-kaleflower-contents-bowl-name]',
+				contentsContainerNameBy: this.#globalState.options.contentsContainerNameBy || 'data-kaleflower-contents-bowl-name',
+			}, (res) => {
+				try {
+					if( !res ){
+						console.error('postMessenger: getBowlList got an error', res);
+					}
+				} catch(e) {
+					console.error('postMessenger: getBowlList problem:', e);
+				}
+				this.trigger('bowlListUpdated', {
+					bowlList: res,
+				});
 				resolve();
 			});
 		});})

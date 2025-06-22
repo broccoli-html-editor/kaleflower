@@ -46,6 +46,25 @@ const LayoutView = React.memo((props) => {
 				panels: event.panels,
 				window: event.window,
 			}));
+		})
+		.on('bowlListUpdated', (event) => {
+			const undefinedBowlNameList = [];
+			event.bowlList.forEach((bowlName) => {
+				if (bowlName && !globalState.contents[bowlName]) {
+					undefinedBowlNameList.push(bowlName);
+				}
+			});
+			if(undefinedBowlNameList.length){
+				globalState.setGlobalState(prevState => {
+					const newState = {...prevState};
+					undefinedBowlNameList.forEach((bowlName) => {
+						if (bowlName && !newState.contents[bowlName]) {
+							newState.contents[bowlName] = document.createElementNS('', bowlName);
+						}
+					});
+					return newState;
+				});
+			}
 		});
 
 	const currentLayer = (() => {
