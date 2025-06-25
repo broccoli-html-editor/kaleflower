@@ -105,11 +105,14 @@ const ElementEditor = (props) => {
 		Object.keys(globalState.styles).map((className) => {
 			let counter = 0;
 			Object.keys(globalState.contents).map((bowlName) => {
-				const $bowl = $(globalState.contents[bowlName]);
-				const $found = $bowl.find(`.${className}`);
-				counter += $found.length;
+				try {
+					const $bowl = $(globalState.contents[bowlName]);
+					const $found = $bowl.find(`.${className}`);
+					counter += $found.length;
+				}catch(e){
+				}
 			});
-			if(!counter){
+			if(!counter && className.length){
 				globalState.styles[className].remove();
 				delete globalState.styles[className];
 			}
@@ -117,7 +120,7 @@ const ElementEditor = (props) => {
 	}
 
 	const currentStyle = (currentClassName && globalState.styles[currentClassName] ? globalState.styles[currentClassName] : null);
-	const hasCssClassName = (canSetClass && currentClassName && currentStyle);
+	const hasCssClassName = !!(canSetClass && currentClassName && currentStyle);
 	const currentStyleBreakPoints = {};
 
 	if (currentStyle) {

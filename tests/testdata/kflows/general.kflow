@@ -19,16 +19,16 @@
 	</configs>
 	<styles>
 		<style>
-			html, body {
-				background-color: #f7f7f7;
-				color: #333;
-			}
-			a {
-				color: #00d;
-			}
-			a:hover {
-				color: #33f;
-			}
+html, body {
+	background-color: #f7f7f7;
+	color: #333;
+}
+a {
+	color: #00d;
+}
+a:hover {
+	color: #33f;
+}
 		</style>
 		<style class="test-image-sample">
 			width: 80%; height: auto; border: 1px solid #000;
@@ -72,10 +72,11 @@ width: 60%;
 				padding: 5px;
 			</media>
 		</style>
+		<style class="heading"><media break-point="lg"/><media break-point="md"></media><media break-point="sm"/></style>
 	</styles>
 	<contents>
 		<content><div>
-    <p style--sm="width: 100%;" style--md="width: 80%;" style--lg="width: 60%;&#xA;" style="width: 50%;">kflow main contents sample</p>
+    <h1 class="heading">This is a test page of Kaleflow</h1><p style--sm="width: 100%;" style--md="width: 80%;&#xA;" style--lg="width: 60%;&#xA;" style="width: 50%;">kflow main contents sample</p>
     <p style--md="width: 50%;" style--sm="width: 100%;">kflow main contents sample</p>
     <p style="color: blue;" style--lg="color: red;" style--sm="color: green;">kflow main contents sample</p>
 	<custom-component-001 image="{&quot;assetId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}" style="width: 100%;">
