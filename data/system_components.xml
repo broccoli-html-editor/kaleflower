@@ -1,23 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components>
 	<component name="div" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="span" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+
+	<!-- section -->
 	<component name="header" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
 	<component name="footer" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
 	<component name="main" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
 	<component name="nav" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="address" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="article" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="aside" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="section" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+
+	<!-- media -->
+	<component name="img" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true">
+		<fields>
+			<field type="image" name="image" label="Image" />
+			<field type="text" name="alt" label="Alt text" />
+		</fields>
+		<template><![CDATA[{% set image = json_decode(attributes.image) %}
+<img src="{{ assets[image.assetId].path }}" width="{{ assets[image.assetId].width }}" height="{{ assets[image.assetId].height }}" alt="{{ attributes.alt }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %} />]]></template>
+	</component>
+	<component name="figure" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="embed" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="map" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="area" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="audio" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="video" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="canvas" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="object" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="picture" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="source" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="figcaption" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+
+	<!-- frame -->
+	<component name="iframe" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+
+	<!-- headings -->
 	<component name="h1" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="false" can-be-layer="false"></component>
 	<component name="h2" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="false" can-be-layer="false"></component>
 	<component name="h3" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="false" can-be-layer="false"></component>
 	<component name="h4" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="false" can-be-layer="false"></component>
 	<component name="h5" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="false" can-be-layer="false"></component>
 	<component name="h6" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="false" can-be-layer="false"></component>
+
+	<!-- table -->
+	<component name="table" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="thead" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="tfoot" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="tbody" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="tr" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="th" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="td" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="caption" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+
+	<!-- paragraph -->
 	<component name="p" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="blockquote" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
-	<component name="span" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="pre" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+
+	<!-- inline -->
 	<component name="code" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="q" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="b" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="strong" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="em" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="s" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="samp" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="sub" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="sup" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="del" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+
+	<!-- sepalators -->
+	<component name="hr" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="br" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="false" can-set-height="false"></component>
+	<component name="wbr" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="false" can-set-height="false"></component>
+
+	<!-- list -->
 	<component name="ul" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="ol" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="menu" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
 	<component name="li" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="dl" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="dt" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+	<component name="dd" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
+
+	<!-- clickable -->
 	<component name="a" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-onclick-event="true">
 		<fields>
 			<field type="text" name="href" label="href" />
@@ -32,16 +101,9 @@
 		</fields>
 		<template><![CDATA[<button type="{{ attributes.type }}" value="{{ attributes.value }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %}{% if attributes.onclick %} onclick="{{ js_script_prefix }}{{ attributes.onclick }}"{% endif %}>{{ innerHTML | raw }}</button>]]></template>
 	</component>
-	<component name="img" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true">
-		<fields>
-			<field type="image" name="image" label="Image" />
-			<field type="text" name="alt" label="Alt text" />
-		</fields>
-		<template><![CDATA[{% set image = json_decode(attributes.image) %}
-<img src="{{ assets[image.assetId].path }}" width="{{ assets[image.assetId].width }}" height="{{ assets[image.assetId].height }}" alt="{{ attributes.alt }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %} />]]></template>
-	</component>
-	<component name="hr" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true"></component>
-	<component name="br" is-void-element="true" can-set-css="true" can-set-class="true" can-set-width="false" can-set-height="false"></component>
+	<component name="label" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+
+	<!-- form -->
 	<component name="form" is-void-element="false" can-set-css="false" can-set-class="false" can-set-onsubmit-event="true">
 		<fields>
 			<field type="text" name="action" label="Action" />
@@ -77,4 +139,23 @@
 		</fields>
 		<template><![CDATA[<option value="{{ attributes.value }}">{{ innerHTML | raw }}</option>]]></template>
 	</component>
+	<component name="search" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="optgroup" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="fieldset" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+
+	<!-- etc -->
+	<component name="data" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="datalist" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="details" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="dialog" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="hgroup" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="legend" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="mark" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="output" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="progress" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="summary" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="template" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="track" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="var" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
+	<component name="slot" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
 </components>
