@@ -7,41 +7,40 @@ export class Color {
 	 * 16進数の色コードからRGBの10進数を得る
 	 */
 	hex2rgb ( txt_hex ){
-		let $matched = [];
-
 		if( this.#isInt( txt_hex ) ){
-			txt_hex = txt_hex.toString(16).replace(/\..+$/, '');
-			txt_hex = '#'.this.#strPadLeft( txt_hex , 6 , '0' );
+			let hexStr = txt_hex.toString(16).replace(/\..+$/, '');
+			txt_hex = '#' + this.#strPadLeft( hexStr , 6 , '0' );
 		}
-		txt_hex = txt_hex.replace( /^#/ , '' );
-		if( this.#strlen( txt_hex ) == 3 ){
+
+		const hex = txt_hex.replace( /^#/ , '' );
+		let matched;
+
+		if( hex.length === 3 ){
 			// 長さが3バイトだったら
-			if( !txt_hex.match( new RegExp('^([0-9a-f])([0-9a-f])([0-9a-f])$', 'i') ) ){
-				return	false;
+			matched = hex.match(/^([0-9a-f])([0-9a-f])([0-9a-f])$/i);
+			if( !matched ){
+				return false;
 			}
-			$matched = [];
-			$matched[1] = RegExp.$1+''+RegExp.$1;
-			$matched[2] = RegExp.$2+''+RegExp.$2;
-			$matched[3] = RegExp.$3+''+RegExp.$3;
+			matched[1] = matched[1] + matched[1];
+			matched[2] = matched[2] + matched[2];
+			matched[3] = matched[3] + matched[3];
 
-		}else if( this.#strlen( txt_hex ) == 6 ){
+		}else if( hex.length === 6 ){
 			// 長さが6バイトだったら
-			$matched = [];
-			if( !txt_hex.match( new RegExp('^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$', 'i') ) ){
-				return	false;
+			matched = hex.match(/^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+			if( !matched ){
+				return false;
 			}
-			$matched[1] = RegExp.$1+'';
-			$matched[2] = RegExp.$2+'';
-			$matched[3] = RegExp.$3+'';
 		}else{
-			return	false;
+			return false;
 		}
-		var rtn = {};
-		rtn['r'] = eval( '0x' + $matched[1] );
-		rtn['g'] = eval( '0x' + $matched[2] );
-		rtn['b'] = eval( '0x' + $matched[3] );
 
-		return	rtn;
+		const rtn = {};
+		rtn['r'] = parseInt(matched[1], 16);
+		rtn['g'] = parseInt(matched[2], 16);
+		rtn['b'] = parseInt(matched[3], 16);
+
+		return rtn;
 	}
 
 	/**
@@ -108,7 +107,7 @@ export class Color {
 		}
 
 		if( int_round ){
-			$hue = Math.round( $hue , int_round );
+			$hue = Number( $hue.toFixed(int_round) );
 		}else{
 			$hue = this.#intval( $hue );
 		}
@@ -138,7 +137,7 @@ export class Color {
 		var saturation = ( 100 - ( minval/maxval * 100 ) );
 
 		if( int_round ){
-			saturation = Math.round( saturation , int_round );
+			saturation = Number( saturation.toFixed(int_round) );
 		}else{
 			saturation = this.#intval( saturation );
 		}
@@ -156,13 +155,13 @@ export class Color {
 		if( rgb === false ){ return false; }
 
 		var aryRGB = [rgb['r'], rgb['g'], rgb['b']];
-		aryRGB.sort();
+		aryRGB.sort((a, b) => a - b);
 		var maxval = aryRGB[2];
 
 		var $brightness = ( maxval * 100/255 );
 
 		if( int_round ){
-			$brightness = Math.round( $brightness , int_round );
+			$brightness = Number( $brightness.toFixed(int_round) );
 		}else{
 			$brightness = this.#intval( $brightness );
 		}
@@ -207,12 +206,12 @@ export class Color {
 		var int_round = this.#intval( int_round );
 		if( int_round < 0 ){ return false; }
 
-		var int_hue = Math.round( int_hue%360 , 3 );
-		var int_saturation = Math.round( int_saturation , 3 );
-		var int_brightness = Math.round( int_brightness , 3 );
+		var int_hue = Number( (int_hue%360).toFixed(3) );
+		var int_saturation = Number( int_saturation.toFixed(3) );
+		var int_brightness = Number( int_brightness.toFixed(3) );
 
-		var maxval = Math.round( int_brightness * ( 255/100 ) , 3 );
-		var minval = Math.round( maxval - ( maxval * int_saturation/100 ) , 3 );
+		var maxval = Number( (int_brightness * ( 255/100 )).toFixed(3) );
+		var minval = Number( (maxval - ( maxval * int_saturation/100 )).toFixed(3) );
 		var midval = 0;
 
 		var keyname = ['r' , 'g' , 'b'];
@@ -238,9 +237,9 @@ export class Color {
 
 		var tmpRGB = {};
 		if( int_round ){
-			tmpRGB[keyname[0]] = Math.round( maxval , int_round );
-			tmpRGB[keyname[1]] = Math.round( midval , int_round );
-			tmpRGB[keyname[2]] = Math.round( minval , int_round );
+			tmpRGB[keyname[0]] = Number( maxval.toFixed(int_round) );
+			tmpRGB[keyname[1]] = Number( midval.toFixed(int_round) );
+			tmpRGB[keyname[2]] = Number( minval.toFixed(int_round) );
 		}else{
 			tmpRGB[keyname[0]] = this.#intval( maxval );
 			tmpRGB[keyname[1]] = this.#intval( midval );
@@ -273,8 +272,11 @@ export class Color {
 			return val;
 		}
 		if( type === typeof('') ){
-			val = val.replace(/[^0-9]/, '');
+			val = val.replace(/[^0-9]/g, '');
 			val = val.replace(/^0+/, '');
+			if(val === ''){
+				return 0;
+			}
 			return Number(val);
 		}
 		if( type === typeof([]) ){
@@ -296,30 +298,21 @@ export class Color {
 	 * 数値かどうか調べる
 	 */
 	#isInt (val) {
-		if( typeof(val) !== typeof(0) ){
-			return false;
-		}
-		return true;
+		return Number.isInteger(val);
 	}
 
 	/**
 	 * 文字列かどうか調べる
 	 */
 	#isString(val){
-		if( typeof(val) !== typeof('') ){
-			return false;
-		}
-		return true;
+		return typeof val === 'string';
 	}
 
 	/**
 	 * 文字数を調べる
 	 */
 	#strlen(val){
-		if(val === null){ return 0; }
-		if(val === undefined){ return 0; }
-		val = ''+val;
-		return val.length;
+		return String(val ?? '').length;
 	}
 
 
@@ -327,19 +320,10 @@ export class Color {
 	 * strPadLeft()
 	 */
 	 #strPadLeft( str, width, strPad ){
-	 	if( !this.#strlen(strPad) ){
-	 		strPad = '_';
-	 	}
-	 	if( !this.#isString(str) ){
-	 		str = ''+str;
-	 	}
-	 	if( !this.#isString(str) ){
-	 		return false;
-	 	}
-	 	while( this.#strlen(str+'')  < width ){
-	 		str = '' + strPad + str;
-	 	}
-	 	return str;
+		if( strPad === null || strPad === undefined || strPad === '' ){
+			strPad = '_';
+		}
+	 	return String(str).padStart(width, strPad);
 	 }
 
 
