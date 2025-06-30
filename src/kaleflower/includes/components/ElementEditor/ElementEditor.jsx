@@ -45,6 +45,9 @@ const ElementEditor = (props) => {
 		currentComponent.fields.map((field, index) => {
 			const currentField = globalState.fields.get_field(field.type);
 			const $targetDom = $(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
+			if(!currentField){
+				return;
+			}
 
 			$targetDom.html(utils.bindTwig(currentField.editor, (() => {
 				if(currentField.format == 'plain'){
