@@ -224,6 +224,10 @@ export class KflowXml {
 			// --------------------------------------
 			// カスタムフィールドを抽出
 			newGlobalState.fields = new Fields(this.#utils);
+			const fields = xml.querySelectorAll('kflow>fields>field');
+			fields.forEach((field, index) => {
+				newGlobalState.fields.add_field(field);
+			});
 
 			// --------------------------------------
 			// コンポーネントを抽出
