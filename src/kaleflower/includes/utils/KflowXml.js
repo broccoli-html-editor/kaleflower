@@ -108,12 +108,17 @@ export class KflowXml {
 		Object.keys(fields).forEach((key) => {
 			const field = fields[key];
 			finalXml += '		<field type="' + this.#utils.htmlSpecialChars(key) + '"';
-			finalXml += '>';
-			if(field.template){
-				finalXml += "\n";
-				finalXml += '			<template><![CDATA['+field.template+']]></template>'+"\n";
+			if(field.format && field.format.length){
+				finalXml += ' format="' + this.#utils.htmlSpecialChars(field.format) + '"';
 			}
-			finalXml += '</field>\n';
+			finalXml += '>\n';
+			if(field.editor && field.editor.length){
+				finalXml += '			<editor><![CDATA['+field.editor+']]></editor>'+"\n";
+			}
+			if(field.onload && typeof(field.onload) == typeof(function(){})){
+				finalXml += '			<script function="onload"><![CDATA['+field.onload+']]></script>'+"\n";
+			}
+			finalXml += '		</field>\n';
 		});
 		finalXml += '	</fields>\n';
 

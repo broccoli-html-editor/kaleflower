@@ -72,7 +72,7 @@ width: 60%;
 				padding: 5px;
 			</media>
 		</style>
-		<style class="heading"><media break-point="lg"/><media break-point="md"></media><media break-point="sm"/></style>
+		<style class="heading"><media break-point="lg"/><media break-point="md"/><media break-point="sm"/></style>
 	</styles>
 	<contents>
 		<content><div>
@@ -120,6 +120,16 @@ width: 60%;
 		<asset id="e6fc4809-2ea8-4278-b1af-e6f67ca75d10" ext="jpg" size="2308" width="120" height="90" is-private-material="false" public-filename="e6fc4809-2ea8-4278-b1af-e6f67ca75d10.jpg" field="" field-note="" base64="/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAKAAD/4QMSaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA2LjAtYzAwMiA3OS4xNjQzNTIsIDIwMjAvMDEvMzAtMTU6NTA6MzggICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjU0RjU0QUYzODlCODExRUE5OEIxOEY2RUQyODNFOUFDIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjU0RjU0QUYyODlCODExRUE5OEIxOEY2RUQyODNFOUFDIiB4bXA6Q3JlYXRvclRvb2w9IjEwLjIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpBMjgyNUU3MjZFQkIxMUU3QjUxRkFGMkExRjk5NjUzMyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpBMjgyNUU3MzZFQkIxMUU3QjUxRkFGMkExRjk5NjUzMyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv/uAA5BZG9iZQBkwAAAAAH/2wCEABQQEBkSGScXFycyJh8mMi4mJiYmLj41NTU1NT5EQUFBQUFBREREREREREREREREREREREREREREREREREREREQBFRkZIBwgJhgYJjYmICY2RDYrKzZERERCNUJERERERERERERERERERERERERERERERERERERERERERERERERERP/AABEIAFoAeAMBIgACEQEDEQH/xACAAAABBQEBAAAAAAAAAAAAAAACAAEDBAUGBwEBAQEBAAAAAAAAAAAAAAAAAQACAxAAAQMCAwYDBgUDBQAAAAAAAQACAxEhMRIEQVFhcSIFgTIT8JGhscEz0VJiQxThQiOCkoM0FREBAQEAAwEBAQAAAAAAAAAAAAERITESAlEi/9oADAMBAAIRAxEAPwDdoiCIDepGsC6654FqmjckGgcEYawXRa1iUFEhDglmO5YIk1Uk1UI6dR5iETXVTi0SSZNmpignolQJZkqqR0kGa6SQ56Lv+ncOprgd2KsM7vpXCuYt5hcT6hBupG6ghdMZdu3uemOEg+Kndr9NGKue331XDMnrgnD9yMWusl79CDSNhdxNlJH3rTv82ZvhX5LkRIjEisWu9gmjmbmidmHBEbrhY53RnMxxB3iy29N38ZaTtJd+Zm3wRh1u3RBZ8XdtNLYuLSfzfip/5UFaeo3/AHKC0KhM5w2oWOacCDyRVCyQl6bMUZcAhMgSgGpSTmVJSeYHy0JoR8UGa9GpNjcRR1OF02YMwFVvUtw9O1SkAqm2apApSqvellvW3MLNKEupbbxSEmwoDNQkEVQul25RjitRlYzmlUbZd6qnUNDnHLUG2PyT/wAgUw+KQvNkRtm3rO9YcU4nBQmo2amBpyV2Hu08Vq5h+q/xWC3UYcU0mpLOoYDFVpx2EXeoXD/IC13C4TnvUGwO9y4tutqb4KQ6ymG7es8LK693cfUHRQDgkuRZrMxFPFJWw5WaLBOKm60n9rDmkxuoQaEOw4XVB0ZjJa6xFvb2us+mr82Habqf1FEA8i4uNvBJzHBPYJzqlAbomxOdYJ3ROYcrhQ7lrWcM5gqaIo4ScFI2IkWWvo9EAOpWnGUNJI7ylBJp5o/M1dXFpmNU3ospcI0OQjieG53NOU26VW1EbW0yk+K0+5hriHwDICfKQRmpeqzo5i2uYZgd+I5LG8th/iuDC55y8FWNXHeStFscExDCHA7SL1VqXTHTAGNlqXLnCoVpxnBpHTJ0tA+KSJxMoLsKXua+3JJGpudwhdE2R1CGOGPHYuea9zwQSSMSSur1evaYC11auFBT83PiuRc6htbaW7lmGtjQlsrhHbiStR8DQQWFtBjmGPLcqWncNOxpbZ39x/SVbdmtR1QVSnyicC7/AB1LC40rTM3h1D8EEnbBCRnOYkivCu3kpfUy4khQPcXOpe2BP0TuCzU5hZGCAKgCvuKlY8ueWtwFXEqi4vbGSNgdY/FWIJwxjSW1OWlv1YJ9DF+OSisMcXLLGrZg00sAai6Uusq3oNa2FXYJ9Lyj7rGGuJbf8zfb4rL/APPZKwZXZTfMXBXTH6jaUqKIoYqMDt6536bnx+qsWiijpR73EnAWVw5YbGprsxTlr61QSMle4PBbb+3YfH5bkSzOb/Rsu8ThTloOprBbHNj/AESVt8TZOoC4tTdwKStOJmPZG+koDm16m296CeGJ322hoynoaLVJvxwG1BH5v2/qp93Lw9vooLD4GBrTH5DsxVQPMRriNynPl2eGCrO8EGJPVaaNdtKTpC6oyVA21CRxOHjyRxYeH02pCGM41BxVeZz9LCJARmblsb3rTDktF2G32CzO6fZPNqYqDSdyl1EmRwbt8ooVeDQ+MgtpzWF27723A4LYf5jhhtx8U/XfAnXIdSWRNqWjfuxT6d4LLi2wg7EOp8n7WzzpofJ+1iMMFm9GdpZpmRAVJvvKgj1radQeKY2r8k0v/B/qxU2m8zfsYHmiYbqvHqHaiZ7tPduVtcxy4e9JRQf9gfb8x+1y+SS3wzy//9k=" />
 	</assets>
 	<fields>
+		<field type="custom-field" format="plain">
+			<editor><![CDATA[<div class="kaleflower-field-text-editor">
+					<div class="kaleflower-field-text-editor__inner">
+						<textarea name="_" class="px2-input">{{ _ }}</textarea>
+					</div>
+				</div>]]></editor>
+			<script function="onload"><![CDATA[function(dom, fieldHelper){
+					return;
+				}]]></script>
+		</field>
 	</fields>
 	<components>
 		<component name="custom-component-001" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false" can-set-onclick-event="false" can-set-onsubmit-event="false">

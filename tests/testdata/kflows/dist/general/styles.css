@@ -13,16 +13,16 @@
 				box-sizing: border-box;
 			}
 			
-			html, body {
-				background-color: #f7f7f7;
-				color: #333;
-			}
-			a {
-				color: #00d;
-			}
-			a:hover {
-				color: #33f;
-			}
+html, body {
+	background-color: #f7f7f7;
+	color: #333;
+}
+a {
+	color: #00d;
+}
+a:hover {
+	color: #33f;
+}
 		.cont-test__test-image-sample {
 
 			width: 80%; height: auto; border: 1px solid #000;
@@ -92,6 +92,8 @@ color: #f00; width: 100%;}
 				gap: 5px;
 				padding: 5px;
 			}
+}
+.cont-test__heading {
 }
 .cont-test__kf-kf1928bb222858994f-0 {
 width: 50%;
