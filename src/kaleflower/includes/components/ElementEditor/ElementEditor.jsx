@@ -80,6 +80,7 @@ const ElementEditor = (props) => {
 				{
 					"$": jQuery,
 					"assets": globalState.assets,
+					"extra": globalState.options.extra,
 				}
 			);
 

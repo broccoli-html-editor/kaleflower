@@ -77,7 +77,7 @@ width: 60%;
 	<contents>
 		<content><div>
     <h1 class="heading">This is a test page of Kaleflow</h1><p style--sm="width: 100%;" style--md="width: 80%;&#xA;" style--lg="width: 60%;&#xA;" style="width: 50%;">kflow main contents sample</p>
-    <p style--md="width: 50%;" style--sm="width: 100%;">kflow main contents sample</p>
+    <p style--md="width: 50%;&#xA;" style--sm="width: 100%;">kflow main contents sample</p>
     <p style="color: blue;" style--lg="color: red;" style--sm="color: green;">kflow main contents sample</p>
 	<custom-component-001 image="{&quot;assetId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;}" style="width: 100%;">
 		<div>inner contents.
@@ -127,6 +127,7 @@ width: 60%;
 					</div>
 				</div>]]></editor>
 			<script function="onload"><![CDATA[function(dom, fieldHelper){
+					console.log('onload function:', dom, fieldHelper);
 					return;
 				}]]></script>
 		</field>
@@ -135,6 +136,7 @@ width: 60%;
 		<component name="custom-component-001" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="false" can-set-scrollable="false" can-be-layer="false" can-set-onclick-event="false" can-set-onsubmit-event="false">
 			<fields>
 				<field type="image" name="image" label="Image"/>
+				<field type="custom-field" name="custom-field" label="custom-field"/>
 			</fields>
 			<style>
 			.custom-component-001 {
