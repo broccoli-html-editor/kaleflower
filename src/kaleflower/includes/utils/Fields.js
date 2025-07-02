@@ -42,12 +42,18 @@ export class Fields {
 			"type": field.getAttribute('type'),
 			"format": field.getAttribute('format'),
 			"editor": null,
+			"style": null,
 			"onload": function(){},
 		};
 
 		const templateNodes = field.getElementsByTagName('editor');
 		if(templateNodes.length){
 			$rtn.editor = templateNodes[0].textContent || null;
+		}
+
+		const styleNodes = field.getElementsByTagName('style');
+		if(styleNodes.length){
+			$rtn.style = styleNodes[0].textContent || null;
 		}
 
 		const strFunctionOnEditorLoad = field.querySelector('script[function="onload"]');

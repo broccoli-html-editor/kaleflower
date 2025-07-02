@@ -115,6 +115,9 @@ export class KflowXml {
 			if(field.editor && field.editor.length){
 				finalXml += '			<editor><![CDATA['+field.editor+']]></editor>'+"\n";
 			}
+			if(field.style && field.style.length){
+				finalXml += '			<style><![CDATA['+field.style+']]></style>'+"\n";
+			}
 			if(field.onload && typeof(field.onload) == typeof(function(){})){
 				finalXml += '			<script function="onload"><![CDATA['+field.onload+']]></script>'+"\n";
 			}

@@ -7,6 +7,7 @@ import {Utils} from "../../utils/Utils.js";
 const utils = new Utils();
 import jQuery from "jquery";
 const $ = jQuery;
+import * as sass from 'sass';
 
 const ElementEditor = (props) => {
 	const globalState = useContext(MainContext);
@@ -39,9 +40,13 @@ const ElementEditor = (props) => {
 	const currentBreakPoint = globalState.previewViewport.breakPoint;
 
 	useEffect(() => {
+		const $appearance = globalState.$('<style>');
+		let stylesheet = '';
+
 		if (!currentComponent) {
 			return;
 		}
+
 		currentComponent.fields.map((field, index) => {
 			const currentField = globalState.fields.get_field(field.type);
 			const $targetDom = $(`.kaleflower-element-editor__property-val[data-field-name="${field.name}"]`);
@@ -57,6 +62,10 @@ const ElementEditor = (props) => {
 				}
 				return JSON.parse(currentInstance.getAttribute(field.name)) || {};
 			})()));
+
+			if(currentField.style){
+				stylesheet += `.kaleflower-element-editor__property-val[data-field-name="${field.name}"]{ ${currentField.style} }`;
+			}
 
 			$targetDom.find('input, select, textarea')
 				.on('input', function () {
@@ -87,8 +96,23 @@ const ElementEditor = (props) => {
 			return;
 		});
 
+		try {
+			// SCSSをCSSに変換
+			const result = sass.compileString(stylesheet, {
+				style: 'compressed'
+			});
+			$appearance.html(result.css);
+		} catch (error) {
+			// SCSS構文エラーの場合は、元のstylesheetをそのまま使用
+			console.warn('SCSS compilation failed, using original stylesheet:', error);
+			$appearance.html(stylesheet);
+		}
+		
+		globalState.$(document.head).append($appearance);
+
 		// クリーンアップ処理
 		return () => {
+			$appearance.remove();
 		};
 	}, [currentComponent, currentInstance]);
 

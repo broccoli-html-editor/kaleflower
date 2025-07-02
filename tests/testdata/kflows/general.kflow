@@ -126,6 +126,11 @@ width: 60%;
 						<textarea name="_" class="px2-input">{{ _ }}</textarea>
 					</div>
 				</div>]]></editor>
+			<style><![CDATA[
+			textarea {
+				width: 100%;
+			}
+			]]></style>
 			<script function="onload"><![CDATA[function(dom, fieldHelper){
 					console.log('onload function:', dom, fieldHelper);
 					return;

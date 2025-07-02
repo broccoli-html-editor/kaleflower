@@ -6,6 +6,17 @@
 					<textarea name="_" class="px2-input">{{ _ }}</textarea>
 				</div>
 			</div>]]></editor>
+		<style>
+			.kaleflower-field-text-editor {
+				display: flex;
+				flex-direction: column;
+				textarea {
+					width: 100%;
+					min-height: 100px;
+					resize: vertical;
+				}
+			}
+		</style>
 		<script function="onload"><![CDATA[
 			function(dom, fieldHelper){
 				return;
@@ -15,13 +26,23 @@
 	<field type="image" format="json">
 		<editor><![CDATA[<div class="kaleflower-field-image-editor">
 				<div>
-					<img src="about:blank" class="kaleflower-field-image-editor__image-preview" style="width:100%;" />
+					<img src="about:blank" class="kaleflower-field-image-editor__image-preview" />
 				</div>
 				<span class="kaleflower-field-image-editor__extension"></span>
 				<input type="file" name="upload-file" class="px2-input" />
 
 				<input type="hidden" name="assetId" value="{{ assetId }}" />
 			</div>]]></editor>
+		<style>
+			.kaleflower-field-image-editor {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				img {
+					width: 100%;
+				}
+			}
+		</style>
 		<script function="onload"><![CDATA[
 			function(dom, fieldHelper){
 				const $ = fieldHelper.$;
@@ -182,7 +203,5 @@
 				return;
 			}
 		]]></script>
-		<script function="onsave">
-		</script>
 	</field>
 </fields>
