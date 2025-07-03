@@ -118,6 +118,12 @@ export class KflowXml {
 			if(field.style && field.style.length){
 				finalXml += '			<style><![CDATA['+field.style+']]></style>'+"\n";
 			}
+			if(field.styleLight && field.styleLight.length){
+				finalXml += '			<style appearance="light"><![CDATA['+field.styleLight+']]></style>'+"\n";
+			}
+			if(field.styleDark && field.styleDark.length){
+				finalXml += '			<style appearance="dark"><![CDATA['+field.styleDark+']]></style>'+"\n";
+			}
 			if(field.onload && typeof(field.onload) == typeof(function(){})){
 				finalXml += '			<script function="onload"><![CDATA['+field.onload+']]></script>'+"\n";
 			}

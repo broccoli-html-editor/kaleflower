@@ -121,18 +121,38 @@ width: 60%;
 	</assets>
 	<fields>
 		<field type="custom-field" format="plain">
-			<editor><![CDATA[<div class="kaleflower-field-text-editor">
-					<div class="kaleflower-field-text-editor__inner">
+			<editor><![CDATA[<div class="test-field-text-editor">
+					<div class="test-field-text-editor__inner">
 						<textarea name="_" class="px2-input">{{ _ }}</textarea>
+						<div class="test-field-text-editor__color-sample"></div>
 					</div>
 				</div>]]></editor>
 			<style><![CDATA[
-			textarea {
-				width: 100%;
+			.test-field-text-editor {
+				&__color-sample {
+					height: 5px;
+				}
+				textarea {
+					width: 100%;
+				}
+			}
+			]]></style>
+			<style appearance="light"><![CDATA[
+			.test-field-text-editor {
+				&__color-sample {
+					background-color: #666666;
+				}
+			}
+			]]></style>
+			<style appearance="dark"><![CDATA[
+			.test-field-text-editor {
+				&__color-sample {
+					background-color: #f0f0f0;
+				}
 			}
 			]]></style>
 			<script function="onload"><![CDATA[function(dom, fieldHelper){
-					console.log('onload function:', dom, fieldHelper);
+					console.log('custom-field: onload function:', dom, fieldHelper);
 					return;
 				}]]></script>
 		</field>

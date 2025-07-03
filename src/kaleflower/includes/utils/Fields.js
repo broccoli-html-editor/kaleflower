@@ -42,7 +42,9 @@ export class Fields {
 			"type": field.getAttribute('type'),
 			"format": field.getAttribute('format'),
 			"editor": null,
-			"style": null,
+			"style": '',
+			"styleLight": '',
+			"styleDark": '',
 			"onload": function(){},
 		};
 
@@ -53,7 +55,19 @@ export class Fields {
 
 		const styleNodes = field.getElementsByTagName('style');
 		if(styleNodes.length){
-			$rtn.style = styleNodes[0].textContent || null;
+			// styleNodes配列をループして、appearance属性に基づいて振り分け
+			Array.from(styleNodes).forEach(styleNode => {
+				const appearance = styleNode.getAttribute('appearance');
+				const styleContent = styleNode.textContent || '';
+				
+				if (appearance === 'light') {
+					$rtn.styleLight += styleContent;
+				} else if (appearance === 'dark') {
+					$rtn.styleDark += styleContent;
+				} else {
+					$rtn.style += styleContent;
+				}
+			});
 		}
 
 		const strFunctionOnEditorLoad = field.querySelector('script[function="onload"]');

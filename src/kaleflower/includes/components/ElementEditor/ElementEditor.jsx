@@ -40,7 +40,7 @@ const ElementEditor = (props) => {
 	const currentBreakPoint = globalState.previewViewport.breakPoint;
 
 	useEffect(() => {
-		const $appearance = globalState.$('<style>');
+		const $fieldEditorStyle = globalState.$('<style>');
 		let stylesheet = '';
 
 		if (!currentComponent) {
@@ -63,8 +63,22 @@ const ElementEditor = (props) => {
 				return JSON.parse(currentInstance.getAttribute(field.name)) || {};
 			})()));
 
-			if(currentField.style){
+			if( currentField.style ){
 				stylesheet += `.kaleflower-element-editor__property-val[data-field-name="${field.name}"]{ ${currentField.style} }`;
+			}
+			if( globalState.options.appearance == 'light' ){
+				stylesheet += `.kaleflower-element-editor__property-val[data-field-name="${field.name}"]{ ${currentField.styleLight} }`;
+			}else if( globalState.options.appearance == 'dark' ){
+				stylesheet += `.kaleflower-element-editor__property-val[data-field-name="${field.name}"]{ ${currentField.styleDark} }`;
+			}else{
+				stylesheet += `
+@media (prefers-color-scheme: dark) {
+	.kaleflower-element-editor__property-val[data-field-name="${field.name}"]{ ${currentField.styleDark} }
+}
+@media (prefers-color-scheme: light) {
+	.kaleflower-element-editor__property-val[data-field-name="${field.name}"]{ ${currentField.styleLight} }
+}
+`;
 			}
 
 			$targetDom.find('input, select, textarea')
@@ -101,18 +115,18 @@ const ElementEditor = (props) => {
 			const result = sass.compileString(stylesheet, {
 				style: 'compressed'
 			});
-			$appearance.html(result.css);
+			$fieldEditorStyle.html(result.css);
 		} catch (error) {
 			// SCSS構文エラーの場合は、元のstylesheetをそのまま使用
 			console.warn('SCSS compilation failed, using original stylesheet:', error);
-			$appearance.html(stylesheet);
+			$fieldEditorStyle.html(stylesheet);
 		}
 		
-		globalState.$(document.head).append($appearance);
+		globalState.$(document.head).append($fieldEditorStyle);
 
 		// クリーンアップ処理
 		return () => {
-			$appearance.remove();
+			$fieldEditorStyle.remove();
 		};
 	}, [currentComponent, currentInstance]);
 
