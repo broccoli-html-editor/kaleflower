@@ -350,11 +350,11 @@ export class Builder {
 				}
 			);
 
-			const $instanceHtml = $(instanceHtml);
-			$instanceHtml.attr({
+			const $instanceHtml = $(`<div>${instanceHtml}</div>`);
+			$instanceHtml.find('>*').attr({
 				'data-kaleflower-instance-id': $node.kaleflowerInstanceId,
 			});
-			$rtn += $instanceHtml.prop("outerHTML");
+			$rtn += $instanceHtml.prop("innerHTML");
 
 		} else {
 
