@@ -94,7 +94,6 @@ const ElementEditor = (props) => {
 						fieldValues = $targetDom.val();
 						currentInstance.setAttribute(field.name, fieldValues);
 					}
-					const onchange = props.onchange || function(){};
 					onchange(currentInstance);
 				});
 
