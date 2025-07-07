@@ -100,7 +100,6 @@ const ElementEditor = (props) => {
 			currentField.onload(
 				$targetDom.get(0),
 				{
-					"$": jQuery,
 					"assets": globalState.assets,
 					"extra": globalState.options.extra,
 				}
