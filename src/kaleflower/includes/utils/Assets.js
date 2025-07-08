@@ -36,6 +36,7 @@ export class Assets {
 	 * @returns 
 	 */
 	trigger (eventName, data) {
+		if(!this.#events[eventName]){ return; }
 		this.#events[eventName]({
 			...data,
 			type: eventName,
