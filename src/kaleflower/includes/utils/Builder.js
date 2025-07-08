@@ -339,6 +339,9 @@ export class Builder {
 				},
 				{
 					'json_decode': function($json){
+						if($json === undefined){
+							return undefined;
+						}
 						return JSON.parse($json);
 					},
 					'json_encode': function($obj){
