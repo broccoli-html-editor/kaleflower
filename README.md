@@ -12,7 +12,7 @@ $ composer require broccoli-html-editor/kaleflower
 
 ## 更新履歴 - Change log
 
-### Kaleflower v0.2.0 (リリース日未定)
+### Kaleflower v0.2.0 (2025年7月12日)
 
 - ドラッグ操作でインスタンスの幅と高さを編集できるようになった。
 - データ構造変更: 各要素のスタイリング情報を、属性値ではなくCSSを直接操作するようになった。
