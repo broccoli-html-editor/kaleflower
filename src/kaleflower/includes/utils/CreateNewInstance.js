@@ -9,7 +9,7 @@ export class CreateNewInstance {
 		let modal;
 		let $body = $(`
 			<div class="px2-p">
-				TagName: <input type="text" class="px2-input" name="kaleflower-new-child-element-tag-name" value="div" />
+				TagName: <input type="text" class="px2-input px2-input--block" name="kaleflower-new-child-element-tag-name" value="div" />
 			</div>
 		`);
 		return new Promise((done, fail)=>{

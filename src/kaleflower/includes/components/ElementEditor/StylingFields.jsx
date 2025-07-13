@@ -137,7 +137,7 @@ const StylingFields = (props) => {
 					</div>
 					<div className="kaleflower-element-editor__property-val">
 						<textarea
-							className={`px2-input`}
+							className={`px2-input px2-input--block`}
 							value={(()=>{
 								if(typeof(props.currentClassName) !== typeof('string')){
 									const textContent = props.targetElementNode.getAttribute(`style${breakPointName ? '--'+breakPointName : ''}`) || '';

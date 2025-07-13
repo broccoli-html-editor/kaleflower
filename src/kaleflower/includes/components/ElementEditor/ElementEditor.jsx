@@ -218,7 +218,7 @@ const ElementEditor = (props) => {
 								</div>
 								<div className="kaleflower-element-editor__property-val">
 									<textarea
-										className={`px2-input`}
+										className={`px2-input px2-input--block`}
 										value={typeof(currentInstance.nodeValue) == typeof('string') ? currentInstance.nodeValue : ''}
 										onInput={(event)=>{
 											const newNodeValue = event.target.value;
@@ -266,7 +266,7 @@ const ElementEditor = (props) => {
 										</div>
 										<div className="kaleflower-element-editor__property-val">
 											<textarea
-												className={`px2-input`}
+												className={`px2-input px2-input--block`}
 												value={typeof(currentInstance.innerHTML) == typeof('string') ? currentInstance.innerHTML : ''}
 												onInput={(event)=>{
 													const newInnerHTML = event.target.value;
@@ -343,7 +343,7 @@ const ElementEditor = (props) => {
 									</div>
 									<div className="kaleflower-element-editor__property-val">
 									<textarea
-										className={`px2-input`}
+										className={`px2-input px2-input--block`}
 										value={currentOnClick}
 										onInput={(event)=>{
 											const newOnClick = event.target.value;
@@ -366,7 +366,7 @@ const ElementEditor = (props) => {
 									</div>
 									<div className="kaleflower-element-editor__property-val">
 									<textarea
-										className={`px2-input`}
+										className={`px2-input px2-input--block`}
 										value={currentOnSubmit}
 										onInput={(event)=>{
 											const newOnSubmit = event.target.value;

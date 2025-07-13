@@ -117,7 +117,7 @@ const ColorPicker = (props) => {
 					<input
 						ref={inputRef}
 						type="text"
-						className="px2-input"
+						className="px2-input px2-input--block"
 						style={{ flexGrow: 1, marginRight: '5px' }}
 						value={defaultValue || ''}
 						onInput={(event) => {
