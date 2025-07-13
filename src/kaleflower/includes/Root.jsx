@@ -8,6 +8,7 @@ import AppearanceStyles from './components/AppearanceStyles/AppearanceStyles.jsx
 import {Utils} from './utils/Utils.js';
 import {CreateNewInstance} from './utils/CreateNewInstance.js';
 import iterate79 from 'iterate79';
+import { MdClose } from '@react-icons/all-files/md/MdClose';
 
 const Root = React.memo((props) => {
 	// const main = useContext(MainContext);
@@ -288,17 +289,18 @@ const Root = React.memo((props) => {
 				{globalState.selectedInstance && globalState.editWindowOpened &&
 				<div className="kaleflower__edit-window">
 					<div className="kaleflower__edit-window__inner">
-						<div className="px2-text-align-right">
+						<div className="kaleflower__edit-window__close">
 							<button
 								type="button"
-								className="px2-btn"
 								onClick={()=>{
 									setGlobalState((prevState) => {
 										prevState.editWindowOpened = false;
 										return prevState;
 									});
 								}}
-							>close</button>
+							>
+								<MdClose aria-hidden="true" />
+							</button>
 						</div>
 						<ElementEditor
 							kaleflower={props.kaleflower}

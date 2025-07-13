@@ -15,6 +15,15 @@
 		&__inner {
 			background-color: #222;
 		}
+		&__close {
+			button {
+				color: #ddd;
+				&:hover {
+					color: #fff;
+					background-color: #555;
+				}
+			}
+		}
 	}
 }
 
