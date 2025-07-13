@@ -1,4 +1,5 @@
 import systemFields from "./../../../../data/system_fields.xml";
+import systemFieldsImage from "./../../../../data/system_fields_image.xml";
 
 export class Fields {
 
@@ -21,13 +22,17 @@ export class Fields {
 		const domParser = new DOMParser();
 
 		// XML文字列をパースして、DOMオブジェクトに変換
-		const xml = domParser.parseFromString(systemFields, "application/xml");
-		const Fields = xml.querySelectorAll('fields>field');
-		Fields.forEach((Field, index) => {
-			const $parsed_field = this.#parse_field(Field);
-			const FieldType = $parsed_field.type;
-			this.#system_fields[FieldType] = $parsed_field;
-		});
+		const kflowMerger = (fields) => {
+			const xml = domParser.parseFromString(fields, "application/xml");
+			const Fields = xml.querySelectorAll('fields>field');
+			Fields.forEach((Field, index) => {
+				const $parsed_field = this.#parse_field(Field);
+				const FieldType = $parsed_field.type;
+				this.#system_fields[FieldType] = $parsed_field;
+			});
+		};
+		kflowMerger(systemFields, "application/xml");
+		kflowMerger(systemFieldsImage, "application/xml");
 	}
 
 	add_field(Field){
