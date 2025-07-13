@@ -1,13 +1,14 @@
 {
     "private": true,
     "scripts": {
+        "build-fields": "node src/fields/build.js",
         "dev": "npm run development",
         "development": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production && mix --production"
+        "production": "mix --production && npm run build-fields && mix --production"
     },
     "devDependencies": {
         "@babel/core": "^7.17.8",

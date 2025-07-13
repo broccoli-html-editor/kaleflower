@@ -69,6 +69,10 @@ mix
 	.js('src/kaleflower/kaleflower.jsx', 'dist/')
 
 	// --------------------------------------
+	// Fields
+	.js('src/fields/image/onload.js', 'src/fields/tmpDist/image.js')
+
+	// --------------------------------------
 	// Appearance
 	.sass('src/kaleflower/includes/styles/kaleflower--dark.scss', 'src/kaleflower/includes/components/AppearanceStyles/kaleflower--dark.css')
 	.sass('src/kaleflower/includes/styles/kaleflower--light.scss', 'src/kaleflower/includes/components/AppearanceStyles/kaleflower--light.css')
