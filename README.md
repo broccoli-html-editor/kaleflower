@@ -14,6 +14,7 @@ $ composer require broccoli-html-editor/kaleflower
 
 ### Kaleflower v0.2.1 (リリース日未定)
 
+- imageフィールドに、「ウェブリソース」「なし」の選択を追加。
 - その他、いくつかの不具合の修正、UIの改善など。
 
 ### Kaleflower v0.2.0 (2025年7月12日)

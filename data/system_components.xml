@@ -20,7 +20,7 @@
 			<field type="text" name="alt" label="Alt text" />
 		</fields>
 		<template><![CDATA[{% set image = json_decode(attributes.image) %}
-<img src="{{ assets[image.assetId].path }}" width="{{ assets[image.assetId].width }}" height="{{ assets[image.assetId].height }}" alt="{{ attributes.alt }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %} />]]></template>
+{% if image.resourceType != "none" %}<img src="{% if image.resourceType == "web" %}{{ image.webUrl }}{% else %}{{ assets[image.assetId].path }}{% endif %}" width="{{ assets[image.assetId].width }}" height="{{ assets[image.assetId].height }}" alt="{{ attributes.alt }}"{% if attributes.class %} class="{{ attributes.class }}"{% endif %} />{% endif %}]]></template>
 	</component>
 	<component name="figure" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>
 	<component name="embed" is-void-element="false" can-set-css="true" can-set-class="true" can-set-width="true" can-set-height="true" can-set-contents-direction="true" can-set-scrollable="true" can-be-layer="true"></component>

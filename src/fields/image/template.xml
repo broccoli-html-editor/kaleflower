@@ -2,11 +2,23 @@
 <fields>
 	<field type="image" format="json">
 		<editor><![CDATA[<div class="kaleflower-field-image-editor">
-				<div>
-					<img src="about:blank" class="kaleflower-field-image-editor__image-preview" />
+				<ul class="kaleflower-field-image-editor__resource-type">
+					<li><label><input type="radio" name="resourceType" value=""{% if resourceType == "" %} checked="checked"{% endif %} /> Upload image</label></li>
+					<li><label><input type="radio" name="resourceType" value="web"{% if resourceType == "web" %} checked="checked"{% endif %} /> Web URL</label></li>
+					<li><label><input type="radio" name="resourceType" value="none"{% if resourceType == "none" %} checked="checked"{% endif %} /> none</label></li>
+				</ul>
+				<div class="kaleflower-field-image-editor__ui-image-resource">
+					<div>
+						<img src="about:blank" class="kaleflower-field-image-editor__image-preview" />
+					</div>
+					<span class="kaleflower-field-image-editor__extension"></span>
+					<input type="file" name="upload-file" class="px2-input px2-input--block" />
 				</div>
-				<span class="kaleflower-field-image-editor__extension"></span>
-				<input type="file" name="upload-file" class="px2-input" />
+				<div class="kaleflower-field-image-editor__ui-web-resource">
+					<input type="text" name="webUrl" value="{{ webUrl }}" class="px2-input px2-input--block" />
+				</div>
+				<div class="kaleflower-field-image-editor__ui-no-image">
+				</div>
 
 				<input type="hidden" name="assetId" value="{{ assetId }}" />
 			</div>]]></editor>
@@ -17,6 +29,17 @@
 				align-items: center;
 				img {
 					width: 100%;
+				}
+				&amp;__resource-type {
+					display: flex;
+					justify-content: flex-start;
+					flex-wrap: wrap;
+					margin-bottom: 10px;
+					padding: 0;
+					li {
+						list-style-type: none;
+						margin-right: 10px;
+					}
 				}
 			}
 		</style>
