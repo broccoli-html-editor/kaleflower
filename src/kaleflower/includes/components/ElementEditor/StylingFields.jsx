@@ -19,23 +19,25 @@ const StylingFields = (props) => {
 
 	const customStylesheetTextareaRef = useRef(null);
 
-	useEffect(() => {
-		customStylesheetTextareaRef.current.value = (()=>{
-			if(typeof(props.currentClassName) !== typeof('string')){
-				const textContent = props.targetElementNode.getAttribute(`style${breakPointName ? '--'+breakPointName : ''}`) || '';
-				return textContent;
-			}
-			const textContent = Array.from(props.targetElementNode.childNodes)
-				.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
-				.map(node => node.textContent)
-				.join('');
+	const customStylesheetDefaultValue = (()=>{
+		if(typeof(props.currentClassName) !== typeof('string')){
+			const textContent = props.targetElementNode.getAttribute(`style${breakPointName ? '--'+breakPointName : ''}`) || '';
 			return textContent;
-		})();
+		}
+		const textContent = Array.from(props.targetElementNode.childNodes)
+			.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
+			.map(node => node.textContent)
+			.join('');
+		return textContent;
+	})();
+
+	useEffect(() => {
+		customStylesheetTextareaRef.current.value = customStylesheetDefaultValue;
 
 		// クリーンアップ処理
 		return () => {
 		};
-	}, [props.targetElementNode]);
+	}, [props.targetElementNode, customStylesheetDefaultValue]);
 
 	function onchange(){
 		const onchange = props.onchange || function(){};
@@ -161,17 +163,7 @@ const StylingFields = (props) => {
 						<textarea
 							ref={customStylesheetTextareaRef}
 							className={`px2-input px2-input--block`}
-							defaultValue={(()=>{
-								if(typeof(props.currentClassName) !== typeof('string')){
-									const textContent = props.targetElementNode.getAttribute(`style${breakPointName ? '--'+breakPointName : ''}`) || '';
-									return textContent;
-								}
-								const textContent = Array.from(props.targetElementNode.childNodes)
-									.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
-									.map(node => node.textContent)
-									.join('');
-								return textContent;
-							})()}
+							defaultValue={customStylesheetDefaultValue}
 							onInput={(event)=>{
 								try {
 									const newStyleSheet = event.target.value;
