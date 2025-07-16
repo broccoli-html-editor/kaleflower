@@ -3,6 +3,7 @@ import { MainContext } from '../../context/MainContext';
 import Accordion from './../common/Accordion/Accordion.jsx';
 import StylingFields from './StylingFields.jsx';
 import Text from './FormInputs/Text.jsx';
+import ClassName from './FormInputs/ClassName.jsx';
 import InnerHtml from './FormInputs/InnerHtml.jsx';
 import {Utils} from "../../utils/Utils.js";
 const utils = new Utils();
@@ -261,13 +262,11 @@ const ElementEditor = (props) => {
 
 							{!isVoidElement ? <InnerHtml
 								instance={currentInstance}
-								attrName="innerHTML"
 								onchange={onchange}
 								/> : <></>}
 
-							{((canSetCss && canSetClass) ? <Text
+							{((canSetCss && canSetClass) ? <ClassName
 								instance={currentInstance}
-								attrName="class"
 								onchange={onchange} /> : <></>)}
 
 							{(canSetCss ? <>
