@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { MainContext } from '../../context/MainContext';
 import Text from './FormInputs/Text.jsx';
 import Select from './FormInputs/Select.jsx';
@@ -16,6 +16,26 @@ const StylingFields = (props) => {
 		// breakPointName を意識する必要がない。
 		// 通常の要素を編集する場合は、同じ要素に接尾辞 `--${props.breakPointName}` を付けた属性に値を保存するので、
 		// この値を使ってブレイクポイントの値を取得する必要があるので、 `<Text />` に引き回す。
+
+	const customStylesheetTextareaRef = useRef(null);
+
+	useEffect(() => {
+		customStylesheetTextareaRef.current.value = (()=>{
+			if(typeof(props.currentClassName) !== typeof('string')){
+				const textContent = props.targetElementNode.getAttribute(`style${breakPointName ? '--'+breakPointName : ''}`) || '';
+				return textContent;
+			}
+			const textContent = Array.from(props.targetElementNode.childNodes)
+				.filter(node => node.nodeType === 3) // Filter for text nodes (nodeType 3)
+				.map(node => node.textContent)
+				.join('');
+			return textContent;
+		})();
+
+		// クリーンアップ処理
+		return () => {
+		};
+	}, [props.targetElementNode]);
 
 	function onchange(){
 		const onchange = props.onchange || function(){};
@@ -139,6 +159,7 @@ const StylingFields = (props) => {
 					</div>
 					<div className="kaleflower-element-editor__property-val">
 						<textarea
+							ref={customStylesheetTextareaRef}
 							className={`px2-input px2-input--block`}
 							defaultValue={(()=>{
 								if(typeof(props.currentClassName) !== typeof('string')){

@@ -4,7 +4,6 @@ const InnerHtml = (props) => {
     const textareaRef = useRef(null);
 
     useEffect(() => {
-        console.log('props.instance', props.instance);
         textareaRef.current.value = props.instance.innerHTML || '';
 
         // クリーンアップ処理
