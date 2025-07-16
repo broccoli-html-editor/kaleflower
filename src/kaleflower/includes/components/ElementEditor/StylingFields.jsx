@@ -6,6 +6,8 @@ import TextArea from './FormInputs/TextArea.jsx';
 import UnitValue from './FormInputs/UnitValue.jsx';
 import ColorPicker from './FormInputs/ColorPicker.jsx';
 import ContentsDirection from './FormInputs/ContentsDirection.jsx';
+const postcss = require('postcss');
+const scss = require('postcss-scss');
 
 const StylingFields = (props) => {
 	const globalState = useContext(MainContext);
@@ -138,7 +140,7 @@ const StylingFields = (props) => {
 					<div className="kaleflower-element-editor__property-val">
 						<textarea
 							className={`px2-input px2-input--block`}
-							value={(()=>{
+							defaultValue={(()=>{
 								if(typeof(props.currentClassName) !== typeof('string')){
 									const textContent = props.targetElementNode.getAttribute(`style${breakPointName ? '--'+breakPointName : ''}`) || '';
 									return textContent;
@@ -150,34 +152,43 @@ const StylingFields = (props) => {
 								return textContent;
 							})()}
 							onInput={(event)=>{
-								const newStyleSheet = event.target.value;
+								try {
+									const newStyleSheet = event.target.value;
 
-								if(typeof(props.currentClassName) !== typeof('string')){
-									const styleAttrName = `style${breakPointName ? '--'+breakPointName : ''}`;
-									if(!newStyleSheet.trim().length){
-										props.targetElementNode.removeAttribute(styleAttrName);
-									}else{
-										props.targetElementNode.setAttribute(styleAttrName, newStyleSheet);
-									}
-								}else{
-									const textNodes = Array.from(props.targetElementNode.childNodes)
-										.filter(node => node.nodeType === 3);
-									if (textNodes.length > 0) {
-										// Replace content of the first text node
-										textNodes[0].textContent = newStyleSheet;
-										
-										// Clear content of any additional text nodes
-										for (let i = 1; i < textNodes.length; i++) {
-											textNodes[i].textContent = '';
+									// SCSS文法チェック
+									// 文法が壊れていたら、ここで例外が発生する。
+									postcss().process(newStyleSheet, {
+										syntax: scss,
+									}).root;
+
+									if(typeof(props.currentClassName) !== typeof('string')){
+										const styleAttrName = `style${breakPointName ? '--'+breakPointName : ''}`;
+										if(!newStyleSheet.trim().length){
+											props.targetElementNode.removeAttribute(styleAttrName);
+										}else{
+											props.targetElementNode.setAttribute(styleAttrName, newStyleSheet);
 										}
-									} else {
-										// If no text nodes exist, create one and insert at the beginning
-										const newTextNode = document.createTextNode(newStyleSheet);
-										props.targetElementNode.insertBefore(newTextNode, props.targetElementNode.firstChild);
+									}else{
+										const textNodes = Array.from(props.targetElementNode.childNodes)
+											.filter(node => node.nodeType === 3);
+										if (textNodes.length > 0) {
+											// Replace content of the first text node
+											textNodes[0].textContent = newStyleSheet;
+											
+											// Clear content of any additional text nodes
+											for (let i = 1; i < textNodes.length; i++) {
+												textNodes[i].textContent = '';
+											}
+										} else {
+											// If no text nodes exist, create one and insert at the beginning
+											const newTextNode = document.createTextNode(newStyleSheet);
+											props.targetElementNode.insertBefore(newTextNode, props.targetElementNode.firstChild);
+										}
 									}
-								}
 
-								onchange(globalState.selectedInstance);
+									onchange(globalState.selectedInstance);
+								} catch(e) {
+								}
 							}} />
 					</div>
 				</div>
