@@ -3,6 +3,7 @@ import { MainContext } from '../../context/MainContext';
 import Accordion from './../common/Accordion/Accordion.jsx';
 import StylingFields from './StylingFields.jsx';
 import Text from './FormInputs/Text.jsx';
+import InnerHtml from './FormInputs/InnerHtml.jsx';
 import {Utils} from "../../utils/Utils.js";
 const utils = new Utils();
 import jQuery from "jquery";
@@ -258,26 +259,11 @@ const ElementEditor = (props) => {
 								</>
 								: <></>}
 
-							{!isVoidElement
-								? <>
-									<div className="kaleflower-element-editor__property">
-										<div className="kaleflower-element-editor__property-key">
-											innerHTML:
-										</div>
-										<div className="kaleflower-element-editor__property-val">
-											<textarea
-												className={`px2-input px2-input--block`}
-												value={typeof(currentInstance.innerHTML) == typeof('string') ? currentInstance.innerHTML : ''}
-												onInput={(event)=>{
-													const newInnerHTML = event.target.value;
-													currentInstance.innerHTML = newInnerHTML;
-
-													onchange(currentInstance);
-												}}></textarea>
-										</div>
-									</div>
-								</>
-								: <></>}
+							{!isVoidElement ? <InnerHtml
+								instance={currentInstance}
+								attrName="innerHTML"
+								onchange={onchange}
+								/> : <></>}
 
 							{((canSetCss && canSetClass) ? <Text
 								instance={currentInstance}
