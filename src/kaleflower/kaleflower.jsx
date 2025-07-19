@@ -32,6 +32,7 @@ window.Kaleflower = class {
 		this.#options.appearance = options.appearance || 'auto';
 		this.#options.extra = options.extra || {};
 		this.#options.finalize = options.finalize || (contents => contents);
+		this.#options.previewWrapSelector = options.previewWrapSelector || false;
 		this.#eventCallbacks = {};
 
 		this.#kflowProcId = this.#utils.createUUID();

@@ -163,6 +163,7 @@ export class PreviewController {
 				js: dist.js,
 				contentsAreaSelector: this.#globalState.options.contentsAreaSelector || '[data-kaleflower-contents-bowl-name]',
 				contentsContainerNameBy: this.#globalState.options.contentsContainerNameBy || 'data-kaleflower-contents-bowl-name',
+				previewWrapSelector: this.#globalState.options.previewWrapSelector || false,
 			}, (res) => {
 				try {
 					if( !res.result ){

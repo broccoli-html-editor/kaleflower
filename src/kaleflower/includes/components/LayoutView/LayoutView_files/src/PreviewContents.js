@@ -100,17 +100,22 @@ import {PanelsInfo} from './includes/PanelsInfo.js';
 					}
 				})
 			;
-
 			$('[data-kaleflower-assets-placeholser]').remove();
 
 			const styleElement = document.createElement('style');
 			styleElement.setAttribute('data-kaleflower-assets-placeholser', true);
-			styleElement.innerHTML = data.options.css;
+			if(data.options.previewWrapSelector === true){
+				styleElement.innerHTML = `${data.options.contentsAreaSelector} { ${data.options.css} }`;
+			}else if(typeof(data.options.previewWrapSelector) === typeof('string')){
+				styleElement.innerHTML = `${data.options.previewWrapSelector} { ${data.options.css} }`;
+			}else{
+				styleElement.innerHTML = `${data.options.css}`;
+			}
 			$('head').append(styleElement);
 
 			const scriptElement = document.createElement('script');
 			scriptElement.setAttribute('data-kaleflower-assets-placeholser', true);
-			scriptElement.innerHTML = data.options.js;
+			scriptElement.innerHTML = `${data.options.js}`;
 			$('body').append(scriptElement);
 
 			resetPreviewDomElements();
