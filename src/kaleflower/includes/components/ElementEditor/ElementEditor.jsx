@@ -136,30 +136,22 @@ const ElementEditor = (props) => {
 		}}></div>);
 	}
 
-	if( currentClassName && !globalState.styles[currentClassName] ){
-		// create new style if not exists
-		const newStyle = document.createElementNS('', 'style');
-		newStyle.innerHTML = '';
-		newStyle.setAttribute('class', currentClassName);
-		globalState.styles[currentClassName] = newStyle;
-
-		// 参照されていないclassを削除する
-		Object.keys(globalState.styles).map((className) => {
-			let counter = 0;
-			Object.keys(globalState.contents).map((bowlName) => {
-				try {
-					const $bowl = $(globalState.contents[bowlName]);
-					const $found = $bowl.find(`.${className}`);
-					counter += $found.length;
-				}catch(e){
-				}
-			});
-			if(!counter && className.length){
-				globalState.styles[className].remove();
-				delete globalState.styles[className];
+	// 参照されていないclassを削除する
+	Object.keys(globalState.styles).map((className) => {
+		let counter = 0;
+		Object.keys(globalState.contents).map((bowlName) => {
+			try {
+				const $bowl = $(globalState.contents[bowlName]);
+				const $found = $bowl.find(`.${className}`);
+				counter += $found.length;
+			}catch(e){
 			}
 		});
-	}
+		if(!counter && className.length){
+			globalState.styles[className].remove();
+			delete globalState.styles[className];
+		}
+	});
 
 	const currentStyle = (currentClassName && globalState.styles[currentClassName] ? globalState.styles[currentClassName] : null);
 	const hasCssClassName = !!(canSetClass && currentClassName && currentStyle);

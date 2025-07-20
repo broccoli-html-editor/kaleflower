@@ -55,7 +55,7 @@ export class CssParser {
 			const result = postcss().process(this.#cssText, { parser: scss });
 			this.#cssRoot = result.root;
 		} catch (e) {
-			console.error('Failed to parse SCSS:', e);
+			console.error('Failed to parse SCSS:', e, this.#cssText);
 			this.#cssRoot = postcss.parse('');
 		}
 		return this;
