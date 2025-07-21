@@ -97,6 +97,9 @@ color: #f00; width: 100%;}
 }
 .cont-test__kf-kf1928bb222858994f-0 {
 width: 50%;
+color: #eee;
+background-color: #333;
+
 }
 @container (max-width: 1400px) {
 .cont-test__kf-kf1928bb222858994f-0 {
@@ -125,6 +128,7 @@ width: 100%;
 }
 .cont-test__kf-kf1928bb222858994f-2 {
 color: blue;
+
 }
 @container (max-width: 1400px) {
 .cont-test__kf-kf1928bb222858994f-2 {

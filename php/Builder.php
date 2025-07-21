@@ -292,6 +292,24 @@ class Builder {
 			return $rtn;
 		}
 
+		// パターン `kf-color-palette("${key}")` を
+		// `$this->config->{"color-palettes"}->{$key}->color` に置換する
+		$rtn->css = preg_replace_callback(
+			'/kf-color-palette\(\s*(")([a-zA-Z0-9\-\_]+)\1\s*\)/',
+			function($matches){
+				$key = $matches[2];
+				if (
+					is_object($this->config->{'color-palettes'}) &&
+					property_exists($this->config->{'color-palettes'}, $key) &&
+					isset($this->config->{'color-palettes'}->{$key}->color)
+				) {
+					return $this->config->{'color-palettes'}->{$key}->color;
+				}
+				return $matches[0];
+			},
+			$rtn->css
+		);
+
 		return $rtn;
 	}
 

@@ -224,6 +224,22 @@ export class Builder {
 			});
 		});
 
+		// PHPから移植した次の処理をJavaScriptに書き換える
+		$rtn.css = $rtn.css.replace(
+			/kf-color-palette\(\s*(")(.*?)\1\s*\)/g,
+			(match, quot, key) => {
+				const palettes = this.#config['color-palettes'];
+				if (
+					palettes &&
+					palettes[key] &&
+					palettes[key].color
+				) {
+					return palettes[key].color;
+				}
+				return match;
+			}
+		);
+
 		return $rtn;
 	}
 
