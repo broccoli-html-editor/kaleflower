@@ -4,7 +4,7 @@
 export class Color {
 
 	/**
-	 * 16進数の色コードからRGBの10進数を得る
+	 * 16進数の色コードからRGB(A)の10進数を得る
 	 */
 	hex2rgb ( txt_hex ){
 		if( this.#isInt( txt_hex ) ){
@@ -16,7 +16,7 @@ export class Color {
 		let matched;
 
 		if( hex.length === 3 ){
-			// 長さが3バイトだったら
+			// #RGB
 			matched = hex.match(/^([0-9a-f])([0-9a-f])([0-9a-f])$/i);
 			if( !matched ){
 				return false;
@@ -24,29 +24,59 @@ export class Color {
 			matched[1] = matched[1] + matched[1];
 			matched[2] = matched[2] + matched[2];
 			matched[3] = matched[3] + matched[3];
-
+			return {
+				r: parseInt(matched[1], 16),
+				g: parseInt(matched[2], 16),
+				b: parseInt(matched[3], 16)
+			};
+		}else if( hex.length === 4 ){
+			// #RGBA
+			matched = hex.match(/^([0-9a-f])([0-9a-f])([0-9a-f])([0-9a-f])$/i);
+			if( !matched ){
+				return false;
+			}
+			matched[1] = matched[1] + matched[1];
+			matched[2] = matched[2] + matched[2];
+			matched[3] = matched[3] + matched[3];
+			matched[4] = matched[4] + matched[4];
+			return {
+				r: parseInt(matched[1], 16),
+				g: parseInt(matched[2], 16),
+				b: parseInt(matched[3], 16),
+				a: parseInt(matched[4], 16) / 255
+			};
 		}else if( hex.length === 6 ){
-			// 長さが6バイトだったら
+			// #RRGGBB
 			matched = hex.match(/^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
 			if( !matched ){
 				return false;
 			}
+			return {
+				r: parseInt(matched[1], 16),
+				g: parseInt(matched[2], 16),
+				b: parseInt(matched[3], 16)
+			};
+		}else if( hex.length === 8 ){
+			// #RRGGBBAA
+			matched = hex.match(/^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+			if( !matched ){
+				return false;
+			}
+			return {
+				r: parseInt(matched[1], 16),
+				g: parseInt(matched[2], 16),
+				b: parseInt(matched[3], 16),
+				a: parseInt(matched[4], 16) / 255
+			};
 		}else{
 			return false;
 		}
-
-		const rtn = {};
-		rtn['r'] = parseInt(matched[1], 16);
-		rtn['g'] = parseInt(matched[2], 16);
-		rtn['b'] = parseInt(matched[3], 16);
-
-		return rtn;
 	}
 
 	/**
-	 * RGBの10進数の色コードから16進数を得る
+	 * RGB(A)の10進数の色コードから16進数を得る
 	 */
-	rgb2hex ( int_r , int_g , int_b ){
+	rgb2hex ( int_r , int_g , int_b , float_a ){
 		var hex_r = this.#intval(int_r).toString(16).replace(/\..+$/, '');
 		var hex_g = this.#intval(int_g).toString(16).replace(/\..+$/, '');
 		var hex_b = this.#intval(int_b).toString(16).replace(/\..+$/, '');
@@ -57,6 +87,11 @@ export class Color {
 		rtn += this.#strPadLeft( hex_r , 2 , '0' );
 		rtn += this.#strPadLeft( hex_g , 2 , '0' );
 		rtn += this.#strPadLeft( hex_b , 2 , '0' );
+		if( float_a !== undefined ){
+			let alpha = Math.round(Math.max(0, Math.min(1, float_a)) * 255);
+			let hex_a = alpha.toString(16);
+			rtn += this.#strPadLeft( hex_a , 2 , '0' );
+		}
 		return	rtn;
 	}
 
