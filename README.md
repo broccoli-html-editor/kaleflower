@@ -17,6 +17,7 @@ $ composer require broccoli-html-editor/kaleflower
 - imageフィールドに、「ウェブリソース」「なし」の選択を追加。
 - フロントエンドの初期化オプションに `previewWrapSelector` を追加した。
 - class名を与えたときに、元のスタイルが失われてしまう問題を修正した。
+- カラーパレットから色選択できるようになった。
 - その他、いくつかの不具合の修正、UIの改善など。
 
 ### Kaleflower v0.2.0 (2025年7月12日)

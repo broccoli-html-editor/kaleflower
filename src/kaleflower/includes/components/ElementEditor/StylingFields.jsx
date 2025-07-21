@@ -134,8 +134,17 @@ const StylingFields = (props) => {
 				{((1) ? <ColorPicker
 					instance={props.targetElementNode}
 					hasCssClassName={props.hasCssClassName}
+					cssPropName={"color"}
+					breakPointName={breakPointName}
+					colorPalettes={globalState.configs['color-palettes']}
+					onchange={onchange} /> : <></>)}
+
+				{((1) ? <ColorPicker
+					instance={props.targetElementNode}
+					hasCssClassName={props.hasCssClassName}
 					cssPropName={"background-color"}
 					breakPointName={breakPointName}
+					colorPalettes={globalState.configs['color-palettes']}
 					onchange={onchange} /> : <></>)}
 
 				{((props.canSetScrollable) ? <Select
