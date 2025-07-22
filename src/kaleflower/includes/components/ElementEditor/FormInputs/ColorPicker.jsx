@@ -35,6 +35,22 @@ const ColorPicker = (props) => {
 	const handlePaletteChange = (e) => {
 		const paletteId = e.target.value;
 		setSelectedPaletteId(paletteId);
+		if (paletteId === '') {
+			// 選択解除時
+			setCustomColor('');
+			if(props.computedKey){
+				props.instance[props.computedKey] = '';
+			}
+			if( !cssPropName ) {
+				props.instance.removeAttribute(attrName);
+			}else{
+				cssParser.setProperty(cssPropName, '');
+				cssParser.save();
+			}
+			const onchange = props.onchange() || function(){};
+			onchange(props.instance);
+			return;
+		}
 		if (paletteId === 'custom') {
 			// カスタムカラー選択時は値を変更しない
 			return;
@@ -117,20 +133,22 @@ const ColorPicker = (props) => {
 						</>
 					)}
 				</div>
-				<div style={{ marginTop: '10px' }}>
-					Preview: <span style={{
-						backgroundColor: paletteMatch
-							? (props.colorPalettes[paletteMatch[1]]?.color || 'transparent')
-							: (selectedPaletteId === 'custom' ? (customColor || 'transparent') : 'transparent'),
-						padding: '2px 8px',
-						color: '#000',
-						borderRadius: '3px'
-					}}>
-						{paletteMatch
-							? `${props.colorPalettes[paletteMatch[1]]?.name || paletteMatch[1]}（${props.colorPalettes[paletteMatch[1]]?.color || ''}）`
-							: (selectedPaletteId === 'custom' ? (customColor || 'transparent') : '')}
-					</span>
-				</div>
+				{selectedPaletteId !== '' && (
+					<div style={{ marginTop: '10px' }}>
+						Preview: <span style={{
+							backgroundColor: paletteMatch
+								? (props.colorPalettes[paletteMatch[1]]?.color || 'transparent')
+								: (selectedPaletteId === 'custom' ? (customColor || 'transparent') : 'transparent'),
+							padding: '2px 8px',
+							color: '#000',
+							borderRadius: '3px'
+						}}>
+							{paletteMatch
+								? `${props.colorPalettes[paletteMatch[1]]?.name || paletteMatch[1]}（${props.colorPalettes[paletteMatch[1]]?.color || ''}）`
+								: (selectedPaletteId === 'custom' ? (customColor || 'transparent') : '')}
+						</span>
+					</div>
+				)}
 			</div>
 		</div>
 	);
