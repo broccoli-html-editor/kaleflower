@@ -19,13 +19,15 @@ const ColorPicker = (props) => {
 
 	// kf-color-palette("xxx")形式か判定
 	const paletteMatch = defaultValue && defaultValue.match(/^kf-color-palette\("(.+?)"\)$/);
-	const [selectedPaletteId, setSelectedPaletteId] = useState(paletteMatch ? paletteMatch[1] : '');
+	const [selectedPaletteId, setSelectedPaletteId] = useState(
+		paletteMatch ? paletteMatch[1] : (defaultValue && !paletteMatch ? 'custom' : '')
+	);
 	const [customColor, setCustomColor] = useState(paletteMatch ? '' : (defaultValue || ''));
 
 	useEffect(() => {
 		// defaultValueが変わったらstateも更新
 		const paletteMatch = defaultValue && defaultValue.match(/^kf-color-palette\("(.+?)"\)$/);
-		setSelectedPaletteId(paletteMatch ? paletteMatch[1] : '');
+		setSelectedPaletteId(paletteMatch ? paletteMatch[1] : (defaultValue && !paletteMatch ? 'custom' : ''));
 		setCustomColor(paletteMatch ? '' : (defaultValue || ''));
 	}, [defaultValue]);
 
@@ -33,6 +35,10 @@ const ColorPicker = (props) => {
 	const handlePaletteChange = (e) => {
 		const paletteId = e.target.value;
 		setSelectedPaletteId(paletteId);
+		if (paletteId === 'custom') {
+			// カスタムカラー選択時は値を変更しない
+			return;
+		}
 		setCustomColor('');
 		const newValue = `kf-color-palette("${paletteId}")`;
 
@@ -56,7 +62,7 @@ const ColorPicker = (props) => {
 	const handleCustomColorChange = (e) => {
 		const value = e.target.value;
 		setCustomColor(value);
-		setSelectedPaletteId('');
+		setSelectedPaletteId('custom');
 		if(props.computedKey){
 			props.instance[props.computedKey] = value;
 		}
@@ -81,47 +87,48 @@ const ColorPicker = (props) => {
 			<div className="kaleflower-element-editor__property-val">
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
 					{/* パレット選択UI */}
-					<label style={{ marginBottom: '5px' }}>カラーパレットから選択:</label>
+					<label style={{ marginBottom: '5px' }}>Select Color:</label>
 					<select
 						className="px2-input px2-input--block"
 						value={selectedPaletteId}
 						onChange={handlePaletteChange}
 						style={{ marginBottom: '10px' }}
 					>
-						<option value="">--- パレット未選択 ---</option>
+						<option value=""></option>
 						{paletteList.map(item => (
 							<option key={item.id} value={item.id}>
 								{item.name}（{item.color}）
 							</option>
 						))}
+						<option value="custom">Custom Color</option>
 					</select>
-					{/* パレット未選択時はテキスト入力 */}
-					{!selectedPaletteId && (
+					{/* Custom Color選択時のみテキスト入力 */}
+					{selectedPaletteId === 'custom' && (
 						<>
-							<label style={{ marginBottom: '5px' }}>カスタムカラーコード:</label>
+							<label style={{ marginBottom: '5px' }}>Custom Color Code:</label>
 							<input
 								type="text"
 								className="px2-input px2-input--block"
 								style={{ flexGrow: 1, marginRight: '5px' }}
 								value={customColor}
 								onChange={handleCustomColorChange}
-								placeholder="#rrggbb など"
+								placeholder=""
 							/>
 						</>
 					)}
 				</div>
 				<div style={{ marginTop: '10px' }}>
-					現在の値: <span style={{
+					Preview: <span style={{
 						backgroundColor: paletteMatch
 							? (props.colorPalettes[paletteMatch[1]]?.color || 'transparent')
-							: (customColor || 'transparent'),
+							: (selectedPaletteId === 'custom' ? (customColor || 'transparent') : 'transparent'),
 						padding: '2px 8px',
 						color: '#000',
 						borderRadius: '3px'
 					}}>
 						{paletteMatch
 							? `${props.colorPalettes[paletteMatch[1]]?.name || paletteMatch[1]}（${props.colorPalettes[paletteMatch[1]]?.color || ''}）`
-							: (customColor || 'transparent')}
+							: (selectedPaletteId === 'custom' ? (customColor || 'transparent') : '')}
 					</span>
 				</div>
 			</div>
