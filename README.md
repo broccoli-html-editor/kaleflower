@@ -18,6 +18,7 @@ $ composer require broccoli-html-editor/kaleflower
 - フロントエンドの初期化オプションに `previewWrapSelector` を追加した。
 - class名を与えたときに、元のスタイルが失われてしまう問題を修正した。
 - カラーパレットから色選択できるようになった。
+- `$kaleflower->getXml()` で、ブラウザとの互換性のため、LF改行コード `&#10;` を `&#xA;` に変換するようになった。
 - その他、いくつかの不具合の修正、UIの改善など。
 
 ### Kaleflower v0.2.0 (2025年7月12日)

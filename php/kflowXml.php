@@ -37,7 +37,12 @@ class kflowXml {
 		if( !$this->dom ){
 			return false;
 		}
-		return $this->dom->saveXML();
+		$xml = $this->dom->saveXML();
+
+		// ブラウザとの互換性のため、LF改行コード `&#10;` を `&#xA;` に変換する
+		$xml = str_replace("&#10;", "&#xA;", $xml);
+
+		return $xml;
 	}
 
 	/**
