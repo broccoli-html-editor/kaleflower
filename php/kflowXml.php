@@ -111,7 +111,20 @@ class kflowXml {
 
 		foreach($mergeRules as $mergeRule){
 			// Get components from the new DOM
-			$componentsNode = $dom->getElementsByTagName($mergeRule['container'])->item(0);
+			// $domのルート直下にある要素のみを検索
+			$componentsNode = null;
+			$root = $dom->documentElement;
+			if ($root) {
+				foreach ($root->childNodes as $child) {
+					if (
+						$child->nodeType === XML_ELEMENT_NODE &&
+						$child->nodeName === $mergeRule['container']
+					) {
+						$componentsNode = $child;
+						break;
+					}
+				}
+			}
 			if ($componentsNode) {
 				// Get components from the current DOM
 				$thisComponentsNode = $this->dom->getElementsByTagName($mergeRule['container'])->item(0);
