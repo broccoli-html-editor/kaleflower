@@ -110,7 +110,7 @@ export class Builder {
 		this.#components = globalState.components;
 
 		Object.keys(this.#components.get_custom_components()).forEach((componentName) => {
-			$rtn.css += this.#components.get_component(componentName).style;
+			$rtn.css += this.#components.get_component(componentName).style || '';
 		});
 
 		Object.keys(globalState.styles).forEach((className) => {
@@ -224,7 +224,6 @@ export class Builder {
 			});
 		});
 
-		// PHPから移植した次の処理をJavaScriptに書き換える
 		$rtn.css = $rtn.css.replace(
 			/kf-color-palette\(\s*(")(.*?)\1\s*\)/g,
 			(match, quot, key) => {
