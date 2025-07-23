@@ -76,8 +76,9 @@ width: 60%;
 	</styles>
 	<contents>
 		<content><div>
-    <h1 class="heading">This is a test page of Kaleflow</h1><p style--sm="width: 100%;" style--md="width: 80%;&#xA;" style--lg="width: 60%;&#xA;" style="width: 50%;&#xA;color: kf-color-palette(&quot;text-background&quot;);&#xA;background-color: kf-color-palette(&quot;text&quot;);&#xA;">kflow main contents sample</p>
-    <p style--md="width: 50%;&#xA;" style--sm="width: 100%;">kflow main contents sample</p>
+    <h1 class="heading">This is a test page of Kaleflow</h1><p style--sm="width: 100%;" style--md="width: 80%;&#xA;" style--lg="width: 60%;&#xA;" style="width: 50%;&#xA;color: kf-color-palette(&quot;text-background&quot;);&#xA;background-color: kf-color-palette(&quot;text&quot;);&#xA;">&amp;lt;kflow&amp;gt; &amp;apos;main&amp;apos; "contents" &amp;quot;sample&amp;quot;
+&amp;copy;&amp;nbsp;&amp;reg;&amp;trade;&amp;yen;</p>
+    <p style--md="width: 50%;&#xA;" style--sm="width: 100%;">&amp;lt;kflow&amp;gt; main contents sample ©®™</p>
     <p style="color: blue;&#xA;" style--lg="color: red;" style--sm="color: green;">kflow main contents sample</p>
 	<custom-component-001 image="{&quot;assetId&quot;:&quot;e6fc4809-2ea8-4278-b1af-e6f67ca75d10&quot;,&quot;upload-file&quot;:&quot;C:\\fakepath\\photo001_thumb.jpg&quot;,&quot;resourceType&quot;:&quot;none&quot;,&quot;webUrl&quot;:&quot;https://pickles2.com/&quot;}" style="width: 100%;">
 		<div>inner contents.
