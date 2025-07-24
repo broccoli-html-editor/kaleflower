@@ -307,7 +307,7 @@ class Builder {
 				}
 				return $matches[0];
 			},
-			$rtn->css
+			$rtn->css ?? ''
 		);
 
 		return $rtn;
