@@ -28,15 +28,12 @@ $kaleflower->load('/path/to/your/file.kflow');
 // HTML、CSS、JavaScriptを生成
 $result = $kaleflower->build(array(
     'assetsPrefix' => './assets/',
-    'extra' => array(
-        'sample' => 'sample value',
-    ),
 ));
 
 // 結果の取得
 if ($result->result) {
     echo $result->html->main;      // メインコンテンツのHTML
-    echo $result->html->sidebar;   // サイドバーのHTML（存在する場合）
+    echo $result->html->any;       // その他任意の部分のHTML（存在する場合）
     echo $result->css;             // 生成されたCSS
     echo $result->js;              // 生成されたJavaScript
     
@@ -55,9 +52,6 @@ if ($result->result) {
 ```php
 $result = $kaleflower->build('/path/to/your/file.kflow', array(
     'assetsPrefix' => './assets/',
-    'extra' => array(
-        'sample' => 'sample value',
-    ),
 ));
 ```
 
@@ -79,8 +73,6 @@ $result = $kaleflower->build();
 <head>
     <meta charset="utf-8">
     <title>Kaleflower Editor</title>
-    <!-- 必要なCSSファイルを読み込み -->
-    <link rel="stylesheet" href="path/to/px2style.css" />
 </head>
 <body>
     <div id="kaleflower-container"></div>
@@ -91,17 +83,7 @@ $result = $kaleflower->build();
         // Kaleflowerエディタを初期化
         const container = document.getElementById('kaleflower-container');
         const kaleflower = new Kaleflower(container, {
-            // オプション設定
-            lang: 'ja',
-            appearance: 'light',
-            extra: {
-                sample: 'sample value',
-            },
-            finalize: (contents) => {
-                // 最終的なコンテンツをカスタマイズ
-                contents.html.main = contents.html.main.replace(/\{\{sample\}\}/g, 'sample value (finalized)');
-                return contents;
-            }
+            // 任意の初期化オプションを設定
         });
 
         // kflowファイルを読み込み
@@ -116,6 +98,7 @@ $result = $kaleflower->build();
         function saveContent() {
             const data = kaleflower.get();
             console.log('Current data:', data);
+            // TODO: バックエンドへ送信して、kflowファイルを保存する処理
         }
     </script>
 </body>
@@ -182,8 +165,8 @@ kflowファイルはXML形式で、以下の要素で構成されます：
         <content name="main">
             <div>メインコンテンツ</div>
         </content>
-        <content name="sidebar">
-            <div>サイドバーコンテンツ</div>
+        <content name="any">
+            <div>任意の追加コンテンツ</div>
         </content>
     </contents>
     
@@ -191,12 +174,26 @@ kflowファイルはXML形式で、以下の要素で構成されます：
     <assets>
         <asset id="unique-id" ext="jpg" size="1234" width="120" height="90" 
                is-private-material="false" public-filename="image.jpg" 
-               base64="base64-encoded-data"/>
+               base64="/9j/4QAYRXhpZgAASUkqAAgAAAAAAA......DL+bKpTi7+5//Z"/>
     </assets>
     
     <!-- カスタムフィールド -->
     <fields>
-        <field type="image" name="image" label="画像"/>
+        <field type="custom-field" format="plain">
+            <editor><![CDATA[<div class="test-field-text-editor">
+                    <div class="test-field-text-editor__inner">
+                        <textarea name="_" class="px2-input">{{ _ }}</textarea>
+                        <div class="test-field-text-editor__color-sample"></div>
+                    </div>
+                </div>]]></editor>
+            <style><![CDATA[.test-field-text-editor{&__color-sample{height:5px;}textarea{width:100%;}}]]></style>
+            <style appearance="light"><![CDATA[.test-field-text-editor{&__color-sample{background-color:#666666;}}]]></style>
+            <style appearance="dark"><![CDATA[.test-field-text-editor{&__color-sample{background-color:#f0f0f0;}}]]></style>
+            <script function="onload"><![CDATA[function(dom, fieldHelper){
+                console.log('custom-field: onload function:', dom, fieldHelper);
+                return;
+            }]]></script>
+        </field>
     </fields>
     
     <!-- カスタムコンポーネント -->
@@ -204,7 +201,7 @@ kflowファイルはXML形式で、以下の要素で構成されます：
         <component name="custom-component" is-void-element="false" 
                    can-set-css="true" can-set-class="true">
             <fields>
-                <field type="text" name="title" label="タイトル"/>
+                <field type="custom-field" name="title" label="タイトル"/>
             </fields>
             <template><![CDATA[
                 <div class="custom-component">
