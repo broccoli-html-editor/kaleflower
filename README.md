@@ -9,6 +9,243 @@ _Kaleflower_ は、GUIベースでHTMLを編集するブロックエディタラ
 $ composer require broccoli-html-editor/kaleflower
 ```
 
+## 使い方 - Usage
+
+### バックエンド（PHP）での初期化
+
+#### 基本的な使用方法
+
+```php
+<?php
+require_once('vendor/autoload.php');
+
+// Kaleflowerインスタンスを作成
+$kaleflower = new \kaleflower\kaleflower();
+
+// kflowファイルを読み込み
+$kaleflower->load('/path/to/your/file.kflow');
+
+// HTML、CSS、JavaScriptを生成
+$result = $kaleflower->build(array(
+    'assetsPrefix' => './assets/',
+    'extra' => array(
+        'sample' => 'sample value',
+    ),
+));
+
+// 結果の取得
+if ($result->result) {
+    echo $result->html->main;      // メインコンテンツのHTML
+    echo $result->html->sidebar;   // サイドバーのHTML（存在する場合）
+    echo $result->css;             // 生成されたCSS
+    echo $result->js;              // 生成されたJavaScript
+    
+    // アセットファイルの処理
+    foreach ($result->assets as $asset) {
+        // $asset->path: アセットのパス
+        // $asset->base64: Base64エンコードされたアセットデータ
+    }
+} else {
+    echo 'Error: ' . $result->error;
+}
+```
+
+#### 一括処理（ファイル読み込みとビルドを同時実行）
+
+```php
+$result = $kaleflower->build('/path/to/your/file.kflow', array(
+    'assetsPrefix' => './assets/',
+    'extra' => array(
+        'sample' => 'sample value',
+    ),
+));
+```
+
+#### XMLソースから直接読み込み
+
+```php
+$xmlSource = '<?xml version="1.0" encoding="UTF-8"?><kflow>...</kflow>';
+$kaleflower->loadXml($xmlSource);
+$result = $kaleflower->build();
+```
+
+### フロントエンド（JavaScript）での初期化
+
+#### 基本的な使用方法
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Kaleflower Editor</title>
+    <!-- 必要なCSSファイルを読み込み -->
+    <link rel="stylesheet" href="path/to/px2style.css" />
+</head>
+<body>
+    <div id="kaleflower-container"></div>
+    
+    <!-- Kaleflowerスクリプトを読み込み -->
+    <script src="dist/kaleflower.js"></script>
+    <script>
+        // Kaleflowerエディタを初期化
+        const container = document.getElementById('kaleflower-container');
+        const kaleflower = new Kaleflower(container, {
+            // オプション設定
+            lang: 'ja',
+            appearance: 'light',
+            extra: {
+                sample: 'sample value',
+            },
+            finalize: (contents) => {
+                // 最終的なコンテンツをカスタマイズ
+                contents.html.main = contents.html.main.replace(/\{\{sample\}\}/g, 'sample value (finalized)');
+                return contents;
+            }
+        });
+
+        // kflowファイルを読み込み
+        kaleflower.load('/path/to/your/file.kflow');
+
+        // 変更イベントの監視
+        kaleflower.on('change', function(event) {
+            console.log('Content changed:', event);
+        });
+
+        // 現在のデータを取得
+        function saveContent() {
+            const data = kaleflower.get();
+            console.log('Current data:', data);
+        }
+    </script>
+</body>
+</html>
+```
+
+### オプション設定
+
+#### バックエンド（PHP）のビルドオプション
+
+| オプション名 | 型 | デフォルト値 | 説明 |
+|-------------|----|-------------|------|
+| `assetsPrefix` | string | `'./'` | アセットファイルのパスプレフィックス |
+| `extra` | object | `{}` | コンポーネントテンプレートに渡される追加データ |
+
+#### フロントエンド（JavaScript）の初期化オプション
+
+| オプション名 | 型 | デフォルト値 | 説明 |
+|-------------|----|-------------|------|
+| `lang` | string | `'en'` | 言語設定（'en', 'ja' など） |
+| `appearance` | string | `'auto'` | 外観テーマ（'light', 'dark', 'auto'） |
+| `extra` | object | `{}` | コンポーネントテンプレートに渡される追加データ |
+| `finalize` | function | `(contents) => contents` | 最終的なコンテンツをカスタマイズする関数 |
+| `previewWrapSelector` | boolean/string | `false` | プレビューをラップするセレクタ |
+| `urlLayoutViewPage` | string | `'about:blank'` | レイアウトビューのURL |
+| `scriptReceiverSelector` | string | `'[data-kaleflower-receive-message=yes]'` | スクリプトメッセージ受信セレクタ |
+| `contentsAreaSelector` | string | `'[data-kaleflower-contents-bowl-name]'` | コンテンツエリアセレクタ |
+| `contentsContainerNameBy` | string | `'data-kaleflower-contents-bowl-name'` | コンテンツコンテナ名の属性 |
+
+### kflowファイルの構造
+
+kflowファイルはXML形式で、以下の要素で構成されます：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<kflow>
+    <!-- 設定 -->
+    <configs>
+        <config name="id" value="unique-id"/>
+        <config name="module-name" value="module-name"/>
+        <config name="module-name-prefix" value="prefix-"/>
+        <config name="break-point-query-type" value="container-query"/>
+        <config name="break-points">
+            <value name="lg" max-width="1400"/>
+            <value name="md" max-width="800"/>
+            <value name="sm" max-width="480"/>
+        </config>
+        <config name="color-palettes">
+            <value name="primary" color="#007bff"/>
+            <value name="secondary" color="#6c757d"/>
+        </config>
+    </configs>
+    
+    <!-- スタイル定義 -->
+    <styles>
+        <style class="custom-class">
+            color: #333;
+            background-color: #fff;
+        </style>
+    </styles>
+    
+    <!-- コンテンツ -->
+    <contents>
+        <content name="main">
+            <div>メインコンテンツ</div>
+        </content>
+        <content name="sidebar">
+            <div>サイドバーコンテンツ</div>
+        </content>
+    </contents>
+    
+    <!-- アセット（画像など） -->
+    <assets>
+        <asset id="unique-id" ext="jpg" size="1234" width="120" height="90" 
+               is-private-material="false" public-filename="image.jpg" 
+               base64="base64-encoded-data"/>
+    </assets>
+    
+    <!-- カスタムフィールド -->
+    <fields>
+        <field type="image" name="image" label="画像"/>
+    </fields>
+    
+    <!-- カスタムコンポーネント -->
+    <components>
+        <component name="custom-component" is-void-element="false" 
+                   can-set-css="true" can-set-class="true">
+            <fields>
+                <field type="text" name="title" label="タイトル"/>
+            </fields>
+            <template><![CDATA[
+                <div class="custom-component">
+                    <h2>{{ attributes.title }}</h2>
+                    {{ innerHTML | raw }}
+                </div>
+            ]]></template>
+        </component>
+    </components>
+</kflow>
+```
+
+### イベントハンドリング
+
+```javascript
+// 変更イベントの監視
+kaleflower.on('change', function(event) {
+    console.log('Content changed:', event.data);
+});
+
+// イベントハンドラの削除
+kaleflower.off('change');
+
+// カスタムイベントの発生
+kaleflower.trigger('custom-event', { data: 'custom data' });
+```
+
+### データの保存と読み込み
+
+```javascript
+// 現在のデータを取得
+const currentData = kaleflower.get();
+
+// XMLデータを直接読み込み
+const xmlData = '<?xml version="1.0" encoding="UTF-8"?><kflow>...</kflow>';
+kaleflower.loadXml(xmlData);
+
+// ファイルから読み込み
+kaleflower.load('/path/to/file.kflow');
+```
+
 
 ## 更新履歴 - Change log
 
