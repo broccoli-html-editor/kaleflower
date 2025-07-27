@@ -43,7 +43,7 @@ $appearance = (strlen($_GET['appearance'] ?? '') ? $_GET['appearance'] : 'light'
 					"scriptReceiverSelector": "[data-kaleflower-receive-message=yes]",
 					"contentsAreaSelector": "[data-kaleflower-contents-bowl-name]",
 					"contentsContainerNameBy": "data-kaleflower-contents-bowl-name",
-					"previewWrapSelector": true,
+					"previewWrapSelector": false,
 					"appearance": <?= json_encode($appearance) ?>,
 					"lang": <?= json_encode($_GET['lang'] ?? "en") ?>,
 					"extra": {

@@ -3,11 +3,32 @@
 	<field type="text" format="plain">
 		<editor><![CDATA[<div class="kaleflower-field-text-editor">
 				<div class="kaleflower-field-text-editor__inner">
-					<textarea name="_" class="px2-input">{{ _ }}</textarea>
+					<input type="text" name="_" value="{{ _ }}" class="px2-input px2-input--block" />
 				</div>
 			</div>]]></editor>
 		<style>
 			.kaleflower-field-text-editor {
+				display: flex;
+				flex-direction: column;
+				input[type="text"] {
+					width: 100%;
+				}
+			}
+		</style>
+		<script function="onload"><![CDATA[
+			function(dom, fieldHelper){
+				return;
+			}
+		]]></script>
+	</field>
+	<field type="textarea" format="plain">
+		<editor><![CDATA[<div class="kaleflower-field-textarea-editor">
+				<div class="kaleflower-field-textarea-editor__inner">
+					<textarea name="_" class="px2-input">{{ _ }}</textarea>
+				</div>
+			</div>]]></editor>
+		<style>
+			.kaleflower-field-textarea-editor {
 				display: flex;
 				flex-direction: column;
 				textarea {
