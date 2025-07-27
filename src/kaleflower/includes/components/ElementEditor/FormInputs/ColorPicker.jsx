@@ -103,33 +103,35 @@ const ColorPicker = (props) => {
 			<div className="kaleflower-element-editor__property-val">
 				<div style={{ display: 'flex', flexDirection: 'column' }}>
 					{/* パレット選択UI */}
-					<label style={{ marginBottom: '5px' }}>Select Color:</label>
-					<select
-						className="px2-input px2-input--block"
-						value={selectedPaletteId}
-						onChange={handlePaletteChange}
-						style={{ marginBottom: '10px' }}
-					>
-						<option value=""></option>
-						{paletteList.map(item => (
-							<option key={item.id} value={item.id}>
-								{item.name}（{item.color}）
-							</option>
-						))}
-						<option value="custom">Custom Color</option>
-					</select>
+					<div>
+						<select
+							className="px2-input px2-input--block"
+							value={selectedPaletteId}
+							onChange={handlePaletteChange}
+							style={{ marginBottom: '10px' }}
+						>
+							<option value=""></option>
+							{paletteList.map(item => (
+								<option key={item.id} value={item.id}>
+									{item.name}（{item.color}）
+								</option>
+							))}
+							<option value="custom">Custom Color</option>
+						</select>
+					</div>
 					{/* Custom Color選択時のみテキスト入力 */}
 					{selectedPaletteId === 'custom' && (
 						<>
-							<label style={{ marginBottom: '5px' }}>Custom Color Code:</label>
-							<input
-								type="text"
-								className="px2-input px2-input--block"
-								style={{ flexGrow: 1, marginRight: '5px' }}
-								value={customColor}
-								onChange={handleCustomColorChange}
-								placeholder=""
-							/>
+							<div>
+								<input
+									type="text"
+									className="px2-input px2-input--block"
+									style={{ flexGrow: 1, marginRight: '5px' }}
+									value={customColor}
+									onChange={handleCustomColorChange}
+									placeholder=""
+								/>
+							</div>
 						</>
 					)}
 				</div>
