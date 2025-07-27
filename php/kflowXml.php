@@ -54,10 +54,20 @@ class kflowXml {
 			return false;
 		}
 
+		$result = false;
+		$use_internal_errors = libxml_use_internal_errors();
+		libxml_use_internal_errors(true);
+
 		try {
 			$dom = new \DOMDocument();
-			$dom->load($realpath_kflow);
+			$result = $dom->load($realpath_kflow);
 		}catch (\Exception $e) {
+		}
+
+		libxml_clear_errors();
+		libxml_use_internal_errors($use_internal_errors);
+
+		if( !$result ){
 			// If the file is not a valid XML, return false
 			return false;
 		}
@@ -72,8 +82,23 @@ class kflowXml {
 	 * @param string $src_xml Sourcecode of the kflow XML Document.
 	 */
 	public function loadXml( $src_xml ){
-		$dom = new \DOMDocument();
-		$dom->loadXml($src_xml);
+		$result = false;
+		$use_internal_errors = libxml_use_internal_errors();
+		libxml_use_internal_errors(true);
+
+		try {
+			$dom = new \DOMDocument();
+			$result = $dom->loadXml($src_xml);
+		}catch (\Exception $e) {
+		}
+
+		libxml_clear_errors();
+		libxml_use_internal_errors($use_internal_errors);
+
+		if( !$result ){
+			// If the file is not a valid XML, return false
+			return false;
+		}
 
 		$this->mergeDom($dom);
 
