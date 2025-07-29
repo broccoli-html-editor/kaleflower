@@ -246,7 +246,7 @@ kaleflower.load('/path/to/file.kflow');
 
 ## 更新履歴 - Change log
 
-### Kaleflower v0.2.1 (リリース日未定)
+### Kaleflower v0.2.1 (2025年7月29日)
 
 - imageフィールドに、「ウェブリソース」「なし」の選択を追加。
 - フロントエンドの初期化オプションに `previewWrapSelector` を追加した。
